@@ -15,7 +15,7 @@ Then you should include a `CANVAS` HTML element in the DOM, between the tags `<b
 ```
 <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 ```
-This canvas will be used by WebGL both for the computation and the display of the video. When your page is loaded or when you want to enable the glance tracking feature you should launch this function :
+This canvas will be used by WebGL both for the computation and the 3D rendering. When your page is loaded you should launch this function :
 ```
 JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
@@ -44,14 +44,14 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 * `"NO_CANVASID"` : no canvas ID was specified,
 * `"INVALID_CANVASID"` : cannot found the \<canvas\> element in the DOM,
 * `"INVALID_CANVASDIMENSIONS"` : the dimensions `width` and `height` of the canvas are not specified,
-* `"WEBCAM_UNAVAILABLE"` : cannot get the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
+* `"WEBCAM_UNAVAILABLE"` : cannot get access to the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
 * `"GLCONTEXT_LOST"` : The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code.
 
 
 ## Initialization object
 The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary with these properties :
 * `GL` : the WebGL context. The rendering 3D engine should use this WebGL context,
-* `canvasElement` the <canvas> element,
+* `canvasElement` the \<canvas\> element,
 * `videoTexture` a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background.
 
 
