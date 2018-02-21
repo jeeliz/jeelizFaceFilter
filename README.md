@@ -39,13 +39,13 @@ JEEFACEFILTERAPI.init({
 ## Error codes
 The initialization function ( `callbackReady` in the code snippet ) will be called with an error code ( `errCode` ). It can have these values :
 * `false` : no error occurs,
-* `GL_INCOMPATIBLE` : WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
-* `ALREADY_INITIALIZED` : the API has been already initialized,
-* `NO_CANVASID` : no canvas ID was specified,
-* `INVALID_CANVASID` : cannot found the <canvas> element in the DOM,
-* `INVALID_CANVASDIMENSIONS` : the dimensions `width` and `height` of the canvas are not specified,
-* `WEBCAM_UNAVAILABLE` : cannot get the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
-* `GLCONTEXT_LOST` : The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code.
+* `"GL_INCOMPATIBLE"` : WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
+* `"ALREADY_INITIALIZED"` : the API has been already initialized,
+* `"NO_CANVASID"` : no canvas ID was specified,
+* `"INVALID_CANVASID"` : cannot found the \<canvas\> element in the DOM,
+* `"INVALID_CANVASDIMENSIONS"` : the dimensions `width` and `height` of the canvas are not specified,
+* `"WEBCAM_UNAVAILABLE"` : cannot get the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
+* `"GLCONTEXT_LOST"` : The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code.
 
 
 ## Initialization object
@@ -64,18 +64,13 @@ At each render iteration a callback function is called ( `callbackTrack` in the 
 
 
 ## Other methods
-After the initialization, these methods are available :
+After the initialization (ie after that `callbackReady` is launched ) , these methods are available :
 
 * `JEEFACEFILTERAPI.resize()` : should be called after resizing the canvas,
 
 * `JEEFACEFILTERAPI.toggle_pause(<boolean> isPause)` : pause/resume,
 
 * `JEEFACEFILTERAPI.toggle_slow(<boolean> isSlow)` : toggle the slow rendering mode : because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relief the GPU. The tracking will also be slower unfortunately. We encourage to enable the slow mode as soon as a the user's attention is focused on a part other than the canvas.
-
-
-You should use them after initialization, ie :
-* either after that `callbackReady` function provided as initialization argument is launched (better),
-* or when the boolean property `GLANCETRACKERAPI.ready` switches to `true`.
 
 
 ## Integration sample
