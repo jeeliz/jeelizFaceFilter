@@ -3,7 +3,7 @@
 This API allow you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstration using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
 
 You can test it with these demos (included in this repo) :
-* [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/threejs/cube)
+* [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
 
 
 ## Integration
@@ -87,6 +87,7 @@ It is important that the 3D engine shares the same WebGL context. The WebGL cont
 ### HTTPS only !
 Because this API requires the user's webcam stream through `MediaStream API`, your application should be served through HTTPS (even with a self-signed certificate). It won't work at all with unsecure HTTP, even locally.
 
+
 ### The scripts
 You can use our hosted and up to date version of the library, available here :
 ```
@@ -96,6 +97,9 @@ It is served through a content delivery network (CDN) using gzip compression.
 If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `dist/NNC.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://checkgzipcompression.com/).
 
 
+## About the tech
+This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a deep learning network. The accuracy is adaptative : the better the hardware, the more detection are processed per second. All is done client-side.
+
 
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
@@ -104,6 +108,7 @@ We appreciate attribution by including the Jeeliz logo and link to the [Jeeliz w
 
 
 ## References
+* [Jeeliz official website](https://jeeliz.com)
 * [Three.JS official website with documentation, demos, examples...](https://threejs.org/)
 * [Webgl Academy : tutorials about WebGL and THREE.JS](http://www.webglacademy.com)
 
