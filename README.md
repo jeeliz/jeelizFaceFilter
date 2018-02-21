@@ -11,81 +11,75 @@ On your HTML page, you first need to include the main script between the tags `<
 ```
  <script type="text/javascript" src="dist/jeelizFaceFilter.js"></script>
 ```
-Then you should include a `CANVAS` HTML element in the DOM, between the tags `<body>` and `</body>` :
+Then you should include a `CANVAS` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the canvas element should be set :
 ```
-<canvas id='glanceTrackerCanvas'></canvas>
+<canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 ```
 This canvas will be used by WebGL both for the computation and the display of the video. When your page is loaded or when you want to enable the glance tracking feature you should launch this function :
 ```
-GLANCETRACKERAPI.init({
-    // MANDATORY :
-    // callback launched when :
-    //  * the user is watching (isWatching=true) 
-    //  * or when he stops watching (isWatching=false)
-    // it can be used to play/pause a video
-    callbackTrack: function(isWatching){
-        if (isWatching){
-        	console.log('Hey, you are watching bro');
-    	} else {
-    		console.log('You are not watching anymore :(');
-    	}
-    },
-
-    // FACULTATIVE (default: none) :
-    // callback launched when then Jeeliz Glance Tracker is ready
-    // or if there was an error
-    callbackReady: function(error){
-        if (error){
-            console.log('EN ERROR happens', error);
+JEEFACEFILTERAPI.init({
+    canvasId: 'jeeFaceFilterCanvas',
+    NNCpath: '../../../dist/', //root of NNC.json file
+    callbackReady: function(errCode, spec){
+        if (errCode){
+            console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
             return;
         }
-        console.log('All is well :)');
-    },
+        [init scene with spec...]
+        console.log('INFO : JEEFACEFILTERAPI IS READY');
+    }, //end callbackReady()
 
-    //FACULTATIVE (default: true) :
-    //true if we display the video of the user
-    //with the face detection area on the <canvas> element
-    isDisplayVideo: true,
-
-    // MANDATORY :
-    // id of the <canvas> HTML element
-    canvasId: 'glanceTrackerCanvas',
-
-    // FACULTATIVE (default: internal)
-    // sensibility to the head vertical axis rotation
-    // float between 0 and 1 : 
-    // * if 0, very sensitive, the user is considered as not watching
-    //   if he slightly turns his head,
-    // * if 1, not very sensitive : the user has to turn the head a lot
-    //   to loose the detection. 
-    sensibility: 0.5,
-
-    // FACULTATIVE (default: current directory)
-    // should be given without the NNC.json
-    // and ending by /
-    // for example ../../
-    NNCpath: '/path/of/NNC.json'
-}
+    //called at each render iteration (drawing loop)
+    callbackTrack: function(detectState){
+        //render your scene here
+        [... do something with detectState]
+    } //end callbackTrack()
 ```
 
+## Error codes
+The initialization function ( `callbackReady` in the code snippet ) will be called with an error code ( `errCode` ). It can have these values :
+* `false` : no error occurs,
+* `GL_INCOMPATIBLE` : WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
+* `ALREADY_INITIALIZED` : the API has been already initialized,
+* `NO_CANVASID` : no canvas ID was specified,
+* `INVALID_CANVASID` : cannot found the <canvas> element in the DOM,
+* `INVALID_CANVASDIMENSIONS` : the dimensions `width` and `height` of the canvas are not specified,
+* `WEBCAM_UNAVAILABLE` : cannot get the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
+* `GLCONTEXT_LOST` : The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code.
 
-## Integration sample
-In the path `/demos`, you will find an integration sample. Just serve it through a HTTPS server.
+
+## Initialization object
+The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary with these properties :
+* `GL` : the WebGL context. The rendering 3D engine should use this WebGL context,
+* `canvasElement` the <canvas> element,
+* `videoTexture` a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background.
+
+
+## The detection state
+At each render iteration a callback function is called ( `callbackTrack` in the code snippet ). It has one argument ( `detectState` ) which is a dictionnary with these properties :
+* `detected` : the face detection probability, between 0 and 1,
+* `x`, `y` : The 2D coordinates of the center of the detection frame in the viewport (each between -1 and 1, `x` from left to right and `y` from bottom to top),
+* `s` : the scale along the horizontal axis of the detection frame, between 0 and 1 (1 for the full width). The detection frame is always square,
+* `rx`, `ry`, `rz` : the Euler angles of the head rotation in radians.
 
 
 ## Other methods
 After the initialization, these methods are available :
 
-* `GLANCETRACKERAPI.set_sensibility(<float> sensibility)` : adjust the sensibility (between 0 and 1),
+* `JEEFACEFILTERAPI.resize()` : should be called after resizing the canvas,
 
-* `GLANCETRACKERAPI.toggle_pause(<boolean> isPause)` : pause/restart the face tracking,
+* `JEEFACEFILTERAPI.toggle_pause(<boolean> isPause)` : pause/resume,
 
-* `GLANCETRACKERAPI.toggle_display(<boolean> isDisplay)` : toggle the display of the video with the face detection area on the HTML `<canvas>` element. It is better to disable the display if the canvas element is hidden (using CSS for example). It will save some GPU resources.
+* `JEEFACEFILTERAPI.toggle_slow(<boolean> isSlow)` : toggle the slow rendering mode : because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relief the GPU. The tracking will also be slower unfortunately. We encourage to enable the slow mode as soon as a the user's attention is focused on a part other than the canvas.
 
 
 You should use them after initialization, ie :
 * either after that `callbackReady` function provided as initialization argument is launched (better),
 * or when the boolean property `GLANCETRACKERAPI.ready` switches to `true`.
+
+
+## Integration sample
+In the path `/demos`, you will find an integration sample. Just serve it through a HTTPS server.
 
 
 ## Changing the 3D Engine
