@@ -7,6 +7,7 @@ You can test it with these demos (included in this repo) :
 * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
 * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
 
+If you have not bought a webcam yet, a screenshot video of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ).
 
 ## Integration
 On your HTML page, you first need to include the main script between the tags `<head>` and `</head>` :
