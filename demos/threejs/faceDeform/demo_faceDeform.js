@@ -1,4 +1,4 @@
-
+"use strict";
 
 //SETTINGS of this demo :
 var SETTINGS={
@@ -13,7 +13,6 @@ var SETTINGS={
 //some globalz :
 var THREEVIDEOTEXTURE, THREERENDERER, THREEFACEOBJ3D, THREEFACEOBJ3DPIVOTED, THREESCENE, THREECAMERA;
 var ISDETECTED=false;
-"use strict";
 
 //callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
 function detect_callback(isDetected){
@@ -22,6 +21,57 @@ function detect_callback(isDetected){
     } else {
         console.log('INFO in detect_callback() : LOST');
     }
+}
+
+function build_maskMaterial(){
+    var vertexShaderSource='varying vec2 vUVvideo;\n\
+    //deformation 0 parameters :\n\
+    const vec2 TEARPOINT0=vec2(0.,-0.5);\n\
+    const vec2 DISPLACEMENT0=vec2(0.,0.15);\n\
+    const float RADIUS0=0.4;\n\
+    //deformation 1 parameters :\n\
+    const vec2 TEARPOINT1=vec2(0.25,-0.4);\n\
+    const vec2 DISPLACEMENT1=vec2(0.12,-0.07);\n\
+    const float RADIUS1=0.3;\n\
+    //deformation 2 parameters :\n\
+    const vec2 TEARPOINT2=vec2(-0.25,-0.4);\n\
+    const vec2 DISPLACEMENT2=vec2(-0.12,-0.07);\n\
+    const float RADIUS2=0.3;\n\
+    void main() {\n\
+        vec3 positionDeformed=position;\n\
+        //apply deformation 0\n\
+        float deformFactor0=1.-smoothstep(0.0, RADIUS0, distance(TEARPOINT0, position.xy));\n\
+        positionDeformed.xy+=deformFactor0*DISPLACEMENT0;\n\
+        //apply deformation 1\n\
+        float deformFactor1=1.-smoothstep(0.0, RADIUS1, distance(TEARPOINT1, position.xy));\n\
+        positionDeformed.xy+=deformFactor1*DISPLACEMENT1;\n\
+        //apply deformation 2\n\
+        float deformFactor2=1.-smoothstep(0.0, RADIUS2, distance(TEARPOINT2, position.xy));\n\
+        positionDeformed.xy+=deformFactor2*DISPLACEMENT2;\n\
+        //project deformed point :\n\
+        vec4 mvPosition = modelViewMatrix * vec4( positionDeformed, 1.0 );\n\
+        vec4 projectedPosition=projectionMatrix * mvPosition;\n\
+        gl_Position=projectedPosition;\n\
+        //compute UV coordinates on the video texture :\n\
+        vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
+        vec4 projectedPosition0=projectionMatrix * mvPosition0;\n\
+        vUVvideo=vec2(0.5,0.5)+0.5*projectedPosition0.xy/projectedPosition0.w;\n\
+    }';
+
+    var fragmentShaderSource="precision mediump float;\n\
+    uniform sampler2D samplerVideo;\n\
+    varying vec2 vUVvideo;\n\
+    void main() {\n\
+        gl_FragColor=texture2D(samplerVideo, vUVvideo);\n\
+    }";
+    var mat=new THREE.ShaderMaterial({
+        vertexShader: vertexShaderSource,
+        fragmentShader: fragmentShaderSource,
+        uniforms: {
+            samplerVideo:{value: THREEVIDEOTEXTURE}
+        }
+    });
+    return mat;
 }
 
 //build the 3D. called once when Jeeliz Face Filter is OK
@@ -42,20 +92,27 @@ function init_threeScene(spec){
     THREEFACEOBJ3DPIVOTED.scale.set(SETTINGS.scale, SETTINGS.scale, SETTINGS.scale);
     THREEFACEOBJ3D.add(THREEFACEOBJ3DPIVOTED);
 
-    //CREATE A CUBE
-    var cubeGeometry=new THREE.BoxGeometry(1,1,1);
-    var cubeMaterial=new THREE.MeshNormalMaterial();
-    var threeCube=new THREE.Mesh(cubeGeometry, cubeMaterial);
-    threeCube.frustumCulled=false;
-    THREEFACEOBJ3DPIVOTED.add(threeCube);
-
-    //CREATE THE SCENE
-    THREESCENE=new THREE.Scene();
-    THREESCENE.add(THREEFACEOBJ3D);
-
     //init video texture with red
     THREEVIDEOTEXTURE=new THREE.DataTexture( new Uint8Array([255,0,0]), 1, 1, THREE.RGBFormat);
     THREEVIDEOTEXTURE.needsUpdate=true;
+
+    //CREATE THE MASK
+    var maskLoader=new  THREE.BufferGeometryLoader();
+    /*
+    faceLowPoly.json has been exported from dev/faceLowPoly.blend using THREE.JS blender exporter with Blender v2.76
+    */
+    maskLoader.load('faceLowPoly.json', function(maskBufferGeometry){
+        maskBufferGeometry.computeVertexNormals();
+        var threeMask=new THREE.Mesh(maskBufferGeometry, build_maskMaterial());
+        threeMask.frustumCulled=false;
+        threeMask.scale.multiplyScalar(1.2);
+        threeMask.position.set(0,0.2,-0.5);
+        THREEFACEOBJ3DPIVOTED.add(threeMask);
+    });
+    
+    //CREATE THE SCENE
+    THREESCENE=new THREE.Scene();
+    THREESCENE.add(THREEFACEOBJ3D);
 
     //CREATE THE VIDEO BACKGROUND
     var videoMaterial=new THREE.RawShaderMaterial({
@@ -64,7 +121,7 @@ function init_threeScene(spec){
         vertexShader: "attribute vec2 position;\n\
             varying vec2 vUV;\n\
             void main(void){\n\
-                gl_Position=vec4(position, 0., 1.);\n\
+                gl_Position=vec4(position,0.,1.);\n\
                 vUV=0.5+0.5*position;\n\
             }",
         fragmentShader: "precision lowp float;\n\
@@ -73,12 +130,12 @@ function init_threeScene(spec){
             void main(void){\n\
                 gl_FragColor=texture2D(samplerVideo, vUV);\n\
             }",
-         uniforms:{
+        uniforms:{
             samplerVideo: {value: THREEVIDEOTEXTURE}
-         }
+        }
     });
     var videoGeometry=new THREE.BufferGeometry()
-    var videoScreenCorners=new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
+    var videoScreenCorners=new Float32Array([-1,-1,   1,-1,   1,1,  -1,1]);
     videoGeometry.addAttribute( 'position', new THREE.BufferAttribute( videoScreenCorners, 2 ) );
     videoGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
     var videoMesh=new THREE.Mesh(videoGeometry, videoMaterial);

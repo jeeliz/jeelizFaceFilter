@@ -1,0 +1,158 @@
+//Cel fragment shader
+//from http://www.geeks3d.com/20140523/glsl-shader-library-toonify-post-processing-filter/ 
+precision mediump float;
+
+uniform sampler2D samplerVideo;
+uniform vec2 videoSize;
+varying vec2 vUVvideo;
+
+const float EDGE_THRESHOLD=0.2;
+const float EDGE_THRESHOLD2= 5.0;
+
+const vec3 THIRD3=vec3(0.333,0.333,0.333);
+
+vec3 RGBtoHSV( float r, float g, float b) 
+{
+   float minv, maxv, delta;
+   vec3 res;
+
+   minv = min(min(r, g), b);
+   maxv = max(max(r, g), b);
+   res.z = maxv;            // v
+   
+   delta = maxv - minv;
+
+   if( maxv != 0.0 )
+      res.y = delta / maxv;      // s
+   else {
+      // r = g = b = 0      // s = 0, v is undefined
+      res.y = 0.0;
+      res.x = -1.0;
+      return res;
+   }
+
+   if( r == maxv )
+      res.x = ( g - b ) / delta;      // between yellow & magenta
+   else if( g == maxv )
+      res.x = 2.0 + ( b - r ) / delta;   // between cyan & yellow
+   else
+      res.x = 4.0 + ( r - g ) / delta;   // between magenta & cyan
+
+   res.x = res.x * 60.0;            // degrees
+   if( res.x < 0.0 )
+      res.x = res.x + 360.0;
+      
+   return res;
+}
+
+vec3 HSVtoRGB(float h, float s, float v ) 
+{
+   int i;
+   float f, p, q, t;
+   
+   if( s == 0.0 ) 
+   {
+      // achromatic (grey)
+      return vec3(v,v,v);
+   }
+
+   h /= 60.0;         // sector 0 to 5
+   i = int(floor( h ));
+   f = h - float(i);         // factorial part of h
+   p = v * ( 1.0 - s );
+   q = v * ( 1.0 - s * f );
+   t = v * ( 1.0 - s * ( 1.0 - f ) );
+
+   if (i==0){
+   	return vec3(v,t,p);
+   }
+   if (i==1){
+   	return vec3(q,v,p);
+   }
+   if (i==2){
+   	return vec3(p,v,t);
+   }
+   if (i==3){
+   	return vec3(p,q,v);
+   }
+   if (i==4){
+   	return vec3(t,p,v);
+   }
+   return vec3(v,p,q);
+}
+
+float nearestLevel0(float col) 
+{
+   if (col<=140.0){ return 140.0; }
+   if (col<=160.0){ return 160.0; }
+   if (col<=240.0){ return 240.0; }
+   return 360.0;
+}
+
+float nearestLevel1(float col) 
+//0.0,0.15,0.3,0.45,0.6,0.8,1.0
+{
+	if (col<=0.15){ return 0.15; }
+	if (col<=0.3){ return 0.3; }
+	if (col<=0.45){ return 0.45; }
+	if (col<=0.6){ return 0.6; }
+	if (col<=0.8){ return 0.8; }
+	return 1.0;
+}
+
+float nearestLevel2(float col) 
+{
+	if (col<=0.3){ return 0.3; }
+	if (col<=0.6){ return 0.6; }
+	return 1.0;
+}
+
+// averaged pixel intensity from 3 color channels
+float avg_intensity(vec4 pix) 
+{
+ return dot(pix.rgb, THIRD3);
+}
+
+vec4 get_pixel(vec2 coords, vec2 dxy) 
+{
+ return texture2D(samplerVideo,coords + dxy);
+}
+
+// returns pixel color
+float IsEdge(in vec2 coords)
+{
+  vec2 dxy = 1.0 /videoSize;
+  int k = -1;
+  float delta;
+
+  // read neighboring pixel intensities
+  float pix0=avg_intensity(get_pixel(coords, dxy*vec2(-1.,-1.)));
+  float pix1=avg_intensity(get_pixel(coords, dxy*vec2(-1.,0.)));
+  float pix2=avg_intensity(get_pixel(coords, dxy*vec2(-1.,1.)));
+  float pix3=avg_intensity(get_pixel(coords, dxy*vec2(0.,-1.)));
+  float pix4=avg_intensity(get_pixel(coords, dxy*vec2(0.,0.)));
+  float pix5=avg_intensity(get_pixel(coords, dxy*vec2(0.,1.)));
+  float pix6=avg_intensity(get_pixel(coords, dxy*vec2(1.,-1.)));
+  float pix7=avg_intensity(get_pixel(coords, dxy*vec2(1.,0.)));
+  float pix8=avg_intensity(get_pixel(coords, dxy*vec2(1.,1.)));
+
+  // average color differences around neighboring pixels
+  delta = (abs(pix1-pix7)+
+          abs(pix5-pix3) +
+          abs(pix0-pix8)+
+          abs(pix2-pix6)
+           )/4.;
+
+  return clamp(EDGE_THRESHOLD2*delta,0.0,1.0);
+}
+
+void main() {
+	vec3 colorOrg = texture2D(samplerVideo, vUVvideo).rgb;
+  vec3 vHSV =  RGBtoHSV(colorOrg.r,colorOrg.g,colorOrg.b);
+  vHSV.x = nearestLevel0(vHSV.x);
+  vHSV.y = nearestLevel1(vHSV.y);
+  vHSV.z = nearestLevel2(vHSV.z);
+  float edg = IsEdge(vUVvideo);
+  vec3 vRGB = (edg >= EDGE_THRESHOLD)? vec3(0.0,0.0,0.0):HSVtoRGB(vHSV.x,vHSV.y,vHSV.z);
+  gl_FragColor = vec4(vRGB, 1.0);
+}

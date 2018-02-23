@@ -4,6 +4,8 @@ This API allow you to detect and track the face in real time from a video stream
 
 You can test it with these demos (included in this repo) :
 * [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
+* [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
+* [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
 
 
 ## Integration
