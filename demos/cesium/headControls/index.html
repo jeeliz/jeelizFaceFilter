@@ -71,19 +71,16 @@
     function callbackMove(mv){
       var cameraHeight = CESIUMVIEWER.scene.globe.ellipsoid.cartesianToCartographic(CESIUMVIEWER.camera.position).height || Number.MAX_VALUE;
         
-      if (mv.dZ!==0) {
+      if (mv.dZ!==0) { //move head forward/backward
         var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight / 1000;
         CESIUMVIEWER.camera.moveForward(zoomAmount);
       }
-      if (mv.dRx!==0) {
+      if (mv.dRx!==0) { //turn head top-right
         var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight / 1000;
         CESIUMVIEWER.scene.camera.rotateUp(panAmountX);
-       // CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_X, panAmountX);
-        //CESIUMVIEWER.camera.moveUp(panAmountX);
       }
-      if (mv.dRy!==0) {
+      if (mv.dRy!==0) { //turn head left-right
         var panAmountY=SETTINGS.panSensibility*mv.dRy* cameraHeight / 1000;
-        //CESIUMVIEWER.camera.moveLeft(panAmountY);
         CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
       }
     } //end callbackMove()
