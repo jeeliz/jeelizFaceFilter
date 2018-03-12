@@ -22,8 +22,8 @@
 "use strict";
 var HeadControls=(function(){
 	var _defaultSettings={
-		detectionThreshold: 0.5, //sensibility, between 0 and 1. Less -> more sensitive
-    	detectionHysteresis: 0.1,
+		detectionThreshold: 0.85, //sensibility, between 0 and 1. Less -> more sensitive
+    	detectionHysteresis: 0.05,
     	tol: {
     		rx: 5,//do not move if head turn more than this value (in degrees) from head rest position
     		ry: 5,
