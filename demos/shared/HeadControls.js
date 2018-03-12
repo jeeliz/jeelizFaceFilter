@@ -1,10 +1,22 @@
 /*
+    Use JEELIZ FACE FILTER API to control the movements of a camera
+    This script has been put into shared because it can be used with different 3D engines
+    We have at least 2 integration examples :
+      - with CesiumJS for a head controlled Google Earth like demo
+      - with THREE.JS for a camera controller
+
+ 
+	==== INITIALIZATION ====
+	HeadControls.init(spec) with spec =
 	spec (*-> mandatory): 
 	  - settings: object. override default settings if specified
-      - canvasId* : id of the canvas where the user will be tracked
-      - callbackReady: callback launched when the controller is ready. launched with errCode if error
+      - canvasId* : id of the canvas where the JEEFITAPI will be initialized. We will draw the face tracking on it
+      - callbackReady: callback launched when the controller is ready. launched with errCode if error, false otherwise
       - callbackMove*: function to move the camera
       - NNCpath* : path of the NN net
+
+    ==== OTHER METHODS ====
+    HeadControls.toggle(<boolean>onOff) : toggle on or off the HeadControls
 
 */
 "use strict";
@@ -75,6 +87,7 @@ var HeadControls=(function(){
 			void main(void) {\n\
 			    gl_Position=vec4(aat_position, 0., 1.);\n\
 			    vUV=(aat_position*0.5)+vec2(0.5,0.5);\n\
+			    vUV.x=1.-vUV.x; //mirror diplay\n\
 			}";
 		var shader_fragment_source="\n\
 			precision lowp float;\n\
@@ -113,6 +126,7 @@ var HeadControls=(function(){
 		_gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 		_gl.viewport(0,0,_cv.width, _cv.height);
 
+		//use the head draw shader program and sync uniforms
 		_gl.useProgram(_headSearchDrawShaderProgram);
 		_gl.activeTexture(_gl.TEXTURE0);
 		_gl.bindTexture(_gl.TEXTURE_2D, _videoTexture);
@@ -159,8 +173,7 @@ var HeadControls=(function(){
         _returnValue.dRx=dt*compute_delta(_state.restHeadPosition.rx, detectState.rx, _settings.tol.rx, _settings.sensibility.rx);
 		_returnValue.dRy=dt*compute_delta(_state.restHeadPosition.ry, detectState.ry, _settings.tol.ry, _settings.sensibility.ry);
         _returnValue.dZ=dt*compute_delta(_state.restHeadPosition.s, detectState.s, _settings.tol.s, _settings.sensibility.s);
-        //console.log(_state.restHeadPosition.rx, detectState.rx, _returnValue.dRx);
-
+        
         _lastTimestamp=ts;
         return _returnValue;
 	} //end compute_cameraMove()
