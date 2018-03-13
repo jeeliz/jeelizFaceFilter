@@ -3,9 +3,13 @@
 This API allow you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstration using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
 
 You can test it with these demos (included in this repo) :
-* [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
-* [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
-* [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
+* THREE.JS based demos :
+  * [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
+  * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
+  * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
+
+* CESIUM.JS based demos :
+  * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
 
 If you have not bought a webcam yet, a screenshot video of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ).
 
@@ -113,5 +117,6 @@ We appreciate attribution by including the Jeeliz logo and link to the [Jeeliz w
 ## References
 * [Jeeliz official website](https://jeeliz.com)
 * [Three.JS official website with documentation, demos, examples...](https://threejs.org/)
+* [Cesium JS official website](https://cesiumjs.org/)
 * [Webgl Academy : tutorials about WebGL and THREE.JS](http://www.webglacademy.com)
 
