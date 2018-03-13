@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+  <base href="../../../">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <script src="libs/cesium/Cesium.js"></script>
+  
+  <script src="dist/jeelizFaceFilter.js"></script>
+  <script src="demos/shared/HeadControls.js"></script>
+
+  <style>
+      @import url(libs/cesium/Widgets/widgets.css);
+      html, body, #cesiumContainer {
+          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+      }
+
+      #startHeadControlsButton {
+        position: fixed;
+        width: 256px;
+        top: 1em;
+        left: 50%;
+        margin-left: -128px;
+        cursor: pointer;
+      }
+
+      #headControlsCanvas {
+        position: fixed;
+        right: 0px;
+        bottom: 30px;
+        z-index: 1000;
+        transform-origin: bottom right;
+        max-height: 25%;
+        max-width: 25%;
+      }
+  </style>
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+
+  <button id='startHeadControlsButton'>START HEAD CONTROLLED NAVIGATION !</button>
+  <canvas id='headControlsCanvas' width='512' height='512'></canvas>
+
+  <script>
+    //initialize Cesium
+    var CESIUMVIEWER = new Cesium.Viewer('cesiumContainer');
+
+    var SETTINGS={
+	  zoomSensibility: 5.5,
+	  panSensibility: 0.00000015
+	};
+
+	function callbackMove(mv){
+	  var cameraHeight = CESIUMVIEWER.scene.globe.ellipsoid.cartesianToCartographic(CESIUMVIEWER.camera.position).height/1000.0 || Number.MAX_VALUE;
+	    
+	  if (mv.dZ!==0) { //move head forward/backward
+	    var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
+	    CESIUMVIEWER.camera.moveForward(zoomAmount);
+	  }
+	  if (mv.dRx!==0) { //turn head top-right
+	    var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight;
+	    CESIUMVIEWER.scene.camera.rotateUp(panAmountX);
+	  }
+	  if (mv.dRy!==0) { //turn head left-right
+	    var panAmountY=SETTINGS.panSensibility*mv.dRy* cameraHeight;
+	    CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
+	  }
+	}
+
+    var DOMbutton=document.getElementById('startHeadControlsButton');
+	DOMbutton.onclick=function(){
+	  HeadControls.init({
+	    canvasId: 'headControlsCanvas',
+	    callbackMove: callbackMove, //will be explained later...
+	    callbackReady: function(errCode){
+	      if (errCode){
+	        console.log('ERROR : HEAD CONTROLS NOT READY. errCode =', errCode);
+	      } else {
+	        console.log('INFO : HEAD CONTROLS ARE READY :)');
+	        HeadControls.toggle(true);
+	      }
+	    },
+	    NNCpath: './dist/' //where to find NNC.json from the current path
+	  }); //end HeadControls.init params
+	}; //end DOMbutton.onclick
+  </script>
+</body>
+
+</html> 

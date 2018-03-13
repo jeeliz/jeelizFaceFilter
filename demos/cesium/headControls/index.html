@@ -56,7 +56,7 @@
     var SETTINGS={
       zoomSensibility: 5.5,
       panSensibility: 0.00000015
-    }
+    };
 
     //initialize Cesium
     var CESIUMVIEWER = new Cesium.Viewer('cesiumContainer');
@@ -69,18 +69,18 @@
     }
 
     function callbackMove(mv){
-      var cameraHeight = CESIUMVIEWER.scene.globe.ellipsoid.cartesianToCartographic(CESIUMVIEWER.camera.position).height || Number.MAX_VALUE;
+      var cameraHeight = CESIUMVIEWER.scene.globe.ellipsoid.cartesianToCartographic(CESIUMVIEWER.camera.position).height/1000.0 || Number.MAX_VALUE;
         
       if (mv.dZ!==0) { //move head forward/backward
-        var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight / 1000;
+        var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
         CESIUMVIEWER.camera.moveForward(zoomAmount);
       }
       if (mv.dRx!==0) { //turn head top-right
-        var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight / 1000;
+        var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight;
         CESIUMVIEWER.scene.camera.rotateUp(panAmountX);
       }
       if (mv.dRy!==0) { //turn head left-right
-        var panAmountY=SETTINGS.panSensibility*mv.dRy* cameraHeight / 1000;
+        var panAmountY=SETTINGS.panSensibility*mv.dRy* cameraHeight;
         CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
       }
     } //end callbackMove()
@@ -95,7 +95,6 @@
       }
       ISHEADCONTROLSINITIALIZED=true;
 
-      //DOMbutton.parentElement.removeChild(DOMbutton);
       HeadControls.init({
         canvasId: 'headControlsCanvas',
         callbackMove: callbackMove,
