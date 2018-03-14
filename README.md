@@ -116,7 +116,7 @@ If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compre
 
 
 ## About the tech
-This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a deep learning network. The accuracy is adaptative : the better the hardware, the more detection are processed per second. All is done client-side.
+This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a deep learning network. The accuracy is adaptative : the better the hardware, the more detections are processed per second. All is done client-side.
 
 ## Articles
 We are currently writing a series of tutorial for the API, starting by building some very basic filters and moving to harder ones.
