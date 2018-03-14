@@ -9,7 +9,7 @@ You can test it with these demos (included in this repo) :
   * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
   * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
   * [Head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/)
-  * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part1/) (project for the first part of our [tutorial series](https://medium.com/@lachlantweedie/animation-in-three-js-using-tween-js-with-examples-c598a19b1263))
+  * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
 
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
