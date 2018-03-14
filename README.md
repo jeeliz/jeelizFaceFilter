@@ -95,6 +95,14 @@ It is important that the 3D engine shares the same WebGL context. The WebGL cont
 Because this API requires the user's webcam stream through `MediaStream API`, your application should be served through HTTPS (even with a self-signed certificate). It won't work at all with unsecure HTTP, even locally.
 
 
+## Development
+In order to check out the demos or develop your very own filters, type in:
+
+```
+  python2 httpsServer.py
+```
+and visit https://localhost:4443.
+
 ### The scripts
 You can use our hosted and up to date version of the library, available here :
 ```
@@ -106,6 +114,12 @@ If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compre
 
 ## About the tech
 This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a deep learning network. The accuracy is adaptative : the better the hardware, the more detection are processed per second. All is done client-side.
+
+## Articles
+We are currently writing a series of tutorial for the API, starting by building some very basic filters and moving to harder ones.
+### Part 1: 
+  * on [Medium](https://medium.com/@StartupJeeliz/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter-1e7a5000543c)
+  * on [our website](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/)
 
 
 ## License
