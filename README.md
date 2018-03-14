@@ -117,7 +117,7 @@ This API uses Jeeliz WebGL Deep Learning technology to detect and track the user
 
 ## Articles
 We are currently writing a series of tutorial for the API, starting by building some very basic filters and moving to harder ones.
-### Part 1: 
+### Part 1: Creating your first filter
   * on [Medium](https://medium.com/@StartupJeeliz/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter-1e7a5000543c)
   * on [our website](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/)
 
