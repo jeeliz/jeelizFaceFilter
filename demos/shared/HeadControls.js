@@ -3,7 +3,7 @@
     This script has been put into shared because it can be used with different 3D engines
     We have at least 2 integration examples :
       - with CesiumJS for a head controlled Google Earth like demo
-      - with THREE.JS for a camera controller
+      - with THREE.JS for a camera controller (THREE.HeadControls)
 
  
 	==== INITIALIZATION ====

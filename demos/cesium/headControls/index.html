@@ -75,7 +75,7 @@
         var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
         CESIUMVIEWER.camera.moveForward(zoomAmount);
       }
-      if (mv.dRx!==0) { //turn head top-right
+      if (mv.dRx!==0) { //turn head up-down
         var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight;
         CESIUMVIEWER.scene.camera.rotateUp(panAmountX);
       }

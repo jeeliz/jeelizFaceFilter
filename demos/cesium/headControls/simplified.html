@@ -47,43 +47,43 @@
     var CESIUMVIEWER = new Cesium.Viewer('cesiumContainer');
 
     var SETTINGS={
-	  zoomSensibility: 5.5,
-	  panSensibility: 0.00000015
-	};
+  	  zoomSensibility: 5.5,
+  	  panSensibility: 0.00000015
+  	};
 
-	function callbackMove(mv){
-	  var cameraHeight = CESIUMVIEWER.scene.globe.ellipsoid.cartesianToCartographic(CESIUMVIEWER.camera.position).height/1000.0 || Number.MAX_VALUE;
-	    
-	  if (mv.dZ!==0) { //move head forward/backward
-	    var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
-	    CESIUMVIEWER.camera.moveForward(zoomAmount);
-	  }
-	  if (mv.dRx!==0) { //turn head top-right
-	    var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight;
-	    CESIUMVIEWER.scene.camera.rotateUp(panAmountX);
-	  }
-	  if (mv.dRy!==0) { //turn head left-right
-	    var panAmountY=SETTINGS.panSensibility*mv.dRy* cameraHeight;
-	    CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
-	  }
-	}
+  	function callbackMove(mv){
+  	  var cameraHeight = CESIUMVIEWER.scene.globe.ellipsoid.cartesianToCartographic(CESIUMVIEWER.camera.position).height/1000.0 || Number.MAX_VALUE;
+  	    
+  	  if (mv.dZ!==0) { //move head forward/backward
+  	    var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
+  	    CESIUMVIEWER.camera.moveForward(zoomAmount);
+  	  }
+  	  if (mv.dRx!==0) { //turn head up-down
+  	    var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight;
+  	    CESIUMVIEWER.scene.camera.rotateUp(panAmountX);
+  	  }
+  	  if (mv.dRy!==0) { //turn head left-right
+  	    var panAmountY=SETTINGS.panSensibility*mv.dRy* cameraHeight;
+  	    CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
+  	  }
+  	}
 
     var DOMbutton=document.getElementById('startHeadControlsButton');
-	DOMbutton.onclick=function(){
-	  HeadControls.init({
-	    canvasId: 'headControlsCanvas',
-	    callbackMove: callbackMove, //will be explained later...
-	    callbackReady: function(errCode){
-	      if (errCode){
-	        console.log('ERROR : HEAD CONTROLS NOT READY. errCode =', errCode);
-	      } else {
-	        console.log('INFO : HEAD CONTROLS ARE READY :)');
-	        HeadControls.toggle(true);
-	      }
-	    },
-	    NNCpath: './dist/' //where to find NNC.json from the current path
-	  }); //end HeadControls.init params
-	}; //end DOMbutton.onclick
+  	DOMbutton.onclick=function(){
+  	  HeadControls.init({
+  	    canvasId: 'headControlsCanvas',
+  	    callbackMove: callbackMove, //will be explained later...
+  	    callbackReady: function(errCode){
+  	      if (errCode){
+  	        console.log('ERROR : HEAD CONTROLS NOT READY. errCode =', errCode);
+  	      } else {
+  	        console.log('INFO : HEAD CONTROLS ARE READY :)');
+  	        HeadControls.toggle(true);
+  	      }
+  	    },
+  	    NNCpath: './dist/' //where to find NNC.json from the current path
+  	  }); //end HeadControls.init params
+  	}; //end DOMbutton.onclick
   </script>
 </body>
 
