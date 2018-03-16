@@ -2,7 +2,7 @@
 
 This API allows you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstrations using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
 
-![facefilter demo jeeliz](https://user-images.githubusercontent.com/11960872/37533202-76027cfc-2941-11e8-9e4f-2d9fe08e24de.jpg)
+![facefilter demo jeeliz small](https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg)
 
 You can test it with these demos (included in this repo) :
 * THREE.JS based demos :
