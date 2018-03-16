@@ -1,8 +1,8 @@
 # jeelizFaceFilter: perform computer-vision in the browser.
 
-This API allows you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstration using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
+This API allows you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstrations using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
 
-![jeelizfacefilter demo](https://user-images.githubusercontent.com/11960872/37476018-577befe8-2874-11e8-9a24-5060dbbfaa90.jpg)
+![facefilter demo jeeliz](https://user-images.githubusercontent.com/11960872/37533202-76027cfc-2941-11e8-9e4f-2d9fe08e24de.jpg)
 
 You can test it with these demos (included in this repo) :
 * THREE.JS based demos :
