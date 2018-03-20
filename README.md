@@ -1,7 +1,8 @@
-# jeelizFaceFilter
+# jeelizFaceFilter: perform computer-vision in the browser.
 
-To perform deep-learning based computer vision directly in the browser.
-This API allows you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstration using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
+This API allows you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstrations using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
+
+![facefilter demo jeeliz small](https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg)
 
 You can test it with these demos (included in this repo) :
 * THREE.JS based demos :
@@ -10,11 +11,13 @@ You can test it with these demos (included in this repo) :
   * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
   * [Head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/)
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
-
+  
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
 
-If you have not bought a webcam yet, a screenshot video of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ).
+If you have not bought a webcam yet, a screenshot video of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ). 
+
+![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
 
 ## Integration
 On your HTML page, you first need to include the main script between the tags `<head>` and `</head>` :
