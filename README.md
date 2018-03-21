@@ -74,6 +74,8 @@ At each render iteration a callback function is called ( `callbackTrack` in the 
 * `x`, `y` : The 2D coordinates of the center of the detection frame in the viewport (each between -1 and 1, `x` from left to right and `y` from bottom to top),
 * `s` : the scale along the horizontal axis of the detection frame, between 0 and 1 (1 for the full width). The detection frame is always square,
 * `rx`, `ry`, `rz` : the Euler angles of the head rotation in radians.
+* `expressions` : `Float32Array` listing the facial expression coefficients :
+    * `expressions[0]` : mouth opening coefficient (0 -> mouth closed, 1 -> mouth fully opened)
 
 
 ## Other methods
@@ -102,12 +104,13 @@ Because this API requires the user's webcam stream through `MediaStream API`, yo
 
 
 ## Development
-In order to check out the demos or develop your very own filters, type in:
+We provide a simple and minimalist HTTPS server in order to check out the demos or develop your very own filters. To launch it, execute in the console :
 
 ```
   python2 httpsServer.py
 ```
-and visit https://localhost:4443.
+then visit [https://localhost:4443](https://localhost:4443).
+
 
 ### The scripts
 You can use our hosted and up to date version of the library, available here :
