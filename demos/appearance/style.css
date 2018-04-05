@@ -1,16 +1,32 @@
  a {color: #eee; text-decoration: none}
 a:hover {color: blue;}
 body {overflow: auto; overflow-y: auto;
-	background-color: white;
-	background-image: url('bg.png');
-	background-attachment: fixed;
+    background-color: white;
+    background-image: url('bg.png');
+    background-attachment: fixed;
     background-position: center;
     background-size: contain;
-	margin: 0px;}
+    margin: 0px;}
 #jeeFaceFilterCanvas {
     z-index: 10;
     position: absolute; 
-    max-height: 100%; max-width: 100%; left: 50%; top: 50%;
+    max-height: 100%;
+    max-width: 100%;
+    left: 50%;
+    top: 50%;
     width: 100vmin;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotateY(180deg);
 } 
+
+@media (max-width: 787px) {
+    #jeeFaceFilterCanvas {
+        z-index: 10;
+        position: absolute;
+        max-height: 100%;
+        max-width: 100%;
+        right: 0;
+        top: 60px;
+        width: 100vmin;
+        transform: rotateY(180deg);
+    }
+}
