@@ -11,7 +11,7 @@ var SETTINGS={
 };
 
 //some globalz :
-var THREEVIDEOTEXTURE, THREERENDERER, THREEFACEOBJ3D, THREEFACEOBJ3DPIVOTED, THREESCENE, THREECAMERA, MOUTHOPENINGMATERIALS=[], TIGERMOUTHHIDEMESH;
+var THREEVIDEOTEXTURE, THREERENDERER, THREEFACEOBJ3D, THREEFACEOBJ3DPIVOTED, THREESCENE, THREECAMERA, MOUTHOPENINGMATERIALS=[], TIGERMOUTHHIDEMESH=false;
 var PARTICLESOBJ3D, PARTICLES=[], PARTICLESHOTINDEX=0, PARTICLEDIR;
 var ISDETECTED=false;
 
@@ -294,7 +294,9 @@ function main(){
                 MOUTHOPENINGMATERIALS.forEach(function(mat){
                     mat.uniforms.mouthOpening.value=mouthOpening;
                 });
-                TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
+                if(TIGERMOUTHHIDEMESH){
+                    TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
+                }
             }
             TWEEN.update();
 
