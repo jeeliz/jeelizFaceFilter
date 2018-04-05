@@ -11,6 +11,7 @@ You can test it with these demos (included in this repo) :
   * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
   * [Head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/)
   * [Tiger face filter with mouth opening detection (strong WTF effect)](https://jeeliz.com/demos/faceFilter/demos/threejs/tiger/)
+  * [Cloud](https://jeeliz.com/demos/faceFilter/demos/threejs/cloud/)
   * [Fireworks](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
   
