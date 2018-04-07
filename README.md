@@ -21,9 +21,10 @@ You can test it with these demos (included in this repo) :
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
 
+![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
+
 If you have not bought a webcam yet, a screenshot video of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ). 
 
-![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
 
 ## Integration
 On your HTML page, you first need to include the main script between the tags `<head>` and `</head>` :
