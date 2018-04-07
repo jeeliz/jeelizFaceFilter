@@ -5,6 +5,9 @@ This API allows you to detect and track the face in real time from a video strea
 ![facefilter demo jeeliz small](https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg)
 
 You can test it with these demos (included in this repo) :
+* BABYLON.JS based demos :
+  * [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/babylonjs/cube/)
+
 * THREE.JS based demos :
   * [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
   * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
@@ -96,9 +99,9 @@ In the path `/demos`, you will find an integration sample. Just serve it through
 
 
 ## Changing the 3D Engine
-It is possible to use another 3D engine than THREE.JS. If you did this work, we would be interested to add your demonstration in this repository (or link to your code). We may add Babylon.js and Pixi.js boilerplates later.
+It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you did this work, we would be interested to add your demonstration in this repository (or link to your code). We may add Babylon.js and Pixi.js boilerplates later.
 
-It is important that the 3D engine shares the same WebGL context. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the Jeeliz Face Filter WebGL context. It would be more costly to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts : the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context. Fortunately, with THREE.JS, it is easy to specify an already initalized WebGL context.
+It is important that the 3D engine shares the same WebGL context. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the Jeeliz Face Filter WebGL context. It would be more costly to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts : the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initalized WebGL context.
 
 
 ## Hosting
@@ -142,6 +145,7 @@ We appreciate attribution by including the Jeeliz logo and link to the [Jeeliz w
 
 ## References
 * [Jeeliz official website](https://jeeliz.com)
+* [Babylon.JS official website with documentation, demos, examples...](https://www.babylonjs.com/)
 * [Three.JS official website with documentation, demos, examples...](https://threejs.org/)
 * [Cesium JS official website](https://cesiumjs.org/)
 * [Webgl Academy : tutorials about WebGL and THREE.JS](http://www.webglacademy.com)

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="content-language" content="en-EN" />
+        
+        <title>JEELIZ FACE FILTER : BABYLON.JS CUBE DEMO</title>
+        
+        <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
+        <script type="text/javascript" src="../../../dist/jeelizFaceFilter.js"></script>
+
+        <!-- INCLUDE BABYLON.JS
+        this is a heavy version of Babylon.js, including many features
+        Build you own minified version of Babylon.js on https://www.babylonjs.com/versionbuilder/
+        -->
+		<script type="text/javascript" src="../../../libs/babylonjs/v3_1/babylon.custom.js"></script>
+
+		<!-- INCLUDE DEMO SCRIPT -->
+		<script type="text/javascript" src="./demo_cube.js"></script>
+
+        <!-- INCLUDE FORK ME ON GITHUB BANNER -->
+        <script type="text/javascript" src="../../appearance/widget.js"></script>
+
+		<link rel="stylesheet" href="../../appearance/style.css" type="text/css" />
+
+		<!-- BABYLONJS CUSTOM SHADER MATERIAL GLSL CODES : -->
+		<script type="application/vertexShader" id="videoMatVertexShaderCode">
+			attribute vec3 position;
+            varying vec2 vUV;
+
+            void main(void){
+                gl_Position=vec4(position, 1.);
+                vUV=0.5+0.5*position.xy;
+            }
+		</script>
+
+		<script type="application/fragmentShader" id="videoMatFragmentShaderCode">
+			precision lowp float;
+            uniform sampler2D samplerVideo;
+            varying vec2 vUV;
+
+            void main(void){
+                gl_FragColor=texture2D(samplerVideo, vUV);
+            }
+		</script>
+
+    </head>
+    
+    <body onload="main()" style='color: white'>
+        <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+    </body>
+</html>
+ 
+ 
