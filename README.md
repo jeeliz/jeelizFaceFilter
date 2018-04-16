@@ -17,6 +17,9 @@ You can test it with these demos (included in this repo) :
   * [Cloud](https://jeeliz.com/demos/faceFilter/demos/threejs/cloud/)
   * [Fireworks](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
+
+* A-FRAME based demos :
+  * [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/)
   
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
@@ -152,5 +155,6 @@ We appreciate attribution by including the Jeeliz logo and link to the [Jeeliz w
 * [Babylon.JS official website with documentation, demos, examples...](https://www.babylonjs.com/)
 * [Three.JS official website with documentation, demos, examples...](https://threejs.org/)
 * [Cesium JS official website](https://cesiumjs.org/)
+* [A-Frame official website](https://aframe.io/)
 * [Webgl Academy : tutorials about WebGL and THREE.JS](http://www.webglacademy.com)
 
