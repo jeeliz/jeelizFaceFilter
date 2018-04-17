@@ -729,6 +729,11 @@ Pacman.Audio = function(game) {
         f.setAttribute("preload", "true");
         f.setAttribute("autobuffer", "true");
         f.setAttribute("src", path);
+
+        if (f.load){ //for SAFARI
+            f.load();
+        }
+
         f.pause();        
     };
 
