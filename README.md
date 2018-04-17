@@ -6,10 +6,10 @@ This API allows you to detect and track the face in real time from a video strea
 
 You can test it with these demos (included in this repo) :
 * BABYLON.JS based demos :
-  * [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/babylonjs/cube/)
+  * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/babylonjs/cube/)
 
 * THREE.JS based demos :
-  * [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
+  * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
   * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
   * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
   * [Head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/)
@@ -19,8 +19,11 @@ You can test it with these demos (included in this repo) :
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
 
 * A-FRAME based demos :
-  * [Boilerplate (display a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/)
+  * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/)
   
+* CSS3D based demos :
+  * [Boilerplate (displays a `<DIV>` element on the user's head)](https://jeeliz.com/demos/faceFilter/demos/CSS3D/div/)
+
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
 
