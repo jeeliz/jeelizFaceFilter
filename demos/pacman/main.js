@@ -63,6 +63,7 @@ function headControlStart(){
 	        }
 	      }
 	    },
-	    NNCpath: '../../dist/' //where to find NNC.json from the current path
+	    NNCpath: '../../dist/', //where to find NNC.json from the current path
+	    animateDelay: 2 //avoid DOM lags
 	}); //end HeadControls.init params
 }

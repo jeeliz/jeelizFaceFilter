@@ -62,6 +62,10 @@ JEEFACEFILTERAPI.init({
     } //end callbackTrack()
 ```
 
+## Optionnal `init()` arguments :
+* `<integer> animateDelay` : It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
+
+
 ## Error codes
 The initialization function ( `callbackReady` in the code snippet ) will be called with an error code ( `errCode` ). It can have these values :
 * `false` : no error occurs,
@@ -98,7 +102,9 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEEFACEFILTERAPI.toggle_pause(<boolean> isPause)` : pause/resume,
 
-* `JEEFACEFILTERAPI.toggle_slow(<boolean> isSlow)` : toggle the slow rendering mode : because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relief the GPU. The tracking will also be slower unfortunately. We encourage to enable the slow mode as soon as a the user's attention is focused on a part other than the canvas.
+* `JEEFACEFILTERAPI.toggle_slow(<boolean> isSlow)` : toggle the slow rendering mode : because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relief the GPU. The tracking will also be slower unfortunately. We encourage to enable the slow mode as soon as a the user's attention is focused on a part other than the canvas,
+
+* `JEEFACEFILTERAPI.set_animateDelay(<integer> delay)` : Change the `animateDelay` (see `init()` arguments).
 
 
 ## Integration sample

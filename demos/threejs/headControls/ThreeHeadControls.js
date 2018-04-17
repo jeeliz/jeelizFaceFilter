@@ -43,6 +43,7 @@ THREE.HeadControls = function ( threeCamera, canvasId, NNCpath ) {
 	        HeadControls.toggle(true);
 	      }
 	    },
-	    NNCpath: NNCpath
+	    NNCpath: NNCpath,
+	    animateDelay: 2 //avoid DOM lags
 	}); //end HeadControls.init params
 }
