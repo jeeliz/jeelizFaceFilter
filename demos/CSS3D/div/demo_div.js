@@ -5,14 +5,42 @@
 var SETTINGS={
     rotationOffsetX: 0, //negative -> look upper. in radians
     cameraFOV: 40,      //in degrees, 3D camera FOV
-    pivotOffsetYZ: [0.2,0.2], //XYZ of the distance between the center of the cube and the pivot
+    pivotOffsetYZ: [-0.2,-0.2], //position the rotation pivot along Y and Z axis
     detectionThreshold: 0.5, //sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.1,
-    scale: 1 //scale of the 3D cube
+    mouthOpeningThreshold: 0.5, //sensibility of mouth opening, between 0 and 1
+    mouthOpeningHysteresis: 0.05,
+    scale: [1,1], //scale of the DIV along horizontal and vertical axis
+    positionOffset: [0,0,0] //set a 3D position fofset to the div
 };
 
 //some globalz :
-var ISDETECTED=false, GL, VIDEOSCREENSHADERPROGRAM, VIDEOTEXTURE, DIV, CAMERA, MOVEMENT;
+var ISDETECTED=false, ISMOUTHOPENED=false, GL, VIDEOSCREENSHADERPROGRAM, VIDEOTEXTURE, DIV, CAMERA, MOVEMENT;
+
+//some handy functions to avoid jquery
+//source : https://jaketrent.com/post/addremove-classes-raw-javascript/
+function hasClass(el, className) {
+  if (el.classList)
+    return el.classList.contains(className)
+  else
+    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+}
+
+function addClass(el, className) {
+  if (el.classList)
+    el.classList.add(className)
+  else if (!hasClass(el, className)) el.className += " " + className
+}
+
+function removeClass(el, className) {
+  if (el.classList)
+    el.classList.remove(className)
+  else if (hasClass(el, className)) {
+    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+    el.className=el.className.replace(reg, ' ')
+  }
+}
+
 
 //callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
 function detect_callback(isDetected){
@@ -23,30 +51,15 @@ function detect_callback(isDetected){
     }
 }
 
-//create a perspective projection matrix :
-function create_perspectiveCameraMatrix(fov, aspectRatio, zMin, zMax){
-    var tan=Math.tan(fov*Math.PI/180),
-        A=-(zMax+zMin)/(zMax-zMin),
-          B=(-2*zMax*zMin)/(zMax-zMin);
-
-    var m=new THREE.Matrix4();
-    m.set(0.5/tan, 0 ,0, 0,
-          0, 0.5*aspectRatio/tan,  0, 0,
-          0, 0,         A, -1,
-          0, 0,         B, 0);
-
-
-     m.set(0.5/tan, 0 ,0, 0,
-          0, 0.5*aspectRatio/tan,  0, 0,
-          0, 0,         A, B,
-          0, 0,         -1, 0);
-
-    return m;
+//apply a THREE.Matrix4 to a DOMElement with CSS3D :
+//see https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translate3d
+function apply_matrix(threeMatrix, DOMElement){
+    DOMElement.style.transform="perspective("+DOMElement.style.perspective+')'
+          +" matrix3d("+threeMatrix.elements.join(',')+")";
 }
 
-//apply a THREE.Matrix4 to a DOMElement with CSS3D :
-function apply_matrix(threeMatrix, DOMElement){
-    DOMElement.style.transform="matrix3d("+threeMatrix.elements.join(',')+")";
+function apply_perspective(perspectivePx, DOMElement){
+    DOMElement.style.perspective=perspectivePx.toString()+'px';
 }
 
 //compile a shader
@@ -104,18 +117,37 @@ function init_scene(spec){
     GL.uniform1i(samplerVideo, 0);
 
     //init projection parameters
-    var aspectRatio=spec.canvasElement.width / spec.canvasElement.height;
+    var domRect = spec.canvasElement.getBoundingClientRect();
+    var width=domRect.width;
+    var height=domRect.height;
+
+    //set DIV CSS style :
+    DIV.style.position='fixed';
+    DIV.style.transformStyle='preserve-3d';
+    DIV.style.left=domRect.left.toString()+'px';
+    DIV.style.top=domRect.top.toString()+'px';
+    DIV.style.width=width.toString()+'px';
+    DIV.style.height=height.toString()+'px';
+    
+    var aspectRatio=width / height;
+    var w2=width/2, h2=height/2;
+    var perspectivePx=Math.round(Math.pow( w2*w2 + h2*h2, 0.5 ) / Math.tan( SETTINGS.cameraFOV * Math.PI / 180 ));
+    apply_perspective(perspectivePx, DIV);
     CAMERA={
+        scale: new THREE.Vector3(width, height, perspectivePx/2.0),
         aspect: aspectRatio,
-        fov: SETTINGS.cameraFOV,
-        matrix: create_perspectiveCameraMatrix(SETTINGS.cameraFOV, aspectRatio, 0.1, 100)
-    }
+        fov: SETTINGS.cameraFOV
+    };
 
     //movement matrix
     MOVEMENT={
+        scale: new THREE.Vector3(SETTINGS.scale[0], SETTINGS.scale[1], 1),
+        position: new THREE.Vector3(),
         matrix: new THREE.Matrix4(),
         euler: new THREE.Euler(),
-        stackMatrix: new THREE.Matrix4()
+        positionOffset: new THREE.Vector3().fromArray(SETTINGS.positionOffset),
+        pivotOffset: new THREE.Vector3(),
+        pivotOffset0: new THREE.Vector3(0,-SETTINGS.pivotOffsetYZ[0], -SETTINGS.pivotOffsetYZ[1])
     };
 } //end init_scene()
 
@@ -130,6 +162,7 @@ function main(){
     JEEFACEFILTERAPI.init({
         canvasId: 'jeeFaceFilterCanvas',
         NNCpath: '../../../dist/', //root of NNC.json file
+        animateDelay: 2, //let small delay to avoid DOM freeze
         callbackReady: function(errCode, spec){
             if (errCode){
                 console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
@@ -167,17 +200,37 @@ function main(){
                 var x=xv*D*tanFOV;
                 var y=yv*D*tanFOV/CAMERA.aspect;
 
-                //move and rotate the div
-                MOVEMENT.matrix.setPosition(x,y+SETTINGS.pivotOffsetYZ[0],z+SETTINGS.pivotOffsetYZ[1]);
-                MOVEMENT.euler.set(detectState.rx+SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
-                MOVEMENT.matrix.makeRotationFromEuler(MOVEMENT.euler);
+                //compute position and rotation in 3D
+                MOVEMENT.euler.set(-detectState.rx-SETTINGS.rotationOffsetX, -detectState.ry, detectState.rz, "XYZ");
+                
+                MOVEMENT.position.set(-x, -y+SETTINGS.pivotOffsetYZ[0], z+SETTINGS.pivotOffsetYZ[1]);
+                MOVEMENT.pivotOffset.copy(MOVEMENT.pivotOffset0).sub(MOVEMENT.positionOffset);
+                MOVEMENT.pivotOffset.applyEuler(MOVEMENT.euler);
+                MOVEMENT.position.add(MOVEMENT.pivotOffset);
+                MOVEMENT.position.multiplyVectors(MOVEMENT.position, CAMERA.scale);
 
-               // MOVEMENT.stackMatrix.multiplyMatrices(CAMERA.matrix, MOVEMENT.matrix);
-                MOVEMENT.stackMatrix.multiplyMatrices(MOVEMENT.matrix, CAMERA.matrix);
-                apply_matrix(MOVEMENT.stackMatrix, DIV);
-                //THREEFACEOBJ3D.position.set(x,y+SETTINGS.pivotOffsetYZ[0],z+SETTINGS.pivotOffsetYZ[1]);
-                //THREEFACEOBJ3D.rotation.set(detectState.rx+SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
-            }
+                //compute the movement matrix
+                MOVEMENT.matrix.makeRotationFromEuler(MOVEMENT.euler); //warning : reset the position
+                MOVEMENT.matrix.setPosition(MOVEMENT.position);
+                MOVEMENT.matrix.scale(MOVEMENT.scale);
+
+                //apply the matrix to the DIV
+                apply_matrix(MOVEMENT.matrix, DIV);
+
+                //detects mouth opening
+                var mouthOpening=detectState.expressions[0];
+                if (ISMOUTHOPENED && mouthOpening<SETTINGS.mouthOpeningThreshold-SETTINGS.mouthOpeningHysteresis){
+                    //user closes mouth
+                    removeClass(DIV, 'mouthOpened');
+                    addClass(DIV, 'mouthClosed');
+                    ISMOUTHOPENED=false;
+                } else if (!ISMOUTHOPENED && mouthOpening>SETTINGS.mouthOpeningThreshold+SETTINGS.mouthOpeningHysteresis){
+                    //user opens mouth
+                    removeClass(DIV, 'mouthClosed');
+                    addClass(DIV, 'mouthOpened');
+                    ISMOUTHOPENED=true;
+                }
+            } //end if user detected
 
             GL.useProgram(VIDEOSCREENSHADERPROGRAM);
             GL.activeTexture(GL.TEXTURE0);
