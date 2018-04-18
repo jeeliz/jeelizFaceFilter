@@ -128,6 +128,7 @@ function init_scene(spec){
     DIV.style.top=domRect.top.toString()+'px';
     DIV.style.width=width.toString()+'px';
     DIV.style.height=height.toString()+'px';
+    DIV.style.display='none';
     
     var aspectRatio=width / height;
     var w2=width/2, h2=height/2;
@@ -179,10 +180,12 @@ function main(){
                 //DETECTION LOST
                 detect_callback(false);
                 ISDETECTED=false;
+                DIV.style.display='none';
             } else if (!ISDETECTED && detectState.detected>SETTINGS.detectionThreshold+SETTINGS.detectionHysteresis){
                 //FACE DETECTED
                 detect_callback(true);
                 ISDETECTED=true;
+                DIV.style.display='block';
             }
 
             if (ISDETECTED){
