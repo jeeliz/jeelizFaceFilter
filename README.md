@@ -23,6 +23,7 @@ You can test it with these demos (included in this repo) :
   
 * CSS3D based demos :
   * [Boilerplate (displays a `<DIV>` element on the user's head)](https://jeeliz.com/demos/faceFilter/demos/CSS3D/div/)
+  * [Comedy glasses demo](https://jeeliz.com/demos/faceFilter/demos/CSS3D/comedy-glasses/)
 
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
