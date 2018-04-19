@@ -54,8 +54,10 @@ function detect_callback(isDetected){
 //apply a THREE.Matrix4 to a DOMElement with CSS3D :
 //see https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translate3d
 function apply_matrix(threeMatrix, DOMElement){
-    DOMElement.style.transform="perspective("+DOMElement.style.perspective+')'
+    var cssVal="perspective("+DOMElement.style.perspective+')'
           +" matrix3d("+threeMatrix.elements.join(',')+")";
+    DOMElement.style.transform=cssVal;
+    DOMElement.style['-webkit-transform']=cssVal;
 }
 
 function apply_perspective(perspectivePx, DOMElement){

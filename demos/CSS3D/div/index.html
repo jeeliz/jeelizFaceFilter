@@ -33,12 +33,16 @@
         .mouthClosed {
             background-color: yellow!important;
         }
+        #jeeFaceFilterCanvas {
+             transform: translateZ(-1000px) translate(-50%, -50%) rotateY(180deg);
+             transform-style: preserve-3d;
+        }
         </style>
 
     </head>
     
     <body onload="main()" style='color: white'>
-        <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+        <canvas width="1024" height="1024" id='jeeFaceFilterCanvas'></canvas>
 
         <div id='jeelizFaceFilterFollow'>
             

@@ -64,7 +64,6 @@ function init_threeScene(spec){
     THREEFACEOBJ3DPIVOTED.scale.set(SETTINGS.scale, SETTINGS.scale, SETTINGS.scale);
     THREEFACEOBJ3D.add(THREEFACEOBJ3DPIVOTED);
 
-
     //get the scene from A-Frame :
     THREESCENE=AFRAMEINSTANCE.object3D;
     THREESCENE.add(THREEFACEOBJ3D);
