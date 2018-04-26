@@ -40,7 +40,7 @@ var HeadControls=(function(){
 	var _settings;
 	var _returnValue={
 		dRx:0, dRy: 0,
-		dZ: 0 
+		dZ: 0
 	};
 
 	//internal state :
@@ -236,6 +236,10 @@ var HeadControls=(function(){
 				_state.restHeadPosition.needsUpdate=true;
 				return true;
 			}
+		},
+
+		reset_restHeadPosition: function(){
+			_state.restHeadPosition.needsUpdate=true;
 		}
 	}; //end that
 	return that;

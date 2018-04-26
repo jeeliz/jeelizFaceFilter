@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="content-language" content="en-EN" />
+        
+        <title>JEELIZ FACE FILTER : A-FRAME CUBE DEMO</title>
+        
+        <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
+        <script type="text/javascript" src="../../../dist/jeelizFaceFilter.js"></script>
+
+        <!-- INCLUDE A MODIFIED VERSION OF AFRAME -->
+        <!-- SEARCH FOR "JEELIZ" COMMENT TO SEE THE MODIFS -->
+		<script type="text/javascript" src="../../../libs/aFrame/aframe-v0.8.2_modified.js"></script>
+
+		<!-- INCLUDE DEMO SCRIPT -->
+		<script type="text/javascript" src="./demo_cube.js"></script>
+
+        <!-- INCLUDE FORK ME ON GITHUB BANNER -->
+        <script type="text/javascript" src="../../appearance/widget.js"></script>
+
+		<link rel="stylesheet" href="../../appearance/style.css" type="text/css" />
+    </head>
+    
+    <body onload="main()" style='color: white'>
+        <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+
+        <!-- BEGIN OF A-FRAME SCENE -->
+        <!-- All objects with the ID jeelizFaceFilterFollow will follow the head -->
+        <a-scene embedded>
+
+          <a-box id='jeelizFaceFilterFollow' position="0 0 0" rotation="0 0 0" width="1" height="1" depth="1" color="#4CC3D9"></a-box>
+
+          <a-sphere position="0 1.25 -5" radius="0.5" color="#EF2D5E"></a-sphere>
+          <a-cylinder position="1 0.75 -3" radius="0.2" height="0.5" color="#FFC65D"></a-cylinder>
+          <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+          <a-sky color="#ECECEC"></a-sky>
+        </a-scene>
+        <!-- END OF A-FRAME SCENE -->
+
+    </body>
+
+</html>
+ 
+ 
