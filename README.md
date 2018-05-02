@@ -12,6 +12,7 @@ You can test it with these demos (included in this repo) :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
   * [Dog Face](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
   * [Butterflies](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
+  * [Miel Pops](https://jeeliz.com/demos/faceFilter/demos/threejs/miel_pops/)
   * [Football Makeup](https://jeeliz.com/demos/faceFilter/demos/threejs/football_makeup/)
   * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
   * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
