@@ -36,6 +36,8 @@ You can test it with these demos (included in this repo) :
 
 * MISC demos :
   * [PACMAN game with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/pacman/)
+  * [Insert your face into portrait art painting or film posters](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/)
+
 
 [comment]:![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
 
