@@ -10,8 +10,8 @@ You can test it with these demos (included in this repo) :
 
 * THREE.JS based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
-  * [Anonymous](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
-  * [Dog Face](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
+  * [Anonymous](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
+  * [Dog Face](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
   * [Butterflies](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
   * [Casa de Papel](https://jeeliz.com/demos/faceFilter/demos/threejs/casa_de_papel/)
   * [Miel Pops](https://jeeliz.com/demos/faceFilter/demos/threejs/miel_pops/)
