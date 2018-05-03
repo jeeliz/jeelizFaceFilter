@@ -64,6 +64,7 @@ JEEFACEFILTERAPI.init({
         //render your scene here
         [... do something with detectState]
     } //end callbackTrack()
+});//end init call
 ```
 
 ## Optionnal `init()` arguments :
@@ -108,7 +109,11 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEEFACEFILTERAPI.toggle_slow(<boolean> isSlow)` : toggle the slow rendering mode : because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relief the GPU. The tracking will also be slower unfortunately. We encourage to enable the slow mode as soon as a the user's attention is focused on a part other than the canvas,
 
-* `JEEFACEFILTERAPI.set_animateDelay(<integer> delay)` : Change the `animateDelay` (see `init()` arguments).
+* `JEEFACEFILTERAPI.set_animateDelay(<integer> delay)` : Change the `animateDelay` (see `init()` arguments),
+
+* `set_inputTexture(<WebGLTexture> tex, <integer> width, <integer> height)` : Change the video input by a WebGL Texture instance. The dimensions of the texture, in pixels, should be provided,
+
+* `reset_inputTexture()` : Come back to the user's video as input texture.
 
 
 ## Integration sample
