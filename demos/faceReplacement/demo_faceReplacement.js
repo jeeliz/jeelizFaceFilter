@@ -4,8 +4,8 @@ var SETTINGS={
 	//art painting settings :
 	artPainting: 'images/Joconde.jpg',
 	//artPainting: 'louis14.jpg',
-	nDetectsArtPainting: 20, //number of positive detections to perfectly locate the face in the art painting
-	detectArtPaintingThreshold: 0.7,
+	nDetectsArtPainting: 25, //number of positive detections to perfectly locate the face in the art painting
+	detectArtPaintingThreshold: 0.6,
 	artPaintingMaskScale: [1.3, 1.7],
 	artPaintingMaskOffset: [0.01,0.12], //relative. 1-> 100% scale mask width of the image (or height)
 	artPaintingCropSmoothEdge: 0.25, //crop smooth edge
