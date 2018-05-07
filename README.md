@@ -1,6 +1,8 @@
 # jeelizFaceFilter: perform computer-vision in the browser.
 
-This API allows you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstrations using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
+This API allows you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality applications in a web context. 
+Below are demonstrations using third party 3D engines like THREE.js and Babylon.js, plus other implementations based on CSS3D, A-Frame, CESIUM.JS...
+Thanks to *Jeeliz Face Filter*, you can finally build your own augmented-reality web application. We continuously add new examples, so stay tuned! Also, feel free to open an issue if you have any question or suggestion.   
 
 ![facefilter demo jeeliz small](https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg)
 
@@ -10,18 +12,18 @@ You can test it with these demos (included in this repo) :
 
 * THREE.JS based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
-  * [Anonymous](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
-  * [Dog Face](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
-  * [Butterflies](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
-  * [Casa de Papel](https://jeeliz.com/demos/faceFilter/demos/threejs/casa_de_papel/)
-  * [Miel Pops](https://jeeliz.com/demos/faceFilter/demos/threejs/miel_pops/)
-  * [Football Makeup](https://jeeliz.com/demos/faceFilter/demos/threejs/football_makeup/)
+  * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
+  * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
+  * [Butterflies animation](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
+  * [Clouds above the head](https://jeeliz.com/demos/faceFilter/demos/threejs/cloud/)
+  * [Casa-de-Papel mask](https://jeeliz.com/demos/faceFilter/demos/threejs/casa_de_papel/)
+  * [Miel Pops glasses and bees](https://jeeliz.com/demos/faceFilter/demos/threejs/miel_pops/)
+  * [Football-fan Makeup](https://jeeliz.com/demos/faceFilter/demos/threejs/football_makeup/)
   * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
   * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
   * [Head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/)
   * [Tiger face filter with mouth opening detection (strong WTF effect)](https://jeeliz.com/demos/faceFilter/demos/threejs/tiger/)
-  * [Cloud](https://jeeliz.com/demos/faceFilter/demos/threejs/cloud/)
-  * [Fireworks](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
+  * [Fireworks - particules](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
 
 * A-FRAME based demos :
