@@ -26,6 +26,8 @@ You can test it with these demos (included in this repo) :
   * [Tiger face filter with mouth opening detection (strong WTF effect)](https://jeeliz.com/demos/faceFilter/demos/threejs/tiger/)
   * [Fireworks - particules](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
+  * [GLTF fullscreen demo with HD video](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/)
+
 
 * A-FRAME based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/)
@@ -52,15 +54,15 @@ If you have not bought a webcam yet, a screenshot video of some of these example
 
 ## Integration
 On your HTML page, you first need to include the main script between the tags `<head>` and `</head>` :
-```
+```html
  <script type="text/javascript" src="dist/jeelizFaceFilter.js"></script>
 ```
 Then you should include a `CANVAS` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the canvas element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEEFACEFILTERAPI.resize()` if you resize the canvas after the initialization step.
-```
+```html
 <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 ```
 This canvas will be used by WebGL both for the computation and the 3D rendering. When your page is loaded you should launch this function :
-```
+```javascript
 JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCpath: '../../../dist/', //root of NNC.json file
@@ -83,6 +85,20 @@ JEEFACEFILTERAPI.init({
 
 ## Optionnal `init()` arguments :
 * `<integer> animateDelay` : It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
+* `<function> onWebcamAsk` : Function launched just before asking for the user to allow its webcam sharing,
+* `<function> onWebcamGet` : Function launched just after the user has accepted to share its video. It is called with the video element as argument,
+* `<dict> videoSetting` : override WebRTC specified video settings, which are by default :
+```javascript
+{
+  'idealWidth': 800,  //ideal video width in pixels
+  'idealHeight': 600, //ideal video height in pixels
+  'minWidth': 800,    //min video width in pixels
+  'maxWidth': 1280,   //max video width in pixels
+  'minHeight': 600,   //min video height in pixels
+  'maxHeight': 1280   //max video height in pixels
+}
+```
+If the user has a mobile device in portrait display, we invert the width and height of these parameters for the first camera request. If it does not succeed, we revert the width and height.
 
 
 ## Error codes
@@ -148,7 +164,7 @@ Because this API requires the user's webcam stream through `MediaStream API`, yo
 ## Development
 We provide a simple and minimalist HTTPS server in order to check out the demos or develop your very own filters. To launch it, execute in the console :
 
-```
+```bash
   python2 httpsServer.py
 ```
 then visit [https://localhost:4443](https://localhost:4443).
@@ -162,9 +178,23 @@ https://appstatic.jeeliz.com/faceFilter/jeelizFaceFilter.js
 It is served through a content delivery network (CDN) using gzip compression.
 If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `dist/NNC.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://checkgzipcompression.com/).
 
+The neuron network file, `dist/NNC.json` is loaded using an ajax `XMLHttpRequest` after calling `JEEFACEFILTER.init()` method and after the user has accepted the sharing of its webcam. We proceed this way to avoid to load this quite heavy file if the user refuses to share its webcam or if there is no webcam available. The loading will be faster if you systematically preload `dist/NNC.json` using a service worker or a simple raw `XMLHttpRequest` just after the HTML page loading. Then the file will be already in the browser cache when Jeeliz Facefilter API will need it.
+
 
 ## About the tech
+### Under the hood
 This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a deep learning network. The accuracy is adaptative : the better the hardware, the more detections are processed per second. All is done client-side.
+
+### Compatibility
+* If WebGL2 is available, it uses WebGL2 and no specific extension is required,
+* If WebGL2 is not available but WebGL1, we require either `OES_TEXTURE_FLOAT` extension or `OES_TEXTURE_HALF_FLOAT` extension,
+* If WebGL2 is not available, and if WebGL1 is not available or neither `OES_TEXTURE_FLOAT` or `OES_HALF_TEXTURE_FLOAT` are implemented, the user is not compatible.
+If you meet a compatibility error, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all the application which could use your device (Skype, Messenger, other browser windows, ...). Please include :
+* a screenshot of [webglreport.com - WebGL1](http://webglreport.com/?v=1) (about your WebGL1 implementation),
+* a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your WebGL2 implementation),
+* the log from the web console,
+* the steps to reproduce the bug, and screenshots.
+
 
 ## Articles
 We are currently writing a series of tutorial for the API, starting by building some very basic filters and moving to harder ones.

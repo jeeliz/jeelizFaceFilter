@@ -2,8 +2,8 @@
 
 var SETTINGS={
 	//art painting settings :
-	artPainting: 'images/Joconde.jpg',
-	//artPainting: 'louis14.jpg',
+	artPainting: 'images/Joconde.jpg', //initial art painting
+
 	nDetectsArtPainting: 25, //number of positive detections to perfectly locate the face in the art painting
 	detectArtPaintingThreshold: 0.6,
 	artPaintingMaskScale: [1.3, 1.5],
@@ -19,7 +19,6 @@ var SETTINGS={
 	detectionThreshold: 0.65, //sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.03,
     	
-
 	//mixed settings :
 	hueTextureSizePx: 4,  //should be PoT
 
