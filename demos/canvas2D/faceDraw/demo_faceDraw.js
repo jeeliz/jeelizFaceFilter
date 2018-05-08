@@ -1,5 +1,15 @@
 "use strict";
 
+/*
+The code of this demonstration may seems complicated but it is not
+If you want to play only with the 2D canvas displayed above the head,
+Its context is CTX and it matches the canvas element CANVAS2D
+
+If you draw something on the 2D canvas using CTX.drawStuff(...)
+You should call update_canvasTexture(); after in order to update the 3D canvas
+at the next rendering.
+*/
+
 
 //SETTINGS of this demo :
 var SETTINGS={
