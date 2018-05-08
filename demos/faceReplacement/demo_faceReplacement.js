@@ -3,6 +3,7 @@
 var SETTINGS={
 	//art painting settings :
 	artPainting: 'images/Joconde.jpg', //initial art painting
+	detectState: {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926}, //detect state in the initial art painting to avoid search step
 
 	nDetectsArtPainting: 25, //number of positive detections to perfectly locate the face in the art painting
 	detectArtPaintingThreshold: 0.6,
@@ -36,7 +37,8 @@ var ARTPAINTING={
 	canvasMask: false,
 	url: -1,
 	positionFace: [0,0],
-	scaleFace: [1,1]
+	scaleFace: [1,1],
+	detectedState: false
 };
 var USERCROP={
 	faceCutDims: [0,0],
@@ -59,7 +61,8 @@ var STATES={ //possible states of the app. ENUM equivalent
 	LOADING: 1,
 	DETECTARTPAINTINGFACE: 2,
 	DETECTUSERFACE: 3,
-	BUSY: 4
+	BUSY: 4,
+	ARTPAINTINGFACEDETECTPROVIDED: 5
 }
 var STATE=STATES.IDLE;
 var ISUSERFACEDETECTED=false;
@@ -113,10 +116,10 @@ function start(){
 	build_shps();
 	
 	//set the canvas to the artpainting size :
-	update_artPainting();
+	update_artPainting(SETTINGS.detectState);
 } //end start()
 
-function update_artPainting(){ //called both at start (start()) and when user change the art painting
+function update_artPainting(detectState){ //called both at start (start()) and when user change the art painting
 	FFSPECS.canvasElement.width=ARTPAINTING.image.width;
 	FFSPECS.canvasElement.height=ARTPAINTING.image.height;
 	JEEFACEFILTERAPI.resize();
@@ -134,8 +137,7 @@ function update_artPainting(){ //called both at start (start()) and when user ch
     GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
 
 	JEEFACEFILTERAPI.set_inputTexture(ARTPAINTING.baseTexture, ARTPAINTING.image.width, ARTPAINTING.image.height);
-	STATE=STATES.DETECTARTPAINTINGFACE;
-
+	
 	ARTPAINTING.detectCounter=0;
 	FFSPECS.canvasElement.classList.remove('canvasDetected');
 	FFSPECS.canvasElement.classList.remove('canvasNotDetected');
@@ -146,6 +148,13 @@ function update_artPainting(){ //called both at start (start()) and when user ch
 	FFSPECS.canvasElement.style.width='';
 
 	toggle_carousel(true);
+
+	if (detectState){
+		STATE=STATES.ARTPAINTINGFACEDETECTPROVIDED;
+		ARTPAINTING.detectedState=detectState;
+	} else {
+		STATE=STATES.DETECTARTPAINTINGFACE;
+	}
 } //end update_artPainting()
 
 function build_carousel(){
@@ -176,9 +185,13 @@ function toggle_carousel(isEnabled){
 	}
 }
 
-function change_artPainting(urlImage){
+//called directly from the DOM controls to change the base image :
+function change_artPainting(urlImage, detectState){
 	if (urlImage===ARTPAINTING.url || [STATES.DETECTARTPAINTINGFACE, STATES.DETECTUSERFACE].indexOf(STATE)===-1){
 		return;
+	}
+	if (typeof(detectState)==='undefined'){
+		var detectState=false;
 	}
 
 	STATE=STATES.BUSY;
@@ -199,13 +212,13 @@ function change_artPainting(urlImage){
 	    reader.onload = function (e) {
 	      ARTPAINTING.url='CUSTOM'+Date.now();
 	      ARTPAINTING.image.src=e.target.result;
-	      ARTPAINTING.image.onload=update_artPainting;
+	      ARTPAINTING.image.onload=update_artPainting.bind(null, detectState);
 	    };
 	    reader.readAsDataURL(domInputFile.files[0]);
 	} else {
 		ARTPAINTING.url=urlImage;
 		ARTPAINTING.image.src=urlImage;
-		ARTPAINTING.image.onload=update_artPainting;
+		ARTPAINTING.image.onload=update_artPainting.bind(null, detectState);
 	}
 } //end change_artPainting()
 
@@ -241,9 +254,11 @@ function create_textures(){
 	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_NEAREST);
 } //end create_textures()
 
-function build_artPaintingMask(x,y,s, ry, callback){
+function build_artPaintingMask(detectState, callback){
 	//cut the face with webgl and put a fading
 	console.log('INFO : build_artPaintingMask()');
+
+	var x=detectState.x, y=detectState.y, s=detectState.s, ry=detectState.ry
 
 	//compute normalized frame cut params :
 	var xn=x*0.5+0.5+s*SETTINGS.artPaintingMaskOffset[0]*Math.sin(ry); //normalized x position
@@ -680,13 +695,25 @@ function callbackTrack(detectState){
 		case STATES.DETECTARTPAINTINGFACE:
 			if(detectState.detected>SETTINGS.detectArtPaintingThreshold){
 				if (++ARTPAINTING.detectCounter>SETTINGS.nDetectsArtPainting){
+					var round=function(n) { return Math.round(n*1e5)/1e5; }
+					console.log('FACE DETECTED IN THE BASE PICTURE. detectState = '+JSON.stringify({
+						x:  round(detectState.x),
+						y:  round(detectState.y),
+						s:  round(detectState.s),
+						ry: round(detectState.ry)
+					}).replace(/"/g, ''));
 					STATE=STATES.BUSY;
-					build_artPaintingMask(detectState.x, detectState.y, detectState.s, detectState.ry, reset_toVideo);
+					build_artPaintingMask(detectState, reset_toVideo);
 					return;
 				}
 			}
 			draw_search(detectState);
-		break;
+			break;
+
+		case STATES.ARTPAINTINGFACEDETECTPROVIDED:
+			STATE=STATES.BUSY;
+			build_artPaintingMask(ARTPAINTING.detectedState, reset_toVideo);
+			break;
 
 		case STATES.DETECTUSERFACE:
 			if (ISUSERFACEDETECTED && detectState.detected<SETTINGS.detectionThreshold-SETTINGS.detectionHysteresis){
@@ -707,6 +734,6 @@ function callbackTrack(detectState){
 				draw_search(detectState);
 			}
 
-		break;
+			break;
 	} //end switch(STATE)
 } //end callbackTrack

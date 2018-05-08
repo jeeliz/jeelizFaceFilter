@@ -159,14 +159,20 @@
         </div>
 
         <!-- SLICK CAROUSEL CONTENT -->
+        <!--
+            If the detected State is not provided (ie {x: ...., y:..., s:... }
+            We will search for a face on the provided picture
+            (and display the found face detected State in the JS console)
+            Otherwise we build the image mask directly using the detected State.
+        -->
         <div id="carousel">
-          <div onclick="change_artPainting('images/Joconde.jpg')" class='carouselItem carouselItem0'> </div>
-          <div onclick="change_artPainting('images/doors.jpg')" class='carouselItem carouselItem1'> </div>
-          <div onclick="change_artPainting('images/louis14.jpg')" class='carouselItem carouselItem2'> </div>
-          <div onclick="change_artPainting('images/terminator.jpg')" class='carouselItem carouselItem3'> </div>
-          <div onclick="change_artPainting('images/starTrek.jpg')" class='carouselItem carouselItem4'> </div>
-          <div onclick="change_artPainting('images/captainAmerica.jpg')" class='carouselItem carouselItem5'> </div>
-          <div onclick="change_artPainting('images/liberty.jpg')" class='carouselItem carouselItem6'> </div>
+          <div onclick="change_artPainting('images/Joconde.jpg',       {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926})" class='carouselItem carouselItem0'> </div>
+          <div onclick="change_artPainting('images/doors.jpg',         {x:0.15008,y:0.2676,s:0.27433,ry:0.15356})" class='carouselItem carouselItem1'> </div>
+          <div onclick="change_artPainting('images/louis14.jpg',       {x:0.09804,y:0.26254,s:0.1098,ry:-0.26134})" class='carouselItem carouselItem2'> </div>
+          <div onclick="change_artPainting('images/terminator.jpg',    {x:-0.05805,y:0.41531,s:0.2408,ry:0.12903})" class='carouselItem carouselItem3'> </div>
+          <div onclick="change_artPainting('images/starTrek.jpg',      {x:-0.00433,y:0.34902,s:0.37124,ry:0.02544})" class='carouselItem carouselItem4'> </div>
+          <div onclick="change_artPainting('images/captainAmerica.jpg',{x:-0.02745,y:0.45216,s:0.08627,ry:-0.16854})" class='carouselItem carouselItem5'> </div>
+          <div onclick="change_artPainting('images/liberty.jpg',       {x:0.07451,y:-0.08849,s:0.12549,ry:-0.02005})" class='carouselItem carouselItem6'> </div>
           <div class='carouselItem carouselItemCustom'>
             <div class='carouselItemCustomText'>
                 TRY WITH YOUR OWN IMAGE :
