@@ -11,7 +11,7 @@ var SETTINGS={
     mouthOpeningThreshold: 0.5, //sensibility of mouth opening, between 0 and 1
     mouthOpeningHysteresis: 0.05,
     scale: [1,1], //scale of the DIV along horizontal and vertical axis
-    positionOffset: [0,0,0] //set a 3D position fofset to the div
+    positionOffset: [0,0,-0.2] //set a 3D position fofset to the div
 };
 
 //some globalz :

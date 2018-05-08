@@ -6,8 +6,8 @@ var SETTINGS={
 	//artPainting: 'louis14.jpg',
 	nDetectsArtPainting: 25, //number of positive detections to perfectly locate the face in the art painting
 	detectArtPaintingThreshold: 0.6,
-	artPaintingMaskScale: [1.3, 1.7],
-	artPaintingMaskOffset: [0.01,0.12], //relative. 1-> 100% scale mask width of the image (or height)
+	artPaintingMaskScale: [1.3, 1.5],
+	artPaintingMaskOffset: [0.01,0.10], //relative. 1-> 100% scale mask width of the image (or height)
 	artPaintingCropSmoothEdge: 0.25, //crop smooth edge
 	artPaintingHeadForheadY: 0.7, //forhead start when Y>this value. Max: 1
 	artPaintingHeadJawY: 0.5, //lower jaw start when Y<this value. Max: 1
@@ -131,6 +131,8 @@ function update_artPainting(){ //called both at start (start()) and when user ch
 	GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, ARTPAINTING.image);
 	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
 	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
+	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+    GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
 
 	JEEFACEFILTERAPI.set_inputTexture(ARTPAINTING.baseTexture, ARTPAINTING.image.width, ARTPAINTING.image.height);
 	STATE=STATES.DETECTARTPAINTINGFACE;
@@ -149,8 +151,7 @@ function update_artPainting(){ //called both at start (start()) and when user ch
 
 function build_carousel(){
 	 $('#carousel').slick({ //see http://kenwheeler.github.io/slick/
-	    //infinite: true,
-		speed: 300,
+	    speed: 300,
 		slidesToShow: 1,
 		centerMode: true,
 		variableWidth: true,
@@ -235,11 +236,10 @@ function create_textures(){
 	var faceAspectRatio=SETTINGS.artPaintingMaskScale[1]/SETTINGS.artPaintingMaskScale[0];
 	USERCROP.faceCutDims[0]=SETTINGS.faceRenderSizePx;
 	USERCROP.faceCutDims[1]=Math.round(SETTINGS.faceRenderSizePx*faceAspectRatio);
-	//USERCROP.faceCutTexture=create_emptyLinearTexture( USERCROP.faceCutDims[0], USERCROP.faceCutDims[1] );
-
+	
 	USERCROP.potFaceCutTexture=create_emptyTexture(SETTINGS.faceRenderSizePx, SETTINGS.faceRenderSizePx);
 	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
-	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR);
+	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_NEAREST);
 } //end create_textures()
 
 function build_artPaintingMask(x,y,s, ry, callback){
@@ -294,12 +294,12 @@ function build_artPaintingMask(x,y,s, ry, callback){
 	var faceWidthPx=Math.round(ARTPAINTING.image.width*sxn);
 	var faceHeightPx=Math.round(ARTPAINTING.image.height*syn);
 	var maxDimPx=Math.max(faceWidthPx, faceHeightPx);
-	ARTPAINTING.potFaceCutTextureSizePx=Math.ceil(Math.log(maxDimPx)/Math.log(2));
+	ARTPAINTING.potFaceCutTextureSizePx=Math.pow(2, Math.ceil(Math.log(maxDimPx)/Math.log(2)));
 	ARTPAINTING.potFaceCutTexture=GL.createTexture();
 	GL.bindTexture(GL.TEXTURE_2D, ARTPAINTING.potFaceCutTexture);
 	GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, ARTPAINTING.potFaceCutTextureSizePx, ARTPAINTING.potFaceCutTextureSizePx, 0, GL.RGBA, GL.UNSIGNED_BYTE, null);
 	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
-	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_LINEAR);
+	GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_NEAREST);
 
 
 	//compute the face cut pot texture by doing render to texture
@@ -314,7 +314,7 @@ function build_artPaintingMask(x,y,s, ry, callback){
 	GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0); //FILL VIEWPORT
 
 	//copy the ARTPAINTING.potFaceCutTexture to ARTPAINTING.hueTexture :
-	GL.useProgram(SHPS.copy.program);
+	GL.useProgram(SHPS.copyInvX.program);
     GL.viewport(0,0,SETTINGS.hueTextureSizePx,SETTINGS.hueTextureSizePx);
     GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, ARTPAINTING.hueTexture, 0);
     GL.bindTexture(GL.TEXTURE_2D, ARTPAINTING.potFaceCutTexture);
@@ -389,8 +389,8 @@ function build_shps(){
          	if (uv.y>UPPERHEADY){ //upper head : circle arc\n\
          		vec2 uvc=(uv-vec2(0.5,UPPERHEADY))*vec2(1., 0.5/(1.-UPPERHEADY));\n\
          		float alphaBorder=smoothstep(0.5-SMOOTHEDGE, 0.5, length(uvc));\n\
-         		float alphaCenter=pow((uv.y-UPPERHEADY)/(1.-UPPERHEADY), 0.3);\n\
-         		//alpha=min(alphaBorder, smoothstep(0.2, 0.4, abs(uv.x-0.5))+alphaCenter);\n\
+         		//float alphaCenter=pow((uv.y-UPPERHEADY)/(1.-UPPERHEADY), 0.3);\n\
+         		float alphaCenter=smoothstep(UPPERHEADY, 1., uv.y);\n\
          		alpha=mix(alphaCenter, alphaBorder, smoothstep(0.3, 0.4, abs(uv.x-0.5)));\n\
          	} else if (uv.y<LOWERHEADY){ //lower head : circle arc \n\
          		vec2 uvc=(uv-vec2(0.5, LOWERHEADY))*vec2(1., 0.5/LOWERHEADY);\n\
@@ -466,6 +466,16 @@ function build_shps(){
 	GL.useProgram(shpCopy);
 	GL.uniform1i(uSamplerImage, 0);
 
+	//build the copyInvX shader program
+	var shpCopyInvX=build_shaderProgram(copyVertexShaderSource.replace('vUV=0.5+0.5*position', 'vUV=0.5+vec2(-0.5,0.5)*position'),
+				copyFragmentShaderSource, 'COPYINVX');
+    SHPS.copyInvX={
+    	program: shpCopyInvX
+    };
+    var uSamplerImage=GL.getUniformLocation(shpCopyInvX, 'samplerImage');
+	GL.useProgram(shpCopyInvX);
+	GL.uniform1i(uSamplerImage, 0);
+
 	//final render shp
 	var shpRender=build_shaderProgram(copyVertexShaderSource, 
 		"precision highp float;\n\
@@ -498,19 +508,20 @@ function build_shps(){
          	vec3 colorRGB=texture2D(samplerImage, uvCut).rgb;\n\
          	vec3 colorHSV=rgb2hsv(colorRGB);\n\
          	//compute color transform :\n\
-         	vec3 srcHSV=rgb2hsv(texture2D(samplerHueSrc, uv).rgb);\n\
-         	vec3 dstHSV=rgb2hsv(texture2D(samplerHueDst, uv).rgb);\n\
+         	vec3 srcRGB=texture2D(samplerHueSrc, uv).rgb;\n\
+         	vec3 dstRGB=texture2D(samplerHueDst, uv).rgb;\n\
+         	vec3 srcHSV=rgb2hsv(srcRGB);\n\
+         	vec3 dstHSV=rgb2hsv(dstRGB);\n\
          	//apply the transform :\n\
-         	vec2 factorSV=dstHSV.yz/(srcHSV.yz+EPSILON2);\n\
-         	factorSV=clamp(factorSV, vec2(0.3,0.3), vec2(1.5,2.));\n\
-         	factorSV.x=mix(0., factorSV.x, smoothstep(0.02, 0.3, colorHSV.z) );\n\
+         	vec2 factorSV=vec2(1.,0.8)*dstHSV.yz/(srcHSV.yz+EPSILON2);\n\
+         	factorSV=clamp(factorSV, vec2(0.3,0.3), vec2(3,3.));\n\
+         	//factorSV.x=mix(0., factorSV.x, smoothstep(0.02, 0.3, colorHSV.z) );\n\
          	float dHue=dstHSV.x-srcHSV.x;\n\
-         	vec3 colorHSVout=vec3(colorHSV.x+1.0*dHue, colorHSV.yz*factorSV);\n\
-         	//colorHSVout.xy=vec2(0., 1.);\n\
-         	vec3 colorHSVout2=vec3(dstHSV.xy, colorHSVout.z);\n\
-         	colorHSVout=mix(colorHSVout, colorHSVout2, smoothstep(0.6,0.8,1.-colorHSV.y));\n\
-         	colorHSVout=mix(colorHSVout, colorHSVout2, smoothstep(0.6,0.8,colorHSV.z));\n\
+         	vec3 colorHSVout=vec3(mod(1.0+colorHSV.x+dHue, 1.0), colorHSV.yz*factorSV);\n\
          	colorHSVout=clamp(colorHSVout, vec3(0.,0.,0.), vec3(1.,1.,1));\n\
+         	vec3 colorHSVout2=vec3(dstHSV.xy, colorHSVout.z);\n\
+         	colorHSVout=mix(colorHSVout2, colorHSVout, smoothstep(0.2,0.4,colorHSV.y)); //0.6->0.8\n\
+         	//colorHSVout=mix(colorHSVout, colorHSVout2, smoothstep(0.5,1.,colorHSV.z)); //0.6->0.8\n\
          	//reconvert to RGB and output the color :\n\
          	colorRGB=hsv2rgb(colorHSVout);\n\
          	gl_FragColor=vec4(colorRGB, 1.);\n\
@@ -656,6 +667,8 @@ function draw_render(detectState){
 	GL.bindTexture(GL.TEXTURE_2D, FFSPECS.videoTexture);
 	GL.activeTexture(GL.TEXTURE1);
 	GL.bindTexture(GL.TEXTURE_2D, ARTPAINTING.hueTexture);
+	//GL.bindTexture(GL.TEXTURE_2D, ARTPAINTING.potFaceCutTexture); //KILL
+	
 	GL.activeTexture(GL.TEXTURE2);
 	GL.bindTexture(GL.TEXTURE_2D, USERCROP.hueTexture);
 	GL.activeTexture(GL.TEXTURE0);
@@ -682,11 +695,9 @@ function callbackTrack(detectState){
 	            ISUSERFACEDETECTED=false;
 	            FFSPECS.canvasElement.classList.remove('canvasDetected');
 	            FFSPECS.canvasElement.classList.add('canvasNotDetected');
-	            //FFSPECS.canvasElement.style.position='absolute';
 	        } else if (!ISUSERFACEDETECTED && detectState.detected>SETTINGS.detectionThreshold+SETTINGS.detectionHysteresis){
 	            //FACE DETECTED
 	            ISUSERFACEDETECTED=true;
-	            //FFSPECS.canvasElement.style.position='absolute';
 	            FFSPECS.canvasElement.classList.remove('canvasNotDetected');
 	        	FFSPECS.canvasElement.classList.add('canvasDetected');
 	        }

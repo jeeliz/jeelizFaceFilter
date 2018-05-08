@@ -6,8 +6,8 @@ var SETTINGS={
     rotationOffsetX: 0, //negative -> look upper. in radians
     cameraFOV: 40,      //in degrees, 3D camera FOV
     pivotOffsetYZ: [-0.15,-0.15], //position the rotation pivot along Y and Z axis
-    detectionThreshold: 0.5, //sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.1,
+    detectionThreshold: 0.75, //sensibility, between 0 and 1. Less -> more sensitive
+    detectionHysteresis: 0.05,
     mouthOpeningThreshold: 0.5, //sensibility of mouth opening, between 0 and 1
     mouthOpeningHysteresis: 0.05,
     scale: [1.3,1.3], //scale of the DIV along horizontal and vertical axis

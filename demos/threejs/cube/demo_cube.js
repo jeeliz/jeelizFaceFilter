@@ -1,26 +1,26 @@
-
-
+"use strict";
 
 //SETTINGS of this demo :
 var SETTINGS={
     rotationOffsetX: 0, //negative -> look upper. in radians
     cameraFOV: 40,      //in degrees, 3D camera FOV
     pivotOffsetYZ: [0.2,0.2], //XYZ of the distance between the center of the cube and the pivot
-    detectionThreshold: 0.5, //sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.1,
+    detectionThreshold: 0.75, //sensibility, between 0 and 1. Less -> more sensitive
+    detectionHysteresis: 0.05,
     scale: 1 //scale of the 3D cube
 };
 
 //some globalz :
 var THREEVIDEOTEXTURE, THREERENDERER, THREEFACEOBJ3D, THREEFACEOBJ3DPIVOTED, THREESCENE, THREECAMERA;
 var ISDETECTED=false;
-"use strict";
 
 //callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
 function detect_callback(isDetected){
     if (isDetected){
+        THREEFACEOBJ3D.visible=true;
         console.log('INFO in detect_callback() : DETECTED');
     } else {
+        THREEFACEOBJ3D.visible=false;
         console.log('INFO in detect_callback() : LOST');
     }
 }

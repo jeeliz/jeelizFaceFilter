@@ -1,6 +1,9 @@
-# jeelizFaceFilter: perform computer-vision in the browser.
+# Jeeliz Face Filter: Build your own augmented reality web application
 
-This API allows you to detect and track the face in real time from a video stream, and to overlay 3D content for augmented reality application. We provide some demonstrations using THREE.js 3D engine. Thanks to *Jeeliz Face Filter*, you can build your own augmented reality web application.
+This javascript library detects and tracks the face in real time from the video stream of the webcam captured with WebRTC. Then it is possible to overlay 3D content for augmented reality application. We provide various demonstrations using main WebGL 3D engines.
+
+This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw : if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured examples and boilerplates, you can quickly use it in a more usable context (for motion head tracking, for face filter or face replacement...).
+
 
 ![facefilter demo jeeliz small](https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg)
 
@@ -31,6 +34,9 @@ You can test it with these demos (included in this repo) :
   * [Boilerplate (displays a `<DIV>` element on the user's head)](https://jeeliz.com/demos/faceFilter/demos/CSS3D/div/)
   * [Comedy glasses demo](https://jeeliz.com/demos/faceFilter/demos/CSS3D/comedy-glasses/)
 
+* Canvas2D based demos :
+  * [Draw on the face with the mouse](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceDraw/)
+
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
 
@@ -49,7 +55,7 @@ On your HTML page, you first need to include the main script between the tags `<
 ```
  <script type="text/javascript" src="dist/jeelizFaceFilter.js"></script>
 ```
-Then you should include a `CANVAS` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the canvas element should be set :
+Then you should include a `CANVAS` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the canvas element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEEFACEFILTERAPI.resize()` if you resize the canvas after the initialization step.
 ```
 <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 ```
