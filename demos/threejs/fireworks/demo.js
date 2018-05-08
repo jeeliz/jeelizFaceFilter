@@ -6,8 +6,8 @@ const SETTINGS = {
     rotationOffsetX: 0, // negative -> look upper. in radians
     cameraFOV: 40,      // in degrees, 3D camera FOV
     pivotOffsetYZ: [0.2,0.2], // XYZ of the distance between the center of the cube and the pivot
-    detectionThreshold: 0.5, // sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.1,
+    detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
+    detectionHysteresis: 0.05,
     scale: 1 // scale of the 3D cube
 };
 
@@ -101,15 +101,9 @@ function init_threeScene(spec) {
             map: new THREE.CanvasTexture(generateSprite(color)),
             blending: THREE.AdditiveBlending
         });
-        /*
-        particleMaterial = new THREE.MeshBasicMaterial({
-            map: new THREE.TextureLoader().load('./images/heart1024.png'),
-            depthTest: false,
-            transparent: true
-        })*/
+        
         for (let i = 0; i <= 100; i++) {
             particle = new THREE.Sprite(particleMaterial);
-            //particle = new THREE.Mesh(particleGeometry, particleMaterial);
             particle.renderOrder = 100000
             particle.scale.multiplyScalar(1.5)
             particle.visible = false
@@ -156,6 +150,8 @@ function init_threeScene(spec) {
     videoMesh.onAfterRender = function () {
         // replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
+        THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
+        THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     };
     videoMesh.renderOrder = -1000; // render first
@@ -279,7 +275,7 @@ function main() {
                 THREEFACEOBJ3D.position.set(x, y + SETTINGS.pivotOffsetYZ[0], z + SETTINGS.pivotOffsetYZ[1]);
                 THREEFACEOBJ3D.rotation.set(detectState.rx + SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
             }
-            TWEEN.update()
+            TWEEN.update();
             // reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
             THREERENDERER.state.reset();
 

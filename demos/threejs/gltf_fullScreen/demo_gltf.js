@@ -10,7 +10,7 @@ var SETTINGS={
     detectionThreshold: 0.75, //sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,
     offsetYZ: [0.3,0], //offset of the model in 3D along vertical and depth axis
-    scale: 2 //width in 3D of the GLTF model
+    scale: 2.2 //width in 3D of the GLTF model
 };
 
 //some globalz :
@@ -47,7 +47,6 @@ function init_threeScene(spec){
     THREEFACEOBJ3DPIVOTED=new THREE.Object3D();
     THREEFACEOBJ3DPIVOTED.frustumCulled=false;
     THREEFACEOBJ3DPIVOTED.position.set(0, -SETTINGS.pivotOffsetYZ[0], -SETTINGS.pivotOffsetYZ[1]);
-    //THREEFACEOBJ3DPIVOTED.scale.set(SETTINGS.scale, SETTINGS.scale, SETTINGS.scale);
     THREEFACEOBJ3D.add(THREEFACEOBJ3DPIVOTED);
 
     //CREATE THE ENVMAP
@@ -74,17 +73,17 @@ function init_threeScene(spec){
         var bbox=new THREE.Box3().expandByObject(gltf.scene);
 
         //center the model :
-        var centerBBox=bbox.center();
+        var centerBBox=bbox.getCenter(new THREE.Vector3());
         gltf.scene.position.add(centerBBox.multiplyScalar(-1));
         gltf.scene.position.add(new THREE.Vector3(0,SETTINGS.offsetYZ[0], SETTINGS.offsetYZ[1]));
 
         //scale the model according to its width
-        var sizeX=bbox.size().x;
+        var sizeX=bbox.getSize(new THREE.Vector3()).x;
         gltf.scene.scale.multiplyScalar(SETTINGS.scale/sizeX);
 
         //dispatch the model
         THREEFACEOBJ3DPIVOTED.add( gltf.scene );
-    } );
+    } ); //end gltfLoader.load callback
 
     //CREATE THE SCENE
     THREESCENE=new THREE.Scene();
@@ -102,7 +101,7 @@ function init_threeScene(spec){
             varying vec2 vUV;\n\
             void main(void){\n\
                 gl_Position=vec4(position, 0., 1.);\n\
-                vUV=0.5+0.5*position;\n\
+                vUV=0.5+vec2(-0.5,0.5)*position; //inverse X axis for mirror\n\
             }",
         fragmentShader: "precision lowp float;\n\
             uniform sampler2D samplerVideo;\n\
@@ -122,6 +121,8 @@ function init_threeScene(spec){
     videoMesh.onAfterRender=function(){
         //replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
+        THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
+        THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     };
     videoMesh.renderOrder=-1000; //render first
@@ -143,6 +144,7 @@ function set_fullScreen(){
         CANVASELEMENT.height=Math.round(canvasRect.height);
         var aspecRatio=CANVASELEMENT.width / CANVASELEMENT.height;
         THREECAMERA.aspect=aspecRatio;
+        THREECAMERA.updateProjectionMatrix();
         JEEFACEFILTERAPI.resize();
     }
     function on_canvasResizeCSSTimeout(){ //to avoid to resize the canvas too often
@@ -198,7 +200,7 @@ function main(){
                 var D=1/(2*W*tanFOV); //distance between the front face of the cube and the camera
                 
                 //coords in 2D of the center of the detection window in the viewport :
-                var xv=detectState.x;
+                var xv=-detectState.x;
                 var yv=detectState.y;
                 
                 //coords in 3D of the center of the cube (in the view coordinates system)
@@ -208,7 +210,7 @@ function main(){
 
                 //move and rotate the cube
                 THREEFACEOBJ3D.position.set(x,y+SETTINGS.pivotOffsetYZ[0],z+SETTINGS.pivotOffsetYZ[1]);
-                THREEFACEOBJ3D.rotation.set(detectState.rx+SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
+                THREEFACEOBJ3D.rotation.set(detectState.rx+SETTINGS.rotationOffsetX, -detectState.ry, detectState.rz, "XYZ");
             }
 
             //reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs

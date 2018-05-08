@@ -5,8 +5,8 @@ var SETTINGS={
     rotationOffsetX: 0, //negative -> look upper. in radians
     cameraFOV: 40,      //in degrees, 3D camera FOV
     pivotOffsetYZ: [0.2,0.0], //XYZ of the distance between the center of the cube and the pivot
-    detectionThreshold: 0.5, //sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.1,
+    detectionThreshold: 0.75, //sensibility, between 0 and 1. Less -> more sensitive
+    detectionHysteresis: 0.05,
     scale: 1.1, //scale of the 3D cube
     blurEdgeSoftness: 10
 };
@@ -195,6 +195,8 @@ function init_threeScene(spec){
     videoMesh.frustumCulled=false;
     videoMesh.onAfterRender=function(){
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', GLVIDEOTEXTURE);
+        THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
+        THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     }
     THREESCENE.add(videoMesh);

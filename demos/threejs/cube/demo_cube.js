@@ -86,6 +86,8 @@ function init_threeScene(spec){
     videoMesh.onAfterRender=function(){
         //replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
+        THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
+        THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     };
     videoMesh.renderOrder=-1000; //render first

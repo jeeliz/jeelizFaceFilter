@@ -5,8 +5,8 @@ const SETTINGS = {
     rotationOffsetX: 0, // negative -> look upper. in radians
     cameraFOV: 40,      // in degrees, 3D camera FOV
     pivotOffsetYZ: [-0.2, -0.4], // XYZ of the distance between the center of the cube and the pivot
-    detectionThreshold: 0.5, // sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.1,
+    detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
+    detectionHysteresis: 0.05,
     scale: 1 // scale of the 3D cube
 };
 
@@ -75,8 +75,6 @@ function init_threeScene(spec) {
     THREEFACEOBJ3D.add(THREEFACEOBJ3DPIVOTED);
 
 
-
-
     // CREATE OUR DOG EARS
 
     // let's begin by creating a loading manager that will allow us to
@@ -116,13 +114,10 @@ function init_threeScene(spec) {
         function (geometry) {
             const mat = new THREE.MeshPhongMaterial({
                 map: new THREE.TextureLoader().load('./models/dog/texture_nose.jpg'),
-                // flexMap: new THREE.TextureLoader().load('./models/dog/flex_nose.png'),
                 shininess: 1.5,
                 specular: 0xffffff,
                 bumpMap: new THREE.TextureLoader().load('./models/dog/normal_nose.jpg'),
-                bumpScale: 0.005,
-                // normalMap: new THREE.TextureLoader().load('./models/dog/normal_nose.jpg'),
-                // normalScale: 0.5
+                bumpScale: 0.005
             });
 
             NOSEMESH = new THREE.Mesh(geometry, mat);
@@ -158,7 +153,6 @@ function init_threeScene(spec) {
                 TONGUEMESH.position.setY(-0.28);
 
                 TONGUEMESH.frustumCulled = false;
-                //TONGUEMESH.renderOrder = 10000
                 TONGUEMESH.visible = false;
 
                 if (!MIXER) {
@@ -182,7 +176,6 @@ function init_threeScene(spec) {
             DOGOBJ3D.add(TONGUEMESH);
 
             addDragEventListener(DOGOBJ3D);
-            // addResizeEventListener(DOGOBJ3D)
 
             THREEFACEOBJ3DPIVOTED.add(DOGOBJ3D);
 
@@ -237,6 +230,8 @@ function init_threeScene(spec) {
     videoMesh.onAfterRender = function () {
         // replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
+        THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
+        THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     };
     videoMesh.renderOrder = -1000; // render first
