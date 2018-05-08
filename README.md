@@ -186,12 +186,13 @@ The neuron network file, `dist/NNC.json` is loaded using an ajax `XMLHttpRequest
 This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a deep learning network. The accuracy is adaptative : the better the hardware, the more detections are processed per second. All is done client-side.
 
 ### Compatibility
-* If WebGL2 is available, it uses WebGL2 and no specific extension is required,
-* If WebGL2 is not available but WebGL1, we require either `OES_TEXTURE_FLOAT` extension or `OES_TEXTURE_HALF_FLOAT` extension,
-* If WebGL2 is not available, and if WebGL1 is not available or neither `OES_TEXTURE_FLOAT` or `OES_HALF_TEXTURE_FLOAT` are implemented, the user is not compatible.
+* If `WebGL2` is available, it uses `WebGL2` and no specific extension is required,
+* If `WebGL2` is not available but `WebGL1`, we require either `OES_TEXTURE_FLOAT` extension or `OES_TEXTURE_HALF_FLOAT` extension,
+* If `WebGL2` is not available, and if `WebGL1` is not available or neither `OES_TEXTURE_FLOAT` or `OES_HALF_TEXTURE_FLOAT` are implemented, the user is not compatible.
+
 If you meet a compatibility error, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all the application which could use your device (Skype, Messenger, other browser windows, ...). Please include :
-* a screenshot of [webglreport.com - WebGL1](http://webglreport.com/?v=1) (about your WebGL1 implementation),
-* a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your WebGL2 implementation),
+* a screenshot of [webglreport.com - WebGL1](http://webglreport.com/?v=1) (about your `WebGL1` implementation),
+* a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your `WebGL2` implementation),
 * the log from the web console,
 * the steps to reproduce the bug, and screenshots.
 
