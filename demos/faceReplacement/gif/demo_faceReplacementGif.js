@@ -24,7 +24,7 @@ var SETTINGS={
 	//user crop face and detection settings :
 	videoDetectSizePx: 512,
 	faceRenderSizePx: 128,
-	zoomFactor: 1.03, //1-> exactly the same zoom than for the art painting
+	zoomFactor: 1.012, //1-> exactly the same zoom than for the art painting
 	detectionThreshold: 0.62, //sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.01,
     	
@@ -94,7 +94,7 @@ function main(){
 
 	build_carousel();
 
-	DOMGIFCONTAINER=document.getElementById('artpaintingContainer');
+	DOMGIFCONTAINER=document.getElementById('gifContainer');
 
 	load_gifURL(SETTINGS.gif, check_isLoaded.bind(null, 'GIF.image'));
 
@@ -134,7 +134,6 @@ function start(){
 	create_textures();
 	build_shps();
 	
-	//set the canvas to the artpainting size :
 	update_gif(SETTINGS.detectedStates);
 } //end start()
 
@@ -157,7 +156,6 @@ function update_gif(detectedStates){ //called both at start (start()) and when u
 	FFSPECS.canvasElement.height=GIF.image.height;
 	JEEFACEFILTERAPI.resize();
 
-	//create or update the artpainting webgl texture :
 	if (!GIF.baseTexture){
 		GIF.baseTexture=GL.createTexture();
 	}
@@ -457,6 +455,7 @@ function build_gifFrameMask(detectState, frameIndex){
 	GL.viewport(0,0,FFSPECS.canvasElement.width, FFSPECS.canvasElement.height);
 	GL.uniform2f(SHPS.buildMask.offset, xn, yn);
 	GL.uniform2f(SHPS.buildMask.scale, sxn, syn);
+	GL.uniform1f(SHPS.buildMask.rz, rz);
 
     GL.activeTexture(GL.TEXTURE0);
     GL.bindTexture(GL.TEXTURE_2D, GIF.baseTexture);
@@ -581,8 +580,8 @@ function build_shps(){
          	if (uv.y>UPPERHEADY){ //upper head : circle arc\n\
          		vec2 uvc=(uv-vec2(0.5,UPPERHEADY))*vec2(1., 0.5/(1.-UPPERHEADY));\n\
          		float alphaBorder=smoothstep(0.5-SMOOTHEDGE, 0.5, length(uvc));\n\
-         		//float alphaCenter=pow((uv.y-UPPERHEADY)/(1.-UPPERHEADY), 0.3);\n\
-         		float alphaCenter=smoothstep(UPPERHEADY, 1., uv.y);\n\
+         		float alphaCenter=pow(smoothstep(UPPERHEADY, 1., uv.y), 0.5);\n\
+         		//float alphaCenter=pow(1.-(1.-uv.y)/(1.-UPPERHEADY), 0.5);\n\
          		alpha=mix(alphaCenter, alphaBorder, smoothstep(0.3, 0.4, abs(uv.x-0.5)));\n\
          	} else if (uv.y<LOWERHEADY){ //lower head : circle arc \n\
          		vec2 uvc=(uv-vec2(0.5, LOWERHEADY))*vec2(1., 0.5/LOWERHEADY);\n\
@@ -590,14 +589,27 @@ function build_shps(){
          	} else { //middle head : straight\n\
          		vec2 uvc=vec2(uv.x-0.5, 0.);\n\
          		alpha=smoothstep(0.5-SMOOTHEDGE, 0.5,length(uvc));\n\
-         	}\n";
+         	}\n\
+         	//alpha=0.0;\n";
+
+    //set more alpha where it is dark on the side of the face
     alphaShaderChunk+="float grayScale=dot(color, vec3(0.33,0.33,0.33));\n\
     				   if (alpha>0.01){\n\
     				    alpha=mix(pow(alpha, 0.5), pow(alpha, 1.5), smoothstep(0.1,0.5,grayScale));\n\
     				   }";
 
-	var shpBuildMask=build_shaderProgram(copyVertexShaderSource,
-
+	var shpBuildMask=build_shaderProgram(
+		"attribute vec2 position;\n\
+         uniform float rz;\n\
+         varying vec2 vUV;\n\
+         const float PIVOTY=0.0;\n\
+         void main(void){\n\
+         	float cz=cos(rz),sz=sin(rz);\n\
+         	vec2 posRz=vec2(0., -PIVOTY)+mat2(cz, sz, -sz, cz)*(position+vec2(0., PIVOTY));\n\
+            gl_Position=vec4(posRz, 0., 1.);\n\
+            vUV=0.5+0.5*posRz;\n\
+         }",
+		
         "precision highp float;\n\
          uniform vec2 offset, scale;\n\
          uniform sampler2D samplerImage;\n\
@@ -622,7 +634,9 @@ function build_shps(){
          }",
 
         'BUILD GIF MASK');
+	var uRz=GL.getUniformLocation(shpBuildMask, 'rz');
 	SHPS.buildMask=set_apShp(shpBuildMask);
+	SHPS.buildMask.rz=uRz;
 
 	//this SHP is only used to crop the face to compute the hueTexture
 	var shpCutFace=build_shaderProgram("attribute vec2 position;\n\
@@ -806,7 +820,7 @@ function position_userCropCanvas(){
 } //end position_userCropCanvas()
 
 function update_positionUserCropCanvas(frameIndex){ //called when the GIF frame changes when played
-	//compute topPx an leftPx in the artpainting canvas image ref :
+	//compute topPx an leftPx in the gif canvas image ref :
 	var topPx=GIF.image.height*GIF.positionsFace[frameIndex][1];
 	var leftPx=GIF.image.width*GIF.positionsFace[frameIndex][0];
 	var widthFacePx=GIF.image.width*GIF.scalesFace[frameIndex][0];
