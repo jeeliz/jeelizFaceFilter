@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="content-language" content="en-EN" />
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+        
+        <title>JEELIZ FACE FILTER : FACE REPLACEMENT DEMO</title>
+        
+        <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
+        <script type="text/javascript" src="../../../dist/jeelizFaceFilter.js"></script>
+
+        <!-- INCLUDE DEMO SCRIPT -->
+		<script type="text/javascript" src="./demo_faceReplacement.js"></script>
+
+        <!-- INCLUDE FORK ME ON GITHUB BANNER -->
+        <script type="text/javascript" src="../../appearance/widget.js"></script>
+
+		<style type='text/css'>
+        body {
+            margin: 0px;
+            box-sizing: border-box;
+            overflow: hidden;
+            font-family: Helvetica, Arial, Sans-Serif;
+            background-image: url('../../appearance/bg.png');
+            background-attachment: fixed;
+            background-position: center;
+            background-size: contain;
+        }
+        #artpaintingContainer {
+            /*background-color: red;*/
+             z-index: 10;
+            position: absolute; 
+            max-height: calc(100vh - 160px);
+            max-width: 100vw;
+            left: 50%;
+            top: 50%;
+            margin-top: -76px;
+            transform: translate(-50%, -50%); 
+        }
+        #jeeFaceFilterCanvas {
+        }
+        .artPainting  {
+            z-index: 8;
+            top: 4px;
+            left: 0px;
+            max-width: 100vw;
+            max-height:  calc(100vh - 160px);
+        }
+        .canvasDetected { /*style of the canvas when user face is detected*/
+            position: absolute;
+            z-index: -1;
+        }
+        .canvasNotDetected { /*style of the canvas when user face is lost */
+            z-index: 11;
+            position: absolute;
+            top: auto !important;
+            bottom: 0px !important;
+            left: 0px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+        #carousel {
+            z-index: 20;
+            position: absolute;
+            max-width: 100vw;
+            bottom: 0px;
+        }
+        .carouselItem{
+            cursor: pointer;
+            border: 6px solid transparent;
+            min-height: 128px;
+            width: auto !important;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .slick-slide{
+          /* width: auto !important; */
+        }
+        .slick-center {
+          transform: scale(1.1);
+          z-index: 99;
+          transform-origin: center bottom;
+          box-shadow: 0px 0px 12px white;
+        }
+        .slick-center .carouselItem{
+            border: none !important;
+          
+        }
+        .slick-track{
+            height: 144px;
+            margin-top: 20px;
+        }
+        .carouselItem0{
+            background-image: url('thumbnails/Joconde.jpg');
+            width: 86px !important;
+        }
+        .carouselItem1{
+            background-image: url('thumbnails/doors.jpg');
+            width: 128px !important;
+        }
+        .carouselItem2{
+            background-image: url('thumbnails/louis14.jpg');
+            width: 128px !important;
+        }
+        .carouselItem3{
+            background-image: url('thumbnails/terminator.jpg');
+            width: 86px !important;
+        }
+        .carouselItem4{
+            background-image: url('thumbnails/starTrek.jpg');
+            width: 87px !important;
+        }
+        .carouselItem5{
+            background-image: url('thumbnails/captainAmerica.jpg');
+            width: 227px !important;
+        }
+        .carouselItem6{
+            background-image: url('thumbnails/liberty.jpg');
+            width: 184px !important;
+        }
+        .carouselItemCustom{
+            background-image: url('thumbnails/own.png');
+            color: black;
+            font-size: 10pt;
+            line-height: 1.5em;
+            font-variant: small-caps;
+            text-align: center;
+            width: 128px !important;
+            overflow: hidden;
+        }
+        .carouselItemCustomText{
+            margin-top: 8px;
+            margin-left: 16px;
+            margin-right: 16px;
+            text-shadow: 0px 0px 4px white;
+        }
+        #customImage{
+            cursor: pointer;
+            width: 118px;
+        }
+
+        </style>
+
+        <!-- SLICK CAROUSEL STYLE -->
+        <!-- Add the slick-theme.css if you want default styling -->
+        <link rel="stylesheet" type="text/css" href="../../../libs/slickCarousel/v1_9/slick.css"/>
+        <!-- Add the slick-theme.css if you want default styling -->
+        <link rel="stylesheet" type="text/css" href="../../../libs/slickCarousel/v1_9/slick-theme.css"/>
+        <!-- jQuery (required by Slick Carousel) -->
+        <script type='text/javascript' src='../../../libs/jquery/jquery-3.3.1.min.js'></script>
+
+    </head>
+    
+    <body onload="main()" style='color: white'>
+        <div id='artpaintingContainer'>
+            <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='artPainting'></canvas>
+        </div>
+
+        <!-- SLICK CAROUSEL CONTENT -->
+        <!--
+            If the detected State is not provided (ie {x: ...., y:..., s:... }
+            We will search for a face on the provided picture
+            (and display the found face detected State in the JS console)
+            Otherwise we build the image mask directly using the detected State.
+        -->
+        <div id="carousel">
+          <div onclick="change_artPainting('images/Joconde.jpg',       {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926})" class='carouselItem carouselItem0'> </div>
+          <div onclick="change_artPainting('images/doors.jpg',         {x:0.15008,y:0.2676,s:0.27433,ry:0.15356})" class='carouselItem carouselItem1'> </div>
+          <div onclick="change_artPainting('images/louis14.jpg',       {x:0.09804,y:0.26254,s:0.1098,ry:-0.26134})" class='carouselItem carouselItem2'> </div>
+          <div onclick="change_artPainting('images/terminator.jpg',    {x:-0.05805,y:0.41531,s:0.2408,ry:0.12903})" class='carouselItem carouselItem3'> </div>
+          <div onclick="change_artPainting('images/starTrek.jpg',      {x:-0.00433,y:0.34902,s:0.37124,ry:0.02544})" class='carouselItem carouselItem4'> </div>
+          <div onclick="change_artPainting('images/captainAmerica.jpg',{x:-0.02745,y:0.45216,s:0.08627,ry:-0.16854})" class='carouselItem carouselItem5'> </div>
+          <div onclick="change_artPainting('images/liberty.jpg',       {x:0.07451,y:-0.08849,s:0.12549,ry:-0.02005})" class='carouselItem carouselItem6'> </div>
+          <div class='carouselItem carouselItemCustom'>
+            <div class='carouselItemCustomText'>
+                TRY WITH YOUR OWN IMAGE :
+            </div>
+            <input type='file' id='customImage' onChange="change_artPainting('CUSTOM');" />
+          </div>
+        </div>
+
+        <!-- SLICK CAROUSEL SCRIPT -->
+        <script type="text/javascript" src="../../../libs/slickCarousel/v1_9/slick.min.js"></script>
+    </body>
+</html>
+ 
+ 

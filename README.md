@@ -1,13 +1,25 @@
-# Jeeliz Face Filter: Build your own augmented reality web application
+# Jeeliz Face Filter: Lightweight and robust face detection and tracking javascript library based on WebGL deep learning.
 
 This javascript library detects and tracks the face in real time from the video stream of the webcam captured with WebRTC. Then it is possible to overlay 3D content for augmented reality application. We provide various demonstrations using main WebGL 3D engines. We always include the production version of the 3D engine in the repository to work with a fixed version.
 
-This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw : if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured examples and boilerplates, you can quickly use it in a more usable context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned ! Also, feel free to open an issue if you have any question or suggestion.   
+This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw : if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured examples and boilerplates, you can quickly use it in a more usable context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned ! Also, feel free to open an issue if you have any question or suggestion.
+
+Features :
+* face detection,
+* face tracking,
+* face rotation detection,
+* mouth opening detection,
+* very robust for all lighting conditions,
+* video acquisition with HD video ability,
+* mobile friendly,
+* interfaced with 3D engines like THREE.JS, BABYLON.JS, A-FRAME,
+* interfaced with more accessible APIs like CANVAS, CSS3D.
+
 
 
 ![facefilter demo jeeliz small](https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg)
 
-You can test it with these demos (included in this repo) :
+You can test it with these demos (included in this repo). You will find among them the perfect starting point to build your own face based augmented reality application :
 * BABYLON.JS based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/babylonjs/cube/)
 
@@ -44,12 +56,17 @@ You can test it with these demos (included in this repo) :
 
 * MISC demos :
   * [PACMAN game with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/pacman/)
-  * [Insert your face into portrait art painting or film posters](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/)
+
+* Face replacement demos :
+  * [Insert your face into portrait art painting or film posters](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/image)
+  * [Insert your face into an animated gif](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/gif), [specific README](demos/faceReplacement/gif/)
+
 
 
 [comment]:![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
 
 If you have not bought a webcam yet, a screenshot video of some of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ). You can also subscribe to the [Jeeliz Youtube channel](https://www.youtube.com/channel/UC3XmXH1T3d1XFyOhrRiiUeA) or to the [@StartupJeeliz Twitter account](https://twitter.com/StartupJeeliz) to be kept informed of our cutting edge developments.
+
 
 
 ## Integration
@@ -113,11 +130,13 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 * `"GLCONTEXT_LOST"` : The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code.
 
 
-## Initialization object
-The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary with these properties :
+
+## The initialization returned object
+The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary having these properties :
 * `GL` : the WebGL context. The rendering 3D engine should use this WebGL context,
 * `canvasElement` the \<canvas\> element,
 * `videoTexture` a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background.
+
 
 
 ## The detection state
@@ -156,21 +175,21 @@ It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you did 
 It is important that the 3D engine shares the same WebGL context. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the Jeeliz Face Filter WebGL context. It would be more costly to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts : the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initalized WebGL context.
 
 
+
 ## Hosting
-### HTTPS only !
+
 Because this API requires the user's webcam stream through `MediaStream API`, your application should be served through HTTPS (even with a self-signed certificate). It won't work at all with unsecure HTTP, even locally.
 
-
-## Development
-We provide a simple and minimalist HTTPS server in order to check out the demos or develop your very own filters. To launch it, execute in the console :
+### The development server
+For development purpose we provide a simple and minimalist HTTPS server in order to check out the demos or develop your very own filters. To launch it, execute in the bash console :
 
 ```bash
   python2 httpsServer.py
 ```
-then visit [https://localhost:4443](https://localhost:4443).
+It requires Python 2.X. Then open in your web browser [https://localhost:4443](https://localhost:4443).
 
 
-### The scripts
+### Hosting optimization
 You can use our hosted and up to date version of the library, available here :
 ```
 https://appstatic.jeeliz.com/faceFilter/jeelizFaceFilter.js
@@ -179,6 +198,7 @@ It is served through a content delivery network (CDN) using gzip compression.
 If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `dist/NNC.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://checkgzipcompression.com/).
 
 The neuron network file, `dist/NNC.json` is loaded using an ajax `XMLHttpRequest` after calling `JEEFACEFILTER.init()` method and after the user has accepted the sharing of its webcam. We proceed this way to avoid to load this quite heavy file if the user refuses to share its webcam or if there is no webcam available. The loading will be faster if you systematically preload `dist/NNC.json` using a service worker or a simple raw `XMLHttpRequest` just after the HTML page loading. Then the file will be already in the browser cache when Jeeliz Facefilter API will need it.
+
 
 
 ## About the tech
@@ -190,6 +210,8 @@ This API uses Jeeliz WebGL Deep Learning technology to detect and track the user
 * If `WebGL2` is not available but `WebGL1`, we require either `OES_TEXTURE_FLOAT` extension or `OES_TEXTURE_HALF_FLOAT` extension,
 * If `WebGL2` is not available, and if `WebGL1` is not available or neither `OES_TEXTURE_FLOAT` or `OES_HALF_TEXTURE_FLOAT` are implemented, the user is not compatible.
 
+In all cases, you need to have WebRTC implemented in the web browser, otherwise FaceFilter API will not be able to get the webcam video feed. There are the compatibility tables from [caniuse.com](https://caniuse.com/) : [WebGL1](https://caniuse.com/#feat=webgl), [WebGL2](https://caniuse.com/#feat=webgl2), [WebRTC](https://caniuse.com/#feat=stream).
+
 If you meet a compatibility error, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all the application which could use your device (Skype, Messenger, other browser windows, ...). Please include :
 * a screenshot of [webglreport.com - WebGL1](http://webglreport.com/?v=1) (about your `WebGL1` implementation),
 * a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your `WebGL2` implementation),
@@ -197,17 +219,23 @@ If you meet a compatibility error, please post an issue on this repository. If t
 * the steps to reproduce the bug, and screenshots.
 
 
+
 ## Articles
 We are currently writing a series of tutorial for the API, starting by building some very basic filters and moving to harder ones.
-### Part 1: Creating your first filter
-  * on [Medium](https://medium.com/@StartupJeeliz/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter-1e7a5000543c)
-  * on [our website](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/)
+
+* Creating a Snapchat-like face filter using Jeeliz FaceFilter API and THREE.JS :
+  * Part 1: [Creating your first filter](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/)
+  * Part 2: [ User interactions and particles](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/)
+
+* [Flying around the Globe with Cesium and Your Head](https://cesium.com/blog/2018/03/22/jeeliz-and-cesium/)
+
 
 
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
 
-We appreciate attribution by including the Jeeliz logo and link to the [Jeeliz website](https://jeeliz.com) in your application.
+We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and link to the [Jeeliz website](https://jeeliz.com) in your application.
+
 
 
 ## References
