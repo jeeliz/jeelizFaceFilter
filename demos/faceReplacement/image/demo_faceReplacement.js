@@ -532,8 +532,8 @@ function build_shps(){
          	float dHue=dstHSV.x-srcHSV.x;\n\
          	vec3 colorHSVout=vec3(mod(1.0+colorHSV.x+dHue, 1.0), colorHSV.yz*factorSV);\n\
          	colorHSVout=clamp(colorHSVout, vec3(0.,0.,0.), vec3(1.,1.,1));\n\
-         	vec3 colorHSVout2=vec3(dstHSV.xy, colorHSVout.z);\n\
-         	colorHSVout=mix(colorHSVout2, colorHSVout, smoothstep(0.2,0.4,colorHSV.y)); //0.6->0.8\n\
+         	//vec3 colorHSVout2=vec3(dstHSV.xy, colorHSVout.z);\n\
+         	//colorHSVout=mix(colorHSVout2, colorHSVout, smoothstep(0.2,0.4,colorHSV.y)); //0.6->0.8\n\
          	//colorHSVout=mix(colorHSVout, colorHSVout2, smoothstep(0.5,1.,colorHSV.z)); //0.6->0.8\n\
          	//reconvert to RGB and output the color :\n\
          	colorRGB=hsv2rgb(colorHSVout);\n\
