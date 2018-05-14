@@ -144,9 +144,6 @@ function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
 
     //start the linking stage :
     GL.linkProgram(shaderProgram);
-    var aPos = GL.getAttribLocation(shaderProgram, "position");
-    //GL.enableVertexAttribArray(aPos);
-    
     return shaderProgram;
 } //end build_shaderProgram()
 
