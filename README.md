@@ -40,7 +40,6 @@ You can test it with these demos (included in this repo). You will find among th
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
   * [GLTF fullscreen demo with HD video](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/)
 
-
 * A-FRAME based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/)
   
@@ -54,12 +53,12 @@ You can test it with these demos (included in this repo). You will find among th
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
 
-* MISC demos :
-  * [PACMAN game with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/pacman/)
-
 * Face replacement demos :
   * [Insert your face into portrait art painting or film posters](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/image)
   * [Insert your face into an animated gif](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/gif), [specific README](demos/faceReplacement/gif/)
+
+* MISC demos :
+  * [PACMAN game with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/pacman/)
 
 
 

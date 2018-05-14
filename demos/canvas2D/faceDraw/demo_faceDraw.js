@@ -145,8 +145,8 @@ function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
     //start the linking stage :
     GL.linkProgram(shaderProgram);
     var aPos = GL.getAttribLocation(shaderProgram, "position");
-    GL.enableVertexAttribArray(aPos);
-
+    //GL.enableVertexAttribArray(aPos);
+    
     return shaderProgram;
 } //end build_shaderProgram()
 
@@ -191,8 +191,7 @@ function init_scene(spec){
         CTX.drawImage(frameImage, 0, 0, frameImage.width, frameImage.height, 0, 0, CANVAS2D.width, CANVAS2D.height);
         update_canvasTexture();
     }
-    //CTX.fillStyle = 'lime'; CTX.fillRect(0,0,CANVAS2D.width, CANVAS2D.height);
-
+    
     //create the WebGL texture with the canvas
     CANVASTEXTURE=GL.createTexture();
     GL.bindTexture(GL.TEXTURE_2D, CANVASTEXTURE);
@@ -223,13 +222,13 @@ function init_scene(spec){
                 new Uint16Array([
                         0,1,2,   0,2,3
                     ]), GL.STATIC_DRAW);
-
+    
     //create the shaders :
     var copyVertexShaderSource="attribute vec2 position;\n\
          varying vec2 vUV;\n\
          void main(void){\n\
             gl_Position=vec4(position, 0., 1.);\n\
-            vUV=0.5+0.5*position;\n\
+            vUV=vec2(0.5,0.5)+0.5*position;\n\
          }";
 
     var copyFragmentShaderSource="precision lowp float;\n\
@@ -257,6 +256,7 @@ function init_scene(spec){
             vUV=uv;\n\
         }",
         copyFragmentShaderSource, 'CANVAS');
+    
     SHADERCANVAS={
         program: shpCanvas,
         projMatrix: GL.getUniformLocation(shpCanvas, 'projMatrix'),
@@ -267,6 +267,8 @@ function init_scene(spec){
     var uSampler=GL.getUniformLocation(shpCanvas, 'samplerImage');
     GL.useProgram(shpCanvas);
     GL.uniform1i(uSampler, 0);
+    GL.disableVertexAttribArray(shpCanvas, SHADERCANVAS.position);
+    GL.disableVertexAttribArray(shpCanvas, SHADERCANVAS.uv);
 } //end init_scene()
 
 
@@ -282,6 +284,7 @@ function init_eventListeners(){
     //add touch and mouse event listeners
     CV.addEventListener('mousedown', onMouseDown, false);
     CV.addEventListener('touchdown', onMouseDown, false);
+    CV.addEventListener('touchstart', onMouseDown, false); //for IOS
     
     CV.addEventListener('mouseup', onMouseUp, false);
     CV.addEventListener('touchup', onMouseUp, false);
@@ -347,6 +350,8 @@ function onMouseMove(event){
     CTX.stroke();
     update_canvasTexture();
     OLDXY=xy;
+
+    event.preventDefault(); //disable scroll or fancy stuffs
 }
 function onMouseUp(event){
     if (MOUSESTATE!==MOUSESTATES.drag) return;
@@ -419,6 +424,7 @@ function main(){
                 GL.enable(GL.BLEND);
                 GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
                 GL.useProgram(SHADERCANVAS.program);
+                GL.enableVertexAttribArray(SHADERCANVAS.position);
                 GL.enableVertexAttribArray(SHADERCANVAS.uv);
                 GL.uniformMatrix4fv(SHADERCANVAS.movMatrix, false, MOVMATRIX);
                 if (PROJMATRIXNEEDSUPDATE){
@@ -435,6 +441,7 @@ function main(){
                 GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, VBO_FACES);
                 GL.drawElements(GL.TRIANGLES, 6, GL.UNSIGNED_SHORT, 0);
                 GL.disableVertexAttribArray(SHADERCANVAS.uv);
+                GL.disableVertexAttribArray(SHADERCANVAS.position);
                 GL.disable(GL.BLEND);
             } //end if face detected
         } //end callbackTrack()
