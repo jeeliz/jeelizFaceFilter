@@ -10,8 +10,8 @@ var SETTINGS={
 	
 	//hideIfNotDetectedDuringNframes: 3,
 
-	nDetectsGif: 27, //number of positive detections to perfectly locate the face in the gif
-	nMaxTestsGif: 400, //maximum nomber of detection trial, after that abandon
+	nDetectsGif: 32, //number of positive detections to perfectly locate the face in the gif
+	nMaxTestsGif: 300, //maximum nomber of detection trial, after that abandon
 
 	detectGifThreshold: 0.6,
 	gifMaskScale: [1.3, 1.5],
@@ -19,7 +19,7 @@ var SETTINGS={
 	gifCropSmoothEdge: 0.25, //crop smooth edge
 	gifHeadForheadY: 0.7, //forhead start when Y>this value. Max: 1
 	gifHeadJawY: 0.5, //lower jaw start when Y<this value. Max: 1
-	rzDriftDx: 0.2, //drift along X axis if rotation around Z. tweak
+	rzDriftDx: 0.1,//2, //drift along X axis if rotation around Z. tweak
 
 	//user crop face and detection settings :
 	videoDetectSizePx: 512,
@@ -722,7 +722,7 @@ function build_shps(){
          	float dHue=dstHSV.x-srcHSV.x;\n\
          	vec3 colorHSVout=vec3(mod(1.0+colorHSV.x+dHue, 1.0), colorHSV.yz*factorSV);\n\
          	colorHSVout=clamp(colorHSVout, vec3(0.,0.,0.), vec3(1.,1.,1));\n\
-         	vec3 colorHSVout2=vec3(dstHSV.xy, colorHSVout.z);\n\
+         	//vec3 colorHSVout2=vec3(dstHSV.xy, colorHSVout.z);\n\
          	//colorHSVout=mix(colorHSVout2, colorHSVout, smoothstep(0.2,0.4,colorHSV.y)); //0.6->0.8\n\
          	//colorHSVout=mix(colorHSVout, colorHSVout2, smoothstep(0.8,1.0,colorHSV.z)); //0.6->0.8\n\
          	//colorHSVout=mix(colorHSVout, colorHSVout2, smoothstep(0.5,1.,colorHSV.z)); //0.6->0.8\n\
