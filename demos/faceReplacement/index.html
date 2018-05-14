@@ -12,12 +12,12 @@
         <script type="text/javascript" src="../../dist/jeelizFaceFilter.js"></script>
 
         <!-- INCLUDE DEMO SCRIPT -->
-		<script type="text/javascript" src="./demo_faceReplacement.js"></script>
+        <script type="text/javascript" src="./demo_faceReplacement.js"></script>
 
         <!-- INCLUDE FORK ME ON GITHUB BANNER -->
         <script type="text/javascript" src="../appearance/widget.js"></script>
 
-		<style type='text/css'>
+        <style type='text/css'>
         body {
             margin: 0px;
             box-sizing: border-box;
@@ -96,6 +96,14 @@
             background-image: url('thumbnails/Joconde.jpg');
             width: 86px !important;
         }
+        .carouselPirates {
+            background-image: url('thumbnails/pirates_of_the_caribbean_thumbnail.jpg');
+            width: 86px !important;            
+        }
+        .carouselCosmopolitan {
+            background-image: url('thumbnails/cosmopolitan_thumbnail.jpg');
+            width: 128px !important;            
+        }
         .carouselItem1{
             background-image: url('thumbnails/doors.jpg');
             width: 128px !important;
@@ -167,6 +175,8 @@
         -->
         <div id="carousel">
           <div onclick="change_artPainting('images/Joconde.jpg',       {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926})" class='carouselItem carouselItem0'> </div>
+          <div onclick="change_artPainting('images/pirates_of_the_caribbean.jpg')" class='carouselItem carouselPirates'></div>
+          <div onclick="change_artPainting('images/cosmopolitan.jpg')" class='carouselItem carouselCosmopolitan'></div>
           <div onclick="change_artPainting('images/doors.jpg',         {x:0.15008,y:0.2676,s:0.27433,ry:0.15356})" class='carouselItem carouselItem1'> </div>
           <div onclick="change_artPainting('images/louis14.jpg',       {x:0.09804,y:0.26254,s:0.1098,ry:-0.26134})" class='carouselItem carouselItem2'> </div>
           <div onclick="change_artPainting('images/terminator.jpg',    {x:-0.05805,y:0.41531,s:0.2408,ry:0.12903})" class='carouselItem carouselItem3'> </div>
