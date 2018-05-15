@@ -96,27 +96,35 @@
             background-image: url('thumbnails/Joconde.jpg');
             width: 86px !important;
         }
-        .carouselItem1{
+        .carouselItem1 {
+            background-image: url('thumbnails/pirates_of_the_caribbean_thumbnail.jpg');
+            width: 86px !important;            
+        }
+        .carouselItem2 {
+            background-image: url('thumbnails/cosmopolitan_thumbnail.jpg');
+            width: 128px !important;            
+        }
+        .carouselItem3{
             background-image: url('thumbnails/doors.jpg');
             width: 128px !important;
         }
-        .carouselItem2{
+        .carouselItem4{
             background-image: url('thumbnails/louis14.jpg');
             width: 128px !important;
         }
-        .carouselItem3{
+        .carouselItem5{
             background-image: url('thumbnails/terminator.jpg');
             width: 86px !important;
         }
-        .carouselItem4{
+        .carouselItem6{
             background-image: url('thumbnails/starTrek.jpg');
             width: 87px !important;
         }
-        .carouselItem5{
+        .carouselItem7{
             background-image: url('thumbnails/captainAmerica.jpg');
             width: 227px !important;
         }
-        .carouselItem6{
+        .carouselItem8{
             background-image: url('thumbnails/liberty.jpg');
             width: 184px !important;
         }
@@ -166,19 +174,48 @@
             Otherwise we build the image mask directly using the detected State.
         -->
         <div id="carousel">
-          <div onclick="change_artPainting('images/Joconde.jpg',       {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926})" class='carouselItem carouselItem0'> </div>
-          <div onclick="change_artPainting('images/doors.jpg',         {x:0.15008,y:0.2676,s:0.27433,ry:0.15356})" class='carouselItem carouselItem1'> </div>
-          <div onclick="change_artPainting('images/louis14.jpg',       {x:0.09804,y:0.26254,s:0.1098,ry:-0.26134})" class='carouselItem carouselItem2'> </div>
-          <div onclick="change_artPainting('images/terminator.jpg',    {x:-0.05805,y:0.41531,s:0.2408,ry:0.12903})" class='carouselItem carouselItem3'> </div>
-          <div onclick="change_artPainting('images/starTrek.jpg',      {x:-0.00433,y:0.34902,s:0.37124,ry:0.02544})" class='carouselItem carouselItem4'> </div>
-          <div onclick="change_artPainting('images/captainAmerica.jpg',{x:-0.02745,y:0.45216,s:0.08627,ry:-0.16854})" class='carouselItem carouselItem5'> </div>
-          <div onclick="change_artPainting('images/liberty.jpg',       {x:0.07451,y:-0.08849,s:0.12549,ry:-0.02005})" class='carouselItem carouselItem6'> </div>
-          <div class='carouselItem carouselItemCustom'>
-            <div class='carouselItemCustomText'>
-                TRY WITH YOUR OWN IMAGE :
+            <div
+                onclick="change_artPainting('images/Joconde.jpg', {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926})"
+                class='carouselItem carouselItem0'
+            ></div>
+            <div
+                onclick="change_artPainting('images/pirates_of_the_caribbean.jpg', {x:0.04351,y:0.27059,s:0.3098,ry:0.06192})"
+                class='carouselItem carouselItem1'
+            ></div>
+            <div
+                onclick="change_artPainting('images/cosmopolitan.jpg', {x:0.05098,y:0.59216,s:0.12157,ry:-0.02587})"
+                class='carouselItem carouselItem2'
+            ></div>
+            <div
+                onclick="change_artPainting('images/doors.jpg', {x:0.15008,y:0.2676,s:0.27433,ry:0.15356})"
+                class='carouselItem carouselItem3'
+            ></div>
+            <div
+                onclick="change_artPainting('images/louis14.jpg', {x:0.09804,y:0.26254,s:0.1098,ry:-0.26134})"
+                class='carouselItem carouselItem4'
+            ></div>
+            <div
+                onclick="change_artPainting('images/terminator.jpg', {x:-0.05805,y:0.41531,s:0.2408,ry:0.12903})"
+                class='carouselItem carouselItem5'
+            ></div>
+            <div
+                onclick="change_artPainting('images/starTrek.jpg', {x:-0.00433,y:0.34902,s:0.37124,ry:0.02544})"
+                class='carouselItem carouselItem6'
+            ></div>
+            <div
+                onclick="change_artPainting('images/captainAmerica.jpg', {x:-0.02745,y:0.45216,s:0.08627,ry:-0.16854})"
+                class='carouselItem carouselItem7'
+            ></div>
+            <div
+                onclick="change_artPainting('images/liberty.jpg', {x:0.07451,y:-0.08849,s:0.12549,ry:-0.02005})"
+                class='carouselItem carouselItem8'
+            ></div>
+            <div class='carouselItem carouselItemCustom'>
+                <div class='carouselItemCustomText'>
+                    TRY WITH YOUR OWN IMAGE :
+                </div>
+                <input type='file' id='customImage' onChange="change_artPainting('CUSTOM');" />
             </div>
-            <input type='file' id='customImage' onChange="change_artPainting('CUSTOM');" />
-          </div>
         </div>
 
         <!-- SLICK CAROUSEL SCRIPT -->
