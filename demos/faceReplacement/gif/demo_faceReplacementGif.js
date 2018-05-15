@@ -184,6 +184,9 @@ function update_gif(detectedStates){ //called both at start (start()) and when u
 		STATE=STATES.GIFFACEDETECTPROVIDED;
 		GIF.detectedStates=detectedStates;
 		interpolate_detectedStates();
+		for (var i=0; i<5; ++i){
+			denoise_detectedStates();
+		}
 	} else {
 		GIF.detectedStates=[];
 		STATE=STATES.DETECTGIFFACE;
@@ -395,6 +398,53 @@ function interpolate_detectedStates(){
  		return mix_states(get_dState(dsi-distBefore), get_dState(dsi+distAfter), t);
  	});
 } //end interpolate_detectedStates()
+
+
+//try to remove the noise of detected states
+function denoise_detectedStates(){
+	GIF.detectedStates.forEach(function(ds, dsi){
+		if (dsi===0 || !ds){
+			return;
+		}
+		var previousDs=GIF.detectedStates[dsi-1];
+		if (!previousDs) return ds;
+
+		var newDs=Object.assign({}, ds);
+		var dxPx=Math.abs((ds.x-previousDs.x)*2*GIF.info.width);
+		var dyPx=Math.abs((ds.y-previousDs.y)*2*GIF.info.height);
+		var dsPx=Math.abs((ds.s-previousDs.s)*GIF.info.width);
+		var dRy=180*Math.abs(ds.ry-previousDs.ry)/Math.PI; //in degrees
+		var dRz=180*Math.abs(ds.rz-previousDs.rz)/Math.PI;
+		
+		//debugger;
+		if (dxPx<3){
+			var avgX=(previousDs.x+newDs.x)/2;
+			newDs.x=avgX;
+			previousDs.x=avgX;
+		}
+		if (dyPx<3){
+			var avgY=(previousDs.y+newDs.y)/2;
+			newDs.y=avgY;
+			previousDs.y=avgY;
+		}
+		if (dsPx<4){
+			var avgS=(previousDs.s+newDs.s)/2;
+			newDs.s=avgS;
+			previousDs.s=avgS;
+		}
+		if (dRy<3){
+			var avgRy=(previousDs.ry+newDs.ry)/2;
+			newDs.ry=avgRy;
+			previousDs.ry=avgRy;
+		}
+		if (dRz<3){
+			var avgRz=(previousDs.rz+newDs.rz)/2;
+			newDs.rz=avgRz;
+			previousDs.rz=avgRz;
+		}
+		GIF.detectedStates[dsi]=newDs;
+	});
+}
 
 
 function build_gifMasks(detectStates){ //detectStates is the detectState for each gif frame
@@ -899,7 +949,7 @@ function draw_render(detectState){ //detectState is the detectState of the USER 
 	
 
 	//final rendering including light correction
-	var rz=GIF.rzsFace[GIF.animation.currentFrameIndex];
+	var rz=GIF.rzsFace[GIF.animation.currentFrameIndex]+detectState.rz;
 	GL.bindFramebuffer(GLDRAWTARGET, null);
 	GL.useProgram(SHPS.render.program);
 	GL.uniform2f(SHPS.render.offset, xn+SETTINGS.rzDriftDx*Math.sin(rz), yn);
@@ -968,6 +1018,7 @@ function callbackTrack(detectState){
 
 				STATE=STATES.BUSY;
 				interpolate_detectedStates();
+				denoise_detectedStates();
 				build_gifMasks(GIF.detectedStates);
 				reset_toVideo();
 				return;
