@@ -49,6 +49,7 @@ You can test it with these demos (included in this repo). You will find among th
 
 * Canvas2D based demos :
   * [Draw on the face with the mouse](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceDraw/)
+  * [2D face detection and tracking - 30 lines of code only !](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceTrack/)
 
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
@@ -65,6 +66,8 @@ You can test it with these demos (included in this repo). You will find among th
 [comment]:![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
 
 If you have not bought a webcam yet, a screenshot video of some of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ). You can also subscribe to the [Jeeliz Youtube channel](https://www.youtube.com/channel/UC3XmXH1T3d1XFyOhrRiiUeA) or to the [@StartupJeeliz Twitter account](https://twitter.com/StartupJeeliz) to be kept informed of our cutting edge developments.
+
+If you have developped an application or a fun demo using this library, we would love to see it and insert a link here ! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
 
 
 
@@ -193,6 +196,8 @@ You can use our hosted and up to date version of the library, available here :
 ```
 https://appstatic.jeeliz.com/faceFilter/jeelizFaceFilter.js
 ```
+It uses the neuron network `NNC.json` hosted in the same path. The helpers used in these demos (all scripts in [/demos/shared/](demos/shared/)) are also hosted on `https://appstatic.jeeliz.com/faceFilter/`.
+
 It is served through a content delivery network (CDN) using gzip compression.
 If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `dist/NNC.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://checkgzipcompression.com/).
 
