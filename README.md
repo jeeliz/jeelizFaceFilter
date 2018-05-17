@@ -241,6 +241,11 @@ We are currently writing a series of tutorial for the API, starting by building 
 We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and link to the [Jeeliz website](https://jeeliz.com) in your application.
 
 
+## See also
+If you just want to detect if the user is looking at the screen or not, [Jeeliz Glance Tracker](/jeeliz/jeelizGlanceTracker) is released at this purpose. It can be useful to play and pause a video whether the user is watching or not. This library needs fewer resources and the neural network file is much lighter.
+
+If you want to use this library for glasses virtual try-on (sunglasses, spectacles, ski masks), you can take a look at [Jeeliz VTO widget](https://github.com/jeeliz/jeelizGlassesVTOWidget). It includes a high quality and lightweight 3D engine which implements the following features : deferred shading, PBR, raytraced shadows, normal mapping, ... It also reconstruct the lighting environment of the user. But the glasses comes from a database hosted in our servers. If you want to add some models please contact us.
+
 
 ## References
 * [Jeeliz official website](https://jeeliz.com)
