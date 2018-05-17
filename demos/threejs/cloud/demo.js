@@ -19,6 +19,11 @@ let THREESCENE
 let THREECAMERA;
 let ISDETECTED = false;
 let PARTICLES;
+let PARTICLES2;
+let PARTICLES3;
+let CLOUDMESH;
+let CLOUDMESH2;
+let CLOUDMESH3;
 let CLOUDOBJ3D;
 
 
@@ -49,64 +54,128 @@ function init_threeScene(spec) {
     THREEFACEOBJ3DPIVOTED.scale.set(SETTINGS.scale, SETTINGS.scale, SETTINGS.scale);
     THREEFACEOBJ3D.add(THREEFACEOBJ3DPIVOTED);
 
-    // CREATE THE CLOUD
-    let CLOUDMESH;
-    let LIGHTNINGMESH;
-    PARTICLES = []
+            let CLOUDMESH;
+            let LIGHTNINGMESH;
+            PARTICLES = []
+            PARTICLES2 = []
+            PARTICLES3 = []
 
-    // CREATE OUR CLOUD
-    const loaderCloud = new THREE.BufferGeometryLoader()
+            // CREATE OUR CLOUD
+            const loaderCloud = new THREE.BufferGeometryLoader()
 
-    loaderCloud.load(
-        './models/cloud.json',
-        (geometry) => {
-            const mat = new THREE.MeshPhongMaterial({
-                map: new THREE.TextureLoader().load('./models/cloud.png'),
-                shininess: 2,
-                specular: 0xffffff,
-                opacity: 0.6,
-                transparent: true
-            });
+            loaderCloud.load(
+                './models/cloud/cloud.json',
+                (geometry) => {
+                    const mat = new THREE.MeshPhongMaterial({
+                        map: new THREE.TextureLoader().load('./models/cloud/cloud.png'),
+                        shininess: 2,
+                        specular: 0xffffff,
+                        opacity: 0.7,
+                        transparent: true
+                    });
 
-            CLOUDMESH = new THREE.Mesh(geometry, mat);
-            CLOUDMESH.scale.multiplyScalar(0.5);
-            CLOUDMESH.position.setY(0.45);
-            CLOUDMESH.frustumCulled = false;
-            CLOUDMESH.renderOrder = 10000;
+                    // We create our first Cloud, scale and position it
+                    CLOUDMESH = new THREE.Mesh(geometry, mat);
+                    CLOUDMESH.scale.multiplyScalar(0.4);
+                    CLOUDMESH.scale.y = CLOUDMESH.scale.y*0.5
+                    CLOUDMESH.position.setY(0.85);
+                    CLOUDMESH.frustumCulled = false;
+                    CLOUDMESH.renderOrder = 10000;
+
+                    // ...same here for the second cloud
+                    CLOUDMESH2 = CLOUDMESH.clone();
+                    CLOUDMESH2.scale.multiplyScalar(0.4);
+                    CLOUDMESH2.position.set(0.7, 0.99, 0);
+                    CLOUDMESH2.scale.y  = CLOUDMESH2.scale.y*0.9
+                    CLOUDMESH2.scale.x  = CLOUDMESH2.scale.x*0.7
+                    CLOUDMESH2.quaternion._y = CLOUDMESH2.quaternion._y*10
+
+                    // ...and for the third
+                    CLOUDMESH3 = CLOUDMESH.clone();
+                    CLOUDMESH3.scale.multiplyScalar(0.4);
+                    CLOUDMESH3.position.set(-0.25, 0.69, 0.1);
+                    CLOUDMESH3.scale.y  = CLOUDMESH3.scale.y*1.3
+                    CLOUDMESH3.scale.x  = CLOUDMESH3.scale.x*1.2
+                    CLOUDMESH3.quaternion._y = CLOUDMESH3.quaternion._y*10
+
+                    // Here we create a pointlight that we'll add to our main cloud 
+                    // to mimic a storm
+                    var pointLight = new THREE.PointLight(0xffffff, 0, 100);
+                    pointLight.position.set(0, 0.15, -1);
+                    animatePointLight(pointLight)
 
 
-            // CREATE OUR PARTICLE MATERIAL
+                    // CREATE OUR PARTICLE MATERIAL
 
-            let PARTICLESOBJ3D = new THREE.Object3D();
-            
+                    let PARTICLESOBJ3D = new THREE.Object3D();
+                    
 
-            CLOUDOBJ3D = new THREE.Object3D();
-            CLOUDOBJ3D.add(CLOUDMESH)
-            CLOUDOBJ3D.add(PARTICLESOBJ3D);
+                    CLOUDOBJ3D = new THREE.Object3D();
+                    CLOUDOBJ3D.add(CLOUDMESH)
+                    CLOUDOBJ3D.add(CLOUDMESH2)
+                    CLOUDOBJ3D.add(CLOUDMESH3)
+                    CLOUDOBJ3D.add(pointLight)
+                    CLOUDOBJ3D.add(PARTICLESOBJ3D);
 
-            const particleMaterial = new THREE.SpriteMaterial({
-                map: new THREE.CanvasTexture(generateSprite()),
-                blending: THREE.AdditiveBlending
-            });
-            let particle
-            for ( let i = 0; i <= 1000; i++ ) {
-                particle = new THREE.Sprite(particleMaterial);
-                particle.position.x = Math.random()*1.5 - 0.75
-                particle.position.y = 2
-                particle.renderOrder = 100000
-                particle.scale.multiplyScalar(0.05)
-                particle.visible = false;
-                PARTICLES.push(particle);
-                PARTICLESOBJ3D.add(particle);
-            }
+                    // Here we begin creating the rain, which will be built of rectangle shaped particles
+                    const particleGeometry = new THREE.PlaneGeometry(0.09, 0.7)
 
-            PARTICLES.forEach((part, index) => {
-                animateParticleCloud(part, index);
-            });
+                    const particleMaterial = new THREE.MeshBasicMaterial({
+                        color: 0xFFFFFF,
+                        transparent: true,
+                        opacity: 0.5
+                    });
+                    let particle;
+                    let particle2;
+                    let particle3;
+                    for ( let i = 0; i <= 500; i++ ) {
+                        particle = new THREE.Mesh(particleGeometry, particleMaterial)
+                        particle.position.x = Math.random()*1.4 - 0.7
+                        particle.position.y = 1.5
+                        particle.renderOrder = 100000
+                        particle.scale.multiplyScalar(0.1)
+                        particle.visible = false;
 
-            THREEFACEOBJ3DPIVOTED.add(CLOUDOBJ3D)
-        }
-    )
+                        particle2 = new THREE.Mesh(particleGeometry, particleMaterial)
+                        particle2.position.x = Math.random()*0.3 - 0.15 + 0.7;
+                        particle2.position.y = 1.19;
+                        particle2.renderOrder = 100000;
+                        particle2.scale.multiplyScalar(0.1);
+                        particle2.visible = false;
+
+                        particle3 = new THREE.Mesh(particleGeometry, particleMaterial)
+                        particle3.position.x = Math.random()*0.4 - 0.2 - 0.3;
+                        particle3.position.y = 1.1;
+                        particle3.position.z = 0.02;
+                        particle3.renderOrder = 100000;
+                        particle3.scale.multiplyScalar(0.1);
+                        particle3.visible = false;
+
+                        PARTICLES.push(particle);
+                        PARTICLES2.push(particle2);
+                        PARTICLES3.push(particle3);
+
+
+                        PARTICLESOBJ3D.add(particle);
+                        PARTICLESOBJ3D.add(particle2);
+                        PARTICLESOBJ3D.add(particle3);
+                    }
+
+                    let tag
+                    PARTICLES.forEach((part, index) => {
+                        animateParticleCloud(part, index, tag);
+                    });
+                    PARTICLES2.forEach((part, index) => {
+                        animateParticleCloud(part, index, tag);
+                    });
+
+                    PARTICLES3.forEach((part, index) => {
+                        animateParticleCloud(part, index, tag);
+                    });
+
+                    THREEFACEOBJ3DPIVOTED.add(CLOUDOBJ3D)
+                }
+            )
 
     // CREATE THE SCENE
     THREESCENE = new THREE.Scene();
@@ -144,8 +213,8 @@ function init_threeScene(spec) {
     videoMesh.onAfterRender = function () {
         // replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
-        THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
-        THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
+        THREEVIDEOTEXTURE.magFilter = THREE.LinearFilter;
+        THREEVIDEOTEXTURE.minFilter = THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     };
     videoMesh.renderOrder = -1000; // render first
@@ -155,6 +224,17 @@ function init_threeScene(spec) {
     // CREATE THE CAMERA
     const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
+
+    // CREATE A LIGHT
+    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    THREESCENE.add(ambient)
+
+    // CREATE A SPOTLIGHT
+    var spotLight = new THREE.SpotLight(0xffffff);
+    spotLight.position.set(100, 1000, 100);
+
+    spotLight.castShadow = true;
+    THREESCENE.add(spotLight)
 } // end init_threeScene()
 
 // Creates our particles
@@ -173,18 +253,54 @@ function generateSprite(color) {
     return canvas;
 }
 
-// Animates our particles
-function animateParticleCloud( particle, index ) {
+function animateParticleCloud(particle, index, tag) {
+
+    console.log(particle.position)
     particle.visible = true;
     new TWEEN.Tween(particle.position)
-        .to( { y: - 10 }, 4000)
-        .delay(index*20)
+        .to( { y: - 20 }, 3000)
+        .delay(index*15)
         .repeat(Infinity)
         .onComplete(() => {
-            particle.visible = false;
-            animateParticle(particle, index);
+            // particle.visible = false;
+
+            animateParticleCloud(particle, index);
         })
         .start();
+}
+
+function animatePointLight (light) {
+    let delay = 3000;
+    let x;
+    let y;
+    const opacityUp1 = new TWEEN.Tween(light)
+    .to({ intensity: 3 }, 100)
+
+    const opacityUp2 = new TWEEN.Tween(light)
+    .to({ intensity: 3 }, 80)
+
+    const opacityDown1 = new TWEEN.Tween(light)
+    .to({ intensity: 0 }, 50)
+
+    const opacityDown2 = new TWEEN.Tween(light)
+    .to({ intensity: 0 }, 50)
+
+    opacityUp1.chain(opacityDown1)
+    opacityDown1.chain(opacityUp2)
+    opacityUp2.chain(opacityDown2)
+
+    opacityDown2.onComplete(() => {
+        setTimeout(() => {
+            x = Math.random() * 2 - 1;
+
+            light.position.set(x, 0, light.position.z);
+            opacityUp1.start();
+            delay = 3000;         
+        }, 3000)
+
+    })
+
+    opacityUp1.start()
 }
 
 // launched by body.onload() :
@@ -232,6 +348,8 @@ function main() {
                 // move and rotate the cube
                 THREEFACEOBJ3D.position.set(x, y + SETTINGS.pivotOffsetYZ[0], z + SETTINGS.pivotOffsetYZ[1]);
                 THREEFACEOBJ3D.rotation.set(detectState.rx + SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
+
+                CLOUDOBJ3D.rotation.set(-detectState.rx + SETTINGS.rotationOffsetX, -detectState.ry, -detectState.rz, "XYZ");
             }
 
             // reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs

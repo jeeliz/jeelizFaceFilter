@@ -19,13 +19,15 @@ let THREEFACEOBJ3DPIVOTED
 let THREESCENE
 let THREECAMERA;
 let ISDETECTED = false;
-const ROCKETS = [];
-const PARTICLES = [];
+let ROCKETS = [];
+let PARTICLES = [];
 
-const ROCKETSOBJ3D = new THREE.Object3D()
-let PARTICLESOBJ3D = new THREE.Object3D()
-let PARTCONTOBJ3D = new THREE.Object3D()
-let FIREWORKOBJ3D = new THREE.Object3D()
+let ROCKETSOBJ3D = false;
+let PARTICLESOBJ3D = new THREE.Object3D();
+let PARTCONTOBJ3D = new THREE.Object3D();
+let FIREWORKOBJ3D;
+
+let numberRockets = 9;
 
 // callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
 function detect_callback(isDetected) {
@@ -60,28 +62,39 @@ function init_threeScene(spec) {
     THREESCENE.add(THREEFACEOBJ3D);
 
 
+    FIREWORKOBJ3D = new THREE.Object3D()
+
     // CREATE ROCKETS
+    THREEFACEOBJ3DPIVOTED.add(FIREWORKOBJ3D)
+
     let particleMaterial = new THREE.SpriteMaterial({
         map: new THREE.CanvasTexture(generateSprite()),
         blending: THREE.AdditiveBlending
     });
-    let rocket
-    for (let i = 0; i <= 9; i++) {
-        rocket = new THREE.Sprite(particleMaterial)
-        rocket.position.x = Math.random()*1.5 - 0.75
-        rocket.position.y = -2
-        rocket.renderOrder = 100000
-        rocket.scale.multiplyScalar(0.05)
-        rocket.visible = false
-        ROCKETSOBJ3D.add(rocket)
-        ROCKETS.push(rocket)
+
+    if (!ROCKETSOBJ3D) {
+        ROCKETSOBJ3D = new THREE.Object3D()
+        ROCKETS = []
+        let rocket
+        for (let i = 0; i <= numberRockets; i++) {
+            rocket = new THREE.Sprite(particleMaterial)
+            rocket.position.x = Math.random()*1.5 - 0.75
+            rocket.position.y = -2
+            rocket.renderOrder = 100000
+            rocket.scale.multiplyScalar(0.08)
+            rocket.visible = false
+            ROCKETSOBJ3D.add(rocket)
+            ROCKETS.push(rocket)
+        }
     }
+
     ROCKETS.forEach((r, index) => {
+        r.position.y = -4
+        r.visible = false
         setTimeout(() => {
             const positive = Math.random()*2 - 1 > 0 ? 1 : -1
             r.position.x = ((Math.random()*0.5) + 0.5) *  positive
-            r.position.y = -4
-            r.visible = false
+
             animateRocket(r, index)
         }, 1200*index)
     })
@@ -91,21 +104,26 @@ function init_threeScene(spec) {
     // CREATE PARTICLES
 
     let particle;
+    PARTICLES = [];
     let PARTICLESINSTANCE;
-    let particleGeometry = new THREE.PlaneGeometry(10, 10, 10)
-    const colors = ['red', 'yellow', 'green', 'blue', 'pink','red', 'yellow', 'green', 'blue', 'yellow']
+    const colors = ['red', 'yellow', 'green', 'blue', 'pink', 'red', 'yellow', 'green', 'blue', 'yellow'];
+    
+    PARTCONTOBJ3D = new THREE.Object3D()
+
     colors.forEach((color) => {
-        PARTICLESINSTANCE = []
-        PARTICLESOBJ3D = new THREE.Object3D()
+        PARTICLESINSTANCE = [];
+        PARTICLESOBJ3D = new THREE.Object3D();
+
         particleMaterial = new THREE.SpriteMaterial({
             map: new THREE.CanvasTexture(generateSprite(color)),
             blending: THREE.AdditiveBlending
         });
-        
+
         for (let i = 0; i <= 100; i++) {
             particle = new THREE.Sprite(particleMaterial);
+
             particle.renderOrder = 100000
-            particle.scale.multiplyScalar(1.5)
+            particle.scale.multiplyScalar(3)
             particle.visible = false
             PARTICLESINSTANCE.push(particle);
             
@@ -113,8 +131,8 @@ function init_threeScene(spec) {
         }
         PARTICLES.push(PARTICLESINSTANCE)
         PARTCONTOBJ3D.add(PARTICLESOBJ3D)
-        FIREWORKOBJ3D.add(PARTCONTOBJ3D)        
     })
+    FIREWORKOBJ3D.add(PARTCONTOBJ3D)  
 
     THREEFACEOBJ3DPIVOTED.add(FIREWORKOBJ3D)
 
@@ -150,8 +168,8 @@ function init_threeScene(spec) {
     videoMesh.onAfterRender = function () {
         // replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
-        THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
-        THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
+        THREEVIDEOTEXTURE.magFilter = THREE.LinearFilter;
+        THREEVIDEOTEXTURE.minFilter = THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     };
     videoMesh.renderOrder = -1000; // render first
@@ -163,23 +181,23 @@ function init_threeScene(spec) {
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
 } // end init_threeScene()
 
-
+// Generates a canvas which we'll use as particles
 function generateSprite(color) {
     var canvas = document.createElement('canvas');
-    canvas.width = 4;
-    canvas.height = 4;
+    canvas.width = 32;
+    canvas.height = 32;
     var context = canvas.getContext('2d');
     var gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
     gradient.addColorStop(0.5, 'rgba(255,255,255,1)');
     gradient.addColorStop(0.2, 'rgba(0,255,255,1)');
-    gradient.addColorStop(0.5, color ? color : 'red');
+    gradient.addColorStop(0.5, color ? color : 'blue');
     gradient.addColorStop(1, 'rgba(0,0,0,0.1)');
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
     return canvas;
 }
 
-
+// Animates our rockets
 function animateRocket(rocket, index) {
     rocket.visible = true
     new TWEEN.Tween(rocket.position)
@@ -195,7 +213,6 @@ function animateRocket(rocket, index) {
                 const positive = Math.random()*2 - 1 > 0 ? 1 : -1
                 rocket.position.x = ((Math.random()*0.5) + 0.5) *  positive
                 rocket.position.y = -4
-                
                 animateRocket(rocket, index)
             }, 3000)
         })
@@ -216,6 +233,7 @@ function animateParticle( particle, rocket, index ) {
     var phi = (Math.random()*2-1)*Math.PI/4 //angle between plane XY and the particle. 0-> in the plane XY
 
     particle.rotation._z = particle.rotation.z*Math.random()
+
     new TWEEN.Tween( particle.position )
         .to( {x: 0.04*radiusEnd*Math.cos(theta)*Math.sin(phi),
               y: 0.04*radiusEnd*Math.sin(theta)*Math.cos(phi),
@@ -223,7 +241,7 @@ function animateParticle( particle, rocket, index ) {
         .start();
 
     //tween scale :
-    particle.scale.x = particle.scale.y = Math.random() * 0.02
+    particle.scale.x = particle.scale.y = Math.random() * 0.1
     new TWEEN.Tween( particle.scale )
         .to( {x: 0.0001, y: 0.0001}, 2000)
         .start();
@@ -275,7 +293,7 @@ function main() {
                 THREEFACEOBJ3D.position.set(x, y + SETTINGS.pivotOffsetYZ[0], z + SETTINGS.pivotOffsetYZ[1]);
                 THREEFACEOBJ3D.rotation.set(detectState.rx + SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
             }
-            TWEEN.update();
+            TWEEN.update()
             // reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
             THREERENDERER.state.reset();
 

@@ -24,6 +24,13 @@ function detect_callback(isDetected){
 }
 
 function build_maskMaterial(){
+    /*
+        THIS IS WHERE THE DEFORMATIONS ARE BUILT:
+        1) create a tearpoint where the deformation will be located
+        2) add a displacement(x, y) to deform the zone around your tearpoint
+        3) select a radius: the bigger the radius the bigger the size of the deformed zone
+        around your tearpoint will be
+    */
     var vertexShaderSource='varying vec2 vUVvideo;\n\
     //deformation 0 parameters :\n\
     const vec2 TEARPOINT0=vec2(0.,-0.5);\n\
@@ -101,7 +108,7 @@ function init_threeScene(spec){
     /*
     faceLowPoly.json has been exported from dev/faceLowPoly.blend using THREE.JS blender exporter with Blender v2.76
     */
-    maskLoader.load('faceLowPoly.json', function(maskBufferGeometry){
+    maskLoader.load('./models/faceLowPoly.json', function(maskBufferGeometry){
         maskBufferGeometry.computeVertexNormals();
         var threeMask=new THREE.Mesh(maskBufferGeometry, build_maskMaterial());
         threeMask.frustumCulled=false;
@@ -142,8 +149,8 @@ function init_threeScene(spec){
     videoMesh.onAfterRender=function(){
         //replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
-        THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
-        THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
+        THREEVIDEOTEXTURE.magFilter = THREE.LinearFilter;
+        THREEVIDEOTEXTURE.minFilter = THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     };
     videoMesh.renderOrder=-1000; //render first
