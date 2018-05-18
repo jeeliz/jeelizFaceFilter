@@ -9,45 +9,27 @@ This library is lightweight and it does not include any 3D engine or third party
 
 
 ## Table of content
-[Features](#features)
 
-[Architecture](#architecture)
-
-[Demonstrations](#demonstrations)
-
-[Specifications](#specifications)
-
-  [Get started](#get-started)
-
-  [Optionnal init arguments](#optionnal-init-arguments)
-
-  [Error codes](#error-codes)
-
-  [The returned objects](#the-returned-objects)
-
-  [Misc methods](#misc-methods)
-
-  [Changing the 3D Engine](#changing-the-3D-Engine)
-
-[Hosting](#hosting)
-
-  [The development server](#the-development-server)
-
-  [Hosting optimization](#hosting-optimization)
-
-[About the tech](#about-the-tech)
-
-  [Under the hood](#under-the-hood)
-
-  [Compatibility](#compatibility)
-
-[Articles](#articles)
-
-[License](#license)
-
-[See also](#see-also)
-
-[References](#references)
+* [Features](#features)
+* [Architecture](#architecture)
+* [Demonstrations](#demonstrations)
+* [Specifications](#specifications)
+  * [Get started](#get-started)
+  * [Optionnal init arguments](#optionnal-init-arguments)
+  * [Error codes](#error-codes)
+  * [The returned objects](#the-returned-objects)
+  * [Misc methods](#misc-methods)
+  * [Changing the 3D Engine](#changing-the-3D-engine)
+* [Hosting](#hosting)
+  * [The development server](#the-development-server)  
+  * [Hosting optimization](#hosting-optimization)
+* [About the tech](#about-the-tech)
+  * [Under the hood](#under-the-hood)
+  * [Compatibility](#compatibility)
+* [Articles](#articles)
+* [License](#license)
+* [See also](#see-also)
+* [References](#references)
 
 
 <p align="center">
