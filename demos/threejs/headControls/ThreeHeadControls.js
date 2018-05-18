@@ -3,7 +3,7 @@ if (typeof(JEEFACEFILTERAPI)==='undefined'){
 } 
 
 if (typeof(HeadControls)==='undefined'){
-	throw new Error('Cannot found HeadControls. shared/HeadControls.js included before this script ?');
+	throw new Error('Cannot found HeadControls. helpers/HeadControls.js included before this script ?');
 }
 
 if (typeof(THREE)==='undefined'){

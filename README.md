@@ -1,10 +1,42 @@
 # Jeeliz Face Filter: Lightweight and robust face detection and tracking javascript library based on WebGL deep learning.
 
+
+
+
 This javascript library detects and tracks the face in real time from the video stream of the webcam captured with WebRTC. Then it is possible to overlay 3D content for augmented reality application. We provide various demonstrations using main WebGL 3D engines. We always include the production version of the 3D engine in the repository to work with a fixed version.
 
 This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw : if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured examples and boilerplates, you can quickly use it in a more usable context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned ! Also, feel free to open an issue if you have any question or suggestion.
 
-Features :
+
+## Table of content
+[Features](#features)
+[Architecture](#architecture)
+[Demonstrations](#demonstrations)
+[Specifications](#specifications)
+  [Get started](#get-started)
+  [Optionnal init arguments](#optionnal-init-arguments)
+  [Error codes](#error-codes)
+  [The returned objects](#the-returned-objects)
+  [Misc methods](#misc-methodes)
+  [Changing the 3D Engine](#Changing-the-3D-Engine)
+[Hosting](#hosting)
+  [The development server](#the-development-server)  
+  [Hosting optimization](#hosting-optimization)
+[About the tech](#about-the-tech)
+  [Under the hood](#under-the-hood)
+  [Compatibility](#compatibility)
+[Articles](#articles)
+[License](#license)
+[See also](#see-also)
+[References](#references)
+
+
+<p align="center">
+![facefilter demo jeeliz small](https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg)
+</p>
+
+
+## Features
 * face detection,
 * face tracking,
 * face rotation detection,
@@ -16,10 +48,20 @@ Features :
 * interfaced with more accessible APIs like CANVAS, CSS3D.
 
 
+## Architecture
 
-![facefilter demo jeeliz small](https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg)
+* `/demos/` : source code of demonstrations, sorted by 2D/3D engine used,
+* `/dist/` : heart of the library : 
+  * `jeelizFaceFilter.js` : main minified script,
+  * `NNC.json` : file storing the neural network parameters, loaded by the main script,
+* `/helpers/` : scripts which can help you to use this library in some specific use cases,
+* `/libs/` : 3rd party libraries and 3D engines used in the demos.
 
-You can test it with these demos (included in this repo). You will find among them the perfect starting point to build your own face based augmented reality application :
+
+
+## Demonstrations
+
+You can test it with these demos (all included in this repo in the `/demos` path). You will find among them the perfect starting point to build your own face based augmented reality application :
 * BABYLON.JS based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/babylonjs/cube/)
 
@@ -71,7 +113,10 @@ If you have developped an application or a fun demo using this library, we would
 
 
 
-## Integration
+## Specifications
+Here we describe how to use this library. Although we planned to add new features, we will keep it backward compatible.
+
+### Get started
 On your HTML page, you first need to include the main script between the tags `<head>` and `</head>` :
 ```html
  <script type="text/javascript" src="dist/jeelizFaceFilter.js"></script>
@@ -102,7 +147,7 @@ JEEFACEFILTERAPI.init({
 });//end init call
 ```
 
-## Optionnal `init()` arguments :
+### Optionnal init arguments
 * `<integer> animateDelay` : It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
 * `<function> onWebcamAsk` : Function launched just before asking for the user to allow its webcam sharing,
 * `<function> onWebcamGet` : Function launched just after the user has accepted to share its video. It is called with the video element as argument,
@@ -120,7 +165,7 @@ JEEFACEFILTERAPI.init({
 If the user has a mobile device in portrait display, we invert the width and height of these parameters for the first camera request. If it does not succeed, we revert the width and height.
 
 
-## Error codes
+### Error codes
 The initialization function ( `callbackReady` in the code snippet ) will be called with an error code ( `errCode` ). It can have these values :
 * `false` : no error occurs,
 * `"GL_INCOMPATIBLE"` : WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
@@ -132,16 +177,17 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 * `"GLCONTEXT_LOST"` : The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code.
 
 
+### The returned objects
+We detail here the argument of the callback functions like `callbackReady` or `callbackTrack`. The reference of these objects do not change for memory optimization purpose. So you should copy their property values if you want to keep them unchanged outside the callback functions.
 
-## The initialization returned object
+### The initialization returned object
 The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary having these properties :
 * `GL` : the WebGL context. The rendering 3D engine should use this WebGL context,
 * `canvasElement` the \<canvas\> element,
 * `videoTexture` a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background.
 
 
-
-## The detection state
+### The detection state
 At each render iteration a callback function is called ( `callbackTrack` in the code snippet ). It has one argument ( `detectState` ) which is a dictionnary with these properties :
 * `detected` : the face detection probability, between 0 and 1,
 * `x`, `y` : The 2D coordinates of the center of the detection frame in the viewport (each between -1 and 1, `x` from left to right and `y` from bottom to top),
@@ -151,7 +197,7 @@ At each render iteration a callback function is called ( `callbackTrack` in the 
     * `expressions[0]` : mouth opening coefficient (0 -> mouth closed, 1 -> mouth fully opened)
 
 
-## Other methods
+### Misc methods
 After the initialization (ie after that `callbackReady` is launched ) , these methods are available :
 
 * `JEEFACEFILTERAPI.resize()` : should be called after resizing the canvas,
@@ -167,11 +213,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 * `reset_inputTexture()` : Come back to the user's video as input texture.
 
 
-## Integration sample
-In the path `/demos`, you will find an integration sample. Just serve it through a HTTPS server.
-
-
-## Changing the 3D Engine
+### Changing the 3D Engine
 It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you did this work, we would be interested to add your demonstration in this repository (or link to your code). We may add Babylon.js and Pixi.js boilerplates later.
 
 It is important that the 3D engine shares the same WebGL context. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the Jeeliz Face Filter WebGL context. It would be more costly to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts : the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initalized WebGL context.
@@ -196,7 +238,7 @@ You can use our hosted and up to date version of the library, available here :
 ```
 https://appstatic.jeeliz.com/faceFilter/jeelizFaceFilter.js
 ```
-It uses the neuron network `NNC.json` hosted in the same path. The helpers used in these demos (all scripts in [/demos/shared/](demos/shared/)) are also hosted on `https://appstatic.jeeliz.com/faceFilter/`.
+It uses the neuron network `NNC.json` hosted in the same path. The helpers used in these demos (all scripts in [/helpers/](helpers/)) are also hosted on `https://appstatic.jeeliz.com/faceFilter/`.
 
 It is served through a content delivery network (CDN) using gzip compression.
 If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `dist/NNC.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://checkgzipcompression.com/).
