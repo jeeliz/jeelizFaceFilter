@@ -4,10 +4,10 @@
 const SETTINGS = {
     rotationOffsetX: 0, // negative -> look upper. in radians
     cameraFOV: 40,      // in degrees, 3D camera FOV
-    pivotOffsetYZ: [-0.1, 0.5], // XYZ of the distance between the center of the cube and the pivot
+    pivotOffsetYZ: [-0.2, 0.2], // XYZ of the distance between the center of the cube and the pivot
     detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,
-    scale: 1 // scale of the 3D cube
+    scale: 1 // scale of the THREEFACEOBJ3DPIVOTED
 };
 
 // some globalz :
@@ -64,7 +64,7 @@ function init_threeScene(spec) {
 
             const faceMesh = new THREE.Mesh(geometry, mat);
             faceMesh.position.y += 0.15;
-            // faceMesh.position.z -= 0.25;
+            faceMesh.position.z -= 0.25;
 
             addDragEventListener(faceMesh);
 
@@ -91,7 +91,7 @@ function init_threeScene(spec) {
             textMesh.rotation.y = 3;
             textMesh.rotation.z = 0.3;
             textMesh.position.x += 1.5
-            textMesh.position.y += 0.9
+            textMesh.position.y += 1
             THREEFACEOBJ3DPIVOTED.add(textMesh)
         }
     )
