@@ -19,6 +19,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [Error codes](#error-codes)
   * [The returned objects](#the-returned-objects)
   * [Misc methods](#misc-methods)
+  * [Multiple faces](#multiple-faces)
   * [Changing the 3D Engine](#changing-the-3D-engine)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
@@ -42,6 +43,7 @@ This library is lightweight and it does not include any 3D engine or third party
 * face tracking,
 * face rotation detection,
 * mouth opening detection,
+* multiple faces detection and tracking,
 * very robust for all lighting conditions,
 * video acquisition with HD video ability,
 * mobile friendly,
@@ -68,6 +70,7 @@ You can test it with these demos (all included in this repo in the `/demos` path
 
 * THREE.JS based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
+  * [Multiple face tracking](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/)
   * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
   * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
   * [Butterflies animation](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
@@ -103,6 +106,7 @@ You can test it with these demos (all included in this repo in the `/demos` path
 
 * MISC demos :
   * [PACMAN game with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/pacman/)
+
 
 
 
@@ -149,6 +153,7 @@ JEEFACEFILTERAPI.init({
 ```
 
 ### Optionnal init arguments
+* `<integer> maxFacesDetected` : Only for multiple face detection - maximum number of faces which can be detected and tracked. Should be between `1` (no multiple detection) and `8`,
 * `<integer> animateDelay` : It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
 * `<function> onWebcamAsk` : Function launched just before asking for the user to allow its webcam sharing,
 * `<function> onWebcamGet` : Function launched just after the user has accepted to share its video. It is called with the video element as argument,
@@ -175,7 +180,8 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 * `"INVALID_CANVASID"` : cannot found the \<canvas\> element in the DOM,
 * `"INVALID_CANVASDIMENSIONS"` : the dimensions `width` and `height` of the canvas are not specified,
 * `"WEBCAM_UNAVAILABLE"` : cannot get access to the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
-* `"GLCONTEXT_LOST"` : The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code.
+* `"GLCONTEXT_LOST"` : The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code,
+* `"MAXFACES_TOOHIGH"` : The maximum number of detected and tracked faces, specified by the optional init argument `maxFacesDetected`, is too high.
 
 
 ### The returned objects
@@ -212,6 +218,15 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 * `set_inputTexture(<WebGLTexture> tex, <integer> width, <integer> height)` : Change the video input by a WebGL Texture instance. The dimensions of the texture, in pixels, should be provided,
 
 * `reset_inputTexture()` : Come back to the user's video as input texture.
+
+
+### Multiple faces
+It is possible to detect and track several faces at the same time. To enable this feature, you only have to specify the optional init parameter `maxFacesDetected`. Its maximum value is `8`. Indeed, if you are tracking for example 8 faces at the same time, the detection will be slower because there is 8 times less computing power per face tracking. If you have put this value to `8` but if there is only `1` face detected, it should not slow down too much compared to the single face tracking.
+
+If multiple faces tracking is enabled, the `callbackTrack` function is called with an array of detection states (instead of being called with a simple detection state). The detection state format is still the same.
+
+You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThreejsHelper.js` to get started and test [this example](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/). The [main script](demos/threejs/multiCubes/demo_multiCubes.js) has only 60 lines !
+
 
 
 ### Changing the 3D Engine
