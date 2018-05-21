@@ -67,10 +67,10 @@ function init_threeScene(spec) {
     let branchesMesh;
     let decoMesh;
 
-    const loadingManager = new THREE.LoadingManager()
+    const loadingManager = new THREE.LoadingManager();
 
     // CREATE OUR FRAME
-    const loaderFrame = new THREE.BufferGeometryLoader(loadingManager)
+    const loaderFrame = new THREE.BufferGeometryLoader(loadingManager);
 
     loaderFrame.load(
         './models/glasses/frame.json',
@@ -80,137 +80,126 @@ function init_threeScene(spec) {
                 shininess: 2,
                 specular: 0xffffff,
                 transparent: true
-            })
+            });
 
-            frameMesh = new THREE.Mesh(geometry, mat)
-            frameMesh.scale.multiplyScalar(0.0067)
-            frameMesh.frustumCulled = false
-            frameMesh.renderOrder = 10000
+            frameMesh = new THREE.Mesh(geometry, mat);
+            frameMesh.scale.multiplyScalar(0.0067);
+            frameMesh.frustumCulled = false;
+            frameMesh.renderOrder = 10000;
         }
     )
 
     // CREATE OUR LENSES
-    const loaderLenses = new THREE.BufferGeometryLoader(loadingManager)
+    const loaderLenses = new THREE.BufferGeometryLoader(loadingManager);
 
     loaderLenses.load(
         './models/glasses/lenses.json',
         (geometry) => {
-            const mat = new THREE.MeshPhongMaterial({
-                map: new THREE.TextureLoader().load('./models/glasses/texture_mp.jpg'),
-                shininess: 2,
-                specular: 0x0000ff
-            })
+            const mat = new THREE.MeshBasicMaterial({
+                map: new THREE.TextureLoader().load('./models/glasses/texture_mp.jpg')
+            });
 
-            lensesMesh = new THREE.Mesh(geometry, mat)
-            lensesMesh.scale.multiplyScalar(0.0067)
-            lensesMesh.frustumCulled = false
-            lensesMesh.renderOrder = 10000
+            lensesMesh = new THREE.Mesh(geometry, mat);
+            lensesMesh.scale.multiplyScalar(0.0067);
+            lensesMesh.frustumCulled = false;
+            lensesMesh.renderOrder = 10000;
         }
     )
     // CREATE OUR BRANCHES
-    const loaderBranches = new THREE.BufferGeometryLoader(loadingManager)
+    const loaderBranches = new THREE.BufferGeometryLoader(loadingManager);
 
     loaderBranches.load(
         './models/glasses/branches.json',
         (geometry) => {
-            const mat = new THREE.MeshPhongMaterial({
+            const mat = new THREE.MeshBasicMaterial({
                 alphaMap: new THREE.TextureLoader().load('./models/glasses/alpha_branches.jpg'),
                 map: new THREE.TextureLoader().load('./models/glasses/textureBlack.jpg'),
-                shininess: 2,
-                specular: 0xffffff,
                 transparent: true
-            })
+            });
 
-            branchesMesh = new THREE.Mesh(geometry, mat)
-            branchesMesh.scale.multiplyScalar(0.0067)
-            branchesMesh.frustumCulled = false
-            branchesMesh.renderOrder = 10000
+            branchesMesh = new THREE.Mesh(geometry, mat);
+            branchesMesh.scale.multiplyScalar(0.0067);
+            branchesMesh.frustumCulled = false;
+            branchesMesh.renderOrder = 10000;
         }
     )
 
     // CREATE OUR DECO
-    const loaderDeco = new THREE.BufferGeometryLoader(loadingManager)
+    const loaderDeco = new THREE.BufferGeometryLoader(loadingManager);
 
     loaderDeco.load(
         './models/glasses/deco.json',
         (geometry) => {
-            const mat = new THREE.MeshPhongMaterial({
-                color: 0xffffff,
-                shininess: 2,
-                specular: 0xffffff
-            })
+            const mat = new THREE.MeshBasicMaterial({
+                color: 0xffffff
+            });
 
-            decoMesh = new THREE.Mesh(geometry, mat)
-            decoMesh.scale.multiplyScalar(0.0067)
+            decoMesh = new THREE.Mesh(geometry, mat);
+            decoMesh.scale.multiplyScalar(0.0067);
             
-            decoMesh.frustumCulled = false
-            decoMesh.renderOrder = 10000
+            decoMesh.frustumCulled = false;
+            decoMesh.renderOrder = 10000;
         }
     )
 
     loadingManager.onLoad = () => {
-        GLASSESOBJ3D.add(branchesMesh)
-        GLASSESOBJ3D.add(frameMesh)
-        GLASSESOBJ3D.add(lensesMesh)
+        GLASSESOBJ3D.add(branchesMesh);
+        GLASSESOBJ3D.add(frameMesh);
+        GLASSESOBJ3D.add(lensesMesh);
         
-        GLASSESOBJ3D.add(decoMesh)
-        GLASSESOBJ3D.position.setY(0.05)
+        GLASSESOBJ3D.add(decoMesh);
+        GLASSESOBJ3D.position.setY(0.05);
 
-        addDragEventListener(GLASSESOBJ3D)
+        addDragEventListener(GLASSESOBJ3D);
 
-        THREEFACEOBJ3DPIVOTED.add(GLASSESOBJ3D)        
+        THREEFACEOBJ3DPIVOTED.add(GLASSESOBJ3D);
     }
 
     // ADD OUR BEES
-    const beeLoader = new THREE.JSONLoader()
+    const beeLoader = new THREE.JSONLoader();
 
     beeLoader.load(
         './models/bee/bee.json',
         (geometry) => {
-            const materialBody = new THREE.MeshStandardMaterial({
-                color: 0x000000,
-                roughness: 1,
-                depthWrite: false
-            })
 
-            const materialWings = new THREE.MeshPhongMaterial({
+            const materialBee = new THREE.MeshLambertMaterial({
                 map: new THREE.TextureLoader().load('./models/bee/texture_bee.jpg'),
                 transparent: true,
                 morphTargets: true
-            })
+            });
 
-            BEEMESH = new THREE.Mesh(geometry, [materialWings, materialBody])
+            BEEMESH = new THREE.Mesh(geometry, materialBee);
 
             // let butterFlyInstance
             // let action;
-            let clips
-            let clip
-            let xRand
-            let yRand
-            let zRand
+            let clips;
+            let clip;
+            let xRand;
+            let yRand;
+            let zRand;
 
-            BEEOBJ3D = new THREE.Object3D()
+            BEEOBJ3D = new THREE.Object3D();
 
             for (let i = 1; i < NUMBERBEES; i++) {
-                const sign = i % 2 === 0 ? 1 : -1
-                const beeInstance = BEEMESH.clone()
+                const sign = i % 2 === 0 ? 1 : -1;
+                const beeInstance = BEEMESH.clone();
 
 
 
-                xRand = Math.random() * 1.5 - 0.75
-                yRand = Math.random() * 2 - 1 + 1
-                zRand = Math.random() * 0.5 - 0.25
+                xRand = Math.random() * 1.5 - 0.75;
+                yRand = Math.random() * 2 - 1 + 1;
+                zRand = Math.random() * 0.5 - 0.25;
 
-                beeInstance.position.set(xRand, yRand, zRand)
-                beeInstance.scale.multiplyScalar(0.1)
+                beeInstance.position.set(xRand, yRand, zRand);
+                beeInstance.scale.multiplyScalar(0.1);
                 animateFlyBees(beeInstance, sign * ((i + 1) * 0.005 + 0.01), sign);
-                let BEEINSTANCEOBJ3D = new THREE.Object3D()
-                BEEINSTANCEOBJ3D.add(beeInstance)
+                let BEEINSTANCEOBJ3D = new THREE.Object3D();
+                BEEINSTANCEOBJ3D.add(beeInstance);
 
                 // CREATE BATTEMENT D'AILE ANIMATION
                 if (!ISANIMATED) {
                     // This is where adding our animation begins
-                    const mixer = new THREE.AnimationMixer(beeInstance)                    
+                    const mixer = new THREE.AnimationMixer(beeInstance);
 
                     clips = beeInstance.geometry.animations;
 
@@ -220,39 +209,23 @@ function init_threeScene(spec) {
                     const action = mixer.clipAction(clip);
 
 
-                    ACTIONS.push(action)                    
-                    MIXERS.push(mixer)
+                    ACTIONS.push(action);
+                    MIXERS.push(mixer);
                 }
 
-
-                // ADD OUR LIGHTS INSIDE THE BUTTERFLY TO CREATE A GLOWING EFFECT
-                /*let pointLight = new THREE.PointLight(0x77ffff, 1.5, 1, 0.1);
-                pointLight.position.set(xRand, yRand, zRand);
-                animatePointLightButterfly(pointLight)
-                animateFly(pointLight, 0.005*i*0.1 + 0.002)*/
-
-                // Helps visualise the pointlights added
-                // uncomment to display
-                var sphereSize = 1;
-                //var pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
-                // THREESCENE.add( pointLightHelper )
-
-                //BEEINSTANCEOBJ3D.add(pointLight)
-
-
-                BEEOBJ3D.add(BEEINSTANCEOBJ3D)
+                BEEOBJ3D.add(BEEINSTANCEOBJ3D);
             }
 
             // We play the animation for each butterfly and shift their cycles
             // by adding a small timeout
             ACTIONS.forEach((a, index) => {
                 setTimeout(() => {
-                    a.play()
-                }, index*33)
-            })
+                    a.play();
+                }, index*33);
+            });
 
             
-            THREEFACEOBJ3DPIVOTED.add(BEEOBJ3D)
+            THREEFACEOBJ3DPIVOTED.add(BEEOBJ3D);
         }
     )
 
@@ -315,14 +288,13 @@ function init_threeScene(spec) {
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
 
     // CREATE A LIGHT
-    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    const ambient = new THREE.AmbientLight(0xffffff, 1);
     THREESCENE.add(ambient)
 
     // CREATE A SPOTLIGHT
     var spotLight = new THREE.SpotLight(0xffffff);
     spotLight.position.set(100, 1000, 100);
 
-    spotLight.castShadow = true;
     THREESCENE.add(spotLight)
 } // end init_threeScene()
 
