@@ -220,7 +220,6 @@ function init_threeScene(spec) {
     var spotLight = new THREE.SpotLight(0xffffff, 0.5);
     spotLight.position.set(100, 1000, 1000);
 
-    spotLight.castShadow = true;
     THREESCENE.add(spotLight)
 
     // init video texture with red
