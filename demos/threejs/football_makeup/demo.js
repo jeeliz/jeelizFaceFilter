@@ -53,15 +53,18 @@ function init_threeScene(spec) {
     loader.load(
         './models/football_makeup/face.json',
         (geometry) => {
-            const mat = new THREE.MeshStandardMaterial({
+            const mat = new THREE.MeshBasicMaterial({
+                // DEBUG: uncomment color, comment map and alphaMap
+                // color: 0xFF0000,
                 map: new THREE.TextureLoader().load('./models/football_makeup/texture.png'),
-                alphaMap: new THREE.TextureLoader().load('./models/football_makeup/alpha_map.png'),
+                alphaMap: new THREE.TextureLoader().load('./models/football_makeup/alpha_map_256.png'),
                 transparent: true,
                 opacity: 0.6
             });
 
             const faceMesh = new THREE.Mesh(geometry, mat);
             faceMesh.position.y += 0.15;
+            // faceMesh.position.z -= 0.25;
 
             addDragEventListener(faceMesh);
 
@@ -69,12 +72,37 @@ function init_threeScene(spec) {
         }
     )
 
+    // We load the font that we'll use to display 3D text
+    const fontLoader = new THREE.FontLoader();
+
+    fontLoader.load(
+        './fonts/helvetiker_regular.typeface.json',
+        (font) => {
+            const textGeometry = new THREE.TextGeometry('Allez les Bleus!', {
+                font: font,
+                size: 0.25,
+                height: 0.1,
+                curveSegments: 12,
+            })
+
+            const textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({
+                color: 0x2951A7
+            }))
+            textMesh.rotation.y = 3;
+            textMesh.rotation.z = 0.3;
+            textMesh.position.x += 1.5
+            textMesh.position.y += 0.9
+            THREEFACEOBJ3DPIVOTED.add(textMesh)
+        }
+    )
+    
+
     // CREATE THE SCENE
     THREESCENE = new THREE.Scene();
     THREESCENE.add(THREEFACEOBJ3D);
 
     // init video texture with red
-    THREEVIDEOTEXTURE = new THREE.DataTexture(new Uint8Array([255,0,0]), 1, 1, THREE.RGBFormat);
+    THREEVIDEOTEXTURE = new THREE.DataTexture(new Uint8Array([255, 0, 0]), 1, 1, THREE.RGBFormat);
     THREEVIDEOTEXTURE.needsUpdate = true;
 
     // CREATE THE VIDEO BACKGROUND
@@ -126,17 +154,6 @@ function init_threeScene(spec) {
     // CREATE THE CAMERA
     const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
-
-    // CREATE A LIGHT
-    const ambient = new THREE.AmbientLight(0xffffff, 2);
-    THREESCENE.add(ambient)
-
-    // CREATE A SPOTLIGHT
-    var spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(100, 1000, 100);
-
-    spotLight.castShadow = true;
-    THREESCENE.add(spotLight)
 } // end init_threeScene()
 
 // launched by body.onload() :
