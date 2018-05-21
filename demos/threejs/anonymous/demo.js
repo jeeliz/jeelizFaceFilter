@@ -75,7 +75,7 @@ function init_threeScene(spec) {
     headLoader.load(
         './models/anonymous/anonymous.json',
         (geometryHead) => {
-           const mat = new THREE.MeshPhongMaterial({
+           const mat = new THREE.MeshLambertMaterial({
                 map: new THREE.TextureLoader().load('./models/anonymous/anonymous.png'),
                 transparent: true,
                 shininess: 0.3
@@ -157,7 +157,7 @@ function init_threeScene(spec) {
     // CREATE THE CAMERA
     const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
-
+    
     // CREATE A LIGHT
     const ambient = new THREE.AmbientLight(0xffffff, 0.8);
     THREESCENE.add(ambient)
@@ -165,8 +165,6 @@ function init_threeScene(spec) {
     // CREAT A SPOTLIGHT
     var spotLight = new THREE.SpotLight(0xffffff, 0.5);
     spotLight.position.set(100, 1000, 1000);
-
-    spotLight.castShadow = true;
     THREESCENE.add(spotLight)
 } // end init_threeScene()
 
