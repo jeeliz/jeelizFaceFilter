@@ -55,6 +55,29 @@ function detect_callback(isDetected) {
     }
 }
 
+function applyFilter() {
+    // apply filter to filter canvas
+    const filter = document.getElementById('filter')
+    let canvas;
+    try {
+        canvas = fx.canvas();
+    } catch (e) {
+        alert('Ow no! WebGL isn\'t supported...')
+        return
+    }
+
+    const image = new Image(600, 600);
+    image.src = './images/texture_pink.jpg';
+
+    image.onload = () => {
+        const texture = canvas.texture(image);
+
+        canvas.draw(texture).vignette(0.5, 0.6).colorHalftone(0, 0, 0.2, 0.1).update();
+
+        filter.append(canvas);
+    }
+}
+
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
     CANVAS = document.getElementById('jeeFaceFilterCanvas')
@@ -90,8 +113,8 @@ function init_threeScene(spec) {
         function (geometry) {
             const mat = new THREE.FlexMaterial({
                 map: new THREE.TextureLoader().load('./models/dog/texture_ears.jpg'),
-                flexMap: new THREE.TextureLoader().load('./models/dog/flex_ears.jpg'),
-                alphaMap: new THREE.TextureLoader().load('./models/dog/alpha_ears.jpg'),
+                flexMap: new THREE.TextureLoader().load('./models/dog/flex_ears_256.jpg'),
+                alphaMap: new THREE.TextureLoader().load('./models/dog/alpha_ears_256.jpg'),
                 transparent: true,
                 opacity: 1,
                 bumpMap: new THREE.TextureLoader().load('./models/dog/normal_ears.jpg'),
@@ -116,13 +139,10 @@ function init_threeScene(spec) {
         function (geometry) {
             const mat = new THREE.MeshPhongMaterial({
                 map: new THREE.TextureLoader().load('./models/dog/texture_nose.jpg'),
-                // flexMap: new THREE.TextureLoader().load('./models/dog/flex_nose.png'),
                 shininess: 1.5,
                 specular: 0xffffff,
                 bumpMap: new THREE.TextureLoader().load('./models/dog/normal_nose.jpg'),
-                bumpScale: 0.005,
-                // normalMap: new THREE.TextureLoader().load('./models/dog/normal_nose.jpg'),
-                // normalScale: 0.5
+                bumpScale: 0.005
             });
 
             NOSEMESH = new THREE.Mesh(geometry, mat);
@@ -143,8 +163,8 @@ function init_threeScene(spec) {
             geometry.computeMorphNormals();
             const mat = new THREE.FlexMaterial({
                 map: new THREE.TextureLoader().load('./models/dog/dog_tongue.jpg'),
-                flexMap: new THREE.TextureLoader().load('./models/dog/flex_tongue.png'),
-                alphaMap: new THREE.TextureLoader().load('./models/dog/tongue_alpha.jpg'),
+                flexMap: new THREE.TextureLoader().load('./models/dog/flex_tongue_256.png'),
+                alphaMap: new THREE.TextureLoader().load('./models/dog/tongue_alpha_256.jpg'),
                 transparent: true,
                 morphTargets: true,
                 opacity: 1
@@ -246,6 +266,10 @@ function init_threeScene(spec) {
     // CREATE THE CAMERA
     const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
+
+
+    // Add filter
+    applyFilter()
 } // end init_threeScene()
 
 function animateTongue (mesh, isReverse) {
