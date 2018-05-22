@@ -292,7 +292,7 @@ We are currently writing a series of tutorial for the API, starting by building 
 
 * [Flying around the Globe with Cesium and Your Head](https://cesium.com/blog/2018/03/22/jeeliz-and-cesium/)
 
-* [Build a multifacial face filter](http://www.webglacademy.com/courses.php?courses=19_25_27_33_34#34) : Interactive step by step tutorial hosted on [WebGL Academy](http://www.webglacademy.com) where you learn to build a Statue of Liberty using THREE.js and this library
+* [Build a multifacial face filter](https://webglacademy.jeeliz.com/courses.php?courses=19_25_27_33_34#34) : Interactive step by step tutorial hosted on [WebGL Academy](http://www.webglacademy.com) where you learn to build a Statue of Liberty using THREE.js and this library
 
 
 ## License
