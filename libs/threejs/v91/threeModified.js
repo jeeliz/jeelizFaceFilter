@@ -230,6 +230,8 @@ This version of THREE.JS has been slightly modified to work with WebGL2 as well 
 	var DstColorFactor = 208;
 	var OneMinusDstColorFactor = 209;
 	var SrcAlphaSaturateFactor = 210;
+	var ConstantColorFactor=666000; //Jeeliz : add blend color mode
+	var OneMinusConstantColorFactor=666001; //Jeeliz : add blend color mode
 	var NeverDepth = 0;
 	var AlwaysDepth = 1;
 	var LessDepth = 2;
@@ -20607,6 +20609,10 @@ This version of THREE.JS has been slightly modified to work with WebGL2 as well 
 			if ( p === OneMinusSrcAlphaFactor ) return gl.ONE_MINUS_SRC_ALPHA;
 			if ( p === DstAlphaFactor ) return gl.DST_ALPHA;
 			if ( p === OneMinusDstAlphaFactor ) return gl.ONE_MINUS_DST_ALPHA;
+			
+			if ( p === ConstantColorFactor ) return gl.CONSTANT_COLOR; //JEELIZ
+			if ( p === OneMinusConstantColorFactor ) return gl.ONE_MINUS_CONSTANT_COLOR; //JEELIZ
+
 
 			if ( p === DstColorFactor ) return gl.DST_COLOR;
 			if ( p === OneMinusDstColorFactor ) return gl.ONE_MINUS_DST_COLOR;
@@ -20670,13 +20676,18 @@ This version of THREE.JS has been slightly modified to work with WebGL2 as well 
 
 			if ( p === MinEquation || p === MaxEquation ) {
 
-				extension = extensions.get( 'EXT_blend_minmax' );
+				if (gl instanceof(WebGL2RenderingContext)){ //JEELIZ : take account of WebGL2
+					if ( p === MinEquation ) return gl.MIN;
+					if ( p === MaxEquation ) return gl.MAX;
+				} else {
+					extension = extensions.get( 'EXT_blend_minmax' );
+					
+					if ( extension !== null ) {
 
-				if ( extension !== null ) {
+						if ( p === MinEquation ) return extension.MIN_EXT;
+						if ( p === MaxEquation ) return extension.MAX_EXT;
 
-					if ( p === MinEquation ) return extension.MIN_EXT;
-					if ( p === MaxEquation ) return extension.MAX_EXT;
-
+					}
 				}
 
 			}
@@ -46181,6 +46192,8 @@ This version of THREE.JS has been slightly modified to work with WebGL2 as well 
 	exports.OneMinusSrcColorFactor = OneMinusSrcColorFactor;
 	exports.SrcAlphaFactor = SrcAlphaFactor;
 	exports.OneMinusSrcAlphaFactor = OneMinusSrcAlphaFactor;
+	exports.ConstantColorFactor = ConstantColorFactor;
+	exports.OneMinusConstantColorFactor = OneMinusConstantColorFactor;
 	exports.DstAlphaFactor = DstAlphaFactor;
 	exports.OneMinusDstAlphaFactor = OneMinusDstAlphaFactor;
 	exports.DstColorFactor = DstColorFactor;

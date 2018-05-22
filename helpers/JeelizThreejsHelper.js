@@ -157,7 +157,44 @@ THREE.JeelizHelper=(function(){
 
             //trigger the render of the THREE.JS SCENE
             _threeRenderer.render(_threeScene, threeCamera);
-		}
+		},
+
+		sortFaces: function(bufferGeometry, axis, isInv){ //sort faces long an axis
+			//useful when a bufferGeometry has alpha : we should render the last faces first
+			var axisOffset={X:0, Y:1, Z:2}[axis.toUpperCase()];
+			var sortWay=(isInv)?-1:1;
+
+			//fill the faces array
+			var nFaces=bufferGeometry.index.count/3;
+			var faces=new Array(nFaces);
+			for (var i=0; i<nFaces; ++i){
+				faces[i]=[bufferGeometry.index.array[3*i], bufferGeometry.index.array[3*i+1], bufferGeometry.index.array[3*i+2]];
+			}
+
+			//compute centroids :
+			var aPos=bufferGeometry.attributes.position.array;
+			var centroids=faces.map(function(face, faceIndex){
+				return [
+					(aPos[3*face[0]]+aPos[3*face[1]]+aPos[3*face[2]])/3, //X
+					(aPos[3*face[0]+1]+aPos[3*face[1]+1]+aPos[3*face[2]+1])/3, //Y
+					(aPos[3*face[0]+2]+aPos[3*face[1]+2]+aPos[3*face[2]+2])/3, //Z
+					face
+				];
+			});
+
+			//sort centroids
+			centroids.sort(function(ca, cb){
+				return (ca[axisOffset]-cb[axisOffset])*sortWay;
+			});
+
+			//reorder bufferGeometry faces :
+			centroids.forEach(function(centroid, centroidIndex){
+				var face=centroid[3];
+				bufferGeometry.index.array[3*centroidIndex]=face[0];
+				bufferGeometry.index.array[3*centroidIndex+1]=face[1];
+				bufferGeometry.index.array[3*centroidIndex+2]=face[2];
+			});
+		} //end sortFaces
 	}
 	return that;
 })();

@@ -85,6 +85,7 @@ You can test it with these demos (all included in this repo in the `/demos` path
   * [Fireworks - particules](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
   * [GLTF fullscreen demo with HD video](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/)
+  * [Statue Of Liberty](https://jeeliz.com/demos/faceFilter/demos/threejs/demo_multiLiberty.js/)
 
 * A-FRAME based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/)
@@ -291,6 +292,7 @@ We are currently writing a series of tutorial for the API, starting by building 
 
 * [Flying around the Globe with Cesium and Your Head](https://cesium.com/blog/2018/03/22/jeeliz-and-cesium/)
 
+* [Build a multifacial face filter](http://www.webglacademy.com/courses.php?courses=19_25_27_33_34#34) : Interactive step by step tutorial hosted on [WebGL Academy](http://www.webglacademy.com) where you learn to build a Statue of Liberty using THREE.js and this library
 
 
 ## License
