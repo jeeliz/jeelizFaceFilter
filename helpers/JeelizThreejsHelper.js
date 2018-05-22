@@ -95,7 +95,7 @@ THREE.JeelizHelper=(function(){
 
 	function update_positions3D(ds, threeCamera){
 		var tanFOV=Math.tan(threeCamera.aspect*threeCamera.fov*Math.PI/360); //tan(FOV/2), in radians
-               
+                 
 		_threeCompositeObjects.forEach(function(threeCompositeObject, i){
 			if (!threeCompositeObject.visible) return;
 			var detectState=ds[i];
