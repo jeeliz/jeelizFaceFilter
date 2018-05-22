@@ -214,10 +214,10 @@ function init_threeScene(spec) {
     THREESCENE.add(ambient);
 
     // CREATE A SPOTLIGHT
-    var spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(100, 1000, 100);
+    var dirLight = new THREE.DirectionalLight(0xffffff);
+    dirLight.position.set(100, 1000, 100);
 
-    THREESCENE.add(spotLight);
+    THREESCENE.add(dirLight);
 } // end init_threeScene()
 
 function animateFly(mesh, theta, index) {

@@ -72,7 +72,7 @@ function applyFilter() {
     image.onload = () => {
         const texture = canvas.texture(image);
 
-        canvas.draw(texture).vignette(0.5, 0.6).colorHalftone(0, 0, 0.2, 0.1).update();
+        canvas.draw(texture).vignette(0.5, 0.6).update();
 
         filter.append(canvas);
     }
@@ -216,11 +216,11 @@ function init_threeScene(spec) {
     const ambient = new THREE.AmbientLight(0xffffff, 0.8);
     THREESCENE.add(ambient)
 
-    // CREAT A SPOTLIGHT
-    var spotLight = new THREE.SpotLight(0xffffff, 0.5);
-    spotLight.position.set(100, 1000, 1000);
+    // CREAT A DIRECTIONALLIGHT
+    var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    dirLight.position.set(100, 1000, 1000);
 
-    THREESCENE.add(spotLight)
+    THREESCENE.add(dirLight);
 
     // init video texture with red
     THREEVIDEOTEXTURE = new THREE.DataTexture(new Uint8Array([255,0,0]), 1, 1, THREE.RGBFormat);
