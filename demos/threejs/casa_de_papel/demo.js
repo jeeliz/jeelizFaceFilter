@@ -134,11 +134,10 @@ function init_threeScene(spec) {
     THREESCENE.add(ambient)
 
     // CREAT A SPOTLIGHT
-    var spotLight = new THREE.SpotLight(0xffffff, 0.5);
-    spotLight.position.set(100, 1000, 1000);
+    var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    dirLight.position.set(100, 1000, 1000);
 
-    spotLight.castShadow = true;
-    THREESCENE.add(spotLight)
+    THREESCENE.add(dirLight)
 } // end init_threeScene()
 
 // launched by body.onload() :
