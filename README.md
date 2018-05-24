@@ -20,7 +20,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [The returned objects](#the-returned-objects)
   * [Misc methods](#misc-methods)
   * [Multiple faces](#multiple-faces)
-  * [Changing the 3D Engine](#changing-the-3D-engine)
+  * [Changing the 3D Engine](#changing-the-3d-engine)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
   * [Hosting optimization](#hosting-optimization)
