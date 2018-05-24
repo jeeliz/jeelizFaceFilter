@@ -231,9 +231,9 @@ You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThree
 
 
 ### Changing the 3D Engine
-It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you did this work, we would be interested to add your demonstration in this repository (or link to your code). We may add Babylon.js and Pixi.js boilerplates later.
+It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you have accomplished this work, we would be interested to add your demonstration in this repository (or link to your code). Just open a pull request.
 
-It is important that the 3D engine shares the same WebGL context. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the Jeeliz Face Filter WebGL context. It would be more costly to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts : the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initalized WebGL context.
+It is important that the 3D engine shares the same WebGL context. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the Jeeliz Face Filter WebGL context. It would be more costly in term of computating time to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts : the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initalized WebGL context.
 
 
 
