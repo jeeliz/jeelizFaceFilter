@@ -5,6 +5,9 @@ function main(){ //entry point
 
     if (VIDEOELEMENT['currentTime'] && VIDEOELEMENT['videoWidth'] && VIDEOELEMENT['videoHeight']){
         start();
+    } else {
+        setTimeout(main, 100);
+        VIDEOELEMENT['play']();
     }
 }
 
