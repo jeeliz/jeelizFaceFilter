@@ -20,6 +20,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [The returned objects](#the-returned-objects)
   * [Misc methods](#misc-methods)
   * [Multiple faces](#multiple-faces)
+  * [Optimization](#optimization)
   * [Changing the 3D Engine](#changing-the-3d-engine)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
@@ -135,7 +136,7 @@ This canvas will be used by WebGL both for the computation and the 3D rendering.
 ```javascript
 JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', //root of NNC.json file
+    NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
     callbackReady: function(errCode, spec){
         if (errCode){
             console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
@@ -161,11 +162,18 @@ JEEFACEFILTERAPI.init({
 * `<dict> videoSetting` : override WebRTC specified video settings, which are by default :
 ```javascript
 {
+  'videoElement' : `<video>` element provided. If you specify this parameter,
+   //all other settings will be useless
+   //it means that you fully handle the video aspect
+
+  'deviceId' // by default, not set
+  'facingMode' : 'user', //to use the rear camera, set to 'environment'
+
   'idealWidth': 800,  //ideal video width in pixels
   'idealHeight': 600, //ideal video height in pixels
-  'minWidth': 800,    //min video width in pixels
+  'minWidth': 480,    //min video width in pixels
   'maxWidth': 1280,   //max video width in pixels
-  'minHeight': 600,   //min video height in pixels
+  'minHeight': 480,   //min video height in pixels
   'maxHeight': 1280   //max video height in pixels
 }
 ```
@@ -218,7 +226,33 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `set_inputTexture(<WebGLTexture> tex, <integer> width, <integer> height)` : Change the video input by a WebGL Texture instance. The dimensions of the texture, in pixels, should be provided,
 
-* `reset_inputTexture()` : Come back to the user's video as input texture.
+* `reset_inputTexture()` : Come back to the user's video as input texture,
+
+* `get_videoDevices(<function> callback)` : Should be called before the `init` method. The callback function is called with 2 arguments :
+  * `<array> mediaDevices` : an array with all the devices founds. Each device is an object with the `deviceId` string attribute which can be provided to the `init` method to use a specific webcam. If an error happens, this value is set to `false`,
+  * `<string> errorLabel` : if an error happens, the label of the error. It can be : `NOTSUPPORTED`, `NODEVICESFOUND` or `PROMISEREJECTED`.
+
+
+
+### Optimization
+We strongly recommend to use the `JeelizResizer` helper in order to size the canvas to the display size in order to not compute more pixels than required. This helper also compute the best camera resolution. If the camera resolution is too high compared to the canvas resolution, your application will be unnecessarily slowed because it is quite costly to refresh the GPU WebGL texture with the video. And if the video resolution is too low compared to the canvas resolution, the image will be blurry. You can take a look at the THREE.js boilerplate to see how it is used. To use the helper, you first need to include it in the HTML code :
+```
+<script type="text/javascript" src="https://appstatic.jeeliz.com/faceFilter/JeelizResizer.js"></script>
+```
+Then in your main script, before initializing Jeeliz FaceFilter, you should call it to size the canvas to the best resolution and to find the optimal video resolution :
+```
+JeelizResizer.size_canvas({
+  canvasId: 'jeeFaceFilterCanvas',
+    callback: function(isError, bestVideoSettings){
+        JEEFACEFILTERAPI.init({
+          videoSettings: bestVideoSettings,
+          //...
+          //...
+        });
+    }
+});
+```
+Take a look at the source code of this helper (in [helpers/JeelizResize.js](helpers/JeelizResize.js)) to get more information about its arguments.
 
 
 ### Multiple faces
