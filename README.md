@@ -163,11 +163,12 @@ JEEFACEFILTERAPI.init({
 * `<dict> videoSetting` : override WebRTC specified video settings, which are by default :
 ```javascript
 {
-  'videoElement' : `<video>` element provided. If you specify this parameter,
+  'videoElement' //not set by default. <video> element used
+   //If you specify this parameter,
    //all other settings will be useless
    //it means that you fully handle the video aspect
 
-  'deviceId' // by default, not set
+  'deviceId'             //not set by default
   'facingMode' : 'user', //to use the rear camera, set to 'environment'
 
   'idealWidth': 800,  //ideal video width in pixels
