@@ -2,7 +2,10 @@ var VIDEOELEMENT;
 
 function main(){ //entry point
     VIDEOELEMENT=document.getElementById('myVideo');
-    start();
+
+    if (VIDEOELEMENT['currentTime'] && VIDEOELEMENT['videoWidth'] && VIDEOELEMENT['videoHeight']){
+        start();
+    }
 }
 
 function start(){ //launched when the video is loaded
