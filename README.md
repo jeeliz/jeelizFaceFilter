@@ -237,6 +237,9 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 
 ### Optimization
+
+#### Canvas and video resolutions
+
 We strongly recommend to use the `JeelizResizer` helper in order to size the canvas to the display size in order to not compute more pixels than required. This helper also compute the best camera resolution. If the camera resolution is too high compared to the canvas resolution, your application will be unnecessarily slowed because it is quite costly to refresh the GPU WebGL texture with the video. And if the video resolution is too low compared to the canvas resolution, the image will be blurry. You can take a look at the THREE.js boilerplate to see how it is used. To use the helper, you first need to include it in the HTML code :
 ```
 <script type="text/javascript" src="https://appstatic.jeeliz.com/faceFilter/JeelizResizer.js"></script>
@@ -255,6 +258,14 @@ JeelizResizer.size_canvas({
 });
 ```
 Take a look at the source code of this helper (in [helpers/JeelizResize.js](helpers/JeelizResize.js)) to get more information about its arguments.
+
+#### Misc
+
+A few tips :
+* In term of optimisation, the WebGL based demos are more optimized than Canvas2D demos, which are still more optimized than CSS3D demos.
+* Try to use lighter resources as possibles. Each texture image should have the lowest resolution as possible, use mipmapping for texture minification filtering.
+* The more effects you use, the slower it will be. Add the 3D effects gradually to check that they do not penalize too much the frame rate.
+* Use low polygon meshes.
 
 
 ### Multiple faces
