@@ -98,6 +98,7 @@ You can test it with these demos (all included in this repo in the `/demos` path
 * Canvas2D based demos :
   * [Draw on the face with the mouse](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceDraw/)
   * [2D face detection and tracking - 30 lines of code only !](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceTrack/)
+  * [2D face detection and tracking from a video file instead of webcam video](https://jeeliz.com/demos/faceFilter/demos/canvas2D/fromVideoFile/)
 
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
