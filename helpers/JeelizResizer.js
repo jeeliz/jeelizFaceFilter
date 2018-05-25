@@ -15,7 +15,7 @@ to balance between performance and quality
 var JeelizResizer=(function(){
 	//private vars :
 	var _domCanvas, _whCanvasPx, _resizeAttemptsCounter=0, _overSamplingFactor=1;
-	var _cameraResolutions=[ //all resolutions should be landscape
+	var _cameraResolutions=[ //all resolutions should be in landscape mode
 		[640,480],
 		[768,480],
 		[800,600],
@@ -121,7 +121,7 @@ var JeelizResizer=(function(){
 			var allResolutions=_cameraResolutions.slice(0);
 
 			//if we are in portrait mode, the camera is also in portrait mode
-			//so we need to set all resolution to portrait mode
+			//so we need to set all resolutions to portrait mode
 			if (that.is_portrait()){
 				allResolutions.forEach(function(wh){
 					wh.reverse();
@@ -144,7 +144,7 @@ var JeelizResizer=(function(){
 			setTimeout(options.callback.bind(null, false, bestCameraResolution), 1);
 		}, //end size_canvas()
 
-		resize_canvas(){ //should be called if the canvas is resized to update the canvas resolution
+		resize_canvas: function(){ //should be called if the canvas is resized to update the canvas resolution
 			update_sizeCanvas();
 		}
 	}; //end that
