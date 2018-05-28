@@ -20,7 +20,8 @@ This library is lightweight and it does not include any 3D engine or third party
   * [The returned objects](#the-returned-objects)
   * [Misc methods](#misc-methods)
   * [Multiple faces](#multiple-faces)
-  * [Changing the 3D Engine](#changing-the-3D-engine)
+  * [Optimization](#optimization)
+  * [Changing the 3D Engine](#changing-the-3d-engine)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
   * [Hosting optimization](#hosting-optimization)
@@ -85,6 +86,7 @@ You can test it with these demos (all included in this repo in the `/demos` path
   * [Fireworks - particules](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
   * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
   * [GLTF fullscreen demo with HD video](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/)
+  * [Statue Of Liberty](https://jeeliz.com/demos/faceFilter/demos/threejs/multiLiberty/)
 
 * A-FRAME based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/)
@@ -96,6 +98,7 @@ You can test it with these demos (all included in this repo in the `/demos` path
 * Canvas2D based demos :
   * [Draw on the face with the mouse](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceDraw/)
   * [2D face detection and tracking - 30 lines of code only !](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceTrack/)
+  * [2D face detection and tracking from a video file instead of webcam video](https://jeeliz.com/demos/faceFilter/demos/canvas2D/fromVideoFile/)
 
 * CESIUM.JS based demos :
   * [3D view of the Earth with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/)
@@ -134,7 +137,7 @@ This canvas will be used by WebGL both for the computation and the 3D rendering.
 ```javascript
 JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', //root of NNC.json file
+    NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
     callbackReady: function(errCode, spec){
         if (errCode){
             console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
@@ -160,11 +163,19 @@ JEEFACEFILTERAPI.init({
 * `<dict> videoSetting` : override WebRTC specified video settings, which are by default :
 ```javascript
 {
+  'videoElement' //not set by default. <video> element used
+   //If you specify this parameter,
+   //all other settings will be useless
+   //it means that you fully handle the video aspect
+
+  'deviceId'             //not set by default
+  'facingMode' : 'user', //to use the rear camera, set to 'environment'
+
   'idealWidth': 800,  //ideal video width in pixels
   'idealHeight': 600, //ideal video height in pixels
-  'minWidth': 800,    //min video width in pixels
+  'minWidth': 480,    //min video width in pixels
   'maxWidth': 1280,   //max video width in pixels
-  'minHeight': 600,   //min video height in pixels
+  'minHeight': 480,   //min video height in pixels
   'maxHeight': 1280   //max video height in pixels
 }
 ```
@@ -217,7 +228,44 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `set_inputTexture(<WebGLTexture> tex, <integer> width, <integer> height)` : Change the video input by a WebGL Texture instance. The dimensions of the texture, in pixels, should be provided,
 
-* `reset_inputTexture()` : Come back to the user's video as input texture.
+* `reset_inputTexture()` : Come back to the user's video as input texture,
+
+* `get_videoDevices(<function> callback)` : Should be called before the `init` method. The callback function is called with 2 arguments :
+  * `<array> mediaDevices` : an array with all the devices founds. Each device is an object with the `deviceId` string attribute which can be provided to the `init` method to use a specific webcam. If an error happens, this value is set to `false`,
+  * `<string> errorLabel` : if an error happens, the label of the error. It can be : `NOTSUPPORTED`, `NODEVICESFOUND` or `PROMISEREJECTED`.
+
+
+
+### Optimization
+
+#### Canvas and video resolutions
+
+We strongly recommend to use the `JeelizResizer` helper in order to size the canvas to the display size in order to not compute more pixels than required. This helper also compute the best camera resolution. If the camera resolution is too high compared to the canvas resolution, your application will be unnecessarily slowed because it is quite costly to refresh the GPU WebGL texture with the video. And if the video resolution is too low compared to the canvas resolution, the image will be blurry. You can take a look at the THREE.js boilerplate to see how it is used. To use the helper, you first need to include it in the HTML code :
+```
+<script type="text/javascript" src="https://appstatic.jeeliz.com/faceFilter/JeelizResizer.js"></script>
+```
+Then in your main script, before initializing Jeeliz FaceFilter, you should call it to size the canvas to the best resolution and to find the optimal video resolution :
+```
+JeelizResizer.size_canvas({
+  canvasId: 'jeeFaceFilterCanvas',
+    callback: function(isError, bestVideoSettings){
+        JEEFACEFILTERAPI.init({
+          videoSettings: bestVideoSettings,
+          //...
+          //...
+        });
+    }
+});
+```
+Take a look at the source code of this helper (in [helpers/JeelizResize.js](helpers/JeelizResize.js)) to get more information about its arguments.
+
+#### Misc
+
+A few tips :
+* In term of optimisation, the WebGL based demos are more optimized than Canvas2D demos, which are still more optimized than CSS3D demos.
+* Try to use lighter resources as possibles. Each texture image should have the lowest resolution as possible, use mipmapping for texture minification filtering.
+* The more effects you use, the slower it will be. Add the 3D effects gradually to check that they do not penalize too much the frame rate.
+* Use low polygon meshes.
 
 
 ### Multiple faces
@@ -230,9 +278,9 @@ You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThree
 
 
 ### Changing the 3D Engine
-It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you did this work, we would be interested to add your demonstration in this repository (or link to your code). We may add Babylon.js and Pixi.js boilerplates later.
+It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you have accomplished this work, we would be interested to add your demonstration in this repository (or link to your code). Just open a pull request.
 
-It is important that the 3D engine shares the same WebGL context. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the Jeeliz Face Filter WebGL context. It would be more costly to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts : the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initalized WebGL context.
+It is important that the 3D engine shares the same WebGL context. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the Jeeliz Face Filter WebGL context. It would be more costly in term of computating time to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts : the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initalized WebGL context.
 
 
 
@@ -291,6 +339,7 @@ We are currently writing a series of tutorial for the API, starting by building 
 
 * [Flying around the Globe with Cesium and Your Head](https://cesium.com/blog/2018/03/22/jeeliz-and-cesium/)
 
+* [Build a multifacial face filter](https://webglacademy.jeeliz.com/courses.php?courses=19_25_27_33_34#34) : Interactive step by step tutorial hosted on [WebGL Academy](http://www.webglacademy.com) where you learn to build a Statue of Liberty using THREE.js and this library
 
 
 ## License
