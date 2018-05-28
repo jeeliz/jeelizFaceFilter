@@ -46,6 +46,9 @@ let y_ears;
 
 let _flexParts=[];
 
+let VIDEOGEOMETRY;
+let FRAMEOBJ3D = new THREE.Object3D();
+
 // callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
 function detect_callback(isDetected) {
     if (isDetected) {
@@ -55,9 +58,30 @@ function detect_callback(isDetected) {
     }
 }
 
+function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creation of the video material in a func because we will also use it for the frame
+    return new THREE.RawShaderMaterial({
+        depthWrite: false,
+        depthTest: false,
+        transparent: isTransparent,
+        vertexShader: "attribute vec2 position;\n\
+            varying vec2 vUV;\n\
+            void main(void){\n\
+                gl_Position=vec4(position, 0., 1.);\n\
+                vUV=0.5+0.5*position;\n\
+            }",
+        fragmentShader: "precision lowp float;\n\
+            uniform sampler2D samplerVideo;\n\
+            varying vec2 vUV;\n\
+            void main(void){\n\
+                gl_FragColor=texture2D(samplerVideo, vUV);\n\
+            }",
+         uniforms:{
+            samplerVideo: { value: threeTexture }
+         }
+    });
+}
+
 function applyFilter() {
-    // apply filter to filter canvas
-    const filter = document.getElementById('filter')
     let canvas;
     try {
         canvas = fx.canvas();
@@ -66,15 +90,30 @@ function applyFilter() {
         return
     }
 
-    const image = new Image(600, 600);
-    image.src = './images/texture_pink.jpg';
+    const tempImage = new Image(512, 512);
+    tempImage.src = './images/texture_pink.jpg';
 
-    image.onload = () => {
-        const texture = canvas.texture(image);
+    tempImage.onload = () => {
+        const texture = canvas.texture(tempImage);
 
+        // Create the effet
         canvas.draw(texture).vignette(0.5, 0.6).update();
 
-        filter.append(canvas);
+        const canvasOpacity = document.createElement('canvas');
+        canvasOpacity.width = 512;
+        canvasOpacity.height = 512;
+        const ctx = canvasOpacity.getContext('2d');
+
+        ctx.globalAlpha = 0.2
+        ctx.drawImage(canvas, 0, 0, 512, 512);
+
+        // Add the effect
+        const calqueMesh = new THREE.Mesh(VIDEOGEOMETRY,  create_mat2d(new THREE.TextureLoader().load(canvasOpacity.toDataURL('image/png')), true))
+        calqueMesh.material.opacity = 0.2;
+        calqueMesh.material.transparent = true;
+        calqueMesh.renderOrder = 999; // render last
+        calqueMesh.frustumCulled = false;
+        FRAMEOBJ3D.add(calqueMesh);
     }
 }
 
@@ -227,30 +266,12 @@ function init_threeScene(spec) {
     THREEVIDEOTEXTURE.needsUpdate = true;
 
     // CREATE THE VIDEO BACKGROUND
-    const videoMaterial = new THREE.RawShaderMaterial({
-        depthWrite: false,
-        depthTest: false,
-        vertexShader: "attribute vec2 position;\n\
-            varying vec2 vUV;\n\
-            void main(void){\n\
-                gl_Position=vec4(position, 0., 1.);\n\
-                vUV=0.5+0.5*position;\n\
-            }",
-        fragmentShader: "precision lowp float;\n\
-            uniform sampler2D samplerVideo;\n\
-            varying vec2 vUV;\n\
-            void main(void){\n\
-                gl_FragColor=texture2D(samplerVideo, vUV);\n\
-            }",
-         uniforms:{
-            samplerVideo: { value: THREEVIDEOTEXTURE }
-         }
-    });
-    const videoGeometry = new THREE.BufferGeometry()
+    const videoMaterial = create_mat2d(THREEVIDEOTEXTURE, false);
+    VIDEOGEOMETRY = new THREE.BufferGeometry();
     const videoScreenCorners = new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
-    videoGeometry.addAttribute('position', new THREE.BufferAttribute( videoScreenCorners, 2));
-    videoGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
-    const videoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
+    VIDEOGEOMETRY.addAttribute('position', new THREE.BufferAttribute( videoScreenCorners, 2));
+    VIDEOGEOMETRY.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
+    const videoMesh = new THREE.Mesh(VIDEOGEOMETRY, videoMaterial);
     videoMesh.onAfterRender = function () {
         // replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
         THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
@@ -266,6 +287,7 @@ function init_threeScene(spec) {
     const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
 
+    THREESCENE.add(FRAMEOBJ3D);
 
     // Add filter
     applyFilter()
@@ -311,12 +333,21 @@ function animateTongue (mesh, isReverse) {
     }
 }
 
+//launched by body.onload() :
+function main(){
+    JeelizResizer.size_canvas({
+        canvasId: 'jeeFaceFilterCanvas',
+        callback: function(isError, bestVideoSettings){
+            init_faceFilter(bestVideoSettings);
+        }
+    })
+} //end main()
 
-// launched by body.onload() :
-function main() {
+function init_faceFilter(videoSettings){
     JEEFACEFILTERAPI.init({
         canvasId: 'jeeFaceFilterCanvas',
         NNCpath: '../../../dist/', // root of NNC.json file
+        videoSettings: videoSettings,
         callbackReady: function (errCode, spec) {
             if (errCode) {
                 console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
