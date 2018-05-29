@@ -156,11 +156,21 @@ function init_threeScene(spec) {
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
 } // end init_threeScene()
 
-// launched by body.onload() :
-function main() {
+//launched by body.onload() :
+function main(){
+    JeelizResizer.size_canvas({
+        canvasId: 'jeeFaceFilterCanvas',
+        callback: function(isError, bestVideoSettings){
+            init_faceFilter(bestVideoSettings);
+        }
+    })
+} //end main()
+
+function init_faceFilter(videoSettings){
     JEEFACEFILTERAPI.init({
         canvasId: 'jeeFaceFilterCanvas',
         NNCpath: '../../../dist/', // root of NNC.json file
+        videoSettings: videoSettings,
         callbackReady: function (errCode, spec) {
             if (errCode) {
                 console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);

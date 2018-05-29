@@ -4,7 +4,7 @@
 const SETTINGS = {
     rotationOffsetX: 0, // negative -> look upper. in radians
     cameraFOV: 40,      // in degrees, 3D camera FOV
-    pivotOffsetYZ: [-0.2, -0.4], // XYZ of the distance between the center of the cube and the pivot
+    pivotOffsetYZ: [0.2,0.2], // XYZ of the distance between the center of the cube and the pivot
     detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,
     scale: 1 // scale of the 3D cube
@@ -47,28 +47,12 @@ function init_threeScene(spec) {
     THREEFACEOBJ3DPIVOTED.scale.set(SETTINGS.scale, SETTINGS.scale, SETTINGS.scale);
     THREEFACEOBJ3D.add(THREEFACEOBJ3DPIVOTED);
 
-    // CREATE OUR MASK OBJECT AND ADD IT TO OUR SCENE
-    const casaLoader = new THREE.BufferGeometryLoader()
-
-    casaLoader.load(
-        './models/casa_de_papel/casa_de_papel.json',
-        (maskGeometry) => {
-            const maskMaterial = new THREE.MeshPhongMaterial({
-                map: new THREE.TextureLoader().load('./models/casa_de_papel/CasaDePapel_DIFFUSE.png'),
-                normalMap: new THREE.TextureLoader().load('./models/casa_de_papel/CasaDePapel_NRM.png'),
-                reflectivity: 1,
-                emissiveMap: new THREE.TextureLoader().load('./models/casa_de_papel/CasaDePapel_REFLECT.png')
-            });
-
-            const maskMesh = new THREE.Mesh(maskGeometry, maskMaterial);
-            maskMesh.scale.multiplyScalar(0.06);
-            maskMesh.position.y = -0.8;
-
-            addDragEventListener(maskMesh)
-
-            THREEFACEOBJ3DPIVOTED.add(maskMesh);
-        }
-    )
+    // CREATE A CUBE
+    const cubeGeometry = new THREE.BoxGeometry(1,1,1);
+    const cubeMaterial = new THREE.MeshNormalMaterial();
+    const threeCube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    threeCube.frustumCulled = false;
+    THREEFACEOBJ3DPIVOTED.add(threeCube);
 
     // CREATE THE SCENE
     THREESCENE = new THREE.Scene();
@@ -79,29 +63,25 @@ function init_threeScene(spec) {
     THREEVIDEOTEXTURE.needsUpdate = true;
 
     // CREATE THE VIDEO BACKGROUND
-    function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creation of the video material in a func because we will also use it for the frame
-        return new THREE.RawShaderMaterial({
-            depthWrite: false,
-            depthTest: false,
-            transparent: isTransparent,
-            vertexShader: "attribute vec2 position;\n\
-                varying vec2 vUV;\n\
-                void main(void){\n\
-                    gl_Position=vec4(position, 0., 1.);\n\
-                    vUV=0.5+0.5*position;\n\
-                }",
-            fragmentShader: "precision lowp float;\n\
-                uniform sampler2D samplerVideo;\n\
-                varying vec2 vUV;\n\
-                void main(void){\n\
-                    gl_FragColor=texture2D(samplerVideo, vUV);\n\
-                }",
-             uniforms:{
-                samplerVideo: { value: threeTexture }
-             }
-        });
-    }
-    const videoMaterial =create_mat2d(THREEVIDEOTEXTURE, false);
+    const videoMaterial = new THREE.RawShaderMaterial({
+        depthWrite: false,
+        depthTest: false,
+        vertexShader: "attribute vec2 position;\n\
+            varying vec2 vUV;\n\
+            void main(void){\n\
+                gl_Position=vec4(position, 0., 1.);\n\
+                vUV=0.5+0.5*position;\n\
+            }",
+        fragmentShader: "precision lowp float;\n\
+            uniform sampler2D samplerVideo;\n\
+            varying vec2 vUV;\n\
+            void main(void){\n\
+                gl_FragColor=texture2D(samplerVideo, vUV);\n\
+            }",
+         uniforms:{
+            samplerVideo: { value: THREEVIDEOTEXTURE }
+         }
+    });
     const videoGeometry = new THREE.BufferGeometry()
     const videoScreenCorners = new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
     videoGeometry.addAttribute('position', new THREE.BufferAttribute( videoScreenCorners, 2));
@@ -114,63 +94,25 @@ function init_threeScene(spec) {
         THREEVIDEOTEXTURE.minFilter = THREE.LinearFilter;
         delete(videoMesh.onAfterRender);
     };
-
     videoMesh.renderOrder = -1000; // render first
     videoMesh.frustumCulled = false;
     THREESCENE.add(videoMesh);
-
-    //MT216 : create the frame. We reuse the geometry of the video
-    const calqueMesh = new THREE.Mesh(videoGeometry,  create_mat2d(new THREE.TextureLoader().load('./images/calque.png'), true))
-    calqueMesh.renderOrder = 999; // render last
-    calqueMesh.frustumCulled = false;
-    THREESCENE.add(calqueMesh);
 
     // CREATE THE CAMERA
     const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
 
     // CREATE A LIGHT
-    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
     THREESCENE.add(ambient)
 
-    // CREAT A SPOTLIGHT
-    var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    dirLight.position.set(100, 1000, 1000);
+    // CREATE A SPOTLIGHT
+    var spotLight = new THREE.SpotLight(0xffffff);
+    spotLight.position.set(100, 1000, 100);
 
-    THREESCENE.add(dirLight)
+    spotLight.castShadow = true;
+    THREESCENE.add(spotLight)
 } // end init_threeScene()
-
-let contextAudio
-
-function playAudio() {
-    const button = document.getElementById('buttonPlayAudio');
-
-    button.style.display = 'none';
-    // INIT WEB AUDIO
-    try {
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        contextAudio = new AudioContext();
-    } catch (e) {
-        console.log('Web Audio API is not supported in this browser.');
-    }
-    if (contextAudio) {
-        const bufferLoader = new BufferLoader(
-            contextAudio,
-            ['./audio/bella_ciao.mp3'],
-            (bufferList) => {
-                const around = contextAudio.createBufferSource();
-
-                around.buffer = bufferList[0];
-                
-                around.connect(contextAudio.destination);
-                around.loop = true;
-                around.start();                
-            }
-        );
-        bufferLoader.load();
-    }
-}
-
 
 //launched by body.onload() :
 function main(){
