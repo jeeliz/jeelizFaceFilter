@@ -20,7 +20,7 @@ function detect_callback(faceIndex, isDetected){
 
 //build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec){
-    var threeStuffs = THREE.JeelizHelper.init(spec, SETTINGS.maxFaces, detect_callback);
+    var threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
     
     //CREATE A CUBE
     var cubeGeometry=new THREE.BoxGeometry(1,1,1);

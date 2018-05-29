@@ -201,8 +201,9 @@ We detail here the argument of the callback functions like `callbackReady` or `c
 ### The initialization returned object
 The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary having these properties :
 * `GL` : the WebGL context. The rendering 3D engine should use this WebGL context,
-* `canvasElement` the \<canvas\> element,
-* `videoTexture` a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background.
+* `canvasElement` : the \<canvas\> element,
+* `videoTexture` : a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background,
+* `maxFacesDetected` : the maximum number of detected faces. 
 
 
 ### The detection state
@@ -340,6 +341,8 @@ We are currently writing a series of tutorial for the API, starting by building 
 * [Flying around the Globe with Cesium and Your Head](https://cesium.com/blog/2018/03/22/jeeliz-and-cesium/)
 
 * [Build a multifacial face filter](https://webglacademy.jeeliz.com/courses.php?courses=19_25_27_33_34#34) : Interactive step by step tutorial hosted on [WebGL Academy](http://www.webglacademy.com) where you learn to build a Statue of Liberty using THREE.js and this library
+
+* [JSFiddle : Face detection and tracking in 25 lines](https://jsfiddle.net/jeeliz/2p34hbeh/)
 
 
 ## License

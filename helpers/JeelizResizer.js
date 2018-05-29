@@ -14,7 +14,7 @@ to balance between performance and quality
 
 var JeelizResizer=(function(){
 	//private vars :
-	var _domCanvas, _whCanvasPx, _resizeAttemptsCounter=0, _overSamplingFactor=1;
+	var _domCanvas, _whCanvasPx, _resizeAttemptsCounter=0, _overSamplingFactor=1, _isFullScreen=false, _timerFullScreen=false, _callbackResize=false;
 	var _cameraResolutions=[ //all resolutions should be in landscape mode
 		[640,480],
 		[768,480],
@@ -29,7 +29,7 @@ var JeelizResizer=(function(){
 	function add_CSStransform(domElement, CSS){
 		var CSStransform=domElement.style.transform;
 		if (CSStransform.indexOf(CSS)!==-1) return;
-		document.style.transform=CSS+' '+CSStransform;
+		domElement.style.transform=CSS+' '+CSStransform;
 	}
 
 	//compute overlap between 2 rectangles A and B
@@ -71,6 +71,28 @@ var JeelizResizer=(function(){
 		_domCanvas.setAttribute('height', _whCanvasPx[1]);
 	}
 
+	function on_windowResize(){
+		if (_timerFullScreen){
+			clearTimeout(_timerFullScreen);
+		}
+		_timerFullScreen=setTimeout(resize_fullScreen, 50);
+	}
+
+	function resize_canvasToFullScreen(){
+		_whCanvasPx=[window.innerWidth, window.innerHeight];
+		_domCanvas.setAttribute('width',  _whCanvasPx[0]);
+		_domCanvas.setAttribute('height', _whCanvasPx[1]);
+	}
+
+	function resize_fullScreen(){
+		resize_canvasToFullScreen();
+		JEEFACEFILTERAPI.resize();
+		_timerFullScreen=false;
+		if (_callbackResize) {
+			_callbackResize();
+		}
+	}
+
 	//public methods :
 	var that={ //return true or false if the device is in portrait or landscape mode
 		is_portrait: function(){ //https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
@@ -94,23 +116,38 @@ var JeelizResizer=(function(){
 		// - <float> overSamplingFactor : facultative. If 1, same resolution than displayed size (default). 
 		//   If 2, resolution twice higher than real size
 		// - <boolean> isFlipY : if we should flip the canvas or not. Default: false
+		// - <boolean> isFullScreen : if we should set the canvas fullscreen. Default : false
+		// - <function> onResize : function called when the window is resized. Only enabled if isFullScreen=true
 		size_canvas: function(options){
 			_domCanvas=document.getElementById(options.canvasId);
-			var domRect = _domCanvas.getBoundingClientRect();
-			if (domRect.width===0 || domRect.height===0){
-				console.log('WARNING in JeelizResize.size_canvas() : the canvas has its width or its height null, Retry a bit later...');
-				if (++_resizeAttemptsCounter>20){
-					options.callback('CANNOT_RESIZECANVAS');
+			_isFullScreen=(typeof(options.isFullScreen)!=='undefined' && options.isFullScreen);
+
+			if (_isFullScreen){
+				//we are in fullscreen mode
+				if (typeof(options.onResize)!=='undefined'){
+					_callbackResize=options.onResize;
+				}
+				resize_canvasToFullScreen();
+				window.addEventListener('resize', on_windowResize, false);
+			} else { //not fullscreen mode
+
+				//get display size of the canvas
+				var domRect = _domCanvas.getBoundingClientRect();
+				if (domRect.width===0 || domRect.height===0){
+					console.log('WARNING in JeelizResize.size_canvas() : the canvas has its width or its height null, Retry a bit later...');
+					if (++_resizeAttemptsCounter>20){
+						options.callback('CANNOT_RESIZECANVAS');
+						return;
+					}
+					setTimeout(that.size_canvas.bind(null, options), 50);
 					return;
 				}
-				setTimeout(that.size_canvas.bind(null, options), 100);
-				return;
-			}
 
-			//do resize canvas :
-			_resizeAttemptsCounter=0;
-			_overSamplingFactor=(typeof(options.overSamplingFactor)==='undefined')?1:options.overSamplingFactor;
-			update_sizeCanvas();
+				//do resize canvas :
+				_resizeAttemptsCounter=0;
+				_overSamplingFactor=(typeof(options.overSamplingFactor)==='undefined')?1:options.overSamplingFactor;
+				update_sizeCanvas();
+			}
 
 			//flip horizontally if required :
 			if (typeof(options.isFlipY)!=='undefined' && options.isFlipY){
@@ -145,6 +182,9 @@ var JeelizResizer=(function(){
 		}, //end size_canvas()
 
 		resize_canvas: function(){ //should be called if the canvas is resized to update the canvas resolution
+			if (_isFullScreen){
+				return;
+			}
 			update_sizeCanvas();
 		}
 	}; //end that

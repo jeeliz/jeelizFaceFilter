@@ -121,8 +121,8 @@ THREE.JeelizHelper=(function(){
 
 	//public methods :
 	var that={
-		init: function(spec, maxFaces, detectCallback){ //launched with the same spec object than callbackReady
-			_maxFaces=(typeof(maxFaces)==='undefined')?1:maxFaces;
+		init: function(spec, detectCallback){ //launched with the same spec object than callbackReady
+			_maxFaces=spec.maxFacesDetected;
 			if (typeof(detectCallback)!=='undefined'){
 				_detect_callback=detectCallback;
 			}

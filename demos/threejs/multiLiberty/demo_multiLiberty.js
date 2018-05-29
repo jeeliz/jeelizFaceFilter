@@ -42,7 +42,7 @@ function create_faceMaterial(){
 
 //build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec){
-    var threeStuffs = THREE.JeelizHelper.init(spec, SETTINGS.maxFaces, detect_callback);
+    var threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
     
     function add_faceMesh(threeFaceMesh){
         threeFaceMesh.frustumCulled=false;

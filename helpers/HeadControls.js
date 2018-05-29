@@ -123,7 +123,6 @@ var HeadControls=(function(){
 
 	function draw_headSearch(detectState){
 		//unbind the current FBO and set the viewport as the whole canvas
-		_gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 		_gl.viewport(0,0,_cv.width, _cv.height);
 
 		//use the head draw shader program and sync uniforms
