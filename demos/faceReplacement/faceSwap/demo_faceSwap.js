@@ -47,7 +47,7 @@ function onResize(){
 
 function init_view(spec){
 	JeelizFaceCut.init(spec);
-	var faceCutSettings={sizePx: 128, hueSizePx: 8};
+	var faceCutSettings={sizePx: 64, hueSizePx: 4};
 	FACECUT0=JeelizFaceCut.instance(faceCutSettings);
 	FACECUT1=JeelizFaceCut.instance(faceCutSettings);
 }

@@ -97,10 +97,10 @@ var JeelizFaceCut=(function(){
 	         varying vec2 vUV;\n\
 	         \n\
 	         void main(void){\n\
-	         	vec3 color=mix(vec3(1.,0.,0.), vec3(0.,1.,0.), detected);\n\
+	         	vec3 color=mix(vec3(0.1,0.1,0.1), vec3(0.,0.6,1.), detected);\n\
 	         	vec2 blendCenterFactor=2.*abs(vUV-vec2(0.5,0.5));\n\
 	         	float alpha=pow(max(blendCenterFactor.x, blendCenterFactor.y), 3.);\n\
-	         	gl_FragColor=vec4(color, alpha);\n\
+	         	gl_FragColor=vec4(color, alpha*0.5);\n\
 	         }";
 	    __shps.search=build_shaderProgram(copyVertexShaderSource, searchFragmentShaderSource, 'SEARCH');
 	    __shps.search.uniforms.detected=GL.getUniformLocation(__shps.search.program, 'detected');
@@ -294,8 +294,8 @@ var JeelizFaceCut=(function(){
 			//Initialize a facecut object
 
 			//default parameters if not specified 
-			specFaceCut.sizePx=specFaceCut.sizePx || 128; //should be POT - size of the cut face texture
-			specFaceCut.hueSizePx=specFaceCut.hueSizePx || 8; //should be POT - size of the texture used for color correction
+			specFaceCut.sizePx=specFaceCut.sizePx || 64; //should be POT - size of the cut face texture
+			specFaceCut.hueSizePx=specFaceCut.hueSizePx || 4; //should be POT - size of the texture used for color correction
 
 			//create the face cut POT texture which will be used later to compute the hue Texture
 			var _glFaceCutTexture=create_emptyMipmapTexture(specFaceCut.sizePx,specFaceCut.sizePx);
