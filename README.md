@@ -106,6 +106,7 @@ You can test it with these demos (all included in this repo in the `/demos` path
 * Face replacement demos :
   * [Insert your face into portrait art painting or film posters](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/image)
   * [Insert your face into an animated gif](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/gif), [specific README](demos/faceReplacement/gif/)
+  * [The traditional faceSwap, fullscreen and with color correction](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/faceSwap/)
 
 * MISC demos :
   * [PACMAN game with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/pacman/)

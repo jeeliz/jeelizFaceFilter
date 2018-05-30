@@ -402,7 +402,6 @@ function build_shps(){
          	if (uv.y>UPPERHEADY){ //upper head : circle arc\n\
          		vec2 uvc=(uv-vec2(0.5,UPPERHEADY))*vec2(1., 0.5/(1.-UPPERHEADY));\n\
          		float alphaBorder=smoothstep(0.5-SMOOTHEDGE, 0.5, length(uvc));\n\
-         		//float alphaCenter=pow((uv.y-UPPERHEADY)/(1.-UPPERHEADY), 0.3);\n\
          		float alphaCenter=smoothstep(UPPERHEADY, 1., uv.y);\n\
          		alpha=mix(alphaCenter, alphaBorder, smoothstep(0.3, 0.4, abs(uv.x-0.5)));\n\
          	} else if (uv.y<LOWERHEADY){ //lower head : circle arc \n\

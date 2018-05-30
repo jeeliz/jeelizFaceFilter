@@ -47,11 +47,15 @@ function onResize(){
 
 function init_view(spec){
 	JeelizFaceCut.init(spec);
-	FACECUT0=FaceCut.instance({});
-	FACECUT1=FaceCut.instance({});
+	var faceCutSettings={sizePx: 128, hueSizePx: 8};
+	FACECUT0=JeelizFaceCut.instance(faceCutSettings);
+	FACECUT1=JeelizFaceCut.instance(faceCutSettings);
 }
 
 function callbackTrack(detectedStates){
+	//for debug :
+	//FACECUT0.cut(detectedStates[0]); JeelizFaceCut.draw_video(); FACECUT0.render(FACECUT0); return;
+
 	if (detectedStates[0].detected<SETTINGS.detectionThreshold || detectedStates[1].detected<SETTINGS.detectionThreshold){
 		//less than 2 faces are detected
 		JeelizFaceCut.draw_search(detectedStates);
@@ -61,8 +65,7 @@ function callbackTrack(detectedStates){
 		FACECUT1.cut(detectedStates[1]);
 
 		JeelizFaceCut.draw_video();
-		
-
+		FACECUT0.render(FACECUT1);
+		FACECUT1.render(FACECUT0);
 	}
-
 }
