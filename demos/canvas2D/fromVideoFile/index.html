@@ -19,11 +19,26 @@
         <script type="text/javascript" src="../../appearance/widget.js"></script>
 
         <link rel="stylesheet" href="../../appearance/style.css" type="text/css" />
+
+        <style type='text/css'>
+        #notice {
+            position: fixed;
+            z-index: -1;
+            font-variant: small-caps;
+            text-align: center;
+            color: black;
+            font-size: 32pt;
+            left: 50%; top: 50%;
+            width: 400px; height: 200px;
+            margin-top: -100px; margin-left: -200px;
+        }
+        </style>
     </head>
     
     <body onload="main()" style='color: white'>
         <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
         <video id='myVideo' style='display: none' src='video.mp4' playsinline preload autoplay loop></video>
+        <div id='notice'>Click or Touch <br/> to start !</div>
     </body>
 </html>
  
