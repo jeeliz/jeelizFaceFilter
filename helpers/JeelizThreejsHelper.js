@@ -67,9 +67,13 @@ THREE.JeelizHelper=(function(){
 	    _threeVideoMesh=new THREE.Mesh(videoGeometry, videoMaterial);
 	    _threeVideoMesh.onAfterRender=function(){
 	        //replace _threeVideoTexture.__webglTexture by the real video texture
-	        _threeRenderer.properties.update(_threeVideoTexture, '__webglTexture', glVideoTexture);
-	        _threeVideoTexture.magFilter=THREE.LinearFilter;
-	        _threeVideoTexture.minFilter=THREE.LinearFilter;
+	        try {
+	        	_threeRenderer.properties.update(_threeVideoTexture, '__webglTexture', glVideoTexture);
+	        	_threeVideoTexture.magFilter=THREE.LinearFilter;
+	        	_threeVideoTexture.minFilter=THREE.LinearFilter;
+	        } catch(e){
+	        	console.log('WARNING in THREE.JeelizHelper : the glVideoTexture is not fully initialized');
+	        }
 	        delete(_threeVideoMesh.onAfterRender);
 	    };
 	    _threeVideoMesh.renderOrder=-1000; //render first
