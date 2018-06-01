@@ -13,7 +13,8 @@ THREE.JeelizHelper=(function(){
 	};
 
 	//private vars :
-	var _threeRenderer, _threeScene, _maxFaces, _isMultiFaces, _threeCompositeObjects=[], _threePivotedObjects=[], _threeVideoTexture, _detect_callback=null, _threeVideoMesh;
+	var _threeRenderer, _threeScene, _maxFaces, _isMultiFaces, _threeCompositeObjects=[], _threePivotedObjects=[], _detect_callback=null,
+		_threeVideoMesh, _glVideoTexture, _threeVideoTexture, _isVideoTextureReady=false;
 
 	//private funcs :
 	function create_threeCompositeObjects(){
@@ -35,7 +36,7 @@ THREE.JeelizHelper=(function(){
 	    }
 	}
 
-	function create_videoScreen(glVideoTexture){
+	function create_videoScreen(){
 		//init video texture with red
 	    _threeVideoTexture=new THREE.DataTexture( new Uint8Array([255,0,0]), 1, 1, THREE.RGBFormat);
 	    _threeVideoTexture.needsUpdate=true;
@@ -65,17 +66,7 @@ THREE.JeelizHelper=(function(){
 	    videoGeometry.addAttribute( 'position', new THREE.BufferAttribute( videoScreenCorners, 2 ) );
 	    videoGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
 	    _threeVideoMesh=new THREE.Mesh(videoGeometry, videoMaterial);
-	    _threeVideoMesh.onAfterRender=function(){
-	        //replace _threeVideoTexture.__webglTexture by the real video texture
-	        try {
-	        	_threeRenderer.properties.update(_threeVideoTexture, '__webglTexture', glVideoTexture);
-	        	_threeVideoTexture.magFilter=THREE.LinearFilter;
-	        	_threeVideoTexture.minFilter=THREE.LinearFilter;
-	        } catch(e){
-	        	console.log('WARNING in THREE.JeelizHelper : the glVideoTexture is not fully initialized');
-	        }
-	        delete(_threeVideoMesh.onAfterRender);
-	    };
+	    that.apply_videoTexture(_threeVideoMesh);
 	    _threeVideoMesh.renderOrder=-1000; //render first
 	    _threeVideoMesh.frustumCulled=false;
 	    _threeScene.add(_threeVideoMesh);
@@ -127,6 +118,7 @@ THREE.JeelizHelper=(function(){
 	var that={
 		init: function(spec, detectCallback){ //launched with the same spec object than callbackReady
 			_maxFaces=spec.maxFacesDetected;
+			_glVideoTexture=spec.videoTexture;
 			_isMultiFaces=(_maxFaces>1);
 
 			if (typeof(detectCallback)!=='undefined'){
@@ -142,7 +134,7 @@ THREE.JeelizHelper=(function(){
 		    _threeScene=new THREE.Scene();
 
 		    create_threeCompositeObjects();
-		    create_videoScreen(spec.videoTexture);
+		    create_videoScreen();
 		    
 		    var returnedDict = {
 		    	videoMesh: _threeVideoMesh,
@@ -206,7 +198,29 @@ THREE.JeelizHelper=(function(){
 				bufferGeometry.index.array[3*centroidIndex+1]=face[1];
 				bufferGeometry.index.array[3*centroidIndex+2]=face[2];
 			});
-		} //end sortFaces
+		}, //end sortFaces
+
+		get_threeVideoTexture: function(){
+			return _threeVideoTexture;
+		},
+
+		apply_videoTexture: function(threeMesh){
+			if (_isVideoTextureReady){
+				return;
+			}
+			threeMesh.onAfterRender=function(){
+		        //replace _threeVideoTexture.__webglTexture by the real video texture
+		        try {
+		        	_threeRenderer.properties.update(_threeVideoTexture, '__webglTexture', _glVideoTexture);
+		        	_threeVideoTexture.magFilter=THREE.LinearFilter;
+		        	_threeVideoTexture.minFilter=THREE.LinearFilter;
+		        	_isVideoTextureReady=true;
+		        } catch(e){
+		        	console.log('WARNING in THREE.JeelizHelper : the glVideoTexture is not fully initialized');
+		        }
+		        delete(threeMesh.onAfterRender);
+		    };
+		}
 	}
 	return that;
 })();

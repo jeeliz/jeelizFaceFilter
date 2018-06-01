@@ -20,13 +20,8 @@ body {overflow: auto; overflow-y: auto;
 
 @media (max-width: 787px) {
     #jeeFaceFilterCanvas {
-        z-index: 10;
-        position: absolute;
-        max-height: 100%;
-        max-width: 100%;
-        right: 0;
+        right: 0px;
         top: 60px;
-        width: 100vmin;
         transform: rotateY(180deg);
     }
 }
