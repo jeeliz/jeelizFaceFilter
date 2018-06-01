@@ -13,7 +13,7 @@ THREE.JeelizHelper=(function(){
 	};
 
 	//private vars :
-	var _threeRenderer, _threeScene, _maxFaces, _threeCompositeObjects=[], _threePivotedObjects=[], _threeVideoTexture, _detect_callback=null;
+	var _threeRenderer, _threeScene, _maxFaces, _isMultiFaces, _threeCompositeObjects=[], _threePivotedObjects=[], _threeVideoTexture, _detect_callback=null, _threeVideoMesh;
 
 	//private funcs :
 	function create_threeCompositeObjects(){
@@ -64,17 +64,17 @@ THREE.JeelizHelper=(function(){
 	    var videoScreenCorners=new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
 	    videoGeometry.addAttribute( 'position', new THREE.BufferAttribute( videoScreenCorners, 2 ) );
 	    videoGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
-	    var videoMesh=new THREE.Mesh(videoGeometry, videoMaterial);
-	    videoMesh.onAfterRender=function(){
+	    _threeVideoMesh=new THREE.Mesh(videoGeometry, videoMaterial);
+	    _threeVideoMesh.onAfterRender=function(){
 	        //replace _threeVideoTexture.__webglTexture by the real video texture
 	        _threeRenderer.properties.update(_threeVideoTexture, '__webglTexture', glVideoTexture);
 	        _threeVideoTexture.magFilter=THREE.LinearFilter;
 	        _threeVideoTexture.minFilter=THREE.LinearFilter;
-	        delete(videoMesh.onAfterRender);
+	        delete(_threeVideoMesh.onAfterRender);
 	    };
-	    videoMesh.renderOrder=-1000; //render first
-	    videoMesh.frustumCulled=false;
-	    _threeScene.add(videoMesh);
+	    _threeVideoMesh.renderOrder=-1000; //render first
+	    _threeVideoMesh.frustumCulled=false;
+	    _threeScene.add(_threeVideoMesh);
 	} //end create_videoScreen()
 
 	function detect(detectState){
@@ -123,6 +123,8 @@ THREE.JeelizHelper=(function(){
 	var that={
 		init: function(spec, detectCallback){ //launched with the same spec object than callbackReady
 			_maxFaces=spec.maxFacesDetected;
+			_isMultiFaces=(_maxFaces>1);
+
 			if (typeof(detectCallback)!=='undefined'){
 				_detect_callback=detectCallback;
 			}
@@ -138,15 +140,21 @@ THREE.JeelizHelper=(function(){
 		    create_threeCompositeObjects();
 		    create_videoScreen(spec.videoTexture);
 		    
-		    return {
+		    var returnedDict = {
+		    	videoMesh: _threeVideoMesh,
 		    	renderer: _threeRenderer,
-		    	scene: _threeScene,
-		    	faceObjects: _threePivotedObjects
+		    	scene: _threeScene
+		    };
+		    if (_isMultiFaces){
+		    	returnedDict.faceObjects=_threePivotedObjects;
+		    } else {
+		    	returnedDict.faceObject=_threePivotedObjects[0];
 		    }
+		    return returnedDict;
 		}, //end that.init()
 
 		render: function(detectState, threeCamera){
-			var ds=(_maxFaces===1)?[detectState]:detectState;
+			var ds=(_isMultiFaces)?detectState:[detectState];
 
 			//update detection states
 			detect(ds);
