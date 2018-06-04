@@ -69,7 +69,7 @@ You can test it with these demos (all included in this repo in the `/demos` path
 * BABYLON.JS based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/babylonjs/cube/)
 
-* THREE.JS based demos :
+* THREE.JS based demos - [specific README about THREE.js based demo problems](demos/threejs/) :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
   * [Multiple face tracking](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/)
   * [Star Wars: Darth Vader](https://jeeliz.com/demos/faceFilter/demos/threejs/star_wars/)
@@ -351,7 +351,7 @@ We are currently writing a series of tutorial for the API, starting by building 
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
 
-We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and link to the [Jeeliz website](https://jeeliz.com) in your application.
+We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and a link to the [Jeeliz website](https://jeeliz.com) in your application or desktop website. Of course we do not expect a large link to Jeeliz over your face filter, but if you can put the link in the credits/about/help/footer section it would be great.
 
 
 ## See also
