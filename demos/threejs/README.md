@@ -5,12 +5,12 @@ This README is specific to THREE.js problems. I had many questions more about TH
 ## Blender exporter
 The original blender files are provided for all demonstration. They are usually in the `/demoPath/dev/` path. If there are not provided, please open a new issue on this repository. The first step is to select the mesh in *Object* mode :
 <p align="center">
-<img src='https://jeeliz/uploads/BlenderSelectionObjet.png' />
+<img src='https://jeeliz.com/uploads/BlenderSelectionObjet.png' />
 </p>
 
 Then here are the options we usualy choose to export the model to a JSON file :
 <p align="center">
-<img src='https://jeeliz/uploads/BlenderExportOptions.png' />
+<img src='https://jeeliz.com/uploads/BlenderExportOptions.png' />
 </p>
 
 Because we do not export the geometry normals, we need to compute them on Javascript side using `ourGeometry.computeVertexNormals()`. The `UVs` option in the `GEOMETRY` box is selected only if the object will be textured using a specific UV mapping.
