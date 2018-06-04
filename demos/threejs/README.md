@@ -13,6 +13,6 @@ Then here are the options we usualy choose to export the model to a JSON file :
 <img src='https://jeeliz.com/uploads/BlenderExportOptions.png' />
 </p>
 
-Because we do not export the geometry normals, we need to compute them on Javascript side using `ourGeometry.computeVertexNormals()`. The `UVs` option in the `GEOMETRY` box is selected only if the object will be textured using a specific UV mapping.
+In this case we do not export the geometry normals, so we need to compute them on JavaScript side using `ourGeometry.computeVertexNormals()`. The `UVs` option in the `GEOMETRY` box is selected only if the object is textured using a specific UV mapping.
 
 3D programming is not easy and we strongly encourage you to do some tutorials about THREE.js before making your own face filters using THREE.js. You can start with the interactive tutorials on [webglacademy.com](https://webglacademy.jeeliz.com). You can start with the 10 first tutorials about vanilla WebGL programming ( [WebGL Basis](https://webglacademy.jeeliz.com/courses.php?courses=0_1_20_2_3_4_23_5_6_7_10) ), then learn THREE.js with the [WebGL Academy THREE.js tutorials](https://webglacademy.jeeliz.com/courses.php?courses=19_25_27_33_34).
