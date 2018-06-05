@@ -58,6 +58,7 @@ function init_scene(spec){
 	video.setAttribute('loop', 'true');
 	video.setAttribute('preload', 'true');
 	video.setAttribute('autoplay', 'true');
+	video.play();
 	var videoTexture = new THREE.VideoTexture( video );
 	videoTexture.magFilter=THREE.LinearFilter;
 	videoTexture.minFilter=THREE.LinearFilter;
