@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/91/three.js"></script>
-    <script src="https://appstatic.jeeliz.com/faceFilter/JeelizThreejsHelper.js"></script>
+  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-language" content="en-EN" />
 
-  	<script src='https://appstatic.jeeliz.com/faceFilter/jeelizFaceFilter.js'></script>
+    <title>JEELIZ FACE FILTER : THREE.JS MATRIX DEMO</title>
+
+    <!-- INCLUDE THREE.JS : -->
+    <script src="../../../libs/threejs/v93/three.min.js"></script>
+
+    <!-- INCLUDE FACEFILTER HELPER FOR THREE.JS : -->
+    <script src="../../../helpers/JeelizThreejsHelper.js"></script>
+
+    <!-- HELPER FOR FULLSCREEN CANVAS : -->
+	<script src="../../../helpers/JeelizResizer.js"></script>
+
+    <!-- INCLUDE FACEFILTER : -->
+  	<script src='../../../dist/jeelizFaceFilter.js'></script>
+
+  	<!-- MAIN DEMO SCRIPT : -->
     <script src='main.js'></script>
   </head>
   <body onload='main()' style='margin: 0px; overflow: hidden'>
-    <canvas id='matrixCanvas' style='transform: rotateY(180deg);'></canvas>
+    <canvas id='matrixCanvas'></canvas>
   </body>
 </html> 

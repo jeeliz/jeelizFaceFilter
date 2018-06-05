@@ -1,32 +1,55 @@
-function main(){
-	//redimensionne le canvas aux dimensions de la fenêtre
-	var cv=document.getElementById('matrixCanvas');
-	cv.setAttribute('width', window.innerWidth);
-	cv.setAttribute('height', window.innerHeight);
+"use strict";
 
+//globals :
+var THREECAMERA, MASKMATERIAL, CANVAS, THREERENDERER;
+
+//entry point :
+function main(){
+	//set canvas fullscreen with JeelizResizer.js helper :
+	JeelizResizer.size_canvas({
+		canvasId: 'matrixCanvas',
+		isFlipY: true,
+		isFullScreen: true,
+		callback: start,
+		onResize: function(){
+			if (THREECAMERA){
+				THREECAMERA.aspect=CANVAS.width/CANVAS.height;
+				THREECAMERA.updateProjectionMatrix();
+			}
+			if (MASKMATERIAL){
+				MASKMATERIAL.uniforms.resolution.value.set(CANVAS.width,CANVAS.height);
+			}
+		}
+	}); //end size_canvas call
+}
+
+//called when the canvas is resized
+function start(){
 	//initialise Jeeliz Facefilter :
 	JEEFACEFILTERAPI.init({
       canvasId: 'matrixCanvas',
-      //chemin de NNC.json, le modèle de réseau neuronal :
-      NNCpath: 'https://appstatic.jeeliz.com/faceFilter/',
-      callbackReady: function(errCode, etatInitialisation){ 
+      //path of NNC.json :
+      NNCpath: '../../../dist/',
+      callbackReady: function(errCode, spec){ 
         if (errCode){
             console.log('HEY, IL Y A EU UNE ERREUR =', errCode);
             return;
         }
         console.log('JEEFACEFILTERAPI MARCHE YEAH !');
-        init_scene(etatInitialisation);
+        init_scene(spec);
       }, //end callbackReady()
 
       callbackTrack: callbackTrack
 	});
 } 
 
-function init_scene(etatInitialisation){
-	var threeInstances=THREE.JeelizHelper.init(etatInitialisation);
+function init_scene(spec){
+	CANVAS=spec.canvasElement;
+	var threeInstances=THREE.JeelizHelper.init(spec);
+	THREERENDERER=threeInstances.renderer;
 
-	//création de la caméra ayant 20 degrés de champ de vision :
-  	var aspecRatio=etatInitialisation.canvasElement.width / etatInitialisation.canvasElement.height;
+	//create a camera with a 20° FoV
+  	var aspecRatio=spec.canvasElement.width / spec.canvasElement.height;
   	THREECAMERA=new THREE.PerspectiveCamera(20, aspecRatio, 0.1, 100);
 
   	//create the background video texture :
@@ -41,13 +64,12 @@ function init_scene(etatInitialisation){
 
 	threeInstances.videoMesh.material.uniforms.samplerVideo.value=videoTexture;
 
-	//importation du maillage :
+	//import the mesh :
 	new THREE.BufferGeometryLoader().load('maskMesh.json', function(maskGeometry){
 	  maskGeometry.computeVertexNormals();
-	  //var maskMaterial=new THREE.MeshNormalMaterial();
-
+	  
 	  //creation du matériau personnalisé
-	  var maskMaterial=new THREE.ShaderMaterial({
+	  MASKMATERIAL=new THREE.ShaderMaterial({
 	  vertexShader: "\n\
 	    varying vec3 vNormalView, vPosition;\n\
 	    void main(void){\n\
@@ -78,18 +100,17 @@ function init_scene(etatInitialisation){
 	      colorWebcam+=vec3(1.,1.,1.)*smoothstep(0.3,0.6,colorWebcamVal);\n\
 	      vec3 finalColor=colorWebcam*isInsideFace+colorLineCode;\n\
 	      gl_FragColor=vec4(finalColor, 1.); //1 pour l'alpha\n\
-	      //gl_FragColor=vec4(isNeck, isTangeant, 0.,1.);\n\
 	    }",
 
 	  uniforms:{
 	    samplerWebcam: {value: THREE.JeelizHelper.get_threeVideoTexture()},
 	    samplerVideo: {value: videoTexture},
-	    resolution: {value: new THREE.Vector2(etatInitialisation.canvasElement.width,
-	                                             etatInitialisation.canvasElement.height)}
+	    resolution: {value: new THREE.Vector2(spec.canvasElement.width,
+	                                             spec.canvasElement.height)}
 	    }
 	  });
 	  
-	  var maskMesh=new THREE.Mesh(maskGeometry, maskMaterial);
+	  var maskMesh=new THREE.Mesh(maskGeometry, MASKMATERIAL);
 	  maskMesh.position.set(0, 0.3,-0.35);
 	  threeInstances.faceObject.add(maskMesh);
 
@@ -97,7 +118,6 @@ function init_scene(etatInitialisation){
 	});
 }
 
-function callbackTrack(etatDetection){
-	//console.log(etatDetection.detected);
-	THREE.JeelizHelper.render(etatDetection, THREECAMERA);
+function callbackTrack(detectState){
+	THREE.JeelizHelper.render(detectState, THREECAMERA);
 }
