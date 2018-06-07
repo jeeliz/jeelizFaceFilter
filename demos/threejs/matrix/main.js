@@ -58,12 +58,23 @@ function init_scene(spec){
 	video.setAttribute('loop', 'true');
 	video.setAttribute('preload', 'true');
 	video.setAttribute('autoplay', 'true');
-	video.play();
 	var videoTexture = new THREE.VideoTexture( video );
 	videoTexture.magFilter=THREE.LinearFilter;
 	videoTexture.minFilter=THREE.LinearFilter;
 
 	threeInstances.videoMesh.material.uniforms.samplerVideo.value=videoTexture;
+
+	try{ //workaround otherwise chrome do not want to play the video sometimes...
+		video.play();
+	} catch(e){
+	}
+	var playVideo=function(){
+	  video.play();
+	  window.removeEventListener('mousemove', playVideo);
+	  window.removeEventListener('touchmove', playVideo);
+	}
+	window.addEventListener('mousedown', playVideo, false);
+	window.addEventListener('touchdown', playVideo, false);
 
 	//import the mesh :
 	new THREE.BufferGeometryLoader().load('maskMesh.json', function(maskGeometry){

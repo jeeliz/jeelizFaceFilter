@@ -1,11 +1,9 @@
-# Jeeliz Face Filter: Lightweight and robust face detection and tracking javascript library based on WebGL deep learning.
+# JavaScript/WebGL lightweight and robust face tracking library designed for augmented reality face filters
 
 
+This JavaScript library detects and tracks the face in real time from the webcam video feed captured with WebRTC. Then it is possible to overlay 3D content for augmented reality applications. We provide various demonstrations using main WebGL 3D engines. We have included in this repository the release versions of the 3D engines to work with a determined version (they are in `/libs/<name of the engine>/`).
 
-
-This javascript library detects and tracks the face in real time from the video stream of the webcam captured with WebRTC. Then it is possible to overlay 3D content for augmented reality application. We provide various demonstrations using main WebGL 3D engines. We always include the production version of the 3D engine in the repository to work with a fixed version.
-
-This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw : if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured examples and boilerplates, you can quickly use it in a more usable context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned ! Also, feel free to open an issue if you have any question or suggestion.
+This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw : if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured helpers, examples and boilerplates, you can quickly use it in a more usable context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned ! Also, feel free to open an issue if you have any question or suggestion.
 
 
 ## Table of content
@@ -132,7 +130,7 @@ On your HTML page, you first need to include the main script between the tags `<
 ```html
  <script type="text/javascript" src="dist/jeelizFaceFilter.js"></script>
 ```
-Then you should include a `CANVAS` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the canvas element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEEFACEFILTERAPI.resize()` if you resize the canvas after the initialization step.
+Then you should include a `CANVAS` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the canvas element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEEFACEFILTERAPI.resize()` if you resize the canvas after the initialization step. We strongly encourage you to use our helper `/helpers/JeelizResizer.js` to set the width and height of the canvas (see [Optimization/Canvas and video resolutions](#optimization) section).
 ```html
 <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 ```
@@ -317,7 +315,7 @@ The neuron network file, `dist/NNC.json` is loaded using an ajax `XMLHttpRequest
 
 ## About the tech
 ### Under the hood
-This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a deep learning network. The accuracy is adaptative : the better the hardware, the more detections are processed per second. All is done client-side.
+This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a deep learning network. The accuracy is adaptative : the best is the hardware, the more detections are processed per second. All is done client-side.
 
 ### Compatibility
 * If `WebGL2` is available, it uses `WebGL2` and no specific extension is required,
@@ -326,7 +324,7 @@ This API uses Jeeliz WebGL Deep Learning technology to detect and track the user
 
 In all cases, you need to have WebRTC implemented in the web browser, otherwise FaceFilter API will not be able to get the webcam video feed. There are the compatibility tables from [caniuse.com](https://caniuse.com/) : [WebGL1](https://caniuse.com/#feat=webgl), [WebGL2](https://caniuse.com/#feat=webgl2), [WebRTC](https://caniuse.com/#feat=stream).
 
-If you meet a compatibility error, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all the application which could use your device (Skype, Messenger, other browser windows, ...). Please include :
+If a compatibility error is triggered, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all applications which could use your device (Skype, Messenger, other browser tabs and windows, ...). Please include :
 * a screenshot of [webglreport.com - WebGL1](http://webglreport.com/?v=1) (about your `WebGL1` implementation),
 * a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your `WebGL2` implementation),
 * the log from the web console,
@@ -355,9 +353,9 @@ We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-c
 
 
 ## See also
-If you just want to detect if the user is looking at the screen or not, [Jeeliz Glance Tracker](https://github.com/jeeliz/jeelizGlanceTracker) is released at this purpose. It can be useful to play and pause a video whether the user is watching or not. This library needs fewer resources and the neural network file is much lighter.
+If you just want to detect if the user is looking at the screen or not, [Jeeliz Glance Tracker](https://github.com/jeeliz/jeelizGlanceTracker) is what you are looking for. It can be useful to play and pause a video whether the user is watching or not. This library needs fewer resources and the neural network file is much lighter.
 
-If you want to use this library for glasses virtual try-on (sunglasses, spectacles, ski masks), you can take a look at [Jeeliz VTO widget](https://github.com/jeeliz/jeelizGlassesVTOWidget). It includes a high quality and lightweight 3D engine which implements the following features : deferred shading, PBR, raytraced shadows, normal mapping, ... It also reconstruct the lighting environment of the user. But the glasses comes from a database hosted in our servers. If you want to add some models please contact us.
+If you want to use this library for glasses virtual try-on (sunglasses, spectacles, ski masks), you can take a look at [Jeeliz VTO widget](https://github.com/jeeliz/jeelizGlassesVTOWidget). It includes a high quality and lightweight 3D engine which implements the following features : deferred shading, PBR, raytraced shadows, normal mapping, ... It also reconstructs the lighting environment around the user (ambient and directional lighting). But the glasses comes from a database hosted in our servers. If you want to add some models, please contact us.
 
 
 ## References
