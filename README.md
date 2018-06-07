@@ -26,7 +26,7 @@ This library is lightweight and it does not include any 3D engine or third party
 * [About the tech](#about-the-tech)
   * [Under the hood](#under-the-hood)
   * [Compatibility](#compatibility)
-* [Articles](#articles)
+* [Articles and tutorials](#articles-and-tutorials)
 * [License](#license)
 * [See also](#see-also)
 * [References](#references)
@@ -332,7 +332,7 @@ If a compatibility error is triggered, please post an issue on this repository. 
 
 
 
-## Articles
+## Articles and tutorials
 We are currently writing a series of tutorial for the API, starting by building some very basic filters and moving to harder ones.
 
 * Creating a Snapchat-like face filter using Jeeliz FaceFilter API and THREE.JS :
