@@ -114,6 +114,8 @@ You can test it with these demos (all included in this repository in the `/demos
 
 * MISC demos :
   * [PACMAN game with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/pacman/)
+  * [Head controlled mouse cursor (for disabled people)](https://jeeliz.com/demos/faceFilter/demos/headCursor/)
+
 
 
 

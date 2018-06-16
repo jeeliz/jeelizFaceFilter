@@ -1,0 +1,99 @@
+
+/* *{ cursor: inherit;
+
+}*/
+
+body {
+    background-color: #251711; color: white; margin: 0px;
+    /*cursor: url("images/cursors/pointer.png"), default;*/
+    cursor: none;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+} 
+
+.gallery {
+    margin: 0px;
+}
+
+.cursor {
+    position: fixed; z-index: 10000; border: 0px; pointer-events: none;
+}
+
+.vignette{
+    position: absolute; padding: 0px;
+}
+
+.vignetteMouseOver canvas {
+    -webkit-filter: grayscale(0)!important;
+    filter: grayscale(0)!important;
+}
+
+.vignetteMouseOver .titre {
+    background-color: rgba(220,0,0,1)!important;
+}
+
+.vignette canvas {
+    background-color: lime; position: absolute; z-index: 5;
+    -webkit-transition : all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}
+
+.vignette .titre {
+    color: #ddd; width: 100%; background-color: rgba(255,25,0,0.5);
+    font-size: 18pt; position: absolute; z-index: 10;
+    font-family: 'Poiret One', cursive; letter-spacing: 3px;
+    text-indent: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px; font-weight: bold;
+    pointer-events: none;
+     -webkit-transition : all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.vignette .paris {
+    font-size: 104pt; letter-spacing: 10px; margin-left: -10px; margin-top: 24px;
+    font-family: 'Poiret One', cursive; color: #ccc
+}
+
+.vignette .explanation {
+    line-height: 1.5em;
+    font-family: 'Poiret One'; font-size: 14pt;
+}
+
+.content {
+    display: none; position: absolute;
+    opacity: 1;
+    z-index: 20;
+    width: 800px; height: 600px;
+    top: 50%; left: 50%;
+    margin-top: -300px; margin-left: -400px;
+    background-color: rgba(0,0,0,0.9);
+    overflow: hidden;
+}
+
+.content .contentTitle {
+    font-family: 'Poiret One', cursive; letter-spacing: 3px;
+    font-size: 44pt;
+    color: #ff1900;
+    margin: 10px;
+}
+
+.content .contentInside {
+    font-size: 14pt; line-height: 1.5em;
+     font-family: 'Poiret One', cursive;
+    margin: 60px;
+    text-align: justify;
+}
+
+ #headControlsCanvas {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    z-index: 1000;
+    transform-origin: bottom right;
+    max-height: 25%;
+    max-width: 25%;
+  }

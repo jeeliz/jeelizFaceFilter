@@ -13,6 +13,7 @@
       - canvasId* : id of the canvas where the JEEFITAPI will be initialized. We will draw the face tracking on it
       - callbackReady: callback launched when the controller is ready. launched with errCode if error, false otherwise
       - callbackMove*: function to move the camera
+      - disableRestPosition: do not offset the face position with a rest position. Default: false
       - NNCpath* : path of the NN net
 
     ==== OTHER METHODS ====
@@ -58,6 +59,7 @@ var HeadControls=(function(){
 
 	var _lastTimestamp=0;
 	var _gl, _cv, _videoTexture, _headSearchDrawShaderProgram, _headSearchUniformXys;
+	var _disableRestPosition=false;
 
 	//private functions :
 	function compute_delta(ref, val, tol, sensibility){
@@ -158,7 +160,7 @@ var HeadControls=(function(){
         	return _returnValue; //no camera move
         }
 
-        if (_state.restHeadPosition.needsUpdate){
+        if (_state.restHeadPosition.needsUpdate && !_disableRestPosition){
         	_state.restHeadPosition.needsUpdate=false;
         	_state.restHeadPosition.rx=detectState.rx;
         	_state.restHeadPosition.ry=detectState.ry;
@@ -182,6 +184,7 @@ var HeadControls=(function(){
 		init: function(spec){
 			// set settings :
 			if (typeof(spec.settings)==='undefined') spec.settings={};
+			_disableRestPosition=(typeof(spec.disableRestPosition)==='undefined')?false:spec.disableRestPosition;
 			_settings=Object.assign({}, _defaultSettings, spec.settings);
 			_settings.tol.rx*=Math.PI/180; //convert from degrees to radians
 			_settings.tol.ry*=Math.PI/180;
@@ -214,6 +217,7 @@ var HeadControls=(function(){
 		        //called at each render iteration (drawing loop)
 		        callbackTrack: function(detectState){
 		        	var mv=compute_cameraMove(detectState);
+		        	mv.expressions=detectState.expressions;
 		        	if (!_state.isEnabled){
 		        		return;
 		        	}

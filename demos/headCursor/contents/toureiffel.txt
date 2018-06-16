@@ -1,0 +1,4 @@
+<p>
+
+The Eiffel Tower (French: La Tour Eiffel, [tuʁ ɛfɛl]) is an iron lattice tower located on the Champ de Mars in Paris. It was named after the engineer Gustave Eiffel, whose company designed and built the tower. Erected in 1889 as the entrance arch to the 1889 World's Fair, it was initially criticised by some of France's leading intellectuals for its design, but has become both a global cultural icon of France and one of the most recognizable structures in the world.[1] The tower is the tallest structure in Paris and the most-visited paid monument in the world; 6.98 million people ascended it in 2011.[2] The tower received its 250 millionth visitor in 2010.[2]
+</p>
