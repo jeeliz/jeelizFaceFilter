@@ -74,6 +74,7 @@ You can test it with these demos (all included in this repository in the `/demos
 * THREE.JS based demos - [specific README about THREE.js based demo problems](demos/threejs/) :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
   * [Multiple face tracking](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/)
+  * [Daft Punk (put the iconic helmet)](https://jeeliz.com/demos/faceFilter/demos/threejs/daft_punk/)
   * [Star Wars: Darth Vader](https://jeeliz.com/demos/faceFilter/demos/threejs/star_wars/)
   * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
   * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
