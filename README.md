@@ -76,6 +76,7 @@ You can test it with these demos (all included in this repository in the `/demos
   * [Multiple face tracking](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/)
   * [Daft Punk (put the iconic helmet)](https://jeeliz.com/demos/faceFilter/demos/threejs/daft_punk/)
   * [Star Wars: Darth Vader](https://jeeliz.com/demos/faceFilter/demos/threejs/star_wars/)
+  * [Werewolf (turn yourself into a werewolf)](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/)
   * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
   * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
   * [Butterflies animation](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
