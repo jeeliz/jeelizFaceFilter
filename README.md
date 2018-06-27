@@ -77,7 +77,7 @@ You can test it with these demos (all included in this repository in the `/demos
   * [Daft Punk (put the iconic helmet)](https://jeeliz.com/demos/faceFilter/demos/threejs/daft_punk/)
   * [Star Wars: Darth Vader](https://jeeliz.com/demos/faceFilter/demos/threejs/star_wars/)
   * [Harry Potter (say "Lumos!")](https://jeeliz.com/demos/faceFilter/demos/threejs/harry_potter/)
-  * [Halloween Spiders: watch spiders walk over your face!](https://jeeliz.com/demos/faceFilter/demos/threejs/halloween_spider/)
+  * [Halloween Spiders (you've got a spider in your mouth)](https://jeeliz.com/demos/faceFilter/demos/threejs/halloween_spider/)
   * [Werewolf (turn yourself into a werewolf)](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/)
   * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
   * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
