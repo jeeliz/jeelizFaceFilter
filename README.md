@@ -79,6 +79,7 @@ You can test it with these demos (all included in this repository in the `/demos
   * [Harry Potter (say "Lumos!")](https://jeeliz.com/demos/faceFilter/demos/threejs/harry_potter/)
   * [Halloween Spiders (you've got a spider in your mouth)](https://jeeliz.com/demos/faceFilter/demos/threejs/halloween_spider/)
   * [Werewolf (turn yourself into a werewolf)](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/)
+  * [Angel/Demon (discover who of the angel or demon will win in this animated scene)](https://jeeliz.com/demos/faceFilter/demos/threejs/angel_demon/)
   * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
   * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
   * [Butterflies animation](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
