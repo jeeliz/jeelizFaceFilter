@@ -81,6 +81,7 @@ You can test it with these demos (all included in this repository in the `/demos
   * [Werewolf (turn yourself into a werewolf)](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/)
   * [Angel/Demon (discover who of the angel or demon will win in this animated scene)](https://jeeliz.com/demos/faceFilter/demos/threejs/angel_demon/)
   * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
+  * [Rupy Motorcycle Helmet VTO](https://jeeliz.com/demos/faceFilter/demos/threejs/rupy_helmet/)
   * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
   * [Butterflies animation](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
   * [Clouds above the head](https://jeeliz.com/demos/faceFilter/demos/threejs/cloud/)
