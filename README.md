@@ -142,7 +142,7 @@ On your HTML page, you first need to include the main script between the tags `<
 ```html
  <script type="text/javascript" src="dist/jeelizFaceFilter.js"></script>
 ```
-Then you should include a `<canvas>` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the canvas element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEEFACEFILTERAPI.resize()` if you resize the canvas after the initialization step. We strongly encourage you to use our helper `/helpers/JeelizResizer.js` to set the width and height of the canvas (see [Optimization/Canvas and video resolutions](#optimization) section).
+Then you should include a `<canvas>` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the `<canvas>` element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEEFACEFILTERAPI.resize()` if you resize the canvas after the initialization step. We strongly encourage you to use our helper `/helpers/JeelizResizer.js` to set the width and height of the canvas (see [Optimization/Canvas and video resolutions](#optimization) section).
 ```html
 <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 ```
@@ -201,7 +201,7 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 * `"GL_INCOMPATIBLE"`: WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
 * `"ALREADY_INITIALIZED"`: the API has been already initialized,
 * `"NO_CANVASID"`: no canvas ID was specified,
-* `"INVALID_CANVASID"`: cannot found the \<canvas\> element in the DOM,
+* `"INVALID_CANVASID"`: cannot found the `<canvas>` element in the DOM,
 * `"INVALID_CANVASDIMENSIONS"`: the dimensions `width` and `height` of the canvas are not specified,
 * `"WEBCAM_UNAVAILABLE"`: cannot get access to the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
 * `"GLCONTEXT_LOST"`: The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code,
@@ -211,15 +211,15 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 ### The returned objects
 We detail here the arguments of the callback functions like `callbackReady` or `callbackTrack`. The reference of these objects do not change for memory optimization purpose. So you should copy their property values if you want to keep them unchanged outside the callback functions scopes.
 
-### The initialization returned object
+#### The initialization returned object
 The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary having these properties :
 * `GL`: the WebGL context. The rendering 3D engine should use this WebGL context,
-* `canvasElement`: the \<canvas\> element,
+* `canvasElement`: the `<canvas>` element,
 * `videoTexture`: a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background,
 * `maxFacesDetected`: the maximum number of detected faces. 
 
 
-### The detection state
+#### The detection state
 At each render iteration a callback function is executed ( `callbackTrack` in the code snippet ). It has one argument ( `detectState` ) which is a dictionnary with these properties :
 * `detected`: the face detection probability, between `0` and `1`,
 * `x`, `y`: The 2D coordinates of the center of the detection frame in the viewport (each between -1 and 1, `x` from left to right and `y` from bottom to top),
