@@ -72,31 +72,43 @@ You can test it with these demos (all included in this repository in the `/demos
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/babylonjs/cube/)
 
 * THREE.JS based demos - [specific README about THREE.js based demo problems](demos/threejs/) :
-  * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
-  * [Multiple face tracking](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/)
-  * [Daft Punk (put the iconic helmet)](https://jeeliz.com/demos/faceFilter/demos/threejs/daft_punk/)
-  * [Star Wars: Darth Vader](https://jeeliz.com/demos/faceFilter/demos/threejs/star_wars/)
-  * [Harry Potter (say "Lumos!")](https://jeeliz.com/demos/faceFilter/demos/threejs/harry_potter/)
-  * [Halloween Spiders (you've got a spider in your mouth)](https://jeeliz.com/demos/faceFilter/demos/threejs/halloween_spider/)
-  * [Werewolf (turn yourself into a werewolf)](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/)
-  * [Angel/Demon (discover who of the angel or demon will win in this animated scene)](https://jeeliz.com/demos/faceFilter/demos/threejs/angel_demon/)
-  * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
-  * [Rupy Motorcycle Helmet VTO](https://jeeliz.com/demos/faceFilter/demos/threejs/rupy_helmet/)
-  * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
-  * [Butterflies animation](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
-  * [Clouds above the head](https://jeeliz.com/demos/faceFilter/demos/threejs/cloud/)
-  * [Casa-de-Papel mask](https://jeeliz.com/demos/faceFilter/demos/threejs/casa_de_papel/)
-  * [Miel Pops glasses and bees](https://jeeliz.com/demos/faceFilter/demos/threejs/miel_pops/)
-  * [World Cup 2018 Football Fan](https://jeeliz.com/demos/faceFilter/demos/threejs/world_cup_2018/)
-  * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
-  * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
-  * [Head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/)
-  * [Tiger face filter with mouth opening detection (strong WTF effect)](https://jeeliz.com/demos/faceFilter/demos/threejs/tiger/)
-  * [Fireworks - particules](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
-  * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
-  * [GLTF fullscreen demo with HD video](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/)
-  * [Statue Of Liberty](https://jeeliz.com/demos/faceFilter/demos/threejs/multiLiberty/)
-  * [Matrix](https://jeeliz.com/demos/faceFilter/demos/threejs/matrix/)
+  * Boilerplates :
+    * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeWithHelper/)
+    * [Boilerplate with 2 <canvas> : 1 for FaceFilter and 1 for THREE.JS](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/)
+    * [Boilerplate without JeelizThreeHelper](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
+    * [Multiple face tracking](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/)
+    * [GLTF fullscreen demo with HD video](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/)
+  
+  * AR 3D demos :
+    * [Daft Punk (put the iconic helmet)](https://jeeliz.com/demos/faceFilter/demos/threejs/daft_punk/)
+    * [Star Wars: Darth Vader](https://jeeliz.com/demos/faceFilter/demos/threejs/star_wars/)
+    * [Harry Potter (say "Lumos!")](https://jeeliz.com/demos/faceFilter/demos/threejs/harry_potter/)
+    * [Halloween Spiders (you've got a spider in your mouth)](https://jeeliz.com/demos/faceFilter/demos/threejs/halloween_spider/)
+    * [Werewolf (turn yourself into a werewolf)](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/)
+    * [Angel/Demon (discover who of the angel or demon will win in this animated scene)](https://jeeliz.com/demos/faceFilter/demos/threejs/angel_demon/)
+    * [Anonymous mask and video effect](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/)
+    * [Rupy Motorcycle Helmet VTO](https://jeeliz.com/demos/faceFilter/demos/threejs/rupy_helmet/)
+    * [Dog-Face filter](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/)
+    * [Butterflies animation](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/)
+    * [Clouds above the head](https://jeeliz.com/demos/faceFilter/demos/threejs/cloud/)
+    * [Casa-de-Papel mask](https://jeeliz.com/demos/faceFilter/demos/threejs/casa_de_papel/)
+    * [Miel Pops glasses and bees](https://jeeliz.com/demos/faceFilter/demos/threejs/miel_pops/)
+    * [World Cup 2018 Football Fan](https://jeeliz.com/demos/faceFilter/demos/threejs/world_cup_2018/)
+    * [Tiger face filter with mouth opening detection (strong WTF effect)](https://jeeliz.com/demos/faceFilter/demos/threejs/tiger/)
+    * [Fireworks - particules](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/)
+  
+  * face painting or deformation :
+    * [Face deformation](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/)
+    * [Face cel shading](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/)
+
+  * demo linked with tutorials :
+    * [Luffy's Hat](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/)
+    * [Statue Of Liberty](https://jeeliz.com/demos/faceFilter/demos/threejs/multiLiberty/)
+    * [Matrix](https://jeeliz.com/demos/faceFilter/demos/threejs/matrix/)
+
+  * head motion control :
+    * [Head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/)
+
 
 * A-FRAME based demos :
   * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/)
@@ -118,7 +130,7 @@ You can test it with these demos (all included in this repository in the `/demos
   * [Insert your face into an animated gif](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/gif), [specific README](demos/faceReplacement/gif/)
   * [The traditional faceSwap, fullscreen and with color correction](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/faceSwap/)
 
-* MISC demos :
+* Head motion control :
   * [PACMAN game with head controlled navigation](https://jeeliz.com/demos/faceFilter/demos/pacman/)
   * [Head controlled mouse cursor](https://jeeliz.com/demos/faceFilter/demos/headCursor/)
 

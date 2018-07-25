@@ -14,7 +14,7 @@ THREE.JeelizHelper=(function(){
 
 	//private vars :
 	var _threeRenderer, _threeScene, _maxFaces, _isMultiFaces, _threeCompositeObjects=[], _threePivotedObjects=[], _detect_callback=null,
-		_threeVideoMesh, _glVideoTexture, _threeVideoTexture, _isVideoTextureReady=false;
+		_threeVideoMesh, _gl, _glVideoTexture, _threeVideoTexture, _isVideoTextureReady=false, _isSeparateThreejsCanvas=false, _faceFilterCv, _glShpCopy;
 
 	//private funcs :
 	function create_threeCompositeObjects(){
@@ -37,6 +37,44 @@ THREE.JeelizHelper=(function(){
 	}
 
 	function create_videoScreen(){
+		var videoScreenVertexShaderSource="attribute vec2 position;\n\
+	            varying vec2 vUV;\n\
+	            void main(void){\n\
+	                gl_Position=vec4(position, 0., 1.);\n\
+	                vUV=0.5+0.5*position;\n\
+	            }";
+	    var videoScreenFragmentShaderSource="precision lowp float;\n\
+	            uniform sampler2D samplerVideo;\n\
+	            varying vec2 vUV;\n\
+	            void main(void){\n\
+	                gl_FragColor=texture2D(samplerVideo, vUV);\n\
+	            }";
+
+	    if (_isSeparateThreejsCanvas){
+	    	var compile_shader=function(source, type, typeString) {
+			    var shader = _gl.createShader(type);
+			    _gl.shaderSource(shader, source);
+			    _gl.compileShader(shader);
+			    if (!_gl.getShaderParameter(shader, _gl.COMPILE_STATUS)) {
+			      alert("ERROR IN "+typeString+ " SHADER : " + _gl.getShaderInfoLog(shader));
+			      return false;
+			    }
+			    return shader;
+			};
+
+	    	var shader_vertex=compile_shader(videoScreenVertexShaderSource, _gl.VERTEX_SHADER, 'VERTEX');
+			var shader_fragment=compile_shader(videoScreenFragmentShaderSource, _gl.FRAGMENT_SHADER, 'FRAGMENT');
+
+	    	_glShpCopy=_gl.createProgram();
+	  		_gl.attachShader(_glShpCopy, shader_vertex);
+	  		_gl.attachShader(_glShpCopy, shader_fragment);
+
+	  		_gl.linkProgram(_glShpCopy);
+  			var samplerVideo=_gl.getUniformLocation(_glShpCopy, 'samplerVideo');
+ 
+	    	return;
+	    }
+
 		//init video texture with red
 	    _threeVideoTexture=new THREE.DataTexture( new Uint8Array([255,0,0]), 1, 1, THREE.RGBFormat);
 	    _threeVideoTexture.needsUpdate=true;
@@ -45,18 +83,8 @@ THREE.JeelizHelper=(function(){
 	    var videoMaterial=new THREE.RawShaderMaterial({
 	        depthWrite: false,
 	        depthTest: false,
-	        vertexShader: "attribute vec2 position;\n\
-	            varying vec2 vUV;\n\
-	            void main(void){\n\
-	                gl_Position=vec4(position, 0., 1.);\n\
-	                vUV=0.5+0.5*position;\n\
-	            }",
-	        fragmentShader: "precision lowp float;\n\
-	            uniform sampler2D samplerVideo;\n\
-	            varying vec2 vUV;\n\
-	            void main(void){\n\
-	                gl_FragColor=texture2D(samplerVideo, vUV);\n\
-	            }",
+	        vertexShader: videoScreenVertexShaderSource,
+	        fragmentShader: videoScreenFragmentShaderSource,
 	         uniforms:{
 	            samplerVideo: {value: _threeVideoTexture}
 	         }
@@ -116,10 +144,24 @@ THREE.JeelizHelper=(function(){
 
 	//public methods :
 	var that={
-		init: function(spec, detectCallback){ //launched with the same spec object than callbackReady
+		init: function(spec, detectCallback){ //launched with the same spec object than callbackReady. set spec.threejsCanvasId to the ID of the threejsCanvas to be in 2 canvas mode
 			_maxFaces=spec.maxFacesDetected;
 			_glVideoTexture=spec.videoTexture;
+			_gl=spec.GL;
+			_faceFilterCv=spec.canvasElement;
 			_isMultiFaces=(_maxFaces>1);
+
+			//enable 2 canvas mode if necessary
+			var threejsCanvas;
+			if (spec.threejsCanvasId){
+				_isSeparateThreejsCanvas=true;
+				//set the threejs canvas size to the threejs canvas
+	            threejsCanvas=document.getElementById('threejsCanvas');
+	            threejsCanvas.setAttribute('width', _faceFilterCv.width);
+	            threejsCanvas.setAttribute('height', _faceFilterCv.height);
+			} else {
+				threejsCanvas=_faceFilterCv;
+			}
 
 			if (typeof(detectCallback)!=='undefined'){
 				_detect_callback=detectCallback;
@@ -127,8 +169,9 @@ THREE.JeelizHelper=(function(){
 
 			 //INIT THE THREE.JS context
 		    _threeRenderer=new THREE.WebGLRenderer({
-		        context: spec.GL,
-		        canvas: spec.canvasElement
+		        context: (_isSeparateThreejsCanvas)?null:_gl,
+		        canvas: threejsCanvas,
+		        alpha: (_isSeparateThreejsCanvas || spec.alpha)?true:false
 		    });
 
 		    _threeScene=new THREE.Scene();
@@ -156,8 +199,18 @@ THREE.JeelizHelper=(function(){
 			detect(ds);
 			update_positions3D(ds, threeCamera);
 
-			//reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
-            _threeRenderer.state.reset();
+			if (_isSeparateThreejsCanvas){
+            	//render the video texture on the faceFilter canvas :
+				_gl.viewport(0,0, _faceFilterCv.width, _faceFilterCv.height);
+				_gl.useProgram(_glShpCopy);
+				_gl.activeTexture(_gl.TEXTURE0);
+				_gl.bindTexture(_gl.TEXTURE_2D, _glVideoTexture);
+            	_gl.drawElements(_gl.TRIANGLES, 3, _gl.UNSIGNED_SHORT, 0);
+            } else {
+            	//reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
+				// -> can be VERY costly !
+            	_threeRenderer.state.reset();
+            }
 
             //trigger the render of the THREE.JS SCENE
             _threeRenderer.render(_threeScene, threeCamera);
