@@ -104,8 +104,8 @@ You will probably find among these demos the perfect starting point to build you
     * Face cel shading: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/), [source code](/demos/threejs/celFace/)
 
   * demo linked with tutorials :
-    * Luffy's Hat: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/), [source code](/demos/threejs/luffys_hat_part1/)
-    * Statue Of Liberty: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiLiberty/), [source code](/demos/threejs/multiLiberty/)
+    * Luffy's Hat: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/), [source code](/demos/threejs/luffys_hat_part1/), [tutorial part 1](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/), [tutorial part 2](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/)
+    * Statue Of Liberty: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiLiberty/), [source code](/demos/threejs/multiLiberty/), [interactive tutorial](https://webglacademy.jeeliz.com/courses.php?courses=19_25_27_33_34#34)
     * Matrix: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/matrix/), [source code](/demos/threejs/matrix/)
 
   * head motion control :
@@ -121,11 +121,11 @@ You will probably find among these demos the perfect starting point to build you
 
 * Canvas2D based demos :
   * Draw on the face with the mouse: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceDraw/), [source code](/demos/canvas2D/faceDraw/)
-  * 2D face detection and tracking - 30 lines of code only !: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceTrack/), [source code](/demos/canvas2D/faceTrack/)
+  * 2D face detection and tracking - 30 lines of code only !: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceTrack/), [source code](/demos/canvas2D/faceTrack/), [JSfiddle](https://jsfiddle.net/jeeliz/2p34hbeh/)
   * 2D face detection and tracking from a video file instead of webcam video: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/fromVideoFile/), [source code](/demos/canvas2D/fromVideoFile/)
 
 * CESIUM.JS based demos :
-  * 3D view of the Earth with head controlled navigation: [live demo](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/), [source code](/demos/cesium/headControls/)
+  * 3D view of the Earth with head controlled navigation: [live demo](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/), [source code](/demos/cesium/headControls/), [article about the demo](https://cesium.com/blog/2018/03/22/jeeliz-and-cesium/)
 
 * Face replacement demos :
   * Insert your face into portrait art painting or film posters: [live demo](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/image), [source code](demos/faceReplacement/image/)
