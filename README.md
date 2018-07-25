@@ -20,6 +20,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [Multiple faces](#multiple-faces)
   * [Optimization](#optimization)
   * [Changing the 3D Engine](#changing-the-3d-engine)
+  * [Changing the neural network](#changing-the-neural-network)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
   * [Hosting optimization](#hosting-optimization)
@@ -75,6 +76,7 @@ You can test it with these demos (all included in this repository in the `/demos
   * Boilerplates :
     * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeWithHelper/)
     * [Boilerplate with 2 canvas : 1 for FaceFilter and 1 for THREE.JS](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/)
+    * [Boilerplate using dist/NNClight.json as neural net](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNClight/)
     * [Boilerplate without JeelizThreeHelper](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
     * [Multiple face tracking](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/)
     * [GLTF fullscreen demo with HD video](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/)
@@ -307,6 +309,22 @@ You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThree
 It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you have accomplished this work, we would be interested to add your demonstration in this repository (or link to your code). Just open a pull request.
 
 The 3D engine should share the WebGL context with FaceFilter API. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the FaceFilter WebGL context. It would be more costly in term of computating time to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts: the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context for rendering. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initialized WebGL context.
+
+
+### Changing the neural network
+Since July 2018 it is possible to change the neural network. When calling `JEEFACEFILTERAPI.init({...})` with `NNCpath: <path of NNC.json>` you set NNCpath value to a specific neural network file :
+
+```javascript
+  JEEFACEFILTERAPI.init({
+    NNCpath: '../../dist/NNClight.json'
+    //...
+  })
+```
+
+We provide several neural network models :
+* `dist/NNC.json`: this is the default neural network,
+* `dist/NNClight.json`: this is a light version of the neural network. The file is twice lighter and it runs faster but it is less accurate for large head rotation angles,
+* `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25).
 
 
 
