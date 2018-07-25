@@ -74,7 +74,7 @@ You can test it with these demos (all included in this repository in the `/demos
 * THREE.JS based demos - [specific README about THREE.js based demo problems](demos/threejs/) :
   * Boilerplates :
     * [Boilerplate (displays a cube on the user's head)](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeWithHelper/)
-    * [Boilerplate with 2 <canvas> : 1 for FaceFilter and 1 for THREE.JS](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/)
+    * [Boilerplate with 2 canvas : 1 for FaceFilter and 1 for THREE.JS](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/)
     * [Boilerplate without JeelizThreeHelper](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/)
     * [Multiple face tracking](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/)
     * [GLTF fullscreen demo with HD video](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/)
