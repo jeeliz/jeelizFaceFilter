@@ -78,7 +78,8 @@ You will probably find among these demos the perfect starting point to build you
     * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeWithHelper/), [source code](/demos/threejs/cubeWithHelper/)
     * Boilerplate with ES6 : [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
     * Boilerplate with 2 canvas : 1 for FaceFilter and 1 for THREE.JS: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/), [source code](/demos/threejs/cube2cv/)
-    * Boilerplate using dist/NNClight.json as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNClight/), [source code](/demos/threejs/cubeNNClight/)
+    * Boilerplate using `dist/NNClight.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNClight/), [source code](/demos/threejs/cubeNNClight/)
+    * Boilerplate using `dist/NNCwideAngles.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNCwideAngles/), [source code](/demos/threejs/cubeNNCwideAngles/)
     * Boilerplate without JeelizThreeHelper: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
     * Multiple face tracking: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/), [source code](/demos/threejs/multiCubes/)
     * GLTF fullscreen demo with HD video: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/), [source code](/demos/threejs/gltf_fullScreen/)
@@ -324,7 +325,8 @@ Since July 2018 it is possible to change the neural network. When calling `JEEFA
 ```
 
 We provide several neural network models :
-* `dist/NNC.json`: this is the default neural network,
+* `dist/NNC.json`: this is the default neural network. Good tradeoff between size and performances,
+* `dist/NNCwideAngles.json`: this neural network is better to detect wide head angles (but less accurate for small angles),
 * `dist/NNClight.json`: this is a light version of the neural network. The file is twice lighter and it runs faster but it is less accurate for large head rotation angles,
 * `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25).
 
