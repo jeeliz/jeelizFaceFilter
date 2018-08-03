@@ -57,10 +57,12 @@ Here are the main features of the library :
 
 ## Architecture
 
-* `/demos/`: source code of demonstrations, sorted by 2D/3D engine used,
+* `/demos/`: source code of the demonstrations, sorted by 2D/3D engine used,
 * `/dist/`: heart of the library: 
   * `jeelizFaceFilter.js`: main minified script,
+  * `jeelizFaceFilterES6.js`: main minified script for ES6 use (with `import` or `require`),
   * `NNC.json`: file storing the neural network parameters, loaded by the main script,
+  * `NNC<xxx>.json` : alternative neural network models,
 * `/helpers/`: scripts which can help you to use this library in some specific use cases,
 * `/libs/`: 3rd party libraries and 3D engines used in the demos.
 
