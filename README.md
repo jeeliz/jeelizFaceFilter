@@ -330,6 +330,7 @@ We provide several neural network models :
 * `dist/NNC.json`: this is the default neural network. Good tradeoff between size and performances,
 * `dist/NNCwideAngles.json`: this neural network is better to detect wide head angles (but less accurate for small angles),
 * `dist/NNClight.json`: this is a light version of the neural network. The file is twice lighter and it runs faster but it is less accurate for large head rotation angles,
+* `dist/NNCveryLight.json`: even lighter than the previous version: 250Kbytes, and very fast. But not very accurate and robust to all lighting conditions,
 * `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25).
 
 
