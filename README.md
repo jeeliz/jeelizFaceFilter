@@ -111,7 +111,7 @@ You will probably find among these demos the perfect starting point to build you
   * demos linked with tutorials :
     * Luffy's Hat: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/), [source code part 1](/demos/threejs/luffys_hat_part1/), [tutorial part 1](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/), [source code part 2](/demos/threejs/luffys_hat_part2/), [tutorial part 2](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/)
     * Statue Of Liberty: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiLiberty/), [source code](/demos/threejs/multiLiberty/), [interactive tutorial](https://webglacademy.jeeliz.com/courses.php?courses=19_25_27_33_34#34)
-    * Matrix: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/matrix/), [source code](/demos/threejs/matrix/), [tutorial (in French)](https://xavierbourry.developpez.com/filtre-facial-webcam/)
+    * Matrix: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/matrix/), [source code](/demos/threejs/matrix/), [tutorial in French](https://xavierbourry.developpez.com/filtre-facial-webcam/), [tutorial in English](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/)
 
   * head motion control :
     * Head controlled navigation: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/), [source code](/demos/threejs/headControls/)
@@ -404,7 +404,7 @@ We are currently writing a series of tutorial for the API, starting by building 
 
 * [JSFiddle: Face detection and tracking in 25 lines](https://jsfiddle.net/jeeliz/2p34hbeh/)
 
-* Tutorial: Matrix theme face filter: [French version](https://xavierbourry.developpez.com/filtre-facial-webcam/)
+* Tutorial: Matrix theme face filter: [French version](https://xavierbourry.developpez.com/filtre-facial-webcam/), [English translation](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/)
 
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
