@@ -208,9 +208,12 @@ JEEFACEFILTERAPI.init({
   'minWidth': 480,    //min video width in pixels
   'maxWidth': 1280,   //max video width in pixels
   'minHeight': 480,   //min video height in pixels
-  'maxHeight': 1280   //max video height in pixels
-}
+  'maxHeight': 1280,  //max video height in pixels,
+  'rotate': 0         //rotation in degrees possible values: 0,90,-90,180
+},
 ```
+* `<dict> scanSettings`: override face scan settings - see `set_scanSettings(...)` method for more information.
+
 If the user has a mobile device in portrait display mode, the width and height of these parameters are automatically inverted for the first camera request. If it does not succeed, we invert the width and height.
 
 
@@ -267,7 +270,14 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `<array> mediaDevices`: an array with all the devices founds. Each device is a javascript object having a `deviceId` string attribute. This value can be provided to the `init` method to use a specific webcam. If an error happens, this value is set to `false`,
   * `<string> errorLabel`: if an error happens, the label of the error. It can be: `NOTSUPPORTED`, `NODEVICESFOUND` or `PROMISEREJECTED`.
 
-
+* `set_scanSettings(<object> scanSettings)`: Set scan settings. `scanSettings` is a dictionnary with the following properties:
+  * `<float> minScale`: min width of the face search window, relatively to the width of the video. Default value: `0.15`,
+  * `<float> maxScale`: max width of the face search window, relatively to the width of the video. Default value: `0.6`, 
+  * `<float> borderWidth`: size of the left and right margins, relatively to the width of the window. Default value: `0.2`,
+  * `<float> borderHeight`: size of the bottom and right margins, relatively to the height of the window. Default value: `0.2`,
+  * `<int> nStepsX`: number of detection steps for each scan line. Default: `6`,
+  * `<int> nStepsY`: numver of scan lines. Default: `5`,
+  * `<int> nStepsScale`: number of detection steps for the scale. Default: `3`
 
 ### Optimization
 
