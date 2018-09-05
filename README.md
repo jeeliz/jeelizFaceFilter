@@ -276,7 +276,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `<float> borderWidth`: size of the left and right margins, relatively to the width of the window. Default value: `0.2`,
   * `<float> borderHeight`: size of the bottom and right margins, relatively to the height of the window. Default value: `0.2`,
   * `<int> nStepsX`: number of detection steps for each scan line. Default: `6`,
-  * `<int> nStepsY`: numver of scan lines. Default: `5`,
+  * `<int> nStepsY`: number of scan lines. Default: `5`,
   * `<int> nStepsScale`: number of detection steps for the scale. Default: `3`
 
 ### Optimization
