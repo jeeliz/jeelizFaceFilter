@@ -277,7 +277,8 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `<float> borderHeight`: size of the bottom and right margins, relatively to the height of the window. Default value: `0.2`,
   * `<int> nStepsX`: number of detection steps for each scan line. Default: `6`,
   * `<int> nStepsY`: number of scan lines. Default: `5`,
-  * `<int> nStepsScale`: number of detection steps for the scale. Default: `3`
+  * `<int> nStepsScale`: number of detection steps for the scale. Default: `3`,
+  * `<int> nDetectsPerLoop`: specify the number of detection per drawing loop. `0` for adaptative value. Default: `0`
 
 ### Optimization
 
