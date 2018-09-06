@@ -24,6 +24,7 @@ var JeelizResizer=(function(){
 		[1024,768],
 		[1280,720]
 	];
+	var _isInvFullscreenWH=false;
 
 	//private functions
 	function add_CSStransform(domElement, CSS){
@@ -79,7 +80,10 @@ var JeelizResizer=(function(){
 	}
 
 	function resize_canvasToFullScreen(){
-		_whCanvasPx=[window.innerWidth, window.innerHeight];
+		_whCanvasPx=[window['innerWidth'], window['innerHeight']];
+		if (_isInvFullscreenWH){
+			_whCanvasPx.reverse();
+		}
 		_domCanvas.setAttribute('width',  _whCanvasPx[0]);
 		_domCanvas.setAttribute('height', _whCanvasPx[1]);
 	}
@@ -110,17 +114,19 @@ var JeelizResizer=(function(){
 		//size canvas to the right resolution
 		//should be called after the page loading
 		//when the canvas has already the right size
-		//options :
-		// - <string> canvasId : id of the canvas
-		// - <function> callback : function to launch if there was an error or not
-		// - <float> overSamplingFactor : facultative. If 1, same resolution than displayed size (default). 
+		//options:
+		// - <string> canvasId: id of the canvas
+		// - <function> callback: function to launch if there was an error or not
+		// - <float> overSamplingFactor: facultative. If 1, same resolution than displayed size (default). 
 		//   If 2, resolution twice higher than real size
-		// - <boolean> isFlipY : if we should flip the canvas or not. Default: false
-		// - <boolean> isFullScreen : if we should set the canvas fullscreen. Default : false
-		// - <function> onResize : function called when the window is resized. Only enabled if isFullScreen=true
+		// - <boolean> isFlipY: if we should flip the canvas or not. Default: false
+		// - <boolean> isFullScreen: if we should set the canvas fullscreen. Default : false
+		// - <function> onResize: function called when the window is resized. Only enabled if isFullScreen=true
+		// - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default=false
 		size_canvas: function(options){
 			_domCanvas=document.getElementById(options.canvasId);
 			_isFullScreen=(typeof(options.isFullScreen)!=='undefined' && options.isFullScreen);
+			_isInvFullscreenWH=(typeof(options.isInvWH)!=='undefined' && options.isInvWH);
 
 			if (_isFullScreen){
 				//we are in fullscreen mode
