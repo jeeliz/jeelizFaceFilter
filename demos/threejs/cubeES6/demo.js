@@ -13,7 +13,7 @@ const SETTINGS = {
 let THREECAMERA;
 
 // callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
-function detect_callback(isDetected) {
+function detect_callback(faceIndex, isDetected) {
     if (isDetected) {
         console.log('INFO in detect_callback() : DETECTED');
     } else {
