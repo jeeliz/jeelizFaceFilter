@@ -26,12 +26,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		currTime=Date.now();
 
    		event.preventDefault();
-	    	var touch = event.touches[0];
+	    	//var touch = event.touches[0];
 		mediaRecorder.start();
 		mediaRecorder2.start();
 		event.preventDefault();
-    		var touch = event.touches[0];
- 	  	element = document.elementFromPoint(touch.pageX,touch.pageY);
+    		//var touch = event.touches[0];
+ 	  	//element = document.elementFromPoint(touch.pageX,touch.pageY);
 	}
 
 	document.addEventListener('touchstart',holdBegin, false);
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	function holdEnd(event){
 		event.preventDefault();
-		var touch = event.touches[0];
+		//var touch = event.touches[0];
 		if (element !== document.elementFromPoint(touch.pageX,touch.pageY)) {
 			touchleave();
 			mediaRecorder.stop();
@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			if(Date.now()-currTime>3000){
 				console.log("would upload here");
 			}else{
+				currTime=Date.now();
 				console.warn("Video must be at least 3 seconds to upload");
 			}
     		}
