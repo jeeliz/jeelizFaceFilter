@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	var currTime;
 	function holdBegin(event){
 		currTime=Date.now();
-
+		console.log("holdbegin",JSON.stringify(event));
    		event.preventDefault();
 	    	//var touch = event.touches[0];
 		if(loaded){
