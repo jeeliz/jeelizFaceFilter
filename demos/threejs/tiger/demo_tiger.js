@@ -323,9 +323,6 @@ var tiger=function(playing){
 }
 window.playDog=function(){
 	window.JEEFACEFILTERAPI.toggle_pause(true);
-	delete window.JEEFACEFILTERAPI;
-	console.log("Here is jee face filter api");
-	console.log(JEEFACEFILTERAPI);
 	window.tigerStopped=true;
 	window.dogStopped=false;
 	dogface();
