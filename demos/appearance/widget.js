@@ -145,8 +145,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		audio.loop=true;
 		audio.muted=false;
 		audio.id="audio";
-		canvasParent.appendChild(audio);
+		document.appendChild(audio);
 		audio.play();
+			console.log("audio playing");
 		var video = document.createElement("video");
 		
 		video.src = link;
