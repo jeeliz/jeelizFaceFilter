@@ -318,7 +318,7 @@ var tiger=function(){
 	} //end main()
 	main();
 	function stop(){
-
+		stopped=true;
 	}
 	window.stopTiger=stop;
 }
