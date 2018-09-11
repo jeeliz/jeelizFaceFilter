@@ -312,7 +312,10 @@ function tiger(){
 		} //end callbackTrack()
 	    }); //end JEEFACEFILTERAPI.init call
 	} //end main()
+	main();
 }
-tiger();
+function main(){
+	tiger();
+}
 
  
