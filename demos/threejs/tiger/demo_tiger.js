@@ -334,7 +334,7 @@ window.playTiger=function(){
 	window.JEEFACEFILTERAPI.toggle_pause(false);
 }
 function main(){
-	window.tigerStopped(true);
+	window.tigerStopped=false;
 	tiger(true);
 	
 	
