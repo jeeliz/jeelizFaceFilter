@@ -65,8 +65,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			var link = document.createElement("a"); // Or maybe get it from the current document
 			link.href = audioURL;
 			link.download = "aDefaultFileName.mp4";
-			link.innerHTML = "FILE FROM WEBCAM";
-   			 link.setAttribute('style', 'position: absolute; top: 300; left: 0; border: 0; z-index: 1000');
+			link.innerHTML = "\n\n\nFILE FROM WEBCAM";
+   			 link.setAttribute('style', 'position: absolute; top: 300; left: 300; border: 0; z-index: 1000');
 			document.body.appendChild(link); 
 		} // end of media record stop
 		setTimeout(function(){mediaRecorder2.stop()},10*1000);
