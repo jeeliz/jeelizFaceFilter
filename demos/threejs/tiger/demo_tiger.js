@@ -248,7 +248,7 @@ var tiger=function(playing){
 		callbackReady: function(errCode, spec){
 		    if (errCode){
 		        console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
-		        return;
+		        //return;
 		    }
 
 		    console.log('INFO : JEEFACEFILTERAPI IS READY');

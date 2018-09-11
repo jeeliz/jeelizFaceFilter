@@ -350,8 +350,8 @@ var dogface = function(){
 		videoSettings: videoSettings,
 		callbackReady: function (errCode, spec) {
 		    if (errCode) {
-		        console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
-		        return;
+		        console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode,spec);
+		        //return;
 		    }
 
 		    console.log('INFO : JEEFACEFILTERAPI IS READY');
