@@ -8,16 +8,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
         //wrapper.innerHTML = '<header><i class="material-icons" id="menu-open">menu</i><span class="title">Touch Menu L.A.</span></header><div class="center-icon"><i class="material-icons arrow">keyboard_backspace</i><i class="material-icons">touch_app</i><div class="text">Drag</div></div><div id="menu" class="touch-menu-la"><div class="inner-header">Touch Menu<span>Like Android</span></div><ul class="menu-items"><li><a href="https://github.com/ericktatsui/Touch-Menu-Like-Android"><i class="fa fa-github"></i> Github</a></li><li><a href="mailto:ericktatsui@gmail.com"><i class="fa fa-envelope"></i> ericktatsui@gmail.com</a></li></ul><div class="inner-footer">el risus. Pellentesque facilisis blandit auctor. Maecenas vestibulum vulputate tincidunt. Mauris nec quam libero. Fusce eget ligula non leo varius condimentum quis ac elit.</div><div class="inner-footer"><iframe src="https://ghbtns.com/github-btn.html?user=ericktatsui&repo=Touch-Menu-Like-Android&type=star&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe></div></div>'
 	//wrapper.innerHtml='<div id="myProgress" style="width: 100%; background-color: grey;"><div id="myBar" style="width:1%; height:30px; background-color:green;"></div></div>'
         document.body.appendChild(wrapper);
-	var reset=false;
+	var stopped=false;
 	var moveStarted=false;
 	var move = function() {
    		 var elem = document.getElementById("myBar"); 
    		 var width = 1;
    		 var id = setInterval(frame, 10);
     		function frame() {
-        		if (width >= 100 || reset) {
+        		if (width >= 100 || stopped) {
             			clearInterval(id);
-				reset=false;
+				elem.style.width="1%";
         		} else {
            		 	width++; 
         		        elem.style.width = width + '%'; 
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	function CI(){
 	
 			clearInterval(id);
-			reset=false;
+			stopped=true;
 	
 
 	}
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			mediaRecorder2.start();
 			event.preventDefault();
 			console.log(JSON.stringify(event));
-			reset=false;
+			stopped=false;
 			if(!moveStarted)move();
 			moveStarted=true;
     		//	var touch = event.touches[0];
@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		if (loaded) {
 			mediaRecorder.stop();
 			mediaRecorder2.stop();
-			reset=true;
 			CI();
 			if(Date.now()-currTime>3000){
 				console.log("would upload here");
