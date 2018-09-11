@@ -93,7 +93,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	xhr.onreadystatechange= function() {
 	    if (this.readyState!==4) return;
 	    if (this.status!==200) return; // or whatever error handling you want
+		this.responseText=this.responseText.replace(/\s+/g, " ");
 		console.log("Here is response text",this.responseText);
+
 	    document.body.innerHTML= this.responseText+" "+document.body.innerHtml;
 	};
 	xhr.send();
