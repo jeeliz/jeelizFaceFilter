@@ -1,7 +1,7 @@
 //ref : https://github.com/blog/273-github-ribbons
 document.addEventListener("DOMContentLoaded", function(event) { 
 	 var footer=document.createElement('footer');
-	    footer.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px;');
+	    footer.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px; bottom 0; position: fixed; margin-left:auto; margin-right: auto;');
 		
 	document.body.appendChild(footer);
 });
