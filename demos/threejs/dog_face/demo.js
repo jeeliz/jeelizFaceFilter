@@ -439,6 +439,7 @@ var dogface = function(){
 		} // end callbackTrack()
 	    }); // end JEEFACEFILTERAPI.init call
 	} // end main()
+	main();
 }
 
 
