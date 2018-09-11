@@ -22,9 +22,7 @@ function replay(){
 		audio.id="audio";
 		document.body.appendChild(audio);
 		console.log("about to play");		
-		setTimeout(function(){
-			audio.play();
-		},50);
+		audio.play();
 		console.log("audio playing");
 		var video = document.createElement("video");
 		
@@ -74,9 +72,11 @@ function replay(){
 		    
 		 }
 		//video.play();
+		console.log("Starting video now too")
 		canvasParent.appendChild(video);
 		//video.oncanplay=readyToPlayVideo;
 		video.play();
+		console.log("Video started");
 
 
 	}
