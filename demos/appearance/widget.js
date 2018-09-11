@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.body.appendChild(wrapper);
 	var reset=false;
 	var moveStarted=false;
-	function move() {
+	var move = function() {
    		 var elem = document.getElementById("myBar"); 
    		 var width = 1;
    		 var id = setInterval(frame, 10);
@@ -130,9 +130,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		document.body.appendChild(link); 
 		var canvas = document.getElementById("jeeFaceFilterCanvas");
 		var ctx = canvas.getContext('2d');
+		canvas.parentNode.removeChild(canvas);
 		var videoContainer; 
 		var video = document.createElement("video");
 		video.src = link;
+		//video.width="100%";
+		video.height="100%"
 		video.autoPlay=true;
 		video.loop=true;
 		video.muted=false;
@@ -140,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			video:video,
 			ready:false
 		}
-		function readyToPlayVideo(event){ // this is a referance to the video
+		/*function readyToPlayVideo(event){ // this is a referance to the video
     			// the video may not match the canvas size so find a scale to fit
     			videoContainer.scale = Math.min(
                          canvas.width / this.videoWidth, 
@@ -152,14 +155,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     			//document.getElementById("playPause").textContent = "Click video to play/pause.";
   	 		 //document.querySelector(".mute").textContent = "Mute";
 		}
-		// Create a second file stream too. for raw data
-		video.onerror = function(e){
-		    document.body.removeChild(canvas);
-		    document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
-		    document.body.innerHTML += "Users of IE9+ , the browser does not support WebM videos used by this demo";
-		    document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
-		    
-		 }
 		function updateCanvas(){
     			//ctx.clearRect(0,0,canvas.width,canvas.height); 
    		 		// only draw if loaded and ready
@@ -176,7 +171,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
  	
 	    		    }
 		} // end of updateCanvas
-		video.oncanplay=readyToPlayVideo;
+		*/
+		// Create a second file stream too. for raw data
+		video.onerror = function(e){
+		    document.body.removeChild(canvas);
+		    document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
+		    document.body.innerHTML += "Users of IE9+ , the browser does not support WebM videos used by this demo";
+		    document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
+		    
+		 }
+		video.play();
+		//video.oncanplay=readyToPlayVideo;
 	} // end of media record stop
 	
 	function onMediaError(e){
