@@ -10,7 +10,7 @@ function tiger(){
 	    detectionHysteresis: 0.05,
 	    scale: 1 //scale of the 3D cube
 	};
-
+	this.stopped=false;
 	//var Dogface = require("../dog_face/demo.js");
 	//var dogface = new Dogface();
 	//window.dogface=Dogface;
@@ -40,6 +40,7 @@ function tiger(){
 	    gradient.addColorStop(1, 'rgba(0,0,0,0.5)');
 	    context.fillStyle = gradient;
 	    context.fillRect(0, 0, canvas.width, canvas.height);
+		console.log("render3")
 	    return canvas;
 	}
 
@@ -226,6 +227,7 @@ function tiger(){
 		THREEVIDEOTEXTURE.magFilter=THREE.LinearFilter;
 		THREEVIDEOTEXTURE.minFilter=THREE.LinearFilter;
 		delete(videoMesh.onAfterRender);
+		console.log("render1")
 	    };
 	    videoMesh.renderOrder=-1000; //render first
 	    videoMesh.frustumCulled=false;
@@ -305,6 +307,7 @@ function tiger(){
 		            TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
 		        }
 		    }
+			console.log("render2")
 		    TWEEN.update();
 
 		    //trigger the render of the THREE.JS SCENE
