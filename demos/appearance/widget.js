@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     		}
 		this.clearInterval=function(){
 			clearInterval(id);
+			reset=false;
 		}
 	}
 	var element;
@@ -160,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		    
 		 }
 		function updateCanvas(){
-    			ctx.clearRect(0,0,canvas.width,canvas.height); 
+    			//ctx.clearRect(0,0,canvas.width,canvas.height); 
    		 		// only draw if loaded and ready
     			if(videoContainer !== undefined && videoContainer.ready){ 
        				 // find the top left of the video on the canvas
