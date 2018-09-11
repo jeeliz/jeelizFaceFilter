@@ -34,7 +34,7 @@ function replay(){
 		video.loop=true;
 		video.muted=true;
 		console.log(canvas.offsetWidth,canvas.offsetHeight);
-		video.style="position: absolute; height "+canvas.offsetHeight+"px; width "+canvas.offsetWidth+"px; margin-left: auto; margin-right:auto; display: block;";
+		video.style="margin-left:auto; margin-right:autio; display:block;";
 		//canvasContainer.style=video.style;
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
