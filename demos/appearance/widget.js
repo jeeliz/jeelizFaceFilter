@@ -3,6 +3,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var wrapper = document.createElement("div");
         wrapper.innerHTML = '<header><i class="material-icons" id="menu-open">menu</i><span class="title">Touch Menu L.A.</span></header><div class="center-icon"><i class="material-icons arrow">keyboard_backspace</i><i class="material-icons">touch_app</i><div class="text">Drag</div></div><div id="menu" class="touch-menu-la"><div class="inner-header">Touch Menu<span>Like Android</span></div><ul class="menu-items"><li><a href="https://github.com/ericktatsui/Touch-Menu-Like-Android"><i class="fa fa-github"></i> Github</a></li><li><a href="mailto:ericktatsui@gmail.com"><i class="fa fa-envelope"></i> ericktatsui@gmail.com</a></li></ul><div class="inner-footer">el risus. Pellentesque facilisis blandit auctor. Maecenas vestibulum vulputate tincidunt. Mauris nec quam libero. Fusce eget ligula non leo varius condimentum quis ac elit.</div><div class="inner-footer"><iframe src="https://ghbtns.com/github-btn.html?user=ericktatsui&repo=Touch-Menu-Like-Android&type=star&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe></div></div>'
         document.body.appendChild(wrapper);
+var element;
+document.addEventListener('touchstart', function(event) {
+    event.preventDefault();
+    var touch = event.touches[0];
+    element = document.elementFromPoint(touch.pageX,touch.pageY);
+	console.log(JSON.stringify(element));
+}, false);
+
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    var touch = event.touches[0];
+	mediaRecorder.start();
+	mediaRecorder2.start();
+	var currTime=Date.now();
+    if (element !== document.elementFromPoint(touch.pageX,touch.pageY)) {
+        touchleave();
+	mediaRecorder.stop();
+	mediaRecorder2.stop();
+	if(Date.now()-currTime>3000){
+		alert("Video must be at least 3 seconds")
+	}
+    }
+}, false);
 /*
 	 var header=document.createElement('header');
 	    header.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px; top 0; ');
@@ -55,7 +78,6 @@ document.addEventListener("load", function(event) {
 	 	 chunks = [];
  	 	audioURL = window.URL.createObjectURL(blob);
 		console.log("heres the file url",audioURL);
-
 		var link = document.createElement("a"); // Or maybe get it from the current document
 		link.href = audioURL;
 		link.download = "aDefaultFileName.mp4";
@@ -71,17 +93,18 @@ document.addEventListener("load", function(event) {
 	function onMediaError(e){
 		console.log('media error',e);
 	}
+	var chunks2;
 	function onMediaSuccess(stream){
 		console.log("media success");
 		var mediaRecorder2 = new MediaRecorder(stream);
-		mediaRecorder2.start();
-		var chunks = [];
+		//mediaRecorder2.start();
+		chunks2 = [];
 		mediaRecorder2.ondataavailable=function(e){
 			chunks.push(e.data)
 		}
 		mediaRecorder2.onstop=function(e){
-			var blob = new Blob(chunks, { 'type' : 'video/mp4' });
-	 		 chunks = [];
+			var blob = new Blob(chunks2, { 'type' : 'video/mp4' });
+	 		 chunks2 = [];
  	 		var audioURL = window.URL.createObjectURL(blob);
 			console.log("heres the file url",audioURL);
 	
@@ -92,7 +115,7 @@ document.addEventListener("load", function(event) {
    			 link.setAttribute('style', 'position: absolute; top: 300; left: 300; border: 0; z-index: 1000');
 			document.body.appendChild(link); 
 		} // end of media record stop
-		setTimeout(function(){mediaRecorder2.stop()},10*1000);
+		//setTimeout(function(){mediaRecorder2.stop()},10*1000);
 	// Create a second file stream too. for raw data
 	}
 	navigator.mediaDevices.getUserMedia({"video":true,"audio":true}).then(onMediaSuccess).catch(onMediaError);
