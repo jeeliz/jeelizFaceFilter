@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	link2.setAttribute('style','right 0;');
 	footer.appendChild(link1);
 	footer.appendChild(link2);
-	document.body.insertBefore(footer,document.body.firstChild);
+	//document.body.insertBefore(footer,document.body.firstChild);
 	document.body.insertBefore(header,document.body.firstChild);
 });
 document.addEventListener("load", function(event) { 
