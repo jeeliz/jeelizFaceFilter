@@ -140,11 +140,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		var video = document.createElement("video");
 		video.src = link;
 		//video.width="100%";
-		video.height="100%"
+		
 		video.autoPlay=true;
 		video.loop=true;
 		video.muted=false;
-		video.style="position:absolute;";
+		video.style="position:absolute; height 100%;";
 		videoContainer={
 			video:video,
 			ready:false
