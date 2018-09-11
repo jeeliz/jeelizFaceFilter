@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     document.body.appendChild(githubRibbon);
 */
-var script = document.createElement('script');
-script.type = 'text/javascript';
-script.src = 'https://cdn.webrtc-experiment.com/MediaStreamRecorder.js';
-document.head.appendChild(script);
+//var script = document.createElement('script');
+//script.type = 'text/javascript';
+//script.src = 'https://cdn.webrtc-experiment.com/MediaStreamRecorder.js';
+//document.head.appendChild(script);
 
 	console.log("dom content loaded");
 	var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
