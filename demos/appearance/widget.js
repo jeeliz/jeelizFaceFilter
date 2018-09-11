@@ -215,9 +215,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		//document.body.insertBefore(footer,document.body.firstChild);
 		document.body.insertBefore(header,document.body.firstChild);
 	*/
-	});
+	//});
 
-	document.addEventListener("DOMContentLoaded", function(event) { 
+	//document.addEventListener("DOMContentLoaded", function(event) { 
 	/*    var githubRibbon=document.createElement('a');
 	    githubRibbon.setAttribute('href', 'https://github.com/jeeliz/jeelizFaceFilter');
 	    var githubRibbonImage=document.createElement('img');
