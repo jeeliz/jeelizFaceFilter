@@ -20,7 +20,7 @@ function replay(){
 		audio.loop=true;
 		audio.muted=false;
 		audio.id="audio";
-		document.appendChild(audio);
+		document.body.appendChild(audio);
 		console.log("about to play");		
 		setTimeout(function(){
 			audio.play();
