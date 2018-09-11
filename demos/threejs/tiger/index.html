@@ -41,7 +41,7 @@ body {
 	text-align:center;
 	color:red;
 }
-#recordingInstructions{
+#recordingInstructionsStyle{
 	position:relative;
 	z-index:99 !important;
 	text-align:center;
@@ -50,7 +50,7 @@ body {
 .arrow{
 	position:relative;
 	z-index:99 !important;
-	text-align:left;
+	text-align:center;
 	color:red;
 }
 </style>
@@ -66,10 +66,14 @@ body {
 			<h2 id="pleaseWait">
 				Please wait...
 			</h2>
-			<h2 class="arrow" href="https://testface.projectoblio.com/demos/">←</h2>
-			<h6 id="recordingInstructions">Hold anywhere to record. Or select new filter with Arrows
+			<div id ="recordingInstructionsStyle"> 
+			 <h2 class="arrow" href="https://testface.projectoblio.com/demos/">←</h2>
+			<h6 id="recordingInstructions">Hold anywhere to record. Or select a new filter. 
 			</h6>
 			<h2 class="arrow" href="https://testface.projectoblio.com/demos/">→</h2>
+			</div> 
+			
+			
 		</id>
 		<div id ="canvasParent">
 	        	<canvas class="mycanvas" width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
