@@ -18,6 +18,7 @@ function replay(){
 		audio.loop=true;
 		audio.muted=false;
 		audio.id="audio";
+		audio.style="height 0px; width 0px;"
 		document.body.appendChild(audio);
 		console.log("about to play");		
 		audio.play();
@@ -29,9 +30,9 @@ function replay(){
 		video.id="video";
 		video.autoPlay=true;
 		video.loop=true;
-		video.muted=false;
+		video.muted=true;
 		console.log(canvas.height,canvas.width);
-		video.style="position:absolute; height "+canvas.height+"px; width "+canvas.width+"px; margin 0 auto; ";
+		video.style="height "+canvas.height+"px; width "+canvas.width+"px; margin-left: auto; margin-right:auto; display: block;";
 		canvasParent.style=video.style;
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
