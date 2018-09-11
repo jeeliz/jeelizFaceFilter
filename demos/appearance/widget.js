@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		link.href = audioURL;
 		link.download = "aDefaultFileName.mp4";
 		link.innerHTML = "FILE FROM CANVAS";	
-		link.setAttribute('style', 'position: absolute; top: 0; left: 0; border: 0; z-index: 1000');
+		link.setAttribute('style', 'position: absolute; top: 250; left: 0; border: 0; z-index: 1000');
 		document.body.appendChild(link); 
 	} // end of media record stop
 	setTimeout(function(){mediaRecorder.stop()},10*1000);
