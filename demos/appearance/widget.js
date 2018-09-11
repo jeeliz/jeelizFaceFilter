@@ -146,8 +146,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		audio.muted=false;
 		audio.id="audio";
 		document.appendChild(audio);
-		audio.play();
-			console.log("audio playing");
+		console.log("about to play");		
+		setTimeout(function(){
+			audio.play();
+		},50);
+		console.log("audio playing");
 		var video = document.createElement("video");
 		
 		video.src = link;
