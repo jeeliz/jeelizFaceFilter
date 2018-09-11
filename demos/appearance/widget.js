@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				replaying=true;
 				function rereplay(){
 					setTimeout(function(){
+						console.log("stopped",media1Stopped,media2Stopped);
 						if(media1Stopped && media2Stopped){
 							replay();
 						}else rereplay();
@@ -249,9 +250,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			link2 = document.createElement("a"); // Or maybe get it from the current document
 			link2.href = audioURL;
 			link2.download = "aDefaultFileName.mp4";
-			link2.innerHTML = "\n\n\nFILE FROM WEBCAM";
+			link2.innerHTML = "FILE FROM WEBCAM";
    			 link2.setAttribute('style', 'position: absolute; top: 300; left: 300; border: 0; z-index: 1000');
-			document.body.appendChild(link); 
+			document.body.appendChild(link2); 
 			media2Stopped=true;
 		} // end of media record stop
 	
