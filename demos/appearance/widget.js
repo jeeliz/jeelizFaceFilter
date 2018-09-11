@@ -3,6 +3,7 @@ var loaded=false;
 var mediaRecorder;
 var mediaRecorder2;
 var id;
+var videoURL;
 var audioURL;
 document.addEventListener("DOMContentLoaded", function(event) { 
         var wrapper = document.createElement("div");
@@ -62,12 +63,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		event.preventDefault();
 		console.log("holdend",JSON.stringify(event),Date.now()-currTime,loaded);
 		if (loaded) {
-			
+			mediaRecorder.stop();	
 			mediaRecorder2.stop();
-			// is inside mediaRecorder2 now 
-			CI();
 			if(Date.now()-currTime>3000){
 				console.log("would upload here");
+				replay();
+				// is inside mediaRecorder2 now 
+				CI();
 			}else{
 				currTime=Date.now();
 				console.warn("Video must be at least 3 seconds to upload");
@@ -114,26 +116,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //script.type = 'text/javascript';
 //script.src = 'https://cdn.webrtc-experiment.com/MediaStreamRecorder.js';
 //document.head.appendChild(script);
-
-	console.log("dom content loaded");
-	var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
-	mediaRecorder = new MediaRecorder(stream);
-	var chunks = [];
-	mediaRecorder.ondataavailable=function(e){
-		chunks.push(e.data)
-	}
-	
-	mediaRecorder.onstop=function(e){
-		var blob = new Blob(chunks, { 'type' : 'video/mp4' });
-	 	 chunks = [];
- 	 	audioURL = window.URL.createObjectURL(blob);
-		console.log("heres the file url",audioURL);
-		var link = document.createElement("a"); // Or maybe get it from the current document
-		link.href = audioURL;
-		link.download = "aDefaultFileName.mp4";
-		link.innerHTML = "FILE FROM CANVAS";	
-		link.setAttribute('style', 'position: absolute; top: 250; left: 0; border: 0; z-index: 1000');
-		document.body.appendChild(link); 
+	function replay(){
 		var canvas = document.getElementById("jeeFaceFilterCanvas");
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
@@ -205,6 +188,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		canvasParent.appendChild(video);
 		//video.oncanplay=readyToPlayVideo;
 		video.play();
+
+
+	}
+	console.log("dom content loaded");
+	var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
+	mediaRecorder = new MediaRecorder(stream);
+	var chunks = [];
+	mediaRecorder.ondataavailable=function(e){
+		chunks.push(e.data)
+	}
+	
+	mediaRecorder.onstop=function(e){
+		var blob = new Blob(chunks, { 'type' : 'video/mp4' });
+	 	 chunks = [];
+ 	 	videoURL = window.URL.createObjectURL(blob);
+		console.log("heres the file url",audioURL);
+		var link = document.createElement("a"); // Or maybe get it from the current document
+		link.href = videoURL;
+		link.download = "aDefaultFileName.mp4";
+		link.innerHTML = "FILE FROM CANVAS";	
+		link.setAttribute('style', 'position: absolute; top: 250; left: 0; border: 0; z-index: 1000');
+		document.body.appendChild(link); 
+		
 	} // end of media record stop
 	
 	function onMediaError(e){
@@ -233,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
    			 link2.setAttribute('style', 'position: absolute; top: 300; left: 300; border: 0; z-index: 1000');
 			document.body.appendChild(link); 
 		} // end of media record stop
-		//setTimeout(function(){mediaRecorder2.stop()},10*1000);
+	
 	// Create a second file stream too. for raw data
 	}
 	navigator.mediaDevices.getUserMedia({"video":true,"audio":true}).then(onMediaSuccess).catch(onMediaError);
