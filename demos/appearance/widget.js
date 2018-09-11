@@ -21,14 +21,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	mediaRecorder.ondataavailable=function(e){
 		chunks.push(e.data)
 	}
+	var audioURL;
 	mediaRecorder.onstop=function(e){
 		var blob = new Blob(chunks, { 'type' : 'video/mp4' });
 	 	 chunks = [];
- 	 	var audioURL = window.URL.createObjectURL(blob);
+ 	 	audioURL = window.URL.createObjectURL(blob);
 		console.log("heres the file url",audioURL);
 
+	var link = document.createElement("a"); // Or maybe get it from the current document
+	link.href = audioURL;
+	link.download = "aDefaultFileName.mp4";
+	link.innerHTML = "Click here to download the file";
+	document.body.appendChild(link); 
+
 	}
-	setTimeout(function(){mediaRecorder.stop()},10*1000);
+	setTimeout(function(){mediaRecorder.stop()},10*1000
+
+
+
+
+
+
+
+
+
+	);
 	// Create a second file stream too. for raw data
+
+
 	
 });
