@@ -437,4 +437,5 @@ function init_faceFilter(videoSettings){
         } // end callbackTrack()
     }); // end JEEFACEFILTERAPI.init call
 } // end main()
+window.main=main;
 
