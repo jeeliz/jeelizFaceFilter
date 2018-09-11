@@ -22,11 +22,19 @@
 
         <link rel="stylesheet" href="../../appearance/style.css" type="text/css" />
 <style>
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+	position:relative;
+	z-index:-1;
+}
 </style>
     </head>
     
     <body onload="main()" style='color: white' id="container">
-        <canvas width="600" heght="600" id='jeeFaceFilterCanvas'></canvas>
+        <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 
 	<div id="myProgress" style="width: 100%; background-color: grey;">
 		<div id="myBar" style="width:1%; height:30px; background-color:green;">
