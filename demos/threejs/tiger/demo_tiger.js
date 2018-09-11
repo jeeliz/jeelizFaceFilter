@@ -12,7 +12,7 @@ var SETTINGS={
 
 //var Dogface = require("../dog_face/demo.js");
 //var dogface = new Dogface();
-window.dogface=Dogface;
+//window.dogface=Dogface;
 //some globalz :
 var THREEVIDEOTEXTURE, THREERENDERER, THREEFACEOBJ3D, THREEFACEOBJ3DPIVOTED, THREESCENE, THREECAMERA, MOUTHOPENINGMATERIALS=[], TIGERMOUTHHIDEMESH=false;
 var PARTICLESOBJ3D, PARTICLES=[], PARTICLESHOTINDEX=0, PARTICLEDIR;

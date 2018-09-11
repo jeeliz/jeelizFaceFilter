@@ -438,5 +438,5 @@ function dogface(){
 	    }); // end JEEFACEFILTERAPI.init call
 	} // end main()
 }
-module.exports=dogface;
+
 
