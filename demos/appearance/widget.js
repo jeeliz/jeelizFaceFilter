@@ -1,4 +1,5 @@
 //ref : https://github.com/blog/273-github-ribbons
+var loaded=false;
 document.addEventListener("DOMContentLoaded", function(event) { 
         var wrapper = document.createElement("div");
         //wrapper.innerHTML = '<header><i class="material-icons" id="menu-open">menu</i><span class="title">Touch Menu L.A.</span></header><div class="center-icon"><i class="material-icons arrow">keyboard_backspace</i><i class="material-icons">touch_app</i><div class="text">Drag</div></div><div id="menu" class="touch-menu-la"><div class="inner-header">Touch Menu<span>Like Android</span></div><ul class="menu-items"><li><a href="https://github.com/ericktatsui/Touch-Menu-Like-Android"><i class="fa fa-github"></i> Github</a></li><li><a href="mailto:ericktatsui@gmail.com"><i class="fa fa-envelope"></i> ericktatsui@gmail.com</a></li></ul><div class="inner-footer">el risus. Pellentesque facilisis blandit auctor. Maecenas vestibulum vulputate tincidunt. Mauris nec quam libero. Fusce eget ligula non leo varius condimentum quis ac elit.</div><div class="inner-footer"><iframe src="https://ghbtns.com/github-btn.html?user=ericktatsui&repo=Touch-Menu-Like-Android&type=star&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe></div></div>'
@@ -27,11 +28,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
    		event.preventDefault();
 	    	//var touch = event.touches[0];
-		mediaRecorder.start();
-		mediaRecorder2.start();
-		event.preventDefault();
-    		//var touch = event.touches[0];
- 	  	//element = document.elementFromPoint(touch.pageX,touch.pageY);
+		if(loaded){
+			mediaRecorder.start();
+			mediaRecorder2.start();
+			event.preventDefault();
+			console.log(JSON.stringify(event));
+    		//	var touch = event.touches[0];
+ 	  		
+		}//element = document.elementFromPoint(touch.pageX,touch.pageY);
 	}
 
 	document.addEventListener('touchstart',holdBegin, false);
@@ -77,8 +81,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	document.body.insertBefore(header,document.body.firstChild);
 */
 });
-document.addEventListener("load", function(event) { 
 
+document.addEventListener("load", function(event) { 
+	loaded=true;
 /*    var githubRibbon=document.createElement('a');
     githubRibbon.setAttribute('href', 'https://github.com/jeeliz/jeelizFaceFilter');
     var githubRibbonImage=document.createElement('img');
