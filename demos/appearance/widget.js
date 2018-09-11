@@ -1,9 +1,23 @@
 //ref : https://github.com/blog/273-github-ribbons
 document.addEventListener("DOMContentLoaded", function(event) { 
+	 var header=document.createElement('header');
+	    header.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px; top 0; ');
+		header.innerHtml="Replying to.. 'What did the fox say?'";
 	 var footer=document.createElement('footer');
 	    footer.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px; bottom 0; ');
-		
-	document.body.appendChild(footer);
+
+	var link1 = document.createElement("a");
+	link1.href="https://testface.projectoblio.com:4443/demos"
+	link1.innerHtml="All filters";
+	link1.setAttribute('style','left 0;');
+	var link2 = document.createElement("a");
+	link2.href="https://testface.projectoblio.com:4443/demos"
+	link2.innerHtml="Some other link";
+	link2.setAttribute('style','right 0;');
+	footer.appendChild(link1);
+	footer.appendChild(link2);
+	document.body.insertBefore(footer,document.body.firstChild);
+	document.body.insertBefore(header,document.body.firstChild);
 });
 document.addEventListener("load", function(event) { 
 
