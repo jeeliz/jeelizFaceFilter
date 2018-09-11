@@ -1,7 +1,7 @@
 "use strict";
 
 //SETTINGS of this demo :
-function tiger(){
+var tiger=function(){
 	var SETTINGS={
 	    rotationOffsetX: 0, //negative -> look upper. in radians
 	    cameraFOV: 40,      //in degrees, 3D camera FOV
