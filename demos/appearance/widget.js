@@ -15,8 +15,8 @@ function replay(){
 		var canvasContainer = document.getElementById("videoDiv");
 		var sendButton=document.getElementById("send");
 		sendButton.style.visibility="visible"
-		var resetButton=document.getElementById("cancel");
-		sendButton.style.visibility="visible"
+		var cancelButton=document.getElementById("cancel");
+		cancelButton.style.visibility="visible"
 
 		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
