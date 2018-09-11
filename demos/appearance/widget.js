@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     document.body.appendChild(githubRibbon);
 */
+	console.log("dom content loaded");
     var canvas = document.getElementById("jeeFaceFilterCanvas");
 	document.mainCanvas=canvas;
+	window.mainCanvas=canvas;
+	console.log("no error thrown");
 });
