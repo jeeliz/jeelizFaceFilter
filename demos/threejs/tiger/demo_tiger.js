@@ -10,7 +10,7 @@ var SETTINGS={
     scale: 1 //scale of the 3D cube
 };
 
-var Dogface = require("../dog_face/demo.js");
+//var Dogface = require("../dog_face/demo.js");
 //var dogface = new Dogface();
 window.dogface=Dogface;
 //some globalz :
