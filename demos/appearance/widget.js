@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         //wrapper.innerHTML = '<header><i class="material-icons" id="menu-open">menu</i><span class="title">Touch Menu L.A.</span></header><div class="center-icon"><i class="material-icons arrow">keyboard_backspace</i><i class="material-icons">touch_app</i><div class="text">Drag</div></div><div id="menu" class="touch-menu-la"><div class="inner-header">Touch Menu<span>Like Android</span></div><ul class="menu-items"><li><a href="https://github.com/ericktatsui/Touch-Menu-Like-Android"><i class="fa fa-github"></i> Github</a></li><li><a href="mailto:ericktatsui@gmail.com"><i class="fa fa-envelope"></i> ericktatsui@gmail.com</a></li></ul><div class="inner-footer">el risus. Pellentesque facilisis blandit auctor. Maecenas vestibulum vulputate tincidunt. Mauris nec quam libero. Fusce eget ligula non leo varius condimentum quis ac elit.</div><div class="inner-footer"><iframe src="https://ghbtns.com/github-btn.html?user=ericktatsui&repo=Touch-Menu-Like-Android&type=star&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe></div></div>'
 	wrapper.innerHtml='<div id="myProgress" style="width: 100%; background-color: grey;"><div id="myBar" style="width:1%; height:30px; background-color:green;"></div></div>'
         document.body.appendChild(wrapper);
-var reset=false;
-function move() {
+	var reset=false;
+	function move() {
     var elem = document.getElementById("myBar"); 
     var width = 1;
     var id = setInterval(frame, 10);
@@ -25,17 +25,17 @@ var currTime;
 function holdBegin(event){
 	currTime=Date.now();
 
-    event.preventDefault();
-    var touch = event.touches[0];
-	mediaRecorder.start();
-	mediaRecorder2.start();
-	event.preventDefault();
-    var touch = event.touches[0];
-    element = document.elementFromPoint(touch.pageX,touch.pageY);
-}
+   	 event.preventDefault();
+	    var touch = event.touches[0];
+		mediaRecorder.start();
+		mediaRecorder2.start();
+		event.preventDefault();
+    	var touch = event.touches[0];
+ 	   element = document.elementFromPoint(touch.pageX,touch.pageY);
+	}
 
-document.addEventListener('touchstart',holdBegin, false);
-document.addEventListener('mousedown',holdBegin, false);
+	document.addEventListener('touchstart',holdBegin, false);
+	document.addEventListener('mousedown',holdBegin, false);
 
 function holdEnd(event){
 	event.preventDefault();
@@ -50,7 +50,8 @@ function holdEnd(event){
 	}else{
 		console.warn("Video must be at least 3 seconds to upload");
 	}
-    }, false);
+    }
+//}, false);
 document.addEventListener('touchmove',holdEnd,false);
 document.addEventListener('mouseup',holdEnd,false);
 
