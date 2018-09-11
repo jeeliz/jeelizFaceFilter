@@ -1,18 +1,7 @@
 //ref : https://github.com/blog/273-github-ribbons
 document.addEventListener("DOMContentLoaded", function(event) { 
         var wrapper = document.createElement("div");
-        wrapper.innerHTML = '\
-<a href="#" id="playButton">Play</a>\
-<a href="javascript: void(0)" id="muteUnmute">Mute</a>\
-<div id="progressBarOuter"> \
-<div id="bytesLoaded"></div>\
-    <div id="progressBar"></div>\
-</div>\
-<div id="currentTime">0:00</div>\
-<div id="totalTime">0:00</div>\
-<header> Replying to what did the fox say</header>
-<footer> All demos |||||||| Something else </footer>
-';
+        wrapper.innerHTML = '<a href="#" id="playButton">Play</a><a href="javascript: void(0)" id="muteUnmute">Mute</a><div id="progressBarOuter"><div id="bytesLoaded"></div><div id="progressBar"></div></div><div id="currentTime">0:00</div><div id="totalTime">0:00</div>';
         document.body.appendChild(wrapper);
 /*
 	 var header=document.createElement('header');
