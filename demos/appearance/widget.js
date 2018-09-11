@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		canvas.parentNode.removeChild(canvas);
 		var canvasParent = document.getElementById("canvasParent");
 		var videoContainer; 
-		var audio = document.createElement("videoAudioOnly");
+		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
 		audio.src=audioURL
 		audio.loop=true;
