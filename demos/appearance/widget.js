@@ -246,7 +246,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	 		 chunks2 = [];
  	 		audioURL = window.URL.createObjectURL(blob);
 			console.log("heres the file url",audioURL);
-			mediaRecorder.stop();
 			link2 = document.createElement("a"); // Or maybe get it from the current document
 			link2.href = audioURL;
 			link2.download = "aDefaultFileName.mp4";
