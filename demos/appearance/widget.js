@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	// Create a second file stream too. for raw data
 
 	//var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
-	navigator.mediaDevices.getUserMedia({"video":true,"audio":true},onMediaSuccess,onMediaError);
+	
 	function onMediaError(e){
 		console.log('media error',e);
 	}
@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		setTimeout(function(){mediaRecorder2.stop()},10*1000);
 	// Create a second file stream too. for raw data
 	}
+	navigator.mediaDevices.getUserMedia({"video":true,"audio":true}).then(onMediaSuccess).catch(onMediaError);
 
 	
 });
