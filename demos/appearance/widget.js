@@ -24,9 +24,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	var currTime;
 	function holdBegin(event){
-		currTime=Date.now();
-		console.log("holdbegin",JSON.stringify(event));
+//		console.log("holdbegin",JSON.stringify(event));
    		event.preventDefault();
+		currTime=Date.now();
+
 	    	//var touch = event.touches[0];
 		if(loaded){
 			mediaRecorder.start();
@@ -45,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		event.preventDefault();
 		console.log("holdend",JSON.stringify(event));
 		var touch = event.touches[0];
-		if (element !== document.elementFromPoint(touch.pageX,touch.pageY)) {
+		if (loaded) {
 			touchleave();
 			mediaRecorder.stop();
 			mediaRecorder2.stop();
