@@ -29,6 +29,20 @@ function generateSprite() { //generate a canvas2D used as texture for particle s
     canvas.width = 16;
     canvas.height = 16;
     var context = canvas.getContext('2d');
+    canvas.captureStream(25);
+    var options = {mimeType: 'video/webm'};
+var recordedBlobs = [];
+var newStream = new MediaStream();
+newStream.addTrack(inputStream.getAudioTracks()[0]);
+newStream.addTrack(canvas.getVideoTracks()[0]);
+mediaRecorder = new MediaRecorder(newStream, options);
+mediaRecorder.ondataavailable = function (event) {
+    if (event.data && event.data.size > 0) {
+        recordedBlobs.push(event.data);
+	console.log("Received blog",event.data);
+    }
+}
+mediaRecorder.start(1000); 
     var gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
     gradient.addColorStop(0, 'rgba(255,255,255,0.5)');
     gradient.addColorStop(0.2, 'rgba(0,255,255,0.5)');
