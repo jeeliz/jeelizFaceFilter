@@ -108,6 +108,7 @@ input {
 .mega-menu {
   background: #fff;
   border: 1px solid #ddd;
+	text-align:center;
   border-radius: 0 0 3px 3px;
   opacity: 1;
   position: absolute;
