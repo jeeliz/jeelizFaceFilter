@@ -316,11 +316,12 @@ var tiger=function(){
 		} //end callbackTrack()
 	    }); //end JEEFACEFILTERAPI.init call
 	} //end main()
-	main();
 	function stop(){
 		stopped=true;
 	}
 	window.stopTiger=stop;
+	main();
+
 }
 function main(){
 	
