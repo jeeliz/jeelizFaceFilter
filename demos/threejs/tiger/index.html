@@ -53,6 +53,37 @@
 		color:red;
 	
 	}
+.canvasContainer {
+                position: relative;
+                margin: 0 auto;
+                text-align: center;
+            }
+            #jeeFaceFilterCanvas {
+                z-index: 0;
+                max-height: 100%;
+                left: auto;
+                top: auto;
+                width: 100vmin;
+                transform: translate(0,0) rotateY(180deg);
+                position: static;
+            }
+            img {
+                max-width: 100%;
+            }
+            #filter {
+                position: absolute;
+                z-index: 0;
+                max-height: 100%;
+                width: 100vmin;
+                top: 0;
+                left: 50%;
+                transform: translate(-50%);
+                opacity: 0.15;
+            }
+            #filter canvas {
+                width: 100%;
+                height: 100%;
+            }
 
 	</style>
 	<div> 
@@ -80,7 +111,7 @@
 		<div id ="canvasContainer">
 	        	<canvas class="mycanvas" width="600" height="600" id="jeeFaceFilterCanvas"></canvas>
 		</div>
-		
+		   <div id="filter"></div>      
 	</div>
 
     </body>
