@@ -1,7 +1,7 @@
 "use strict";
 
 //SETTINGS of this demo :
-var tiger=function(){
+var tiger=function(playing){
 	var SETTINGS={
 	    rotationOffsetX: 0, //negative -> look upper. in radians
 	    cameraFOV: 40,      //in degrees, 3D camera FOV
@@ -15,7 +15,7 @@ var tiger=function(){
 	//var dogface = new Dogface();
 	//window.dogface=Dogface;
 	//some globalz :
-	var stopped=false;
+	
 	var THREEVIDEOTEXTURE, THREERENDERER, THREEFACEOBJ3D, THREEFACEOBJ3DPIVOTED, THREESCENE, THREECAMERA, MOUTHOPENINGMATERIALS=[], TIGERMOUTHHIDEMESH=false;
 	var PARTICLESOBJ3D, PARTICLES=[], PARTICLESHOTINDEX=0, PARTICLEDIR;
 	var ISDETECTED=false;
@@ -308,24 +308,21 @@ var tiger=function(){
 		            TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
 		        }
 		    }
-		if(!stopped){
+		if(playing){
 		    TWEEN.update();
+			THREERENDERER.render(THREESCENE, THREECAMERA);
 		}
 		    //trigger the render of the THREE.JS SCENE
-		    THREERENDERER.render(THREESCENE, THREECAMERA);
+		    
 		} //end callbackTrack()
 	    }); //end JEEFACEFILTERAPI.init call
 	} //end main()
-	function stop(){
-		stopped=true;
-	}
-	window.stopTiger=stop;
+	
 	main();
-
 }
 function main(){
-	
-	tiger();
+	tiger(true);
+	window.tiger=tiger;
 	
 }
 
