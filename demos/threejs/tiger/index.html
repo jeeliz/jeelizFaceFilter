@@ -21,11 +21,25 @@
         <script type="text/javascript" src="../../appearance/widget.js"></script>
 
         <link rel="stylesheet" href="../../appearance/style.css" type="text/css" />
+<style>
+#container {
+  position: relative;
+}
+#container canvas, #overlay {
+  position: absolute;
+}
+canvas {
+  border: 1px solid black;
+}
+</style>
     </head>
     
     <body onload="main()" style='color: white'>
 <div id="myProgress" style="width: 100%; background-color: grey;"><div id="myBar" style="width:1%; height:30px; background-color:green;"></div></div>
+	<div id="container">
         <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+		<div id="overlay"> This div is over the canvas </div>
+		</div >
     </body>
 
 </html>
