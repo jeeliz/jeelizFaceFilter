@@ -32,7 +32,7 @@ input {
 
 /* menu list */
 .nav > li {
-  float: left;
+  float: center;
 }
 
 /* menu links */
@@ -109,11 +109,11 @@ input {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 0 0 3px 3px;
-  opacity: 0;
+  opacity: 1;
   position: absolute;
   transition: all .3s ease .15s;
   visibility: visible;
-	  overflow: visible;
+	overflow: visible;
   width: 100%;
 }
 li:hover > .mega-menu {
@@ -123,11 +123,28 @@ li:hover > .mega-menu {
 }
 
 /* menu content */
+.nav-column2 {
+  float: left;
+  padding: 2.5%;
+  width: 40%;
+}
+
+.nav-column2 a {
+  color: #888;
+  display: block;
+  font-weight: bold;
+  line-height: 1.75;
+}
+.nav-column2 a:hover {
+  color: #2196f3;
+}
+
 .nav-column {
   float: left;
   padding: 2.5%;
   width: 20%;
 }
+
 .nav-column a {
   color: #888;
   display: block;
