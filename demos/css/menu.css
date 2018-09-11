@@ -112,7 +112,7 @@ input {
   opacity: 0;
   position: absolute;
   transition: all .3s ease .15s;
-  visibility: hidden;
+  visibility: visible;
   width: 100%;
 }
 li:hover > .mega-menu {
