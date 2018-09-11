@@ -39,7 +39,7 @@ function headControlStart(){
 	    		s: 1
 	    	}
 		},
-	    canvasId: 'headControlsCanvas',
+	    canvasId: 'jeeFaceFilterCanvas',
 	    callbackMove: callbackMove,
 	    callbackReady: function(errCode){
 	      if (errCode){

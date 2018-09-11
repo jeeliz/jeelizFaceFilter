@@ -24,7 +24,7 @@
         cursor: pointer;
       }
 
-      #headControlsCanvas {
+      #jeeFaceFilterCanvas {
         position: fixed;
         right: 0px;
         bottom: 30px;
@@ -40,7 +40,7 @@
   <div id="cesiumContainer"></div>
 
   <button id='startHeadControlsButton'>START HEAD CONTROLLED NAVIGATION !</button>
-  <canvas id='headControlsCanvas' width='512' height='512'></canvas>
+  <canvas id='jeeFaceFilterCanvas' width='512' height='512'></canvas>
 
   <script>
     //initialize Cesium
@@ -71,7 +71,7 @@
     var DOMbutton=document.getElementById('startHeadControlsButton');
   	DOMbutton.onclick=function(){
   	  HeadControls.init({
-  	    canvasId: 'headControlsCanvas',
+  	    canvasId: 'jeeFaceFilterCanvas',
   	    callbackMove: callbackMove, //will be explained later...
   	    callbackReady: function(errCode){
   	      if (errCode){

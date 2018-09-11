@@ -30,7 +30,7 @@
 				color: red;
 			}
 
-		    #headControlsCanvas {
+		    #jeeFaceFilterCanvas {
 		        position: fixed;
 		        right: 0px;
 		        bottom: 0px;
@@ -60,7 +60,7 @@
 		<script src="ThreeHeadControls.js"></script>
 		
 		<!-- This canvas will be used to display the head tracking : //-->
-	    <canvas id='headControlsCanvas' width='512' height='512'></canvas>
+	    <canvas id='jeeFaceFilterCanvas' width='512' height='512'></canvas>
 
 
 		<script>
@@ -88,7 +88,7 @@
 
 				//instantiate HEAD CONTROLS
 				var NNCpath='../../../dist/'; //where to find NNC.json from the current path
-				controls = new THREE.HeadControls( camera, 'headControlsCanvas', NNCpath );
+				controls = new THREE.HeadControls( camera, 'jeeFaceFilterCanvas', NNCpath );
 				//controls.enableZoom = false;
 				//tweak sensibility parameters
 				controls.sensibilityZ=1.5;
