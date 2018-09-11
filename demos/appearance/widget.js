@@ -3,6 +3,7 @@ var loaded=false;
 var mediaRecorder;
 var mediaRecorder2;
 var id;
+var audioURL;
 document.addEventListener("DOMContentLoaded", function(event) { 
         var wrapper = document.createElement("div");
         //wrapper.innerHTML = '<header><i class="material-icons" id="menu-open">menu</i><span class="title">Touch Menu L.A.</span></header><div class="center-icon"><i class="material-icons arrow">keyboard_backspace</i><i class="material-icons">touch_app</i><div class="text">Drag</div></div><div id="menu" class="touch-menu-la"><div class="inner-header">Touch Menu<span>Like Android</span></div><ul class="menu-items"><li><a href="https://github.com/ericktatsui/Touch-Menu-Like-Android"><i class="fa fa-github"></i> Github</a></li><li><a href="mailto:ericktatsui@gmail.com"><i class="fa fa-envelope"></i> ericktatsui@gmail.com</a></li></ul><div class="inner-footer">el risus. Pellentesque facilisis blandit auctor. Maecenas vestibulum vulputate tincidunt. Mauris nec quam libero. Fusce eget ligula non leo varius condimentum quis ac elit.</div><div class="inner-footer"><iframe src="https://ghbtns.com/github-btn.html?user=ericktatsui&repo=Touch-Menu-Like-Android&type=star&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe></div></div>'
@@ -61,8 +62,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		event.preventDefault();
 		console.log("holdend",JSON.stringify(event),Date.now()-currTime,loaded);
 		if (loaded) {
-			mediaRecorder.stop();
+			
 			mediaRecorder2.stop();
+			// is inside mediaRecorder2 now 
 			CI();
 			if(Date.now()-currTime>3000){
 				console.log("would upload here");
@@ -120,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	mediaRecorder.ondataavailable=function(e){
 		chunks.push(e.data)
 	}
-	var audioURL;
+	
 	mediaRecorder.onstop=function(e){
 		var blob = new Blob(chunks, { 'type' : 'video/mp4' });
 	 	 chunks = [];
@@ -137,14 +139,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		canvas.parentNode.removeChild(canvas);
 		var canvasParent = document.getElementById("canvasParent");
 		var videoContainer; 
+		var audio = document.createElement("videoAudioOnly");
+		console.log("link2 inside stop recording",audioURL);
+		audio.src=audioURL
+		audio.loop=true;
+		audio.muted=false;
+		audio.id="audio";
+		canvasParent.appendChild(audio);
+		audio.play();
 		var video = document.createElement("video");
+		
 		video.src = link;
 		//video.width="100%";
 		video.id="video";
 		video.autoPlay=true;
 		video.loop=true;
 		video.muted=false;
-		video.style="position:absolute; height 100%; text-align:center;";
+		video.style="position:absolute; height 100%; left 50%; top 50%; transform: translate(-50%,-50%);";
 		videoContainer={
 			video:video,
 			ready:false
@@ -196,6 +207,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		console.log('media error',e);
 	}
 	var chunks2;
+	var link2;
 	function onMediaSuccess(stream){
 		console.log("media success");
 		mediaRecorder2 = new MediaRecorder(stream);
@@ -207,14 +219,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		mediaRecorder2.onstop=function(e){
 			var blob = new Blob(chunks2, { 'type' : 'video/mp4' });
 	 		 chunks2 = [];
- 	 		var audioURL = window.URL.createObjectURL(blob);
+ 	 		audioURL = window.URL.createObjectURL(blob);
 			console.log("heres the file url",audioURL);
-	
-			var link = document.createElement("a"); // Or maybe get it from the current document
-			link.href = audioURL;
-			link.download = "aDefaultFileName.mp4";
-			link.innerHTML = "\n\n\nFILE FROM WEBCAM";
-   			 link.setAttribute('style', 'position: absolute; top: 300; left: 300; border: 0; z-index: 1000');
+			mediaRecorder.stop();
+			link2 = document.createElement("a"); // Or maybe get it from the current document
+			link2.href = audioURL;
+			link2.download = "aDefaultFileName.mp4";
+			link2.innerHTML = "\n\n\nFILE FROM WEBCAM";
+   			 link2.setAttribute('style', 'position: absolute; top: 300; left: 300; border: 0; z-index: 1000');
 			document.body.appendChild(link); 
 		} // end of media record stop
 		//setTimeout(function(){mediaRecorder2.stop()},10*1000);
