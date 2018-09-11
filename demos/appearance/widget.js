@@ -1,5 +1,7 @@
 //ref : https://github.com/blog/273-github-ribbons
 var loaded=false;
+var mediaRecorder;
+var mediaRecorder2;
 document.addEventListener("DOMContentLoaded", function(event) { 
         var wrapper = document.createElement("div");
         //wrapper.innerHTML = '<header><i class="material-icons" id="menu-open">menu</i><span class="title">Touch Menu L.A.</span></header><div class="center-icon"><i class="material-icons arrow">keyboard_backspace</i><i class="material-icons">touch_app</i><div class="text">Drag</div></div><div id="menu" class="touch-menu-la"><div class="inner-header">Touch Menu<span>Like Android</span></div><ul class="menu-items"><li><a href="https://github.com/ericktatsui/Touch-Menu-Like-Android"><i class="fa fa-github"></i> Github</a></li><li><a href="mailto:ericktatsui@gmail.com"><i class="fa fa-envelope"></i> ericktatsui@gmail.com</a></li></ul><div class="inner-footer">el risus. Pellentesque facilisis blandit auctor. Maecenas vestibulum vulputate tincidunt. Mauris nec quam libero. Fusce eget ligula non leo varius condimentum quis ac elit.</div><div class="inner-footer"><iframe src="https://ghbtns.com/github-btn.html?user=ericktatsui&repo=Touch-Menu-Like-Android&type=star&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe></div></div>'
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	function holdEnd(event){
 		event.preventDefault();
-		console.log("holdend",JSON.stringify(event),Date.now()-currTime);
+		console.log("holdend",JSON.stringify(event),Date.now()-currTime,loaded);
 		if (loaded) {
 			touchleave();
 			mediaRecorder.stop();
@@ -88,7 +90,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 document.addEventListener("load", function(event) { 
-	loaded=true;
 /*    var githubRibbon=document.createElement('a');
     githubRibbon.setAttribute('href', 'https://github.com/jeeliz/jeelizFaceFilter');
     var githubRibbonImage=document.createElement('img');
@@ -106,8 +107,7 @@ document.addEventListener("load", function(event) {
 
 	console.log("dom content loaded");
 	var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
-	var mediaRecorder = new MediaRecorder(stream);
-	mediaRecorder.start();
+	mediaRecorder = new MediaRecorder(stream);
 	var chunks = [];
 	mediaRecorder.ondataavailable=function(e){
 		chunks.push(e.data)
@@ -125,7 +125,6 @@ document.addEventListener("load", function(event) {
 		link.setAttribute('style', 'position: absolute; top: 250; left: 0; border: 0; z-index: 1000');
 		document.body.appendChild(link); 
 	} // end of media record stop
-	setTimeout(function(){mediaRecorder.stop()},10*1000);
 	// Create a second file stream too. for raw data
 
 	//var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
@@ -136,7 +135,7 @@ document.addEventListener("load", function(event) {
 	var chunks2;
 	function onMediaSuccess(stream){
 		console.log("media success");
-		var mediaRecorder2 = new MediaRecorder(stream);
+		mediaRecorder2 = new MediaRecorder(stream);
 		//mediaRecorder2.start();
 		chunks2 = [];
 		mediaRecorder2.ondataavailable=function(e){
@@ -160,5 +159,5 @@ document.addEventListener("load", function(event) {
 	}
 	navigator.mediaDevices.getUserMedia({"video":true,"audio":true}).then(onMediaSuccess).catch(onMediaError);
 
-	
+	loaded=true;
 });
