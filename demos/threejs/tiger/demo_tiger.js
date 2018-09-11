@@ -325,12 +325,14 @@ window.playDog=function(){
 	window.JEEFACEFILTERAPI.toggle_pause(true);
 	window.tigerStopped=true;
 	window.dogStopped=false;
+	dogface();
 	window.JEEFACEFILTERAPI.toggle_pause(false);
 }
 window.playTiger=function(){
 	window.JEEFACEFILTERAPI.toggle_pause(true);
 	window.tigerStopped=false;
 	window.dogStopped=true;
+	tiger();
 	window.JEEFACEFILTERAPI.toggle_pause(false);
 }
 function main(){
