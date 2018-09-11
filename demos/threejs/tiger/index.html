@@ -36,10 +36,14 @@ body {
 	z-index:99 !important;
 }
 #pleaseWait{
+	position:relative;
+	z-index:99 !important;
 	text-align:center;
 	color:red;
 }
 #recordInstructions{
+	position:relative;
+	z-index:99 !important;
 	text-align:center;
 	color:red;
 }
@@ -50,16 +54,16 @@ body {
 	<div> 
 		<div id="myProgress" style="width: 100%; background-color: grey;">
 			<div id="myBar" style="width:1%; height:30px; background-color:green;">
-	
 			</div>
-			<br><br>
+		</div>
+		<div id ="displayText">
 			<h2 id="pleaseWait">
 				Please wait...
 			</h2>
 			<h6 id="recordingInstructions">Hold anywhere to record.
 
 			</h6>
-		</div>
+		</id>
 		<div id ="canvasParent">
 	        	<canvas class="mycanvas" width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 		</div>
