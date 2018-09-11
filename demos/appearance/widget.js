@@ -32,7 +32,7 @@ function replay(){
 		video.muted=false;
 		console.log(canvas.height,canvas.width);
 		video.style="position:absolute; height "+canvas.height+"px; width "+canvas.width+"px; margin 0 auto; ";
-		
+		canvasParent.style=video.style;
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
 		/*function readyToPlayVideo(event){ // this is a referance to the video
