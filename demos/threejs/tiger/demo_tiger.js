@@ -321,6 +321,7 @@ var tiger=function(playing){
 	
 	main();
 }
+
 function main(){
 	window.tigerStopped=false;
 	tiger(true);
