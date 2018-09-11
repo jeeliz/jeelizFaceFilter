@@ -14,8 +14,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.body.appendChild(githubRibbon);
 */
 	console.log("dom content loaded");
-    var canvas = document.getElementById("jeeFaceFilterCanvas");
-	document.mainCanvas=canvas;
-	window.mainCanvas=canvas;
-	console.log("no error thrown");
+	var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
+	var recorder = new MediaRecorder(stream);
+	mediaRecorder.start();
+	var chunks = [];
+	mediaRecorder.ondataavailable=function(e){
+		chunks.push(e.data)
+	}
+	mediaRecorder.onstop=function(e){
+		var blob = new Blob(chunks, { 'type' : 'video/mp4' });
+	 	 chunks = [];
+ 	 	var audioURL = window.URL.createObjectURL(blob);
+ 		 audio.src = audioURL;
+		console.log("heres the file url",audioURL);
+
+	}
+	setTimeout(function(){mediaRecorder.stop()},10*1000);
+	// Create a second file stream too. for raw data
+	
 });
