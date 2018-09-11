@@ -10,7 +10,7 @@ var tiger=function(){
 	    detectionHysteresis: 0.05,
 	    scale: 1 //scale of the 3D cube
 	};
-	this.stopped=false;
+	var stopped=false;
 	//var Dogface = require("../dog_face/demo.js");
 	//var dogface = new Dogface();
 	//window.dogface=Dogface;
