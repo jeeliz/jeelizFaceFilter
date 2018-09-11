@@ -50,8 +50,7 @@ function holdEnd(event){
 	}else{
 		console.warn("Video must be at least 3 seconds to upload");
 	}
-    }
-}, false);
+    }, false);
 document.addEventListener('touchmove',holdEnd,false);
 document.addEventListener('mouseup',holdEnd,false);
 
