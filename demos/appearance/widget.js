@@ -30,7 +30,8 @@ function replay(){
 		video.autoPlay=true;
 		video.loop=true;
 		video.muted=false;
-		video.style="position:absolute; height "+canvas.height+"px; width "+canvas.width+"px; left 50%; top 50%; ";
+		console.log(canvas.height,canvas.width);
+		video.style="position:absolute; height "+canvas.height+"px; width "+canvas.width+"px; margin 0 auto; ";
 		
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
