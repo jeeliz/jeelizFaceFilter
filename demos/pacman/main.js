@@ -9,11 +9,7 @@ function callbackMove(mv){ //called each time a head movement is detected
 //entry point :
 function main(){
 	pacmanStart(headControlStart);
-	setTimeout(function(){
-		HeadControls.reset_restHeadPosition();
-		PACMAN.start();
-		domStartButton.style.display='none';
-	},7000);
+	
 }
 
 function pacmanStart(callback){
