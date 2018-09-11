@@ -28,6 +28,9 @@ html {
 body {
   min-height: 100%;
 }
+.mycanvas {
+	position:absolute;
+}
 #myProgress{
 	position:relative;
 	z-index:-1;
@@ -36,13 +39,15 @@ body {
     </head>
     
     <body onload="main()" style='color: white' id="container">
-	<div>
-        <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
-	</div>
-	<div id="myProgress" style="width: 100%; background-color: grey;">
-		<div id="myBar" style="width:1%; height:30px; background-color:green;">
+	<div> 
+		<div>
+	        	<canvas class="mycanvas" width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+		</div>
+		<div id="myProgress" style="width: 100%; background-color: grey;">
+			<div id="myBar" style="width:1%; height:30px; background-color:green;">
 	
-	</div>
+			</div>
+		</div>
 	</div>
 
     </body>
