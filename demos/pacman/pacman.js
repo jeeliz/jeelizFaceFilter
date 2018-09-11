@@ -1119,7 +1119,7 @@ var PACMAN = (function () {
         
     function loaded() {
 
-        dialog("Press the big start button");
+        //dialog("Press the big start button");
         
         document.addEventListener("keydown", keyDown, true);
         document.addEventListener("keypress", keyPress, true); 
