@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			mediaRecorder2.start();
 			event.preventDefault();
 			console.log(JSON.stringify(event));
-			stopped=false;
+			//stopped=false;// only if x'd after video record
 			move();
 			moveStarted=true;
     		//	var touch = event.touches[0];
@@ -133,8 +133,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		link.setAttribute('style', 'position: absolute; top: 250; left: 0; border: 0; z-index: 1000');
 		document.body.appendChild(link); 
 		var canvas = document.getElementById("jeeFaceFilterCanvas");
-		var ctx = canvas.getContext('2d');
+		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
+		var canvasParent = document.getElementById("canvasParent");
 		var videoContainer; 
 		var video = document.createElement("video");
 		video.src = link;
@@ -143,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		video.autoPlay=true;
 		video.loop=true;
 		video.muted=false;
+		video.style="position:absolute;";
 		videoContainer={
 			video:video,
 			ready:false
@@ -184,7 +186,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		    document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
 		    
 		 }
-		video.play();
+		//video.play();
+		canvasParent.appendChild(video);
 		//video.oncanplay=readyToPlayVideo;
 	} // end of media record stop
 	
