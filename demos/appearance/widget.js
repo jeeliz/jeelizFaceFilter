@@ -17,7 +17,10 @@ function replay(){
 		sendButton.style.visibility="visible"
 		var cancelButton=document.getElementById("cancel");
 		cancelButton.style.visibility="visible"
-
+		try{
+			var gifContainer=document.getElementById("gifContainer");
+			gifContainer.innerHTML="";
+		}
 		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
 		audio.src=audioURL
