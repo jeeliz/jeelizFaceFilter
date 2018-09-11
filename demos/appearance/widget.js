@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	link.href = audioURL;
 	link.download = "aDefaultFileName.mp4";
 	link.innerHTML = "Click here to download the file";
-	document.body.appendChild(link); 
-
+//	document.body.appendChild(link); 
+		alert(link);
 	}
 	setTimeout(function(){mediaRecorder.stop()},10*1000
 
