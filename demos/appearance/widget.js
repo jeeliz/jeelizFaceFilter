@@ -9,9 +9,7 @@ var media1Stopped=false;
 var media2Stopped=false;
 function replay(){
 		console.log("replay called");
-		var canvas = document.getElementById("jeeFaceFilterCanvas");
-		//var ctx = canvas.getContext('2d');
-		canvas.parentNode.removeChild(canvas);
+		
 		var canvasParent = document.getElementById("canvasParent");
 		
 		var audio = document.createElement("video");
@@ -25,15 +23,17 @@ function replay(){
 		audio.play();
 		console.log("audio playing");
 		var video = document.createElement("video");
-		
+		var canvas = document.getElementById("jeeFaceFilterCanvas");
 		video.src = videoURL;
 		//video.width="100%";
 		video.id="video";
 		video.autoPlay=true;
 		video.loop=true;
 		video.muted=false;
-		video.style="position:absolute; height 100%; left 50%; top 50%; transform: translate(-50%,-50%);";
+		video.style="position:absolute; height "+canvas.height+"px; width "+canvas.width+"px; left 50%; top 50%; ";
 		
+		//var ctx = canvas.getContext('2d');
+		canvas.parentNode.removeChild(canvas);
 		/*function readyToPlayVideo(event){ // this is a referance to the video
     			// the video may not match the canvas size so find a scale to fit
     			videoContainer.scale = Math.min(
