@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	//wrapper.innerHtml='<div id="myProgress" style="width: 100%; background-color: grey;"><div id="myBar" style="width:1%; height:30px; background-color:green;"></div></div>'
         document.body.appendChild(wrapper);
 	var reset=false;
+	var moveStarted=false;
 	function move() {
    		 var elem = document.getElementById("myBar"); 
    		 var width = 1;
@@ -15,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             		clearInterval(id);
 				reset=false;
         		} else {
-           		 width++; 
-        		    elem.style.width = width + '%'; 
+           		 	width++; 
+        		        elem.style.width = width + '%'; 
         		}
     		}
 	}
@@ -34,6 +35,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			mediaRecorder2.start();
 			event.preventDefault();
 			console.log(JSON.stringify(event));
+			reset=false;
+			if(!moveStarted)move();
+			moveStarted=true;
     		//	var touch = event.touches[0];
  	  		
 		}//element = document.elementFromPoint(touch.pageX,touch.pageY);
