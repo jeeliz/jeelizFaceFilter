@@ -10,6 +10,9 @@ var SETTINGS={
     scale: 1 //scale of the 3D cube
 };
 
+var Dogface = require("../dog_face/demo.js");
+var dogface = new Dogface();
+window.dogface=dogface;
 //some globalz :
 var THREEVIDEOTEXTURE, THREERENDERER, THREEFACEOBJ3D, THREEFACEOBJ3DPIVOTED, THREESCENE, THREECAMERA, MOUTHOPENINGMATERIALS=[], TIGERMOUTHHIDEMESH=false;
 var PARTICLESOBJ3D, PARTICLES=[], PARTICLESHOTINDEX=0, PARTICLEDIR;
