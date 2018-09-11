@@ -20,6 +20,8 @@ function replay(){
 		try{
 			var gifContainer=document.getElementById("gifContainer");
 			gifContainer.innerHTML="";
+		}catch(err){
+			console.log("err");
 		}
 		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
