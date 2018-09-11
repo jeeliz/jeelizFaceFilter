@@ -257,61 +257,62 @@ var tiger=function(playing){
 
 		//called at each render iteration (drawing loop)
 		callbackTrack: function(detectState){
-		    if (ISDETECTED && detectState.detected<SETTINGS.detectionThreshold-SETTINGS.detectionHysteresis){
-		        //DETECTION LOST
-		        detect_callback(false);
-		        ISDETECTED=false;
-		    } else if (!ISDETECTED && detectState.detected>SETTINGS.detectionThreshold+SETTINGS.detectionHysteresis){
-		        //FACE DETECTED
-		        detect_callback(true);
-		        ISDETECTED=true;
-		    }
+			if(!window.tigerStopped){
+			    if (ISDETECTED && detectState.detected<SETTINGS.detectionThreshold-SETTINGS.detectionHysteresis){
+				//DETECTION LOST
+				detect_callback(false);
+				ISDETECTED=false;
+			    } else if (!ISDETECTED && detectState.detected>SETTINGS.detectionThreshold+SETTINGS.detectionHysteresis){
+				//FACE DETECTED
+				detect_callback(true);
+				ISDETECTED=true;
+			    }
 
-		    if (ISDETECTED){
-		        //move the cube in order to fit the head
-		        var tanFOV=Math.tan(THREECAMERA.aspect*THREECAMERA.fov*Math.PI/360); //tan(FOV/2), in radians
-		        var W=detectState.s;  //relative width of the detection window (1-> whole width of the detection window)
-		        var D=1/(2*W*tanFOV); //distance between the front face of the cube and the camera
-		        
-		        //coords in 2D of the center of the detection window in the viewport :
-		        var xv=detectState.x;
-		        var yv=detectState.y;
-		        
-		        //coords in 3D of the center of the cube (in the view coordinates system)
-		        var z=-D-0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
-		        var x=xv*D*tanFOV;
-		        var y=yv*D*tanFOV/THREECAMERA.aspect;
+			    if (ISDETECTED){
+				//move the cube in order to fit the head
+				var tanFOV=Math.tan(THREECAMERA.aspect*THREECAMERA.fov*Math.PI/360); //tan(FOV/2), in radians
+				var W=detectState.s;  //relative width of the detection window (1-> whole width of the detection window)
+				var D=1/(2*W*tanFOV); //distance between the front face of the cube and the camera
+				
+				//coords in 2D of the center of the detection window in the viewport :
+				var xv=detectState.x;
+				var yv=detectState.y;
+				
+				//coords in 3D of the center of the cube (in the view coordinates system)
+				var z=-D-0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
+				var x=xv*D*tanFOV;
+				var y=yv*D*tanFOV/THREECAMERA.aspect;
 
-		        //move and rotate the cube
-		        THREEFACEOBJ3D.position.set(x,y+SETTINGS.pivotOffsetYZ[0],z+SETTINGS.pivotOffsetYZ[1]);
-		        THREEFACEOBJ3D.rotation.set(detectState.rx+SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
-		    }
+				//move and rotate the cube
+				THREEFACEOBJ3D.position.set(x,y+SETTINGS.pivotOffsetYZ[0],z+SETTINGS.pivotOffsetYZ[1]);
+				THREEFACEOBJ3D.rotation.set(detectState.rx+SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
+			    }
 
-		    //reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
-		    THREERENDERER.state.reset();
+			    //reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
+			    THREERENDERER.state.reset();
 
-		    if (ISDETECTED){
-		        //update mouth opening
-		        var mouthOpening=(detectState.expressions[0]-0.2)*5.;
-		        mouthOpening=Math.min(Math.max(mouthOpening, 0), 1);
-		        if (mouthOpening>0.5){
-		            var theta=Math.random()*6.28;
-		            PARTICLEDIR.set(0.5*Math.cos(theta),0.5*Math.sin(theta),1).applyEuler(THREEFACEOBJ3D.rotation);
-		            initParticle(PARTICLES[PARTICLESHOTINDEX], 2000+40*Math.random(), PARTICLEDIR);
-		            PARTICLESHOTINDEX=(PARTICLESHOTINDEX+1)%PARTICLES.length;
-		        }
+			    if (ISDETECTED){
+				//update mouth opening
+				var mouthOpening=(detectState.expressions[0]-0.2)*5.;
+				mouthOpening=Math.min(Math.max(mouthOpening, 0), 1);
+				if (mouthOpening>0.5){
+				    var theta=Math.random()*6.28;
+				    PARTICLEDIR.set(0.5*Math.cos(theta),0.5*Math.sin(theta),1).applyEuler(THREEFACEOBJ3D.rotation);
+				    initParticle(PARTICLES[PARTICLESHOTINDEX], 2000+40*Math.random(), PARTICLEDIR);
+				    PARTICLESHOTINDEX=(PARTICLESHOTINDEX+1)%PARTICLES.length;
+				}
 
-		        MOUTHOPENINGMATERIALS.forEach(function(mat){
-		            mat.uniforms.mouthOpening.value=mouthOpening;
-		        });
-		        if(TIGERMOUTHHIDEMESH){
-		            TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
-		        }
-		    }
-		if(playing){
-		    TWEEN.update();
-			THREERENDERER.render(THREESCENE, THREECAMERA);
-		}
+				MOUTHOPENINGMATERIALS.forEach(function(mat){
+				    mat.uniforms.mouthOpening.value=mouthOpening;
+				});
+				if(TIGERMOUTHHIDEMESH){
+				    TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
+				}
+			    }
+				;
+			    TWEEN.update();
+				THREERENDERER.render(THREESCENE, THREECAMERA);
+			}
 		    //trigger the render of the THREE.JS SCENE
 		    
 		} //end callbackTrack()
@@ -320,9 +321,22 @@ var tiger=function(playing){
 	
 	main();
 }
+window.playDog=function(){
+	window.JEEFACEFILTERAPI.toggle_pause(true);
+	window.tigerStopped=true;
+	window.dogStopped=false;
+	window.JEEFACEFILTERAPI.toggle_pause(false);
+}
+window.playTiger=function(){
+	window.JEEFACEFILTERAPI.toggle_pause(true);
+	window.tigerStopped=false;
+	window.dogStopped=true;
+	window.JEEFACEFILTERAPI.toggle_pause(false);
+}
 function main(){
+	window.tigerStopped(true);
 	tiger(true);
-	window.tiger=tiger;
+	
 	
 }
 

@@ -1,4 +1,4 @@
-var dogStopped=true;
+window.dogStopped=true;
 var dogface = function(){
 	// SETTINGS of this demo :
 	const SETTINGS = {
@@ -360,83 +360,85 @@ var dogface = function(){
 
 		// called at each render iteration (drawing loop)
 		callbackTrack: function (detectState) {
-		    if (ISDETECTED && detectState.detected < SETTINGS.detectionThreshold - SETTINGS.detectionHysteresis) {
-		        // DETECTION LOST
-		        detect_callback(false);
-		        ISDETECTED = false;
-		    } else if (!ISDETECTED && detectState.detected > SETTINGS.detectionThreshold + SETTINGS.detectionHysteresis) {
-		        // FACE DETECTED
-		        detect_callback(true);
-		        ISDETECTED = true;
-		    }
+			if(!window.dogStopped){
+			    if (ISDETECTED && detectState.detected < SETTINGS.detectionThreshold - SETTINGS.detectionHysteresis) {
+				// DETECTION LOST
+				detect_callback(false);
+				ISDETECTED = false;
+			    } else if (!ISDETECTED && detectState.detected > SETTINGS.detectionThreshold + SETTINGS.detectionHysteresis) {
+				// FACE DETECTED
+				detect_callback(true);
+				ISDETECTED = true;
+			    }
 
-		    if (ISDETECTED) {
-		        // move the cube in order to fit the head
-		        const tanFOV = Math.tan(THREECAMERA.aspect * THREECAMERA.fov * Math.PI / 360); // tan(FOV/2), in radians
-		        const W = detectState.s;  // relative width of the detection window (1-> whole width of the detection window)
-		        const D = 1 / (2 * W * tanFOV); // distance between the front face of the cube and the camera
-		        
-		        // coords in 2D of the center of the detection window in the viewport :
-		        const xv = detectState.x;
-		        const yv = detectState.y;
-		        
-		        // coords in 3D of the center of the cube (in the view coordinates system)
-		        const z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
-		        const x = xv * D * tanFOV;
-		        const y = yv * D * tanFOV / THREECAMERA.aspect;
+			    if (ISDETECTED) {
+				// move the cube in order to fit the head
+				const tanFOV = Math.tan(THREECAMERA.aspect * THREECAMERA.fov * Math.PI / 360); // tan(FOV/2), in radians
+				const W = detectState.s;  // relative width of the detection window (1-> whole width of the detection window)
+				const D = 1 / (2 * W * tanFOV); // distance between the front face of the cube and the camera
+				
+				// coords in 2D of the center of the detection window in the viewport :
+				const xv = detectState.x;
+				const yv = detectState.y;
+				
+				// coords in 3D of the center of the cube (in the view coordinates system)
+				const z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
+				const x = xv * D * tanFOV;
+				const y = yv * D * tanFOV / THREECAMERA.aspect;
 
-		        // move and rotate the cube
-		        THREEFACEOBJ3D.position.set(x, y + SETTINGS.pivotOffsetYZ[0], z + SETTINGS.pivotOffsetYZ[1]);
-		        THREEFACEOBJ3D.rotation.set(detectState.rx + SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
+				// move and rotate the cube
+				THREEFACEOBJ3D.position.set(x, y + SETTINGS.pivotOffsetYZ[0], z + SETTINGS.pivotOffsetYZ[1]);
+				THREEFACEOBJ3D.rotation.set(detectState.rx + SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
 
-		        //flex ears material
-		        if (EARMESH && EARMESH.material.set_amortized){
-		            EARMESH.material.set_amortized(EARMESH.getWorldPosition(), EARMESH.getWorldScale(), EARMESH.getWorldRotation(), false, 0.1);
-		        }
+				//flex ears material
+				if (EARMESH && EARMESH.material.set_amortized){
+				    EARMESH.material.set_amortized(EARMESH.getWorldPosition(), EARMESH.getWorldScale(), EARMESH.getWorldRotation(), false, 0.1);
+				}
 
-		        if (TONGUEMESH && TONGUEMESH.material.set_amortized){
-		            TONGUEMESH.material.set_amortized(TONGUEMESH.getWorldPosition(), TONGUEMESH.getWorldScale(), TONGUEMESH.getWorldRotation(), false, 0.3);
-		        }
+				if (TONGUEMESH && TONGUEMESH.material.set_amortized){
+				    TONGUEMESH.material.set_amortized(TONGUEMESH.getWorldPosition(), TONGUEMESH.getWorldScale(), TONGUEMESH.getWorldRotation(), false, 0.3);
+				}
 
-		        if (detectState.expressions[0] >= 0.85 && !ISOVERTHRESHOLD) {
-		            ISOVERTHRESHOLD = true;
-		            ISUNDERTRESHOLD = false;
-		            ISANIMATIONOVER = false;
-		        }
-		        if (detectState.expressions[0] <= 0.1 && !ISUNDERTRESHOLD) {
-		            ISOVERTHRESHOLD = false;
-		            ISUNDERTRESHOLD = true;
-		            ISANIMATIONOVER = false;
-		        }
+				if (detectState.expressions[0] >= 0.85 && !ISOVERTHRESHOLD) {
+				    ISOVERTHRESHOLD = true;
+				    ISUNDERTRESHOLD = false;
+				    ISANIMATIONOVER = false;
+				}
+				if (detectState.expressions[0] <= 0.1 && !ISUNDERTRESHOLD) {
+				    ISOVERTHRESHOLD = false;
+				    ISUNDERTRESHOLD = true;
+				    ISANIMATIONOVER = false;
+				}
 
-		        if (ISLOADED && ISOVERTHRESHOLD && !ISANIMATING && !ISANIMATIONOVER) {
-		            if (!ISTONGUEOUT) {
-		                ISANIMATING = true;
-		                animateTongue(TONGUEMESH);
-		            } else {
-		                ISANIMATING = true;
-		                animateTongue(TONGUEMESH, true);
-		            }
-		        }
-		    }
+				if (ISLOADED && ISOVERTHRESHOLD && !ISANIMATING && !ISANIMATIONOVER) {
+				    if (!ISTONGUEOUT) {
+				        ISANIMATING = true;
+				        animateTongue(TONGUEMESH);
+				    } else {
+				        ISANIMATING = true;
+				        animateTongue(TONGUEMESH, true);
+				    }
+				}
+			    }
 
-		    // reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
-		    THREERENDERER.state.reset();
+			    // reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
+			    THREERENDERER.state.reset();
 
-		    TWEEN.update()
-
-
-		    // Update the mixer on each frame
-		    if (ISOPAQUE) {
-		        MIXER.update(0.16);
-		    }
+			    TWEEN.update()
 
 
-		    // trigger the render of the THREE.JS SCENE
-		    THREERENDERER.render(THREESCENE, THREECAMERA);
+			    // Update the mixer on each frame
+			    if (ISOPAQUE) {
+				MIXER.update(0.16);
+			    }
+
+
+			    // trigger the render of the THREE.JS SCENE
+			    THREERENDERER.render(THREESCENE, THREECAMERA);
+			}
 		} // end callbackTrack()
 	    }); // end JEEFACEFILTERAPI.init call
 	} // end main()
 }
-window.dogStopped=dogStopped;
+
 
