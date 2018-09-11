@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	//wrapper.innerHtml='<div id="myProgress" style="width: 100%; background-color: grey;"><div id="myBar" style="width:1%; height:30px; background-color:green;"></div></div>'
         document.body.appendChild(wrapper);
 	var stopped=false;
+	var replaying=false;
 	var moveStarted=false;
 	var move = function() {
    		 var elem = document.getElementById("myBar"); 
@@ -48,7 +49,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			mediaRecorder2.start();
 			event.preventDefault();
 			console.log(JSON.stringify(event));
-			//stopped=false;// only if x'd after video record
+			if(!replaying){
+				stopped=false;// only if x'd after video record
+			}
 			move();
 			moveStarted=true;
     		//	var touch = event.touches[0];
@@ -70,9 +73,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				replay();
 				// is inside mediaRecorder2 now 
 				CI();
+				replaying=true;
 			}else{
 				currTime=Date.now();
 				console.warn("Video must be at least 3 seconds to upload");
+				CI(); 
 			}
     		}
 	}
@@ -203,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		var blob = new Blob(chunks, { 'type' : 'video/mp4' });
 	 	 chunks = [];
  	 	videoURL = window.URL.createObjectURL(blob);
-		console.log("heres the file url",audioURL);
+		console.log("heres the file url",videoURL);
 		var link = document.createElement("a"); // Or maybe get it from the current document
 		link.href = videoURL;
 		link.download = "aDefaultFileName.mp4";
