@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		//mediaRecorder2.start();
 		chunks2 = [];
 		mediaRecorder2.ondataavailable=function(e){
-			chunks.push(e.data)
+			chunks2.push(e.data)
 		}
 		mediaRecorder2.onstop=function(e){
 			var blob = new Blob(chunks2, { 'type' : 'video/mp4' });
