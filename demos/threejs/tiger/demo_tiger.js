@@ -33,7 +33,7 @@ function generateSprite() { //generate a canvas2D used as texture for particle s
     var options = {mimeType: 'video/webm'};
 var recordedBlobs = [];
 var newStream = new MediaStream();
-newStream.addTrack(inputStream.getAudioTracks()[0]);
+//newStream.addTrack(inputStream.getAudioTracks()[0]);
 newStream.addTrack(canvas.getVideoTracks()[0]);
 mediaRecorder = new MediaRecorder(newStream, options);
 mediaRecorder.ondataavailable = function (event) {
