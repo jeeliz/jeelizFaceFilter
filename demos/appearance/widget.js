@@ -251,6 +251,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			link2.href = audioURL;
 			link2.download = "aDefaultFileName.mp4";
 			link2.innerHTML = "FILE FROM WEBCAM";
+			console.log("here inside media2stopped");
    			 link2.setAttribute('style', 'position: absolute; top: 300; left: 300; border: 0; z-index: 1000');
 			document.body.appendChild(link2); 
 			media2Stopped=true;
