@@ -18,7 +18,7 @@ function replay(){
 		audio.loop=true;
 		audio.muted=false;
 		audio.id="audio";
-		audio.style="height 0px; width 0px;"
+		audio.style="visibility:hidden;"
 		document.body.appendChild(audio);
 		console.log("about to play");		
 		audio.play();
@@ -31,9 +31,9 @@ function replay(){
 		video.autoPlay=true;
 		video.loop=true;
 		video.muted=true;
-		console.log(canvas.height,canvas.width);
-		video.style="height "+canvas.height+"px; width "+canvas.width+"px; margin-left: auto; margin-right:auto; display: block;";
-		canvasParent.style=video.style;
+		console.log(canvas.offsetWidth,canvas.offsetHeight);
+		video.style="height "+canvas.offsetHeight+"px; width "+canvas.offsetWidth+"px; margin-left: auto; margin-right:auto; display: block;";
+		//canvasParent.style=video.style;
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
 		/*function readyToPlayVideo(event){ // this is a referance to the video
