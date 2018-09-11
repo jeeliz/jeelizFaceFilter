@@ -15,6 +15,7 @@ var tiger=function(){
 	//var dogface = new Dogface();
 	//window.dogface=Dogface;
 	//some globalz :
+	var stopped=false;
 	var THREEVIDEOTEXTURE, THREERENDERER, THREEFACEOBJ3D, THREEFACEOBJ3DPIVOTED, THREESCENE, THREECAMERA, MOUTHOPENINGMATERIALS=[], TIGERMOUTHHIDEMESH=false;
 	var PARTICLESOBJ3D, PARTICLES=[], PARTICLESHOTINDEX=0, PARTICLEDIR;
 	var ISDETECTED=false;
@@ -307,7 +308,7 @@ var tiger=function(){
 		            TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
 		        }
 		    }
-		if(!window.tigerStopped){
+		if(!stopped){
 		    TWEEN.update();
 		}
 		    //trigger the render of the THREE.JS SCENE
@@ -316,9 +317,13 @@ var tiger=function(){
 	    }); //end JEEFACEFILTERAPI.init call
 	} //end main()
 	main();
+	function stop(){
+
+	}
+	window.stopTiger=stop;
 }
 function main(){
-	window.tigerStopped=false;
+	
 	tiger();
 	
 }
