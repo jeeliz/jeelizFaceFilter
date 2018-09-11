@@ -13,7 +13,11 @@ function replay(){
 		console.log("replay called");
 		
 		var canvasContainer = document.getElementById("videoDiv");
-		
+		var sendButton=document.getElementById("send");
+		sendButton.style.visibility="visible"
+		var resetButton=document.getElementById("cancel");
+		sendButton.style.visibility="visible"
+
 		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
 		audio.src=audioURL
@@ -34,7 +38,7 @@ function replay(){
 		video.loop=true;
 		video.muted=true;
 		console.log(canvas.offsetWidth,canvas.offsetHeight);
-		video.style="margin-left:auto; margin-right:autio; display:block;";
+		video.style="margin-left:auto; margin-right:auto; display:block;";
 		//canvasContainer.style=video.style;
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);

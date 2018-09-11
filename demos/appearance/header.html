@@ -44,18 +44,21 @@
 			</div>
 		</div>
 		<div id ="displayText">
-			<div id ="recordingInstructionsStyle"> 
+			<div id ="recordingInstructionsStyle" > 
 				
-				<h3>
+				<h3 id="recordingInstructions">
 					<a href="https://testface.projectoblio.com/demos/"><font size="+10" color="red">←</font></a>
-					<a id="recordingInstructions" ><font color="red">Hold anywhere to record. Or, <a href="https://testface.projectoblio.com">select a new filter.</a></font></a>
+					<font color="red">Hold anywhere to record. Or, <a href="https://testface.projectoblio.com">select a new filter.</a></font>
 					<a href="https://testface.projectoblio.com/demos/"><font size="+10" color="red">→</font></a>
 				</h3>
 				
+				<input id="cancel" style="visibility:hidden" type="button" value="Cancel" onClick="window.location.reload()">
+				<input id="send" style="visibility:hidden" type="button" value="Send" onClick="uploadDub()">
 			</div> 
 			<h2 id="pleaseWait">
 				Please wait...
 			</h2>
+			
 		</div>
 		
 	</div>
