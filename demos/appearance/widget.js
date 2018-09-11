@@ -1,8 +1,20 @@
 //ref : https://github.com/blog/273-github-ribbons
 document.addEventListener("DOMContentLoaded", function(event) { 
-
-});
-document.addEventListener("load", function(event) { 
+        var wrapper = document.createElement("div");
+        wrapper.innerHTML = '\
+<a href="#" id="playButton">Play</a>\
+<a href="javascript: void(0)" id="muteUnmute">Mute</a>\
+<div id="progressBarOuter"> \
+<div id="bytesLoaded"></div>\
+    <div id="progressBar"></div>\
+</div>\
+<div id="currentTime">0:00</div>\
+<div id="totalTime">0:00</div>\
+<header> Replying to what did the fox say</header>
+<footer> All demos |||||||| Something else </footer>
+';
+        document.body.appendChild(wrapper);
+/*
 	 var header=document.createElement('header');
 	    header.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px; top 0; ');
 		header.innerHtml="Replying to.. 'What did the fox say?'";
@@ -21,6 +33,9 @@ document.addEventListener("load", function(event) {
 	footer.appendChild(link2);
 	//document.body.insertBefore(footer,document.body.firstChild);
 	document.body.insertBefore(header,document.body.firstChild);
+*/
+});
+document.addEventListener("load", function(event) { 
 
 /*    var githubRibbon=document.createElement('a');
     githubRibbon.setAttribute('href', 'https://github.com/jeeliz/jeelizFaceFilter');
