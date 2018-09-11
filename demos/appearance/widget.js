@@ -17,12 +17,7 @@ function replay(){
 		sendButton.style.visibility="visible"
 		var cancelButton=document.getElementById("cancel");
 		cancelButton.style.visibility="visible"
-		try{
-			var gifContainer=document.getElementById("gifContainer");
-			gifContainer.innerHTML="";
-		}catch(err){
-			console.log("err");
-		}
+		
 		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
 		audio.src=audioURL
@@ -47,6 +42,12 @@ function replay(){
 		//canvasContainer.style=video.style;
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
+		try{
+			var gifContainer=document.getElementById("gifContainer");
+			gifContainer.innerHTML="";
+		}catch(err){
+			console.log("err");
+		}
 		/*function readyToPlayVideo(event){ // this is a referance to the video
     			// the video may not match the canvas size so find a scale to fit
     			videoContainer.scale = Math.min(
