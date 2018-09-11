@@ -1,7 +1,6 @@
 "use strict";
 
 //SETTINGS of this demo :
-var tigerStopped=false;
 var tiger=function(){
 	var SETTINGS={
 	    rotationOffsetX: 0, //negative -> look upper. in radians
@@ -308,7 +307,7 @@ var tiger=function(){
 		            TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
 		        }
 		    }
-		if(!tigerStopped){
+		if(!window.tigerStopped){
 		    TWEEN.update();
 		}
 		    //trigger the render of the THREE.JS SCENE
@@ -319,8 +318,9 @@ var tiger=function(){
 	main();
 }
 function main(){
+	window.tigerStopped=false;
 	tiger();
-	window.tigerStopped=tigerStopped;
+	
 }
 
  
