@@ -1,5 +1,8 @@
 //ref : https://github.com/blog/273-github-ribbons
 document.addEventListener("DOMContentLoaded", function(event) { 
+
+});
+document.addEventListener("load", function(event) { 
 	 var header=document.createElement('header');
 	    header.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px; top 0; ');
 		header.innerHtml="Replying to.. 'What did the fox say?'";
@@ -18,8 +21,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	footer.appendChild(link2);
 	//document.body.insertBefore(footer,document.body.firstChild);
 	document.body.insertBefore(header,document.body.firstChild);
-});
-document.addEventListener("load", function(event) { 
 
 /*    var githubRibbon=document.createElement('a');
     githubRibbon.setAttribute('href', 'https://github.com/jeeliz/jeelizFaceFilter');
