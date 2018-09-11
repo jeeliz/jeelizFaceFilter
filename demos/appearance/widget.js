@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
    		 var id = setInterval(frame, 10);
     		function frame() {
         		if (width >= 100 || reset) {
-            		clearInterval(id);
+            			clearInterval(id);
 				reset=false;
         		} else {
            		 	width++; 
@@ -127,10 +127,56 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		link.innerHTML = "FILE FROM CANVAS";	
 		link.setAttribute('style', 'position: absolute; top: 250; left: 0; border: 0; z-index: 1000');
 		document.body.appendChild(link); 
+		var canvas = document.getElementById("jeeFaceFilterCanvas");
+		var ctx = canvas.getContext('2d');
+		var videoContainer; 
+		var video = document.createElement("video");
+		video.src = link;
+		video.autoPlay=true;
+		video.loop=true;
+		video.muted=false;
+		videoContainer={
+			video:video,
+			ready:false
+		}
+		function readyToPlayVideo(event){ // this is a referance to the video
+    			// the video may not match the canvas size so find a scale to fit
+    			videoContainer.scale = Math.min(
+                         canvas.width / this.videoWidth, 
+                         canvas.height / this.videoHeight); 
+   	 		videoContainer.ready = true;
+   			 // the video can be played so hand it off to the display function
+    			requestAnimationFrame(updateCanvas);
+  			  // add instruction
+    			//document.getElementById("playPause").textContent = "Click video to play/pause.";
+  	 		 //document.querySelector(".mute").textContent = "Mute";
+		}
+		// Create a second file stream too. for raw data
+		video.onerror = function(e){
+		    document.body.removeChild(canvas);
+		    document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
+		    document.body.innerHTML += "Users of IE9+ , the browser does not support WebM videos used by this demo";
+		    document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
+		    
+		 }
+		function updateCanvas(){
+    			ctx.clearRect(0,0,canvas.width,canvas.height); 
+   		 		// only draw if loaded and ready
+    			if(videoContainer !== undefined && videoContainer.ready){ 
+       				 // find the top left of the video on the canvas
+    				    video.muted = muted;
+			        var scale = videoContainer.scale;
+			        var vidH = videoContainer.video.videoHeight;
+			        var vidW = videoContainer.video.videoWidth;
+			        var top = canvas.height / 2 - (vidH /2 ) * scale;
+			        var left = canvas.width / 2 - (vidW /2 ) * scale;
+       				 // now just draw the video the correct size
+  			      ctx.drawImage(videoContainer.video, left, top, vidW * scale, vidH * scale);
+ 	
+	    		    }
+		} // end of updateCanvas
+		video.oncanplay=readyToPlayVideo;
 	} // end of media record stop
-	// Create a second file stream too. for raw data
-
-	//var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
 	
 	function onMediaError(e){
 		console.log('media error',e);
