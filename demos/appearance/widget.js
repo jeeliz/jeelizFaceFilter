@@ -26,7 +26,7 @@ function replay(){
 		console.log("audio playing");
 		var video = document.createElement("video");
 		
-		video.src = link;
+		video.src = videoURL;
 		//video.width="100%";
 		video.id="video";
 		video.autoPlay=true;
