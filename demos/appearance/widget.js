@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			event.preventDefault();
 			console.log(JSON.stringify(event));
 			stopped=false;
-			if(!moveStarted)move();
+			move();
 			moveStarted=true;
     		//	var touch = event.touches[0];
  	  		
