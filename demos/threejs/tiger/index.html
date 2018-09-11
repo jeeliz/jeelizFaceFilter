@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,38 +22,39 @@
         <script type="text/javascript" src="../../appearance/widget.js"></script>
 
         <link rel="stylesheet" href="../../appearance/style.css" type="text/css" />
-<style>
-html {
-  height: 100%;
-}
-body {
-  min-height: 100%;
-}
-.mycanvas {
-	position:absolute;
-}
-#myProgress{
-	position:relative;
-	z-index:99 !important;
-}
-#pleaseWait{
-	position:relative;
-	z-index:99 !important;
-	text-align:center;
-	color:red;
-}
-#recordingInstructionsStyle{
-	position:relative;
-	text-align:center;
-	z-index:99 !important;
-	color:red;
-	
-}
 
-</style>
     </head>
     
     <body onload="main()" style='color: white' id="container">
+	<style>
+	html {
+	  height: 100%;
+	}
+	body {
+	  min-height: 100%;
+	}
+	.mycanvas {
+		position:absolute;
+	}
+	#myProgress{
+		position:relative;
+		z-index:99 !important;
+	}
+	#pleaseWait{
+		position:relative;
+		z-index:99 !important;
+		text-align:center;
+		color:red;
+	}
+	#recordingInstructionsStyle{
+		position:relative;
+		text-align:center;
+		z-index:99 !important;
+		color:red;
+	
+	}
+
+	</style>
 	<div> 
 		<div id="myProgress" style="width: 100%; background-color: grey;">
 			<div id="myBar" style="width:1%; height:30px; background-color:green;">
@@ -75,8 +77,8 @@ body {
 			
 			
 		</id>
-		<div id ="canvasParent">
-	        	<canvas class="mycanvas" width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+		<div id ="canvasContainer">
+	        	<canvas class="mycanvas" width="600" height="600" id="jeeFaceFilterCanvas"></canvas>
 		</div>
 		
 	</div>

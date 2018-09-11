@@ -10,7 +10,7 @@ var media2Stopped=false;
 function replay(){
 		console.log("replay called");
 		
-		var canvasParent = document.getElementById("canvasParent");
+		var canvasContainer = document.getElementById("canvasContainer");
 		
 		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
@@ -33,7 +33,7 @@ function replay(){
 		video.muted=true;
 		console.log(canvas.offsetWidth,canvas.offsetHeight);
 		video.style="position: absolute; height "+canvas.offsetHeight+"px; width "+canvas.offsetWidth+"px; margin-left: auto; margin-right:auto; display: block;";
-		//canvasParent.style=video.style;
+		//canvasContainer.style=video.style;
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
 		/*function readyToPlayVideo(event){ // this is a referance to the video
@@ -75,7 +75,7 @@ function replay(){
 		 }
 		//video.play();
 		console.log("Starting video now too")
-		canvasParent.appendChild(video);
+		canvasContainer.appendChild(video);
 		//video.oncanplay=readyToPlayVideo;
 		video.play();
 		console.log("Video started");
@@ -84,7 +84,10 @@ function replay(){
 	}
 
 document.addEventListener("DOMContentLoaded", function(event) { 
-        var wrapper = document.createElement("div");
+      	var body = document.body;
+
+	document.body.innerHTML='<style>html { height: 100%;}body { min-height: 100%;}.mycanvas {position:absolute;}#myProgress{position:relative;z-index:99 !important;}#pleaseWait{position:relative;z-index:99 !important;text-align:center;color:red;}#recordingInstructionsStyle{position:relative;text-align:center;z-index:99 !important;color:red;}</style><div> <div id="myProgress" style="width: 100%; background-color: grey;"><div id="myBar" style="width:1%; height:30px; background-color:green;"></div></div><div id ="displayText"><div id ="recordingInstructionsStyle"> <h3><a href="https://testface.projectoblio.com/demos/"><font size="+10" color="red">←</font></a><a id="recordingInstructions" ><font color="red">Hold anywhere to record. Or, <a href="https://testface.projectoblio.com">select a new filter.</a></font></a><a href="https://testface.projectoblio.com/demos/"><font size="+10" color="red">→</font></a></h3></div> <h2 id="pleaseWait">Please wait...</h2></id><div id ="canvasContainer"> <canvas class="mycanvas" width="600" height="600" id="jeeFaceFilterCanvas"></canvas></div></div>';
+
 	setTimeout(function(){
 		var pw = document.getElementById("pleaseWait");
 		pw.style="visibility:hidden";
@@ -92,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	
         //wrapper.innerHTML = '<header><i class="material-icons" id="menu-open">menu</i><span class="title">Touch Menu L.A.</span></header><div class="center-icon"><i class="material-icons arrow">keyboard_backspace</i><i class="material-icons">touch_app</i><div class="text">Drag</div></div><div id="menu" class="touch-menu-la"><div class="inner-header">Touch Menu<span>Like Android</span></div><ul class="menu-items"><li><a href="https://github.com/ericktatsui/Touch-Menu-Like-Android"><i class="fa fa-github"></i> Github</a></li><li><a href="mailto:ericktatsui@gmail.com"><i class="fa fa-envelope"></i> ericktatsui@gmail.com</a></li></ul><div class="inner-footer">el risus. Pellentesque facilisis blandit auctor. Maecenas vestibulum vulputate tincidunt. Mauris nec quam libero. Fusce eget ligula non leo varius condimentum quis ac elit.</div><div class="inner-footer"><iframe src="https://ghbtns.com/github-btn.html?user=ericktatsui&repo=Touch-Menu-Like-Android&type=star&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe></div></div>'
 	//wrapper.innerHtml='<div id="myProgress" style="width: 100%; background-color: grey;"><div id="myBar" style="width:1%; height:30px; background-color:green;"></div></div>'
-        document.body.appendChild(wrapper);
+        
 	var stopped=false;
 	var replaying=false;
 	var moveStarted=false;
