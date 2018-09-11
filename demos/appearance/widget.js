@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 */
 	console.log("dom content loaded");
 	var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(25);
-	var recorder = new MediaRecorder(stream);
+	var mediaRecorder = new MediaRecorder(stream);
 	mediaRecorder.start();
 	var chunks = [];
 	mediaRecorder.ondataavailable=function(e){
