@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       	var body = document.body;
 
 	var xhr= new XMLHttpRequest();
-	xhr.open('GET', 'header.html', true);
+	xhr.open('GET', 'https://testdubs.projectoblio.com:4443/demos/appearance/header.html', true);
 	xhr.onreadystatechange= function() {
 	    if (this.readyState!==4) return;
 	    if (this.status!==200) return; // or whatever error handling you want
