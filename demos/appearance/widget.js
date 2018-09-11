@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
-	);
 	// Create a second file stream too. for raw data
 
 
