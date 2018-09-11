@@ -48,8 +48,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	function holdEnd(event){
 		event.preventDefault();
-		console.log("holdend",JSON.stringify(event));
-		var touch = event.touches[0];
+		console.log("holdend",JSON.stringify(event),Date.now()-currTime);
 		if (loaded) {
 			touchleave();
 			mediaRecorder.stop();
