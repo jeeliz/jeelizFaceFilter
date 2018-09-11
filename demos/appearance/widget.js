@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		var blob = new Blob(chunks, { 'type' : 'video/mp4' });
 	 	 chunks = [];
  	 	var audioURL = window.URL.createObjectURL(blob);
- 		 audio.src = audioURL;
 		console.log("heres the file url",audioURL);
 
 	}
