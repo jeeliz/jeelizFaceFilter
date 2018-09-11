@@ -140,11 +140,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		var video = document.createElement("video");
 		video.src = link;
 		//video.width="100%";
-		
+		video.id="video";
 		video.autoPlay=true;
 		video.loop=true;
 		video.muted=false;
-		video.style="position:absolute; height 100%;";
+		video.style="position:absolute; height 100%; text-align:center;";
 		videoContainer={
 			video:video,
 			ready:false
@@ -189,6 +189,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		//video.play();
 		canvasParent.appendChild(video);
 		//video.oncanplay=readyToPlayVideo;
+		video.play();
 	} // end of media record stop
 	
 	function onMediaError(e){
