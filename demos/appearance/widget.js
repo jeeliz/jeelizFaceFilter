@@ -12,7 +12,7 @@ var media2Stopped=false;
 function replay(){
 		console.log("replay called");
 		
-		var canvasContainer = document.getElementById("displayText");
+		var canvasContainer = document.getElementById("videoDiv");
 		
 		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
