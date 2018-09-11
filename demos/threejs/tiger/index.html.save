@@ -46,7 +46,7 @@ body {
 </style>
     </head>
     
-    <body onload="main()" style='color: white' id="container">
+    <body   style='color: white' id="container">
 	<div> 
 		<div id ="canvasContainer">
 	        	<canvas class="mycanvas" width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
