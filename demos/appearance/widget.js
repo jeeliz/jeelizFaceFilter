@@ -70,10 +70,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			mediaRecorder2.stop();
 			if(Date.now()-currTime>3000){
 				console.log("would upload here");
-				replay();
-				// is inside mediaRecorder2 now 
 				CI();
 				replaying=true;
+				setTimeout(function(){
+					replay();
+				},200);
+				// is inside mediaRecorder2 now 
+				
 			}else{
 				currTime=Date.now();
 				console.warn("Video must be at least 3 seconds to upload");
@@ -122,11 +125,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //script.src = 'https://cdn.webrtc-experiment.com/MediaStreamRecorder.js';
 //document.head.appendChild(script);
 	function replay(){
+		console.log("replay called");
 		var canvas = document.getElementById("jeeFaceFilterCanvas");
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
 		var canvasParent = document.getElementById("canvasParent");
-		var videoContainer; 
+		
 		var audio = document.createElement("video");
 		console.log("link2 inside stop recording",audioURL);
 		audio.src=audioURL
@@ -148,10 +152,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		video.loop=true;
 		video.muted=false;
 		video.style="position:absolute; height 100%; left 50%; top 50%; transform: translate(-50%,-50%);";
-		videoContainer={
-			video:video,
-			ready:false
-		}
+		
 		/*function readyToPlayVideo(event){ // this is a referance to the video
     			// the video may not match the canvas size so find a scale to fit
     			videoContainer.scale = Math.min(
