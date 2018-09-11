@@ -248,7 +248,7 @@ var tiger=function(playing){
 		callbackReady: function(errCode, spec){
 		    if (errCode){
 		        console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
-		        //return;
+		        return;
 		    }
 
 		    console.log('INFO : JEEFACEFILTERAPI IS READY');
@@ -320,20 +320,6 @@ var tiger=function(playing){
 	} //end main()
 	
 	main();
-}
-window.playDog=function(){
-	window.JEEFACEFILTERAPI.toggle_pause(true);
-	window.tigerStopped=true;
-	window.dogStopped=false;
-	dogface();
-	window.JEEFACEFILTERAPI.toggle_pause(false);
-}
-window.playTiger=function(){
-	window.JEEFACEFILTERAPI.toggle_pause(true);
-	window.tigerStopped=false;
-	window.dogStopped=true;
-	tiger();
-	window.JEEFACEFILTERAPI.toggle_pause(false);
 }
 function main(){
 	window.tigerStopped=false;
