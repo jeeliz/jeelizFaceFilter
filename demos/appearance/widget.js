@@ -2,6 +2,7 @@
 var loaded=false;
 var mediaRecorder;
 var mediaRecorder2;
+var id;
 document.addEventListener("DOMContentLoaded", function(event) { 
         var wrapper = document.createElement("div");
         //wrapper.innerHTML = '<header><i class="material-icons" id="menu-open">menu</i><span class="title">Touch Menu L.A.</span></header><div class="center-icon"><i class="material-icons arrow">keyboard_backspace</i><i class="material-icons">touch_app</i><div class="text">Drag</div></div><div id="menu" class="touch-menu-la"><div class="inner-header">Touch Menu<span>Like Android</span></div><ul class="menu-items"><li><a href="https://github.com/ericktatsui/Touch-Menu-Like-Android"><i class="fa fa-github"></i> Github</a></li><li><a href="mailto:ericktatsui@gmail.com"><i class="fa fa-envelope"></i> ericktatsui@gmail.com</a></li></ul><div class="inner-footer">el risus. Pellentesque facilisis blandit auctor. Maecenas vestibulum vulputate tincidunt. Mauris nec quam libero. Fusce eget ligula non leo varius condimentum quis ac elit.</div><div class="inner-footer"><iframe src="https://ghbtns.com/github-btn.html?user=ericktatsui&repo=Touch-Menu-Like-Android&type=star&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe></div></div>'
@@ -22,10 +23,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         		        elem.style.width = width + '%'; 
         		}
     		}
-		this.clearInterval=function(){
+		
+	}
+	function CI(){
+	
 			clearInterval(id);
 			reset=false;
-		}
+	
+
 	}
 	var element;
 
@@ -59,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			mediaRecorder.stop();
 			mediaRecorder2.stop();
 			reset=true;
-			move.clearInterval();
+			CI();
 			if(Date.now()-currTime>3000){
 				console.log("would upload here");
 			}else{
