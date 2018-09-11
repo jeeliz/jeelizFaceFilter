@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         		        elem.style.width = width + '%'; 
         		}
     		}
+		this.clearInterval=function(){
+			clearInterval(id);
+		}
 	}
 	var element;
 
@@ -55,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			mediaRecorder.stop();
 			mediaRecorder2.stop();
 			reset=true;
-			move();
+			move.clearInterval();
 			if(Date.now()-currTime>3000){
 				console.log("would upload here");
 			}else{
