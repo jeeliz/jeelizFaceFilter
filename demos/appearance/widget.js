@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		this.responseText=this.responseText.replace(/\s+/g, " ");
 		console.log("Here is response text",this.responseText);
 
-	    document.body.innerHTML= this.responseText+" "+document.body.innerHtml;
+	    document.body.innerHTML= this.responseText+" "+document.body.innerHTML;
 	};
 	xhr.send();
 	//document.body.innerHTML='<style>html { height: 100%;}body { min-height: 100%;}.mycanvas {position:absolute;}.canvasContainer {position: relative;margin: 0 auto;text-align: center; }#myProgress{position:relative;z-index:99 !important;}#pleaseWait{position:relative;z-index:99 !important;text-align:center;color:red;}#recordingInstructionsStyle{position:relative;text-align:center;z-index:99 !important;color:red;}</style><div> <div id="myProgress" style="width: 100%; background-color: grey;"><div id="myBar" style="width:1%; height:30px; background-color:green;"></div></div><div id ="displayText"><div id ="recordingInstructionsStyle"> <h3><a href="https://testface.projectoblio.com/demos/"><font size="+10" color="red">←</font></a><a id="recordingInstructions" ><font color="red">Hold anywhere to record. Or, <a href="https://testface.projectoblio.com">select a new filter.</a></font></a><a href="https://testface.projectoblio.com/demos/"><font size="+10" color="red">→</font></a></h3></div> <h2 id="pleaseWait">Please wait...</h2></id><div id ="canvasContainer" class="canvasContainer"> <canvas class="mycanvas" width="600" height="600" id="jeeFaceFilterCanvas"></canvas></div> <div id="filter"></div> </div>';
