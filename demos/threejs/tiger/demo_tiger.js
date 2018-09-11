@@ -234,6 +234,7 @@ function init_threeScene(spec){
 
 //launched by body.onload() :
 function main(){
+    console.log("Beginning init of jeefacefilter");
     JEEFACEFILTERAPI.init({
         canvasId: 'jeeFaceFilterCanvas',
         NNCpath: '../../../dist/', //root of NNC.json file

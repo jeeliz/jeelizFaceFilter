@@ -64,6 +64,10 @@ body {
 			</h6>
 		</div>
 	</div>
+	<div id="send">
+		<button type="button">Click Me!</button>
+		<button type="button">Click Me!</button>
+	</div>
 
     </body>
 
