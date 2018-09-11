@@ -6,54 +6,54 @@ document.addEventListener("DOMContentLoaded", function(event) {
         document.body.appendChild(wrapper);
 	var reset=false;
 	function move() {
-    var elem = document.getElementById("myBar"); 
-    var width = 1;
-    var id = setInterval(frame, 10);
-    function frame() {
-        if (width >= 100 || reset) {
-            clearInterval(id);
-		reset=false;
-        } else {
-            width++; 
-            elem.style.width = width + '%'; 
-        }
-    }
-}
-var element;
+   		 var elem = document.getElementById("myBar"); 
+   		 var width = 1;
+   		 var id = setInterval(frame, 10);
+    		function frame() {
+        		if (width >= 100 || reset) {
+            		clearInterval(id);
+				reset=false;
+        		} else {
+           		 width++; 
+        		    elem.style.width = width + '%'; 
+        		}
+    		}
+	}
+	var element;
 
-var currTime;
-function holdBegin(event){
-	currTime=Date.now();
+	var currTime;
+	function holdBegin(event){
+		currTime=Date.now();
 
-   	 event.preventDefault();
-	    var touch = event.touches[0];
+   		event.preventDefault();
+	    	var touch = event.touches[0];
 		mediaRecorder.start();
 		mediaRecorder2.start();
 		event.preventDefault();
-    	var touch = event.touches[0];
- 	   element = document.elementFromPoint(touch.pageX,touch.pageY);
+    		var touch = event.touches[0];
+ 	  	element = document.elementFromPoint(touch.pageX,touch.pageY);
 	}
 
 	document.addEventListener('touchstart',holdBegin, false);
 	document.addEventListener('mousedown',holdBegin, false);
 
-function holdEnd(event){
-	event.preventDefault();
-	var touch = event.touches[0];
-    if (element !== document.elementFromPoint(touch.pageX,touch.pageY)) {
-        touchleave();
-	mediaRecorder.stop();
-	mediaRecorder2.stop();
-	reset=true;
-	if(Date.now()-currTime>3000){
-		console.log("would upload here");
-	}else{
-		console.warn("Video must be at least 3 seconds to upload");
+	function holdEnd(event){
+		event.preventDefault();
+		var touch = event.touches[0];
+		if (element !== document.elementFromPoint(touch.pageX,touch.pageY)) {
+			touchleave();
+			mediaRecorder.stop();
+			mediaRecorder2.stop();
+			reset=true;
+			if(Date.now()-currTime>3000){
+				console.log("would upload here");
+			}else{
+				console.warn("Video must be at least 3 seconds to upload");
+			}
+    		}
 	}
-    }
-//}, false);
-document.addEventListener('touchmove',holdEnd,false);
-document.addEventListener('mouseup',holdEnd,false);
+	document.addEventListener('touchmove',holdEnd,false);
+	document.addEventListener('mouseup',holdEnd,false);
 
 /*
 	 var header=document.createElement('header');
