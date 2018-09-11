@@ -1,6 +1,7 @@
 "use strict";
 
 //SETTINGS of this demo :
+var tigerStopped=false;
 var tiger=function(){
 	var SETTINGS={
 	    rotationOffsetX: 0, //negative -> look upper. in radians
@@ -10,7 +11,7 @@ var tiger=function(){
 	    detectionHysteresis: 0.05,
 	    scale: 1 //scale of the 3D cube
 	};
-	var stopped=false;
+	
 	//var Dogface = require("../dog_face/demo.js");
 	//var dogface = new Dogface();
 	//window.dogface=Dogface;
@@ -307,9 +308,9 @@ var tiger=function(){
 		            TIGERMOUTHHIDEMESH.scale.setY(1.+mouthOpening*0.4);
 		        }
 		    }
-			console.log("render2")
+		if(!tigerStopped){
 		    TWEEN.update();
-
+		}
 		    //trigger the render of the THREE.JS SCENE
 		    THREERENDERER.render(THREESCENE, THREECAMERA);
 		} //end callbackTrack()
@@ -319,6 +320,7 @@ var tiger=function(){
 }
 function main(){
 	tiger();
+	window.tigerStopped=tigerStopped;
 }
 
  

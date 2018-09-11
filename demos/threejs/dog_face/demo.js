@@ -1,5 +1,5 @@
-
-function dogface(){
+var dogStopped=true;
+var dogface = function(){
 	// SETTINGS of this demo :
 	const SETTINGS = {
 	    rotationOffsetX: 0, // negative -> look upper. in radians
@@ -438,5 +438,5 @@ function dogface(){
 	    }); // end JEEFACEFILTERAPI.init call
 	} // end main()
 }
-
+window.dogStopped=dogStopped;
 
