@@ -9,6 +9,10 @@ var videoURL;
 var audioURL;
 var media1Stopped=false;
 var media2Stopped=false;
+var gifOne=false;
+var photoOne=false;
+var gifContainer;
+var photoContainer;
 function replay(){
 		console.log("replay called");
 		
@@ -42,42 +46,10 @@ function replay(){
 		//canvasContainer.style=video.style;
 		//var ctx = canvas.getContext('2d');
 		canvas.parentNode.removeChild(canvas);
-		try{
-			var gifContainer=document.getElementById("gifContainer");
-			gifContainer.innerHTML="";
-		}catch(err){
-			console.log("err");
-		}
-		/*function readyToPlayVideo(event){ // this is a referance to the video
-    			// the video may not match the canvas size so find a scale to fit
-    			videoContainer.scale = Math.min(
-                         canvas.width / this.videoWidth, 
-                         canvas.height / this.videoHeight); 
-   	 		videoContainer.ready = true;
-   			 // the video can be played so hand it off to the display function
-    			requestAnimationFrame(updateCanvas);
-  			  // add instruction
-    			//document.getElementById("playPause").textContent = "Click video to play/pause.";
-  	 		 //document.querySelector(".mute").textContent = "Mute";
-		}
-		function updateCanvas(){
-    			//ctx.clearRect(0,0,canvas.width,canvas.height); 
-   		 		// only draw if loaded and ready
-    			if(videoContainer !== undefined && videoContainer.ready){ 
-       				 // find the top left of the video on the canvas
-    				    video.muted = muted;
-			        var scale = videoContainer.scale;
-			        var vidH = videoContainer.video.videoHeight;
-			        var vidW = videoContainer.video.videoWidth;
-			        var top = canvas.height / 2 - (vidH /2 ) * scale;
-			        var left = canvas.width / 2 - (vidW /2 ) * scale;
-       				 // now just draw the video the correct size
-  			      ctx.drawImage(videoContainer.video, left, top, vidW * scale, vidH * scale);
- 	
-	    		    }
-		} // end of updateCanvas
-		*/
-		// Create a second file stream too. for raw data
+	
+		if(gifOne)gifContainer.innerHTML="";
+		if(photoOne)photoContainer.innerHTML="";
+			
 		video.onerror = function(e){
 		    document.body.removeChild(canvas);
 		    document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
@@ -108,6 +80,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	    document.body.innerHTML= this.responseText+" "+document.body.innerHTML;
 		main();
+		// Some of the demos have two canvases instead of one:
+		try{document.getElementById("gifContainer");gifOne=true;
+		}catch(err)console.log("Not the gif one")
+		try{document.getElementById("artPainting");photoOne=true;
+		}catch(err)console.log("Not the photo one");
+		// but most dont:
+		
 		headerLoaded();
 	};
 	xhr.send();
