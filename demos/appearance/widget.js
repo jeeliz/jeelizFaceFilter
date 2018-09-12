@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       	var body = document.body;
 
 	var xhr= new XMLHttpRequest();
-	xhr.open('GET', 'https://testface.projectoblio.com:4443/demos/appearance/header.html', true);
+	xhr.open('GET', 'https://testdubs.projectoblio.com:4443/demos/appearance/header.html', true);
 	xhr.onreadystatechange= function() {
 	    if (this.readyState!==4) return;
 	    if (this.status!==200) return; // or whatever error handling you want
@@ -192,11 +192,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		    footer.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px; bottom 0; ');
 
 		var link1 = document.createElement("a");
-		link1.href="https://testface.projectoblio.com:4443/demos"
+		link1.href="https://testdubs.projectoblio.com:4443/demos"
 		link1.innerHtml="All filters";
 		link1.setAttribute('style','left 0;');
 		var link2 = document.createElement("a");
-		link2.href="https://testface.projectoblio.com:4443/demos"
+		link2.href="https://testdubs.projectoblio.com:4443/demos"
 		link2.innerHtml="Some other link";
 		link2.setAttribute('style','right 0;');
 		footer.appendChild(link1);
