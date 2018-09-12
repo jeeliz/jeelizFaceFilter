@@ -9,7 +9,8 @@ var formidable = require('formidable');
 var exec = require('child_process').exec;
 var expressSession = require('express-session');
 var cookieParser = require('cookie-parser');
-var port = 4443; 
+var port = 4442; 
+var sslPort=4443;
 var seedrandom=require("seedrandom");
 const PORT = port; 
 
@@ -36,6 +37,6 @@ if(httpsActive){
     		res.end();
 	}).listen(80);
 	*/
-	https.createServer(credentials, app).listen(443);
+	https.createServer(credentials, app).listen(sslPort);
 	
 }
