@@ -14,7 +14,7 @@ var sslPort=4443;
 var seedrandom=require("seedrandom");
 const PORT = port; 
 
-app.use(express.static(__dirname + '/demos'));
+app.use(express.static(__dirname));
 app.get('/',function(req,res){
 	res.sendfile('./demos/menu.html');
 });
