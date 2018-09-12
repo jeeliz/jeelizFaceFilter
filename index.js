@@ -21,9 +21,12 @@ try{
 	var certificate = fs.readFileSync('./fullchain.pem', 'utf8');
 		var credentials = {key: privateKey, cert: certificate}
 }catch(err){
-	var privateKey  = fs.readFileSync('../privkey.pem', 'utf8');
+	try{var privateKey  = fs.readFileSync('../privkey.pem', 'utf8');
 	var certificate = fs.readFileSync('../fullchain.pem', 'utf8');
 	var credentials = {key: privateKey, cert: certificate}
+	}catch(err){
+		console.log("could not find ssl files, hoping you are running on heroku i guess");
+	}
 }
 http.createServer(app).listen(port)
 if(httpsActive){
