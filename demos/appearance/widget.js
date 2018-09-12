@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		main();
 		// Some of the demos have two canvases instead of one:
 		try{document.getElementById("gifContainer");gifOne=true;
-		}catch(err)console.log("Not the gif one")
+		}catch(err){console.log("Not the gif one");}
 		try{document.getElementById("artPainting");photoOne=true;
-		}catch(err)console.log("Not the photo one");
+		}catch(err){console.log("Not the photo one");}
 		// but most dont:
 		
 		headerLoaded();
