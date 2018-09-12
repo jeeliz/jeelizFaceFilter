@@ -36,6 +36,6 @@ if(httpsActive){
     		res.end();
 	}).listen(80);
 	*/
-	https.createServer(credentials, app).listen(port);
+	https.createServer(credentials, app).listen(443);
 	
 }
