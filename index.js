@@ -16,7 +16,7 @@ const PORT = port;
 
 app.use(express.static(__dirname + '/demos'));
 app.get('/',function(req,res){
-	res.render('./demos/menu.html');
+	res.sendfile('./demos/menu.html');
 });
 try{
 	var privateKey  = fs.readFileSync('./privkey.pem', 'utf8');
