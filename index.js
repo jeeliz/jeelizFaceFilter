@@ -9,8 +9,8 @@ var formidable = require('formidable');
 var exec = require('child_process').exec;
 var expressSession = require('express-session');
 var cookieParser = require('cookie-parser');
-var port = 4442; 
-var sslPort=4443;
+var port = 80; 
+var sslPort=443;
 var seedrandom=require("seedrandom");
 const PORT = port; 
 
@@ -18,6 +18,7 @@ app.use(express.static(__dirname));
 app.get('/',function(req,res){
 	res.sendfile('./demos/menu.html');
 });
+var heroku=false;
 try{
 	var privateKey  = fs.readFileSync('./privkey.pem', 'utf8');
 	var certificate = fs.readFileSync('./fullchain.pem', 'utf8');
@@ -28,6 +29,7 @@ try{
 	var credentials = {key: privateKey, cert: certificate}
 	}catch(err){
 		console.log("could not find ssl files, hoping you are running on heroku i guess");
+		httpsActive=false;
 	}
 }
 http.createServer(app).listen(port)
