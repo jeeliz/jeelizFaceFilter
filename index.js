@@ -30,6 +30,7 @@ try{
 	}catch(err){
 		console.log("could not find ssl files, hoping you are running on heroku i guess");
 		httpsActive=false;
+		port=process.env.PORT;
 	}
 }
 http.createServer(app).listen(port)
