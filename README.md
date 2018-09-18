@@ -213,6 +213,8 @@ JEEFACEFILTERAPI.init({
 },
 ```
 * `<dict> scanSettings`: override face scan settings - see `set_scanSettings(...)` method for more information.
+* `<dict> stabilizationSettings`: override tracking stabilization settings - see `set_stabilizationSettings(...)` method for more information.
+
 
 If the user has a mobile device in portrait display mode, the width and height of these parameters are automatically inverted for the first camera request. If it does not succeed, we invert the width and height.
 
@@ -270,7 +272,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `<array> mediaDevices`: an array with all the devices founds. Each device is a javascript object having a `deviceId` string attribute. This value can be provided to the `init` method to use a specific webcam. If an error happens, this value is set to `false`,
   * `<string> errorLabel`: if an error happens, the label of the error. It can be: `NOTSUPPORTED`, `NODEVICESFOUND` or `PROMISEREJECTED`.
 
-* `set_scanSettings(<object> scanSettings)`: Set scan settings. `scanSettings` is a dictionnary with the following properties:
+* `set_scanSettings(<object> scanSettings)`: Override scan settings. `scanSettings` is a dictionnary with the following properties:
   * `<float> minScale`: min width of the face search window, relatively to the width of the video. Default value: `0.15`,
   * `<float> maxScale`: max width of the face search window, relatively to the width of the video. Default value: `0.6`, 
   * `<float> borderWidth`: size of the left and right margins, relatively to the width of the window. Default value: `0.2`,
@@ -279,6 +281,14 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `<int> nStepsY`: number of scan lines. Default: `5`,
   * `<int> nStepsScale`: number of detection steps for the scale. Default: `3`,
   * `<int> nDetectsPerLoop`: specify the number of detection per drawing loop. `0` for adaptative value. Default: `0`
+
+* `set_stabilizationSettings(<object> stabilizationSettings)`: Override detection stabilization settings. The output of the neural network is always noisy, so we need to stabilize it using a floatting average to avoid shaking artifacts. The internal algorithm computes first a stabilization factor `k` between `0` and `1`. If `k==0.0`, the detection is bad and we favor responsivity against stabilization. It happens when the user is moving quickly, rotating the head or when the detection is bad. On the contrary, if `k` is close to `1`, the detection is nice and the user does not move a lot so we can stabilize a lot. `stabilizationSettings` is a dictionnary with the following properties:
+  * `[<float> minValue, <float> maxValue] translationFactorRange`: multiply `k` by a factor `kTranslation` depending on the translation speed of the head (relative to the viewport). `kTranslation=0` if `translationSpeed<minValue` and `kTranslation=1` if `translationSpeed>maxValue`. The regression is linear. Default value: `[0.0015, 0.005]`,
+  * `[<float> minValue, <float> maxValue] rotationFactorRange`: analogous to `translationFactorRange` but for rotation speed. Default value: `[0.003, 0.02]`,
+  * `[<float> minValue, <float> maxValue] qualityFactorRange`: analogous to `translationFactorRange` but for the head detection coefficient. Default value: `[0.9, 0.98]`,
+  * `[<float> minValue, <float> maxValue] alphaRange`: it specify how to apply `k`. Between 2 successive detections, we blend the previous `detectState` values with the current detection values using a mixing factor `alpha`. `alpha=<minValue>` if `k<0.0` and `alpha=<maxValue>` if `k>1.0`. Between the 2 values, the variation is quadratic.
+
+
 
 ### Optimization
 

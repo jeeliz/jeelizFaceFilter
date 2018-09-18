@@ -52,6 +52,13 @@ function init_faceFilter(videoSettings){
         canvasId: 'jeeFaceFilterCanvas',
         NNCpath: '../../../dist/NNCwideAngles.json', //Neuron net with wide angles
         maxFacesDetected: 1,
+        stabilizationSettings: { //adjust stabilization parameters for more responsivity
+            'translationFactorRange': [0.001, 0.003],
+            'rotationFactorRange': [0.002, 0.015],
+            'qualityFactorRange': [0.91, 0.98],
+            'alphaRange': [0.07, 1]
+        },
+
         callbackReady: function(errCode, spec){
           if (errCode){
             console.log('AN ERROR HAPPENS. ERR =', errCode);
