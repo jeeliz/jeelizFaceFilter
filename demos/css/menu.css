@@ -37,18 +37,19 @@ input {
 
 /* menu links */
 .nav > li > a {
-  background: #372f2b;
-  border-left: 1px solid #4b4441;
-  border-right: 1px solid #312a27;
-  color: #fcfcfc;
-  display: block;
-  font-weight: bold;
-  line-height: 3.5;
-  padding: 0 1.25em;
-  position: relative;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
-  transition: all .3s ease;
-  z-index: 510;
+	background: #59b2e0;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	color: #fcfcfc;
+	display: block;
+	font-weight: bold;
+	line-height: 3.5;
+	padding: 0 1.25em;
+	position: relative;
+	text-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
+	transition: all .3s ease;
+	z-index: 510;
+	text-align:center;
 }
 .nav > li > a:focus,
 .nav > li:hover > a {
@@ -116,6 +117,7 @@ input {
   visibility: visible;
 	  overflow: visible;
   width: 100%;
+  margin-top:36px;
 }
 li:hover > .mega-menu {
   opacity: 1;
@@ -127,13 +129,13 @@ li:hover > .mega-menu {
 .nav-column2 {
   float: left;
   padding: 2.5%;
-  width: 35%;
+  width: 26%;
 }
 
 .nav-column2 a {
   color: #888;
   display: block;
-  font-weight: bold;
+  font-weight: normal;
   line-height: 1.75;
 }
 .nav-column2 a:hover {
@@ -143,13 +145,18 @@ li:hover > .mega-menu {
 .nav-column {
   float: left;
   padding: 2.5%;
-  width: 20%;
+  width: 33%;
+}
+.nav-column.nav-column3 {
+  float: left;
+  padding: 2.5%;
+  width: 26%;
 }
 
 .nav-column a {
   color: #888;
   display: block;
-  font-weight: bold;
+  font-weight: normal;
   line-height: 1.75;
 }
 .nav-column a:hover {
@@ -163,6 +170,79 @@ h3 {
   margin: 1.25em 0 .75em;
   text-transform: uppercase;
 }
-.highlight {
+/* .highlight {
   color: #2196f3;
+} */
+
+/*----start-14-9-2018-menu-design----*/
+ul.nav.main-nav {
+    width: 100%;
 }
+ul.nav.main-nav .center-bar:hover, ul.nav.main-nav .left-bar:hover, ul.nav.main-nav .right-bar:hover,{
+    background:#59b2e0;
+}
+li.center-bar {
+    width: 38%;
+}
+li.left-bar {
+    width: 31%;
+}
+li.right-bar {
+    width: 31%;
+}
+
+
+@media (min-width:768px) and (max-width:991px){
+.mega-menu {
+    margin-top: 223px;
+}
+.nav-column2 {
+    float: left;
+    padding: 2.5%;
+    width: 95% !important;
+}
+.nav-column {
+    float: left;
+    padding: 2.5%;
+    width: 95% !important;
+}
+li.left-bar, .center-bar, .right-bar {
+    width: 100% !important;
+    text-align: center !important;
+}
+.mega-menu {
+    margin-top: 159px;
+}
+.mega-menu {
+    margin-top: 160px;
+}
+}
+
+
+@media (max-width:767px){
+.nav-column2 {
+    float: left;
+    padding: 2.5%;
+    width: 95% !important;
+}
+.nav-column {
+    float: left;
+    padding: 2.5%;
+    width: 95% !important;
+}
+li.left-bar, .center-bar, .right-bar {
+    width: 100% !important;
+    text-align: center !important;
+}
+.mega-menu {
+    margin-top: 159px;
+}
+}
+
+
+@media (max-width:480px){
+.mega-menu {
+    margin-top: 223px;
+}
+}
+/*----end-14-9-2018-menu-design----*/

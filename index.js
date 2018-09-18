@@ -9,7 +9,7 @@ var formidable = require('formidable');
 var exec = require('child_process').exec;
 var expressSession = require('express-session');
 var cookieParser = require('cookie-parser');
-var port = 80; 
+var port = 3000; 
 var sslPort=443;
 var seedrandom=require("seedrandom");
 const PORT = port; 
@@ -30,7 +30,7 @@ try{
 	}catch(err){
 		console.log("could not find ssl files, hoping you are running on heroku i guess");
 		httpsActive=false;
-		port=process.env.PORT;
+		if(httpsActive)port=process.env.PORT;
 	}
 }
 http.createServer(app).listen(port)

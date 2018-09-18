@@ -1,3 +1,10 @@
+html {
+	  height: 100%;
+	}
+	body {
+	  min-height: 100%;
+	}
+
  a {color: #eee; text-decoration: none}
 a:hover {color: blue;}
 body {overflow: auto; overflow-y: auto;
@@ -9,19 +16,123 @@ body {overflow: auto; overflow-y: auto;
     margin: 0px;}
 #jeeFaceFilterCanvas {
     z-index: 10;
-    position: absolute; 
+    position: relative;
     max-height: 100%;
     max-width: 100%;
-    left: 50%;
-    top: 50%;
-    width: 100vmin;
-    transform: translate(-50%, -50%) rotateY(180deg);
+    left: 0;
+    top: 0;
+    transform: translate(0%, 0%) rotateY(180deg);
+} 
+div#canvasContainer {
+    text-align: center;
+}
+#myProgress{
+		position:relative;
+		z-index:99 !important;
+	}
+	#pleaseWait{
+		position:relative;
+		z-index:99 !important;
+		text-align:center;
+		color:red;
+	}
+	#recordingInstructionsStyle{
+		position:relative;
+		text-align:center;
+		z-index:99 !important;
+		color:red;
+	}
+	#recordingInstructions{
+		margin:0;
+	}
+	#videoDiv{
+		position:relative;
+		text-align:center;
+		width:100%;
+		height:100%;
+	}
+	#displayText{
+		background-color:#59b2e0;
+		z-index: 999;
+		position: relative;
+		height: 83px;
+	}
+	.cancel-btn-row{
+		position:relative;
+		text-align:center;
+		top: 232px;
+	}
+.cancel-btn-row input {
+    background: #59b2e0;
+    color: #fff;
+    position: relative;
+    border-color: #59b2e0;
+    width: 100px;
+    padding: 8px 0;
+    margin: 0 7px;
+}
+.mycanvas {
+			position:absolute;
+}
+#pleaseWait{
+	margin:0;
+}	
+.progress-row {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
+}
+/*
+.progress-circle {
+    height: 110px;
+    width: 110px;
+    background: #000;
+    border-radius: 50%;
+	display:inline-block;
+} */
+.progress-bar {
+    background: #fff;
+    height: 94px;
+    width: 94px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    transform: translate(0%, 8%) rotateY(180deg);
+}
+
+
+.progress-circle {
+    display: inline-block;
+	background-color: #000;
 } 
 
+
 @media (max-width: 787px) {
-    #jeeFaceFilterCanvas {
-        right: 0px;
-        top: 60px;
-        transform: rotateY(180deg);
-    }
+#jeeFaceFilterCanvas {
+	transform: rotateY(180deg);
 }
+.progress-circle:after {
+    transform: translate(2%, 2%) rotateY(180deg);
+}
+.progress-circle {
+    height: 104px !important;
+    width: 104px !important;
+}
+.progress-bar {
+    height: 90px !important;
+    width: 90px !important; 
+    transform: translate(0%, 8%) rotateY(180deg);
+}
+
+#jeeFaceFilterCanvas {
+    top: 29%;
+}
+}
+@media (max-width: 480px) {
+#jeeFaceFilterCanvas {
+}
+}
+
+

@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       	var body = document.body;
 
 	var xhr= new XMLHttpRequest();
-	xhr.open('GET', 'https://snapchatfacefilter.herokuapp.com/demos/appearance/header.html', true);
+	xhr.open('GET', 'https://testdubs.projectoblio.com/demos/appearance/header.html', true);
 	xhr.onreadystatechange= function() {
 	    if (this.readyState!==4) return;
 	    if (this.status!==200) return; // or whatever error handling you want
@@ -81,9 +81,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	    document.body.innerHTML= this.responseText+" "+document.body.innerHTML;
 		main();
 		// Some of the demos have two canvases instead of one:
-		try{document.getElementById("gifContainer");gifOne=true;
+		try{gifOne=document.getElementById("gifContainer");
+			if(gifOne!=null)gifOne=true;
 		}catch(err){console.log("Not the gif one");}
-		try{document.getElementById("artPainting");photoOne=true;
+		try{photoOne=document.getElementById("artPainting");
+			if(photoOne!=null)photoOne=true;
 		}catch(err){console.log("Not the photo one");}
 		// but most dont:
 		
@@ -108,12 +110,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	   		 var id = setInterval(frame, 10);
 	    		function frame() {
 				if (width >= 100 || stopped) {
-		    			clearInterval(id);
-					elem.style.width="1%";
-				} else {
-		   		 	width++; 
-				        elem.style.width = width + '%'; 
-				}
+ 								clearInterval(id);
+								elem.classList.remove("p"+width);
+								elem.classList.add("p1");
+	 						elem.classList.remove("over50");
+							} else {
+							//width++;
+	 						//elem.style.width = width + '%';
+							/* new code for round progressive bar - begins */
+							if(width > 50) {elem.classList.add("over50"); }
+								else { elem.classList.remove("over50"); }
+							elem.classList.remove("p"+width);
+	 						width++;
+								elem.classList.add("p"+width);
+							/* new code for round progressive bar - ends */
+						}
 	    		}
 		
 		}
@@ -192,11 +203,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		    footer.setAttribute('style', 'background-color: #f3e5f5;  padding: 20px; bottom 0; ');
 
 		var link1 = document.createElement("a");
-		link1.href="https://snapchatfacefilter.herokuapp.com/demos"
+		link1.href="https://testdubs.projectoblio.com/demos"
 		link1.innerHtml="All filters";
 		link1.setAttribute('style','left 0;');
 		var link2 = document.createElement("a");
-		link2.href="https://snapchatfacefilter.herokuapp.com/demos"
+		link2.href="https://testdubs.projectoblio.com/demos"
 		link2.innerHtml="Some other link";
 		link2.setAttribute('style','right 0;');
 		footer.appendChild(link1);

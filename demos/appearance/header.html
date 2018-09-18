@@ -1,67 +1,27 @@
-<style>
-		.mycanvas {
-			position:absolute;
-		}
-	</style>
-<style>
-	html {
-	  height: 100%;
-	}
-	body {
-	  min-height: 100%;
-	}
-	#myProgress{
-		position:relative;
-		z-index:99 !important;
-	}
-	#pleaseWait{
-		position:relative;
-		z-index:99 !important;
-		text-align:center;
-		color:red;
-	}
-	#recordingInstructionsStyle{
-		position:relative;
-		text-align:center;
-		z-index:99 !important;
-		color:red;
-		
-	}
-	#videoDiv{
-		position:absolute;
-		text-align:center;
-		width:100%;
-		height:100%;
-	}
-	#displayText{
-		background-color:black;
-	}
-
-	</style>
-	<div id="header"> 
-		<div id="myProgress" style="width: 100%; background-color: grey;">
-			<div id="myBar" style="width:1%; height:30px; background-color:green;">
-			</div>
-		</div>
+<div id="header"> 
 		<div id ="displayText">
-			<div id ="recordingInstructionsStyle" > 
-				
+			<div id ="recordingInstructionsStyle" >				
 				<h3 id="recordingInstructions">
 					<a href="https://testdubs.projectoblio.com/demos/menu.html"><font size="+10" color="red">← More Filters</font></a>
-					<font color="red">Hold anywhere to record.</font>
-					
+					<font color="red">Hold anywhere to record.</font>					
 				</h3>
-				
-				<input id="cancel" style="visibility:hidden" type="button" value="Cancel" onClick="window.location.reload()">
-				<input id="send" style="visibility:hidden" type="button" value="Send" onClick="uploadDub()">
 			</div> 
 			<h2 id="pleaseWait">
 				Please wait...
 			</h2>
-			
-		</div>
-		
+			<div class="cancel-btn-row">
+				<input id="cancel" style="visibility:hidden" type="button" value="Cancel" onClick="window.location.reload()">
+				<input id="send" style="visibility:hidden" type="button" value="Send" onClick="uploadDub()">
+			</div>			
+		</div>		
 	</div>
-	<div id="videoDiv">
-
+	<div class="progress-row">
+		<div id="myBar" class="progress-circle">
+			<span></span>
+			<div class="left-half-clipper">
+				<div class="first50-bar"></div>
+				<div class="value-bar"></div>
+			</div>
 		</div>
+	</div>
+	<div id="videoDiv"></div>
