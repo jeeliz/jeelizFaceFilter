@@ -9,6 +9,7 @@ function callbackMove(mv){ //called each time a head movement is detected
 //entry point :
 function main(){
 	pacmanStart(headControlStart);
+	
 }
 
 function pacmanStart(callback){
@@ -39,7 +40,7 @@ function headControlStart(){
 	    		s: 1
 	    	}
 		},
-	    canvasId: 'headControlsCanvas',
+	    canvasId: 'jeeFaceFilterCanvas',
 	    callbackMove: callbackMove,
 	    callbackReady: function(errCode){
 	      if (errCode){

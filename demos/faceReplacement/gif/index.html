@@ -6,12 +6,12 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
         
-        <title>JEELIZ FACE FILTER : FACE REPLACEMENT IN GIF DEMO</title>
-        
+        <title>PROJECT OBLIO : FACE REPLACEMENT IN GIF </title>
+        <script type='text/javascript' src='./dist/video-stream-merger.js'></script>
         <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
         <script type="text/javascript" src="../../../dist/jeelizFaceFilter.js"></script>
 
-        <!-- INCLUDE DEMO SCRIPT -->
+        <!-- INCLUDE  SCRIPT -->
 		<script type="text/javascript" src="./demo_faceReplacementGif.js"></script>
 
         <!-- INCLUDE FORK ME ON GITHUB BANNER -->
@@ -50,12 +50,22 @@
         }
         #jeeFaceFilterCanvas {
         }
+ .finalCanvas  {
+            z-index: 9;
+            top: 4px;
+            left: 0px;
+            max-width: 100vw;
+            max-height:  calc(100vh - 160px);
+		
+           
+        }
         .gif  {
             z-index: 8;
             top: 4px;
             left: 0px;
             max-width: 100vw;
             max-height:  calc(100vh - 160px);
+		
            
         }
         .canvasDetected { /*style of the canvas when user face is detected*/
@@ -176,11 +186,11 @@
         <!-- Add the slick-theme.css if you want default styling -->
         <link rel="stylesheet" type="text/css" href="../../../libs/slickCarousel/v1_9/slick-theme.css"/>
         <!-- jQuery (required by Slick Carousel) -->
-        <script type='text/javascript' src='../../../libs/jquery/jquery-3.3.1.min.js'></script>
-
+        <script type='text/javascript' src='../../../libs/jquery/jquery-3.3.1.min.js'></script>	
+	
     </head>
     
-    <body onload="main()" style='color: white'>
+    <body   style='color: white'>
         <div id='gifContainer'>
             <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='gif'></canvas>
         </div>

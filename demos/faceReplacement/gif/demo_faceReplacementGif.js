@@ -1,5 +1,10 @@
 "use strict";
-
+var canvases={
+		"gif":false,
+		"face":false,
+		"faceX":0,
+		"faceY":0
+	}
 var SETTINGS={
 	//detect state in the initial gif to avoid search step (it is logged in the console after a first search)
 	
@@ -23,7 +28,7 @@ var SETTINGS={
 
 	//user crop face and detection settings :
 	videoDetectSizePx: 512,
-	faceRenderSizePx: 128,
+	faceRenderSizePx: 128*3,
 	zoomFactor: 1.012, //1-> exactly the same zoom than for the art painting
 	detectionThreshold: 0.62, //sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.01,
@@ -34,6 +39,7 @@ var SETTINGS={
 	//debug flags - should be set to false for standard running :
 	debugGifCrop: false
 };
+
 
 var GIF={
 	animation:{
@@ -59,7 +65,8 @@ var GIF={
 	positionsFace: [],
 	scalesFace: [],
 	rzsFace: [],
-	detectedStates: null
+	detectedStates: null,
+	finalCanvas:null
 };
 var USERCROP={
 	faceCutDims: [0,0],
@@ -71,7 +78,7 @@ var SHPS={ //shaderprograms
 	copy: null
 };
 
-
+var globalFace={"width":0,"height":0};
 var DOMGIFCONTAINER;
 var GL, GLDRAWTARGET, FBO; //WebGL global stuffs
 
@@ -113,6 +120,8 @@ function main(){
 	        GLDRAWTARGET=(GL.DRAW_FRAMEBUFFER)?GL.DRAW_FRAMEBUFFER:GL.FRAMEBUFFER;
 
 	        console.log('INFO : JEEFACEFILTERAPI IS READY');
+		var face=document.getElementById("jeeFaceFilterCanvas")
+		canvases.face=face.getContext("2d"),
 	        check_isLoaded('JEEFACEFILTERAPI');
 	    }, //end callbackReady()
 
@@ -453,14 +462,28 @@ function build_gifMasks(detectStates){ //detectStates is the detectState for eac
 	var gifMask = document.createElement('canvas');
 	gifMask.width=GIF.image.width;
 	gifMask.height=GIF.image.height;
+	gifMask.style.display="none";
 	GIF.canvasMaskCtx=gifMask.getContext('2d');
-
+	gifMask.setAttribute("id","gifCanvas");
 	gifMask.classList.add('gif');
 	FFSPECS.canvasElement.classList.remove('gif');
 	FFSPECS.canvasElement.classList.add('canvasNotDetected');
 	GIF.canvasMask=gifMask;
 	DOMGIFCONTAINER.appendChild(gifMask);
 	ISUSERFACEDETECTED=false;
+
+	var gifMask2 = document.createElement('video');
+	gifMask2.width=GIF.image.width;
+	gifMask2.height=GIF.image.height;
+	
+	gifMask2.setAttribute("id","finalCanvas");
+	gifMask2.classList.add('finalCanvas');
+	GIF.finalCanvas=gifMask2;
+	DOMGIFCONTAINER.appendChild(gifMask2);
+	ISUSERFACEDETECTED=false;
+	gifMask2.style.zindex=99;
+
+	
 }
 
 
@@ -526,6 +549,8 @@ function build_gifFrameMask(detectState, frameIndex){
 	gifFrameMask.width=GIF.image.width;
 	gifFrameMask.height=GIF.image.height;
 	var ctx=gifFrameMask.getContext('2d');
+	canvases.gif=ctx;
+
 	ctx.drawImage(FFSPECS.canvasElement,0,0);
 	GIF.frameMasks[frameIndex]=gifFrameMask;
 
@@ -535,6 +560,8 @@ function build_gifFrameMask(detectState, frameIndex){
 	//initialize the face cut pot texture
 	var faceWidthPx=Math.round(GIF.image.width*sxn);
 	var faceHeightPx=Math.round(GIF.image.height*syn);
+	globalFace.width=faceWidthPx;
+	globalFace.height=faceHeightPx;
 	var maxDimPx=Math.max(faceWidthPx, faceHeightPx);
 	GIF.potFaceCutTextureSizePx=Math.pow(2, Math.ceil(Math.log(maxDimPx)/Math.log(2)));
 	GIF.potFaceCutTexture=GL.createTexture();
@@ -869,6 +896,7 @@ function position_userCropCanvas(){
 	FFSPECS.canvasElement.style.position=restoredPosition;
 } //end position_userCropCanvas()
 
+var faceStuff={};
 function update_positionUserCropCanvas(frameIndex){ //called when the GIF frame changes when played
 	//compute topPx an leftPx in the gif canvas image ref :
 	var topPx=GIF.image.height*GIF.positionsFace[frameIndex][1];
@@ -876,21 +904,30 @@ function update_positionUserCropCanvas(frameIndex){ //called when the GIF frame 
 	var widthFacePx=GIF.image.width*GIF.scalesFace[frameIndex][0];
 	var heightFacePx=GIF.image.height*GIF.scalesFace[frameIndex][1];
 	var widthPx=widthFacePx*SETTINGS.videoDetectSizePx/SETTINGS.faceRenderSizePx; //the whole canvas is bigger than the user face rendering
+	
 	topPx=GIF.image.height-topPx; //Y axis is inverted between WebGL viewport and CSS
 
 	//take account of the CSS scale factor of the art painting
 	var domRect=DOMGIFCONTAINER.getBoundingClientRect();
 	var cssScaleFactor=domRect.width/GIF.image.width;
+	cssScaleFactor=1.4
+	//console.log("csscalefactor",cssScaleFactor);
 	topPx*=cssScaleFactor;
 	leftPx*=cssScaleFactor;
 	widthPx*=cssScaleFactor;
 	widthFacePx*=cssScaleFactor;
 	heightFacePx*=cssScaleFactor;
 
+
 	//position corner of the userFace instead of center
 	topPx-=heightFacePx/2;
 	leftPx-=widthFacePx/2;
-	
+	faceStuff.topPx=Math.round(topPx);
+	faceStuff.leftPx=Math.round(leftPx);
+	faceStuff.widthFacePx=Math.round(widthFacePx);
+	faceStuff.heightFacePx=Math.round(heightFacePx);
+	faceStuff.width=Math.round(widthPx);
+
 	FFSPECS.canvasElement.style.top=Math.round(topPx).toString()+'px';
 	FFSPECS.canvasElement.style.left=Math.round(leftPx).toString()+'px';
 	FFSPECS.canvasElement.style.width=Math.round(widthPx).toString()+'px';
@@ -940,6 +977,7 @@ function draw_render(detectState){ //detectState is the detectState of the USER 
 	
 
 	//shrink the userface to a SETTINGS.hueTextureSizePx texture
+
 	GL.useProgram(SHPS.copy.program);
 	GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, USERCROP.hueTexture, 0);
 	GL.viewport(0,0,SETTINGS.hueTextureSizePx, SETTINGS.hueTextureSizePx);
@@ -966,7 +1004,8 @@ function draw_render(detectState){ //detectState is the detectState of the USER 
 	GL.viewport(0,SETTINGS.videoDetectSizePx-USERCROP.faceCutDims[1],USERCROP.faceCutDims[0], USERCROP.faceCutDims[1]);
 	GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
 }//end draw_render()
-
+var merger = new VideoStreamMerger();
+var first=true;
 function callbackTrack(detectState){
 	switch(STATE) {
 		case STATES.DETECTGIFFACE: //search for a face
@@ -1041,12 +1080,21 @@ function callbackTrack(detectState){
 	            ISUSERFACEDETECTED=false;
 	            FFSPECS.canvasElement.classList.remove('canvasDetected');
 	            FFSPECS.canvasElement.classList.add('canvasNotDetected');
+			var face = document.getElementById("jeeFaceFilterCanvas");
+			face.style.display="initial"
+			
 	        } else if (!ISUSERFACEDETECTED && detectState.detected>SETTINGS.detectionThreshold+SETTINGS.detectionHysteresis){
 	            //FACE DETECTED
 	            ISUSERFACEDETECTED=true;
 	            FFSPECS.canvasElement.classList.remove('canvasNotDetected');
 	        	FFSPECS.canvasElement.classList.add('canvasDetected');
-	        }
+			var face = document.getElementById("jeeFaceFilterCanvas");
+			face.style.display="none"
+		
+	        }else{
+			var face = document.getElementById("jeeFaceFilterCanvas");
+			face.style.display="initial"
+		}
 
 	        //update the gif mask
 	        var currentTimestamp=Date.now();
@@ -1073,18 +1121,68 @@ function callbackTrack(detectState){
 	        	GIF.animation.currentFrameIndex=currentFrameIndex;
 	        	if (!GIF.frames[currentFrameIndex]) currentFrameIndex=0;
 	        	if (GIF.frameMasks[currentFrameIndex]){
-	        		GIF.canvasMaskCtx.clearRect(0,0, GIF.canvasMask.width, GIF.canvasMask.height);
+				GIF.canvasMaskCtx.clearRect(0,0, GIF.canvasMask.width, GIF.canvasMask.height);
 	        		GIF.canvasMaskCtx.drawImage(GIF.frameMasks[currentFrameIndex],0,0);
 	        		update_positionUserCropCanvas(currentFrameIndex);
+				if(first){
+					first=false;
+					var face = document.getElementById("jeeFaceFilterCanvas");
+					face.style.display="none";
+					var gif = document.getElementById("gifCanvas");
+					var finalCanvas = document.getElementById("finalCanvas");
+					finalCanvas.width=gif.width;
+					finalCanvas.height=gif.height;
+					finalCanvas.style.width=gif.style.width;
+					finalCanvas.style.height=gif.style.height;
+					//var finalCanvasContext=finalCanvas.getContext("2d");
+					
+					var merger = new VideoStreamMerger();
+					
+					merger.addStream(face.captureStream(55),{
+						"mute":true,
+						draw: function(ctx,frame,done){
+							//ctx.drawImage(frame,0,0,merger.width,merger.height);
+	/*faceStuff.topPx=topPx;
+	faceStuff.leftPx=leftPx;
+	faceStuff.widthFacePx=widthFacePx;
+	faceStuff.heightFacePx=heightFacePx;
+	*/
+							//console.log("updateing width",JSON.stringify(faceStuff));
+							ctx.drawImage(frame,faceStuff.leftPx,faceStuff.topPx, 						
+									faceStuff.widthFacePx,faceStuff.heightFacePx);
+							
+							done();
+						}
+					});
+					merger.addStream(gif.captureStream(20),{
+						"mute":true,
+						draw: function(ctx,frame,done){
+							ctx.drawImage(frame,0,0,merger.width,merger.height);
+							finalCanvas.width=gif.width;
+							finalCanvas.height=gif.height;
+							finalCanvas.style.width=gif.style.width;
+							finalCanvas.style.height=gif.style.height;
+							done();
+						}
+					});
+					window.merger=merger;
+					merger.start();
+					finalCanvas.muted=true;
+					finalCanvas.autoplay=true;
+					finalCanvas.controls=true;
+					finalCanvas.srcObject=merger.result;
+				}
 	        	} else {
 	        		GIF.canvasMaskCtx.drawImage(GIF.frames[currentFrameIndex],0,0);
 	        	}
+			
 	        }
 
 			if (ISUSERFACEDETECTED){
 				if (GIF.frameMasks[currentFrameIndex]){
 					draw_render(detectState);
 				}
+				
 			} else {
 				draw_search(detectState);
 			}

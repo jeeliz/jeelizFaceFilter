@@ -1,0 +1,27 @@
+<div id="header"> 
+		<div id ="displayText">
+			<div id ="recordingInstructionsStyle" >				
+				<h3 id="recordingInstructions">
+					<a href="https://testdubs.projectoblio.com/demos/menu.html"><font size="+10" color="red">← More Filters</font></a>
+					<font color="red">Hold anywhere to record.</font>					
+				</h3>
+			</div> 
+			<h2 id="pleaseWait">
+				Please wait...
+			</h2>
+			<div class="cancel-btn-row">
+				<input id="cancel" style="visibility:hidden" type="button" value="Cancel" onClick="window.location.reload()">
+				<input id="send" style="visibility:hidden" type="button" value="Send" onClick="uploadDub()">
+			</div>			
+		</div>		
+	</div>
+	<div class="progress-row">
+		<div id="myBar" class="progress-circle">
+			<span></span>
+			<div class="left-half-clipper">
+				<div class="first50-bar"></div>
+				<div class="value-bar"></div>
+			</div>
+		</div>
+	</div>
+	<div id="videoDiv"></div>

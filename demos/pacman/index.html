@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <title>.: Head controlled Pacman :.</title>
     <link rel="icon" href="pacmanIcon.png" />
-    
+      <!-- INCLUDE FORK ME ON GITHUB BANNER -->
+    <script type="text/javascript" src="../appearance/widget.js"></script>
     <style type="text/css">
       body {
       	background-color: #2A2A2A;
@@ -60,7 +61,7 @@
       }
       h1 { font-family: BDCartoonShoutRegular; text-align:center; color: white; }
       a { text-decoration:none; }
-      #headControlsCanvas{
+      #jeeFaceFilterCanvas{
       	 display: block;
       	 float: right;
       	 width: 300px !important;
@@ -84,26 +85,73 @@
     <script src="pacman.js"></script>
   	<script src="modernizr-1.5.min.js"></script>
   
-  	<!-- JEELIZ FACE FILTER API (required by HeadControls.js) : -->
+  	<!-- PROJECT OBLIO API (required by HeadControls.js) : -->
     <script src="../../dist/jeelizFaceFilter.js"></script>
 
     <!-- HEAD CONTROLLER : -->
   	<script src="../../helpers/HeadControls.js"></script>
 
-    <!-- INCLUDE FORK ME ON GITHUB BANNER -->
-    <script type="text/javascript" src="../appearance/widget.js"></script>
+  
 
   	<!-- main script : -->
   	<script src="main.js"></script>
 </head>
 
-<body onload='main()'>
-  
+<body >
+  <style>
+	html {
+	  height: 100%;
+	}
+	body {
+	  min-height: 100%;
+	}
+	#myProgress{
+		position:relative;
+		z-index:99 !important;
+	}
+	#pleaseWait{
+		position:relative;
+		z-index:99 !important;
+		text-align:center;
+		color:red;
+	}
+	#recordingInstructionsStyle{
+		position:relative;
+		text-align:center;
+		z-index:99 !important;
+		color:red;
+	
+	}
+
+	</style>
+	<div> 
+		<div id="myProgress" style="width: 100%; background-color: grey;">
+			<div id="myBar" style="width:1%; height:30px; background-color:green;">
+			</div>
+		</div>
+		<div id ="displayText">
+			<div id ="recordingInstructionsStyle"> 
+				
+				<h3>
+					<a href="https://testdubs.projectoblio.com/demos/"><font size="+10" color="red">←</font></a>
+					<a id="recordingInstructions" ><font color="red">Hold anywhere to record. Or, <a href="https://testdubs.projectoblio.com">select a new filter.</a></font></a>
+					<a href="https://testdubs.projectoblio.com/demos/"><font size="+10" color="red">→</font></a>
+				</h3>
+				
+			</div> 
+			<h2 id="pleaseWait">
+				Please wait...
+			</h2>
+			
+			
+			
+		</id>
+	</div>
+
   <div id="shim">shim for font face</div>
 
   <div class='content'>
-  	<h1>Head controlled Pacman</h1>
-  	<div class='laius'>
+  	<div class='laius' style="visibility:hidden">
   		<p>
   		Your face orientation is detected with <a href='https://github.com/jeeliz/jeelizFaceFilter' target='_blank'>Jeeliz Facefilter API</a>. It detects and tracks the face using a deep learning neural network running on your GPU thanks to WebGL.
   		</p>
@@ -117,8 +165,8 @@
   		</p>
   	</div>
   	<div id="pacman"></div>
-  	<canvas id='headControlsCanvas' width='512' height='512'></canvas>	
-  	<button id='start'>START</button>
+  	<canvas id='jeeFaceFilterCanvas' width='512' height='512'></canvas>	
+  	<button id='start' style="z-index:99 !important;">START</button>
   </div>
 
 </body>

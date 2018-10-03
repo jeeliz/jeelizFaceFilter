@@ -1,5 +1,5 @@
 /*
-    Use JEELIZ FACE FILTER API to control the movements of a camera
+    Use PROJECT OBLIO API to control the movements of a camera
     This script has been put into shared because it can be used with different 3D engines
     We have at least 2 integration examples :
       - with CesiumJS for a head controlled Google Earth like demo

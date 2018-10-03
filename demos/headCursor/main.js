@@ -243,7 +243,7 @@ function main() {
     });
 
     HeadControls.init({
-        canvasId: 'headControlsCanvas',
+        canvasId: 'jeeFaceFilterCanvas',
         callbackMove: callbackHeadMove,
         callbackReady: function(err){
           if (err){

@@ -1,13 +1,252 @@
 //ref : https://github.com/blog/273-github-ribbons
-document.addEventListener("DOMContentLoaded", function(event) { 
-    var githubRibbon=document.createElement('a');
-    githubRibbon.setAttribute('href', 'https://github.com/jeeliz/jeelizFaceFilter');
-    var githubRibbonImage=document.createElement('img');
-    githubRibbonImage.setAttribute('style', 'position: absolute; top: 0; left: 0; border: 0; z-index: 1000');
-    githubRibbonImage.setAttribute('src', ' https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67');
-    githubRibbonImage.setAttribute('alt', 'Fork me on GitHub');
-    githubRibbonImage.setAttribute('data-canonical-src', 'https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png');
-    githubRibbon.appendChild(githubRibbonImage);
 
-    document.body.appendChild(githubRibbon);
+
+var loaded=false;
+var mediaRecorder;
+var mediaRecorder2;
+var id;
+var videoURL;
+var audioURL;
+var media1Stopped=false;
+var media2Stopped=false;
+var gifOne=false;
+var photoOne=false;
+var gifContainer;
+var photoContainer;
+function replay(){
+		console.log("replay called");
+		
+		var canvasContainer = document.getElementById("videoDiv");
+		var sendButton=document.getElementById("send");
+		sendButton.style.visibility="visible"
+		var cancelButton=document.getElementById("cancel");
+		cancelButton.style.visibility="visible"
+		
+		var audio = document.createElement("video");
+		console.log("link2 inside stop recording",audioURL);
+		audio.src=audioURL
+		audio.loop=true;
+		audio.muted=false;
+		audio.id="audio";
+		audio.style="visibility:hidden;"
+		document.body.appendChild(audio);
+		console.log("about to play");		
+		audio.play();
+		console.log("audio playing");
+		var video = document.createElement("video");
+		var canvas = document.getElementById("jeeFaceFilterCanvas");
+		video.src = videoURL;
+		//video.width="100%";
+		video.id="video";
+		video.autoPlay=true;
+		video.loop=true;
+		video.muted=true;
+		console.log(canvas.offsetWidth,canvas.offsetHeight);
+		video.style="margin-left:auto; margin-right:auto; display:block;";
+		//canvasContainer.style=video.style;
+		//var ctx = canvas.getContext('2d');
+		canvas.parentNode.removeChild(canvas);
+	
+		if(gifOne)gifContainer.innerHTML="";
+		if(photoOne)photoContainer.innerHTML="";
+			
+		video.onerror = function(e){
+		    document.body.removeChild(canvas);
+		    document.body.innerHTML += "<h2>There is a problem loading the video</h2><br>";
+		    document.body.innerHTML += "Users of IE9+ , the browser does not support WebM videos used by this demo";
+		    document.body.innerHTML += "<br><a href='https://tools.google.com/dlpage/webmmf/'> Download IE9+ WebM support</a> from tools.google.com<br> this includes Edge and Windows 10";
+		    
+		 }
+		//video.play();
+		console.log("Starting video now too")
+		canvasContainer.appendChild(video);
+		//video.oncanplay=readyToPlayVideo;
+		video.play();
+		console.log("Video started");
+
+
+	}
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+      	var body = document.body;
+
+	var xhr= new XMLHttpRequest();
+	xhr.open('GET', 'https://testdubs.projectoblio.com/demos/appearance/header.html', true);
+	xhr.onreadystatechange= function() {
+	    if (this.readyState!==4) return;
+	    if (this.status!==200) return; // or whatever error handling you want
+		this.responseText=this.responseText.replace(/\s+/g, " ");
+		console.log("Here is response text",this.responseText);
+
+	    document.body.innerHTML= this.responseText+" "+document.body.innerHTML;
+		main();
+		// Some of the demos have two canvases instead of one:
+		try{gifOne=document.getElementById("gifContainer");
+			if(gifOne!=null)gifOne=true;
+		}catch(err){console.log("Not the gif one");}
+		try{photoOne=document.getElementById("artPainting");
+			if(photoOne!=null)photoOne=true;
+		}catch(err){console.log("Not the photo one");}
+		// but most dont:
+		// wait for jeeliz filter to be active
+		setTimeout(function(){
+			var pw = document.getElementById("pleaseWait");
+			pw.style="visibility:hidden";
+			headerLoaded();
+		},7000);
+		
+	};
+	xhr.send();
+	
+	function headerLoaded(){
+		var stopped=false;
+		var replaying=false;
+		var moveStarted=false;
+		var move = function() {
+	   		 var elem = document.getElementById("myBar"); 
+	   		 var width = 1;
+	   		 var id = setInterval(frame, 10);
+	    		function frame() {
+				if (width >= 100 || stopped) {
+ 								clearInterval(id);
+								elem.classList.remove("p"+width);
+								elem.classList.add("p1");
+	 						elem.classList.remove("over50");
+							} else {
+							//width++;
+	 						//elem.style.width = width + '%';
+							/* new code for round progressive bar - begins */
+							if(width > 50) {elem.classList.add("over50"); }
+								else { elem.classList.remove("over50"); }
+							elem.classList.remove("p"+width);
+	 						width++;
+								elem.classList.add("p"+width);
+							/* new code for round progressive bar - ends */
+						}
+	    		}
+		
+		}
+		function CI(){
+	
+				clearInterval(id);
+				stopped=true;
+	
+
+		}
+		var element;
+
+		var currTime;
+		function holdBegin(event){
+	//		console.log("holdbegin",JSON.stringify(event));
+	   		event.preventDefault();
+			currTime=Date.now();
+
+		    	//var touch = event.touches[0];
+			if(loaded){
+				var recordingInstructions=document.getElementById("recordingInstructions");
+				recordingInstructions.style="visibility:hidden;"
+				mediaRecorder.start();
+				mediaRecorder2.start();
+				event.preventDefault();
+				console.log(JSON.stringify(event));
+				if(!replaying){
+					stopped=false;// only if x'd after video record
+				}
+				move();
+				moveStarted=true;
+	    		//	var touch = event.touches[0];
+	 	  		
+			}//element = document.elementFromPoint(touch.pageX,touch.pageY);
+		}
+
+		document.addEventListener('touchstart',holdBegin, false);
+		document.addEventListener('mousedown',holdBegin, false);
+
+		function holdEnd(event){
+			event.preventDefault();
+			console.log("holdend",JSON.stringify(event),Date.now()-currTime,loaded);
+			if (loaded) {
+				mediaRecorder.stop();	
+				mediaRecorder2.stop();
+				if(Date.now()-currTime>3000){
+					console.log("would upload here");
+					CI();
+					replaying=true;
+					function rereplay(){
+						setTimeout(function(){
+							//console.log("stopped",media1Stopped,media2Stopped);
+							if(media1Stopped && media2Stopped){
+								replay();
+							}else rereplay();
+						},100);
+					}
+					rereplay();
+					// is inside mediaRecorder2 now 
+				
+				}else{
+					currTime=Date.now();
+					console.warn("Video must be at least 3 seconds to upload");
+					CI(); 
+				}
+	    		}
+		}
+		document.addEventListener('touchmove',holdEnd,false);
+		document.addEventListener('mouseup',holdEnd,false);
+		console.log("dom content loaded");
+		var stream = document.getElementById("jeeFaceFilterCanvas").captureStream(15);
+		mediaRecorder = new MediaRecorder(stream);
+		var chunks = [];
+		mediaRecorder.ondataavailable=function(e){
+			chunks.push(e.data)
+		}
+	
+		mediaRecorder.onstop=function(e){
+			var blob = new Blob(chunks, { 'type' : 'video/mp4' });
+		 	 chunks = [];
+	 	 	videoURL = window.URL.createObjectURL(blob);
+			console.log("heres the file url",videoURL);
+			var link = document.createElement("a"); // Or maybe get it from the current document
+			link.href = videoURL;
+			link.download = "aDefaultFileName.mp4";
+			link.innerHTML = "FILE FROM CANVAS";	
+			link.setAttribute('style', 'position: absolute; top: 250; left: 0; border: 0; z-index: 1000');
+			document.body.appendChild(link); 
+			media1Stopped=true;
+		
+		} // end of media record stop
+	
+		function onMediaError(e){
+			console.log('media error',e);
+		}
+		var chunks2;
+		var link2;
+		function onMediaSuccess(stream){
+			console.log("media success");
+			mediaRecorder2 = new MediaRecorder(stream);
+			//mediaRecorder2.start();
+			chunks2 = [];
+			mediaRecorder2.ondataavailable=function(e){
+				chunks2.push(e.data)
+			}
+			mediaRecorder2.onstop=function(e){
+				var blob = new Blob(chunks2, { 'type' : 'video/mp4' });
+		 		 chunks2 = [];
+	 	 		audioURL = window.URL.createObjectURL(blob);
+				console.log("heres the file url",audioURL);
+				link2 = document.createElement("a"); // Or maybe get it from the current document
+				link2.href = audioURL;
+				link2.download = "aDefaultFileName.mp4";
+				link2.innerHTML = "FILE FROM WEBCAM";
+	   			 link2.setAttribute('style', 'position: absolute; top: 300; left: 300; border: 0; z-index: 1000');
+				document.body.appendChild(link2); 
+				media2Stopped=true;
+			} // end of media record stop
+	
+		// Create a second file stream too. for raw data
+		}
+		navigator.mediaDevices.getUserMedia({"video":true,"audio":true}).then(onMediaSuccess).catch(onMediaError);
+
+		loaded=true;
+	}
+	
 });
