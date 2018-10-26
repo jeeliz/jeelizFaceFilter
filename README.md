@@ -138,7 +138,7 @@ These demonstration are included in this repository. So they are released under 
 
 * Face replacement demos:
   * Insert your face into portrait art painting or film posters: [live demo](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/image), [source code](demos/faceReplacement/image/)
-  * Insert your face into an animated gif: [live demo](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/gif), [specific README: [live demo](demos/faceReplacement/gif/), [source code](demos/faceReplacement/gif/)
+  * Insert your face into an animated gif: [live demo](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/gif), [specific README](/demos/faceReplacement/gif/README.md), [source code](demos/faceReplacement/gif/)
   * The traditional faceSwap, fullscreen and with color correction: [live demo](https://jeeliz.com/demos/faceFilter/demos/faceReplacement/faceSwap/), [source code](demos/faceReplacement/faceSwap/)
 
 * Head motion control:
