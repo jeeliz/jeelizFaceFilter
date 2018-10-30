@@ -128,7 +128,7 @@ function init_threeScene(spec){
     videoMesh.renderOrder=-1000; //render first
     videoMesh.frustumCulled=false;
     THREESCENE.add(videoMesh);
-
+    
     //CREATE THE CAMERA
     THREECAMERA=new THREE.PerspectiveCamera(SETTINGS.cameraFOV, 1, 0.1, 100);
     set_fullScreen();
@@ -146,6 +146,8 @@ function set_fullScreen(){
         THREECAMERA.aspect=aspecRatio;
         THREECAMERA.updateProjectionMatrix();
         JEEFACEFILTERAPI.resize();
+
+        THREERENDERER.setViewport(0,0, CANVASELEMENT.width, CANVASELEMENT.height);
     }
     function on_canvasResizeCSSTimeout(){ //to avoid to resize the canvas too often
         if (timerResize){
