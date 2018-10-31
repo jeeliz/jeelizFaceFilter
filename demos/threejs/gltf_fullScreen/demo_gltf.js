@@ -148,6 +148,7 @@ function set_fullScreen(){
         JEEFACEFILTERAPI.resize();
 
         THREERENDERER.setViewport(0,0, CANVASELEMENT.width, CANVASELEMENT.height);
+        THREERENDERER.setSize(CANVASELEMENT.width, CANVASELEMENT.height);
     }
     function on_canvasResizeCSSTimeout(){ //to avoid to resize the canvas too often
         if (timerResize){
