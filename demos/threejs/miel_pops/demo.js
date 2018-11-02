@@ -3,14 +3,14 @@
 // SETTINGS of this demo :
 const SETTINGS = {
     rotationOffsetX: 0, // negative -> look upper. in radians
-    cameraFOV: 40,      // in degrees, 3D camera FOV
-    pivotOffsetYZ: [0.1,-0.25], // XYZ of the distance between the center of the cube and the pivot
+    cameraFOV: 60,      // in degrees, 3D camera FOV. + -> more fisheye effect
+    pivotOffsetYZ: [0.1,0.23], // XYZ of the distance between the center of the cube and the pivot
     detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,
     scale: 1 // scale of the 3D cube
 };
 
-// some globalz :
+// some globalz :f0.5
 let THREEVIDEOTEXTURE
 let THREERENDERER
 let THREEFACEOBJ3D
@@ -148,7 +148,8 @@ function init_threeScene(spec) {
         GLASSESOBJ3D.add(lensesMesh);
         
         GLASSESOBJ3D.add(decoMesh);
-        GLASSESOBJ3D.position.setY(0.05);
+        GLASSESOBJ3D.position.setY(0.05); //move glasses a bit up
+        GLASSESOBJ3D.position.setZ(0.38);//move glasses a bit forward
 
         addDragEventListener(GLASSESOBJ3D);
 
@@ -364,7 +365,7 @@ function init_faceFilter(videoSettings){
                 const yv = detectState.y;
                 
                 // coords in 3D of the center of the cube (in the view coordinates system)
-                const z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
+                const z = -D-0.5;// - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
                 const x = xv * D * tanFOV;
                 const y = yv * D * tanFOV / THREECAMERA.aspect;
 
