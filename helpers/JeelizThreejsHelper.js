@@ -192,6 +192,13 @@ THREE.JeelizHelper=(function(){
 		    return returnedDict;
 		}, //end that.init()
 
+		detect: function(detectState){
+			var ds=(_isMultiFaces)?detectState:[detectState];
+
+			//update detection states
+			detect(ds);
+		},
+
 		render: function(detectState, threeCamera){
 			var ds=(_isMultiFaces)?detectState:[detectState];
 
