@@ -250,20 +250,22 @@ We detail here the arguments of the callback functions like `callbackReady` or `
 
 #### The initialization returned object
 The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary having these properties:
-* `GL`: the WebGL context. The rendering 3D engine should use this WebGL context,
-* `canvasElement`: the `<canvas>` element,
-* `videoTexture`: a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background,
-* `maxFacesDetected`: the maximum number of detected faces. 
+* `<WebGLRenderingContext> GL`: the WebGL context. The rendering 3D engine should use this WebGL context,
+* `<canvas> canvasElement`: the `<canvas>` element,
+* `<WebGLTexture> videoTexture`: a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background,
+* `<int> maxFacesDetected`: the maximum number of detected faces. 
 
 
 #### The detection state
 At each render iteration a callback function is executed ( `callbackTrack` in the code snippet ). It has one argument ( `detectState` ) which is a dictionnary with these properties:
-* `detected`: the face detection probability, between `0` and `1`,
-* `x`, `y`: The 2D coordinates of the center of the detection frame in the viewport (each between -1 and 1, `x` from left to right and `y` from bottom to top),
-* `s`: the scale along the horizontal axis of the detection frame, between 0 and 1 (1 for the full width). The detection frame is always square,
-* `rx`, `ry`, `rz`: the Euler angles of the head rotation in radians.
-* `expressions`: `Float32Array` listing the facial expression coefficients:
+* `<float> detected`: the face detection probability, between `0` and `1`,
+* `<float> x`, `<float> y`: The 2D coordinates of the center of the detection frame in the viewport (each between -1 and 1, `x` from left to right and `y` from bottom to top),
+* `<float> s`: the scale along the horizontal axis of the detection frame, between 0 and 1 (1 for the full width). The detection frame is always square,
+* `<float> rx`, `<float> ry`, `<float> rz`: the Euler angles of the head rotation in radians.
+* `<Float32Array> expressions`: array listing the facial expression coefficients:
     * `expressions[0]`: mouth opening coefficient (`0` &rarr; mouth closed, `1` &rarr; mouth fully opened)
+
+In multiface detection mode, `detectState` is an array. Its size is equal to the maximum number of detected faces and each element of this array has the format described just before.
 
 
 ### Miscellaneous methods
@@ -277,15 +279,15 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEEFACEFILTERAPI.set_animateDelay(<integer> delay)`: Change the `animateDelay` (see `init()` arguments),
 
-* `set_inputTexture(<WebGLTexture> tex, <integer> width, <integer> height)`: Change the video input by a WebGL Texture instance. The dimensions of the texture, in pixels, should be provided,
+* `JEEFACEFILTERAPI.set_inputTexture(<WebGLTexture> tex, <integer> width, <integer> height)`: Change the video input by a WebGL Texture instance. The dimensions of the texture, in pixels, should be provided,
 
-* `reset_inputTexture()`: Come back to the user's video as input texture,
+* `JEEFACEFILTERAPI.reset_inputTexture()`: Come back to the user's video as input texture,
 
-* `get_videoDevices(<function> callback)`: Should be called before the `init` method. 2 arguments are provided to the callback function:
+* `JEEFACEFILTERAPI.get_videoDevices(<function> callback)`: Should be called before the `init` method. 2 arguments are provided to the callback function:
   * `<array> mediaDevices`: an array with all the devices founds. Each device is a javascript object having a `deviceId` string attribute. This value can be provided to the `init` method to use a specific webcam. If an error happens, this value is set to `false`,
   * `<string> errorLabel`: if an error happens, the label of the error. It can be: `NOTSUPPORTED`, `NODEVICESFOUND` or `PROMISEREJECTED`.
 
-* `set_scanSettings(<object> scanSettings)`: Override scan settings. `scanSettings` is a dictionnary with the following properties:
+* `JEEFACEFILTERAPI.set_scanSettings(<object> scanSettings)`: Override scan settings. `scanSettings` is a dictionnary with the following properties:
   * `<float> minScale`: min width of the face search window, relatively to the width of the video. Default value: `0.15`,
   * `<float> maxScale`: max width of the face search window, relatively to the width of the video. Default value: `0.6`, 
   * `<float> borderWidth`: size of the left and right margins, relatively to the width of the window. Default value: `0.2`,
@@ -295,12 +297,13 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `<int> nStepsScale`: number of detection steps for the scale. Default: `3`,
   * `<int> nDetectsPerLoop`: specify the number of detection per drawing loop. `0` for adaptative value. Default: `0`
 
-* `set_stabilizationSettings(<object> stabilizationSettings)`: Override detection stabilization settings. The output of the neural network is always noisy, so we need to stabilize it using a floatting average to avoid shaking artifacts. The internal algorithm computes first a stabilization factor `k` between `0` and `1`. If `k==0.0`, the detection is bad and we favor responsivity against stabilization. It happens when the user is moving quickly, rotating the head or when the detection is bad. On the contrary, if `k` is close to `1`, the detection is nice and the user does not move a lot so we can stabilize a lot. `stabilizationSettings` is a dictionnary with the following properties:
+* `JEEFACEFILTERAPI.set_stabilizationSettings(<object> stabilizationSettings)`: Override detection stabilization settings. The output of the neural network is always noisy, so we need to stabilize it using a floatting average to avoid shaking artifacts. The internal algorithm computes first a stabilization factor `k` between `0` and `1`. If `k==0.0`, the detection is bad and we favor responsivity against stabilization. It happens when the user is moving quickly, rotating the head or when the detection is bad. On the contrary, if `k` is close to `1`, the detection is nice and the user does not move a lot so we can stabilize a lot. `stabilizationSettings` is a dictionnary with the following properties:
   * `[<float> minValue, <float> maxValue] translationFactorRange`: multiply `k` by a factor `kTranslation` depending on the translation speed of the head (relative to the viewport). `kTranslation=0` if `translationSpeed<minValue` and `kTranslation=1` if `translationSpeed>maxValue`. The regression is linear. Default value: `[0.0015, 0.005]`,
   * `[<float> minValue, <float> maxValue] rotationFactorRange`: analogous to `translationFactorRange` but for rotation speed. Default value: `[0.003, 0.02]`,
   * `[<float> minValue, <float> maxValue] qualityFactorRange`: analogous to `translationFactorRange` but for the head detection coefficient. Default value: `[0.9, 0.98]`,
   * `[<float> minValue, <float> maxValue] alphaRange`: it specify how to apply `k`. Between 2 successive detections, we blend the previous `detectState` values with the current detection values using a mixing factor `alpha`. `alpha=<minValue>` if `k<0.0` and `alpha=<maxValue>` if `k>1.0`. Between the 2 values, the variation is quadratic.
 
+* `JEEFACEFILTERAPI.update_videoElement(<video> vid, <function|False> callback)`: change the video element used for the face detection (which can be provided via `VIDEOSETTINGS.videoElement`) by another video element. A callback function can be called when it is done.
 
 
 ### Optimization

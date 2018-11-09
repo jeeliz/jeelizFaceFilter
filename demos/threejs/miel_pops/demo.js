@@ -10,7 +10,7 @@ const SETTINGS = {
     scale: 1 // scale of the 3D cube
 };
 
-// some globalz :
+// some globalz :f0.5
 let THREEVIDEOTEXTURE
 let THREERENDERER
 let THREEFACEOBJ3D
@@ -134,7 +134,8 @@ function init_threeScene(spec) {
         GLASSESOBJ3D.add(lensesMesh);
         
         GLASSESOBJ3D.add(decoMesh);
-        GLASSESOBJ3D.position.setY(0.05);
+        GLASSESOBJ3D.position.setY(0.05); //move glasses a bit up
+        GLASSESOBJ3D.position.setZ(0.38);//move glasses a bit forward
 
         addDragEventListener(GLASSESOBJ3D);
 
