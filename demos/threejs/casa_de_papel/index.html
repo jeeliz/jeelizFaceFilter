@@ -10,13 +10,16 @@
         <script type="text/javascript" src="../../../dist/jeelizFaceFilter.js"></script>
 
         <!-- INCLUDE THREE.JS -->
-		<script type="text/javascript" src="../../../libs/threejs/v90/threeMantis202.js"></script>
+		<script type="text/javascript" src="../../../libs/threejs/v97/three.min.js"></script>
+
+        <!-- INCLUDE JEELIZ THREE.JS HELPER -->
+        <script type="text/javascript" src="https://appstatic.jeeliz.com/faceFilter/JeelizThreejsHelper.js"></script>
 
         <!-- INCLUDE ADDDRAGEVENTLISTENER.JS -->
         <script type="text/javascript" src="./scripts/addDragEventListener.js"></script>
 
         <!-- INCLUDE JEELIZRESIZER -->
-        <script type="text/javascript" src="../../../helpers/JeelizResizer.js"></script>
+        <script type="text/javascript" src="https://appstatic.jeeliz.com/faceFilter/JeelizResizer.js"></script>
 
         <!-- INCLUDE BUFFERLOADER -->
         <script src='../../../libs/bufferLoader/BufferLoader.js'></script>
@@ -49,6 +52,10 @@
             #buttonPlayAudio:hover {
                 opacity: 0.8;
             }
+            .disabled {
+                pointer-events: none;
+                opacity: 0.5;
+            }
         </style>
     </head>
     
@@ -57,6 +64,7 @@
         <button
             onclick='playAudio()'
             id='buttonPlayAudio'
+            class='disabled'
         >
             Play theme
         </button>
