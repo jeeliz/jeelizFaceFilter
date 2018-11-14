@@ -139,7 +139,7 @@ THREE.JeelizHelper=(function(){
 			if (!threeCompositeObject.visible) return;
 			const detectState=ds[i];
 
-			detectState.y+=detectState.s*_settings.tweakMoveYRotateY*Math.tan(detectState.rx);
+			const yTweaked=detectState.y + detectState.s*_settings.tweakMoveYRotateY*Math.tan(detectState.rx);
 			
 			//move the cube in order to fit the head
 	        const W=detectState.s;      //relative width of the detection window (1-> whole width of the detection window)
@@ -147,7 +147,7 @@ THREE.JeelizHelper=(function(){
 	        
 	        //coords in 2D of the center of the detection window in the viewport :
 	        const xv=detectState.x;
-	        const yv=detectState.y;
+	        const yv=yTweaked;
 	        
 	        //coords in 3D of the center of the cube (in the view coordinates system)
 	        const z=-D-0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
