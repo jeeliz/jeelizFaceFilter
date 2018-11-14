@@ -95,7 +95,7 @@ These demonstration are included in this repository. So they are released under 
     * Star Wars: Darth Vader: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/star_wars/)
     * Harry Potter (say "Lumos!"): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/harry_potter/)
     * Halloween Spiders (you've got a spider in your mouth): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/halloween_spider/), [source code](/demos/threejs/halloween_spiders)
-    * Werewolf (turn yourself into a werewolf): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/)[source code](/demos/threejs/werewolf)
+    * Werewolf (turn yourself into a werewolf): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/), [source code](/demos/threejs/werewolf)
     * Angel/Demon (discover who of the angel or demon will win in this animated scene): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/angel_demon/), [source code](/demos/threejs/angel_demon)
     * Anonymous mask and video effect: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/), [source code](/demos/threejs/anonymous)
     * Rupy Motorcycle Helmet VTO: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/rupy_helmet/), [source code](/demos/threejs/rupy_helmet)
