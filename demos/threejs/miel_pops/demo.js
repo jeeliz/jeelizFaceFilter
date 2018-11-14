@@ -2,12 +2,7 @@
 
 // SETTINGS of this demo :
 const SETTINGS = {
-    rotationOffsetX: 0, // negative -> look upper. in radians
     cameraFOV: 40,      // in degrees, 3D camera FOV
-    pivotOffsetYZ: [-0.2, 1.0], // XYZ of the distance between the center of the cube and the pivot
-    detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.05,
-    scale: 1 // scale of the 3D cube
 };
 
 // some globalz :f0.5
@@ -129,14 +124,11 @@ function init_threeScene(spec) {
     )
 
     loadingManager.onLoad = () => {
-        GLASSESOBJ3D.add(branchesMesh);
-        GLASSESOBJ3D.add(frameMesh);
-        GLASSESOBJ3D.add(lensesMesh);
-        
-        GLASSESOBJ3D.add(decoMesh);
+        GLASSESOBJ3D.add(branchesMesh, frameMesh, lensesMesh, decoMesh);
+        GLASSESOBJ3D.scale.multiplyScalar(1.1);
         GLASSESOBJ3D.position.setY(0.05); //move glasses a bit up
-        GLASSESOBJ3D.position.setZ(0.38);//move glasses a bit forward
-
+        GLASSESOBJ3D.position.setZ(0.25);//move glasses a bit forward
+        
         addDragEventListener(GLASSESOBJ3D);
 
         threeStuffs.faceObject.add(GLASSESOBJ3D);
