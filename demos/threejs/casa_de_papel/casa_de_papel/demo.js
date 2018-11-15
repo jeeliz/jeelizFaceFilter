@@ -2,12 +2,23 @@
 
 // SETTINGS of this demo :
 const SETTINGS = {
+    rotationOffsetX: 0, // negative -> look upper. in radians
     cameraFOV: 40,      // in degrees, 3D camera FOV
+    pivotOffsetYZ: [-0.2, -0.4], // XYZ of the distance between the center of the cube and the pivot
+    detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
+    detectionHysteresis: 0.05,
+    scale: 1 // scale of the 3D cube
 };
 
 // some globalz :
+let THREEVIDEOTEXTURE
+let THREERENDERER
+let THREEFACEOBJ3D
+let THREEFACEOBJ3DPIVOTED
+let THREESCENE
 let THREECAMERA;
-const ARRAY_BILLS = [];
+let ISDETECTED = false;
+let ARRAY_BILLS = [];
 
 
 // callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
@@ -44,11 +55,10 @@ function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creatio
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-    // We use the helper
     window.THREESTUFF = THREE.JeelizHelper.init(spec, detect_callback);
 
     // CREATE OUR MASK OBJECT AND ADD IT TO OUR SCENE
-    const casaLoader = new THREE.BufferGeometryLoader();
+    const casaLoader = new THREE.BufferGeometryLoader()
 
     casaLoader.load(
         './models/casa_de_papel/casa_de_papel.json',
@@ -65,7 +75,7 @@ function init_threeScene(spec) {
             maskMesh.position.y = -0.8;
             maskMesh.scale.x = 0.07;
 
-            addDragEventListener(maskMesh);
+            addDragEventListener(maskMesh)
 
             THREESTUFF.faceObject.add(maskMesh);
         }
@@ -77,10 +87,10 @@ function init_threeScene(spec) {
         map: new THREE.TextureLoader().load('./images/billet_50.png'),
         side: THREE.DoubleSide,
         transparent: true,
-    });
+    })
 
     
-    // Position each bill randomly + add animations
+
     for (let i = 0; i < 40; i++) {
 
         const xRand = Math.random()*1 - 0.5;
@@ -91,16 +101,12 @@ function init_threeScene(spec) {
         billMesh.renderOrder = 100;
         billMesh.frustumCulled = false;
         billMesh.visible = false;
-
         billMesh.position.set(xRand, yRand, zRand);
         billMesh.rotation.y = xRand;
         billMesh.rotation.z = zRand;
-
-        billMesh.scale.multiplyScalar(0.4);
+        billMesh.scale.multiplyScalar(0.4)
         billMesh.scale.z = xRand*10;
-
-        ARRAY_BILLS.push(billMesh);
-
+        ARRAY_BILLS.push(billMesh)
         const button = document.getElementById('buttonPlayAudio');
         button.classList.remove('disabled');
     }
@@ -127,7 +133,6 @@ function init_threeScene(spec) {
 } // end init_threeScene()
 
 
-// Animate the falling bills
 function animateBill(mesh, index) {
     mesh.visible = true;
     
@@ -148,9 +153,8 @@ function animateBill(mesh, index) {
     }, 16)
 }
 
-let contextAudio;
+let contextAudio
 
-// Plays the theme song and starts animation for the bills
 function playAudio() {
     ARRAY_BILLS.forEach((bill, i) => {
         setTimeout(() => {

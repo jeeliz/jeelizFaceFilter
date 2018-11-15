@@ -18,7 +18,6 @@ let THREEFACEOBJ3DPIVOTED
 let THREESCENE
 let THREECAMERA;
 let ISDETECTED = false;
-let CANVAS;
 
 
 // callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
@@ -32,7 +31,6 @@ function detect_callback(isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-    CANVAS = document.getElementById('jeeFaceFilterCanvas');
 
     // INIT THE THREE.JS context
     THREERENDERER = new THREE.WebGLRenderer({
@@ -75,7 +73,7 @@ function init_threeScene(spec) {
             helmetMesh.position.z -= 0.5;
             helmetMesh.rotation.x += 0.5;
         }
-    )
+    );
 
     const visiereLoader = new THREE.BufferGeometryLoader(loadingManager);
     visiereLoader.load(
@@ -86,7 +84,7 @@ function init_threeScene(spec) {
                 transparent: true,
                 opacity: 0.5,
                 side: THREE.FrontSide
-            })
+            });
 
             visiereMesh = new THREE.Mesh(visiereGeometry, visiereMaterial);
             visiereMesh.scale.multiplyScalar(0.037);
@@ -95,7 +93,7 @@ function init_threeScene(spec) {
             visiereMesh.rotation.x += 0.5;
             visiereMesh.frustumCulled = false;
         }
-    )
+    );
 
     // CREATE THE MASK
     const maskLoader = new THREE.BufferGeometryLoader(loadingManager);
@@ -193,7 +191,7 @@ function init_threeScene(spec) {
         });
     }
     const videoMaterial =create_mat2d(THREEVIDEOTEXTURE, false);
-    const videoGeometry = new THREE.BufferGeometry()
+    const videoGeometry = new THREE.BufferGeometry();
     const videoScreenCorners = new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
     videoGeometry.addAttribute('position', new THREE.BufferAttribute( videoScreenCorners, 2));
     videoGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
@@ -210,7 +208,7 @@ function init_threeScene(spec) {
     THREESCENE.add(videoMesh);
 
     //MT216 : create the frame. We reuse the geometry of the video
-    const calqueMesh = new THREE.Mesh(videoGeometry,  create_mat2d(new THREE.TextureLoader().load('./images/frame_rupy.png'), true))
+    const calqueMesh = new THREE.Mesh(videoGeometry,  create_mat2d(new THREE.TextureLoader().load('./images/frame_rupy.png'), true));
     calqueMesh.renderOrder = 999; // render last
     calqueMesh.frustumCulled = false;
     THREESCENE.add(calqueMesh);
@@ -227,7 +225,7 @@ function init_threeScene(spec) {
     const dirLight = new THREE.DirectionalLight( 0xffffff );
     dirLight.position.set( 100, 1000, 100 );
 
-    THREESCENE.add(dirLight)
+    THREESCENE.add(dirLight);
 } // end init_threeScene()
 
 //launched by body.onload() :

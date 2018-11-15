@@ -1,24 +1,13 @@
-/*eslint-disable*/
 "use strict";
 
 // SETTINGS of this demo :
 const SETTINGS = {
-    rotationOffsetX: 0, // negative -> look upper. in radians
     cameraFOV: 40,      // in degrees, 3D camera FOV
-    pivotOffsetYZ: [0.2,0.2], // XYZ of the distance between the center of the cube and the pivot
-    detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.05,
-    scale: 1 // scale of the 3D cube
+    numberRockets: 9
 };
 
 // some globalz :
-let THREEVIDEOTEXTURE
-let THREERENDERER
-let THREEFACEOBJ3D
-let THREEFACEOBJ3DPIVOTED
-let THREESCENE
 let THREECAMERA;
-let ISDETECTED = false;
 let ROCKETS = [];
 let PARTICLES = [];
 
@@ -26,8 +15,6 @@ let ROCKETSOBJ3D = false;
 let PARTICLESOBJ3D = new THREE.Object3D();
 let PARTCONTOBJ3D = new THREE.Object3D();
 let FIREWORKOBJ3D;
-
-let numberRockets = 9;
 
 // callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
 function detect_callback(isDetected) {
@@ -42,10 +29,10 @@ function detect_callback(isDetected) {
 function init_threeScene(spec) {
     const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
-    FIREWORKOBJ3D = new THREE.Object3D()
+    FIREWORKOBJ3D = new THREE.Object3D();
 
     // CREATE ROCKETS
-    threeStuffs.faceObject.add(FIREWORKOBJ3D)
+    threeStuffs.faceObject.add(FIREWORKOBJ3D);
 
     let particleMaterial = new THREE.SpriteMaterial({
         map: new THREE.CanvasTexture(generateSprite()),
@@ -53,42 +40,43 @@ function init_threeScene(spec) {
     });
 
     if (!ROCKETSOBJ3D) {
-        ROCKETSOBJ3D = new THREE.Object3D()
-        ROCKETS = []
-        let rocket
-        for (let i = 0; i <= numberRockets; i++) {
-            rocket = new THREE.Sprite(particleMaterial)
-            rocket.position.x = Math.random()*1.5 - 0.75
-            rocket.position.y = -2
-            rocket.renderOrder = 100000
-            rocket.scale.multiplyScalar(0.08)
-            rocket.visible = false
-            ROCKETSOBJ3D.add(rocket)
-            ROCKETS.push(rocket)
+        ROCKETSOBJ3D = new THREE.Object3D();
+        ROCKETS = [];
+        let rocket;
+        for (let i = 0; i <= SETTINGS.numberRockets; i++) {
+            rocket = new THREE.Sprite(particleMaterial);
+            rocket.position.x = Math.random()*1.5 - 0.75;
+            rocket.position.y = -2;
+            rocket.renderOrder = 100000;
+            rocket.scale.multiplyScalar(0.08);
+            rocket.visible = false;
+            ROCKETSOBJ3D.add(rocket);
+            ROCKETS.push(rocket);
         }
     }
 
     ROCKETS.forEach((r, index) => {
-        r.position.y = -4
-        r.visible = false
+        r.position.y = -4;
+        r.visible = false;
         setTimeout(() => {
-            const positive = Math.random()*2 - 1 > 0 ? 1 : -1
-            r.position.x = ((Math.random()*0.5) + 0.5) *  positive
+            const positive = Math.random()*2 - 1 > 0 ? 1 : -1;
+            r.position.x = ((Math.random()*0.5) + 0.5) *  positive;
 
-            animateRocket(r, index)
-        }, 1200*index)
-    })
+            animateRocket(r, index);
+        }, 1200*index);
+    });
 
-    FIREWORKOBJ3D.add(ROCKETSOBJ3D)
+    FIREWORKOBJ3D.add(ROCKETSOBJ3D);
 
     // CREATE PARTICLES
 
     let particle;
     PARTICLES = [];
+
     let PARTICLESINSTANCE;
     const colors = ['red', 'yellow', 'green', 'blue', 'pink', 'red', 'yellow', 'green', 'blue', 'yellow'];
     
-    PARTCONTOBJ3D = new THREE.Object3D()
+    PARTCONTOBJ3D = new THREE.Object3D();
 
     colors.forEach((color) => {
         PARTICLESINSTANCE = [];
@@ -102,17 +90,17 @@ function init_threeScene(spec) {
         for (let i = 0; i <= 100; i++) {
             particle = new THREE.Sprite(particleMaterial);
 
-            particle.renderOrder = 100000
-            particle.scale.multiplyScalar(3)
-            particle.visible = false
+            particle.renderOrder = 100000;
+            particle.scale.multiplyScalar(3);
+            particle.visible = false;
             PARTICLESINSTANCE.push(particle);
             
             PARTICLESOBJ3D.add(particle);
         }
-        PARTICLES.push(PARTICLESINSTANCE)
-        PARTCONTOBJ3D.add(PARTICLESOBJ3D)
+        PARTICLES.push(PARTICLESINSTANCE);
+        PARTCONTOBJ3D.add(PARTICLESOBJ3D);
     })
-    FIREWORKOBJ3D.add(PARTCONTOBJ3D)
+    FIREWORKOBJ3D.add(PARTCONTOBJ3D);
 
     // CREATE THE VIDEO BACKGROUND
     function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creation of the video material in a func because we will also use it for the frame
@@ -152,37 +140,42 @@ function init_threeScene(spec) {
 // Generates a canvas which we'll use as particles
 function generateSprite(color) {
     var canvas = document.createElement('canvas');
+
     canvas.width = 32;
     canvas.height = 32;
+
     var context = canvas.getContext('2d');
     var gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
+
     gradient.addColorStop(0.5, 'rgba(255,255,255,1)');
     gradient.addColorStop(0.2, 'rgba(0,255,255,1)');
     gradient.addColorStop(0.5, color ? color : 'blue');
     gradient.addColorStop(1, 'rgba(0,0,0,0.1)');
+
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
+
     return canvas;
 }
 
 // Animates our rockets
 function animateRocket(rocket, index) {
-    rocket.visible = true
+    rocket.visible = true;
     new TWEEN.Tween(rocket.position)
         .to({ y: 1 }, 2000)
         .onComplete(() => {
             PARTICLES[index].forEach((part, ind) => {
-                part.position.set(rocket.position.x, rocket.position.y, rocket.position.z)
-                animateParticle(part, rocket, ind)
-            })
+                part.position.set(rocket.position.x, rocket.position.y, rocket.position.z);
+                animateParticle(part, rocket, ind);
+            });
 
-            rocket.visible = false
+            rocket.visible = false;
             setTimeout(() => {
-                const positive = Math.random()*2 - 1 > 0 ? 1 : -1
-                rocket.position.x = ((Math.random()*0.5) + 0.5) *  positive
-                rocket.position.y = -4
-                animateRocket(rocket, index)
-            }, 3000)
+                const positive = Math.random()*2 - 1 > 0 ? 1 : -1;
+                rocket.position.x = ((Math.random()*0.5) + 0.5) *  positive;
+                rocket.position.y = -4;
+                animateRocket(rocket, index);
+            }, 3000);
         })
         .start();
 }
@@ -200,7 +193,7 @@ function animateParticle( particle, rocket, index ) {
     // var theta = Math.cbrt(Math.random()*2*Math.PI); //angle in the plane XY
     var phi = (Math.random()*2-1)*Math.PI/4 //angle between plane XY and the particle. 0-> in the plane XY
 
-    particle.rotation._z = particle.rotation.z*Math.random()
+    particle.rotation._z = particle.rotation.z*Math.random();
 
     new TWEEN.Tween( particle.position )
         .to( {x: 0.04*radiusEnd*Math.cos(theta)*Math.sin(phi),
@@ -209,7 +202,7 @@ function animateParticle( particle, rocket, index ) {
         .start();
 
     //tween scale :
-    particle.scale.x = particle.scale.y = Math.random() * 0.1
+    particle.scale.x = particle.scale.y = Math.random() * 0.1;
     new TWEEN.Tween( particle.scale )
         .to( {x: 0.0001, y: 0.0001}, 2000)
         .start();
@@ -242,7 +235,7 @@ function init_faceFilter(videoSettings){
 
         // called at each render iteration (drawing loop)
         callbackTrack: function (detectState) {
-            TWEEN.update()
+            TWEEN.update();
             THREE.JeelizHelper.render(detectState, THREECAMERA);
         } // end callbackTrack()
     }); // end JEEFACEFILTERAPI.init call

@@ -2,27 +2,15 @@
 
 // SETTINGS of this demo :
 const SETTINGS = {
-    rotationOffsetX: 0, // negative -> look upper. in radians
     cameraFOV: 40,      // in degrees, 3D camera FOV
-    pivotOffsetYZ: [0.2,0.2], // XYZ of the distance between the center of the cube and the pivot
-    detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.05,
-    scale: 1 // scale of the 3D cube
 };
 
 // some globalz :
-let THREEVIDEOTEXTURE
-let THREERENDERER
-let THREEFACEOBJ3D
-let THREEFACEOBJ3DPIVOTED
-let THREESCENE
 let THREECAMERA;
-let ISDETECTED = false;
-let BUTTERFLYMESH;
 let BUTTERFLYOBJ3D = false;
-let NUMBERBUTTERFLIES = 10;
-let MIXERS = [];
-let ACTIONS = [];
+const NUMBERBUTTERFLIES = 10;
+const MIXERS = [];
+const ACTIONS = [];
 let ISANIMATED = false;
 
 
@@ -40,7 +28,7 @@ function init_threeScene(spec) {
     const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
     // ADD OUR BUTTERFLY
-    const butterflyLoader = new THREE.JSONLoader()
+    const butterflyLoader = new THREE.JSONLoader();
 
     butterflyLoader.load(
         './models/butterfly/butterfly.json',
@@ -58,8 +46,6 @@ function init_threeScene(spec) {
             let xRand;
             let yRand;
             let zRand;
-            let indexTexture;
-            let sign;
 
             BUTTERFLYOBJ3D = new THREE.Object3D();
 
@@ -94,7 +80,7 @@ function init_threeScene(spec) {
                 }, 600*i);
 
 
-                // CREATE BATTEMENT D'AILE ANIMATION
+                // CREATE WING FLAP ANIMATION
                 if (!ISANIMATED) {
                     // This is where adding our animation begins
                     const mixer = new THREE.AnimationMixer(butterFlyInstance);       
@@ -122,12 +108,6 @@ function init_threeScene(spec) {
                     animateFly(pointLight, 0.01*(i + 3)*0.1 + 0.002, i);
                 }, 600*i);
 
-                // Helps visualise the pointlights added
-                // uncomment to display
-                var sphereSize = 1;
-                var pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
-                // THREESCENE.add( pointLightHelper )
-
                 BUTTERFLYINSTANCEOBJ3D.add(pointLight);
 
 
@@ -142,6 +122,7 @@ function init_threeScene(spec) {
                 }, index*33)
             })
 
+            ISANIMATED = true;
             
             threeStuffs.faceObject.add(BUTTERFLYOBJ3D);
         }
@@ -152,41 +133,41 @@ function init_threeScene(spec) {
     THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
 } // end init_threeScene()
 
+// Create the animation for the wings
 function animateFly(mesh, theta, index) {
     let count = 0
-    const x = mesh.position.x//(Math.random() + 0.5) * 1.5
-    const y = mesh.position.y// Math.random()*0.2 + 0.1
-    const z = mesh.position.z// Math.random()*0.2 + 0.1
+    const x = mesh.position.x; //(Math.random() + 0.5) * 1.5
+    const y = mesh.position.y; // Math.random()*0.2 + 0.1
+    const z = mesh.position.z; // Math.random()*0.2 + 0.1
     
     setInterval(() => {
         count += 0.01
 
-        const rotY = mesh.rotation._y
-
         mesh.position.set(
-            (x + (index*0.01)) * Math.cos(count), // - 1 * Math.sin(count/100+(Math.PI/40)),
+            (x + (index*0.01)) * Math.cos(count),
             (y*0.5 + (index*0.01)) * Math.sin(count*0.2*index) + 1,
-            (z + (index*0.01)) * Math.sin(count) // - 1 * Math.sin(count/100+(Math.PI/40))
+            (z + (index*0.01)) * Math.sin(count)
         ) 
         mesh.rotation.y = (1.5 * Math.cos(count+0.05)) + 0.3;
-        mesh.rotation.z = 0.2 * Math.sin(count)
+        mesh.rotation.z = 0.2 * Math.sin(count);
     }, 16)
 }
 
+// Animates the soptlight for each butterfly
 function animatePointLightButterfly (light) {
     const opacityUp = new TWEEN.Tween(light)
-    .to({ intensity: 0.6 }, 2000)
+    .to({ intensity: 0.6 }, 2000);
 
     const opacityDown = new TWEEN.Tween(light)
-    .to({ intensity: 0 }, 2000)
+    .to({ intensity: 0 }, 2000);
 
-    opacityUp.chain(opacityDown)
+    opacityUp.chain(opacityDown);
 
     opacityDown.onComplete(() => {
         opacityUp.start()
-    })
+    });
 
-    opacityUp.start()
+    opacityUp.start();
 }
 
 //launched by body.onload() :
@@ -217,6 +198,7 @@ function init_faceFilter(videoSettings){
         // called at each render iteration (drawing loop)
         callbackTrack: function (detectState) {
             TWEEN.update();
+            
             if (MIXERS.length > 1) {
                 MIXERS.forEach((m) => {
                     m.update(0.13);

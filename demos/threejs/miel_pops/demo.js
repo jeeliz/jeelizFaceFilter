@@ -3,23 +3,15 @@
 // SETTINGS of this demo :
 const SETTINGS = {
     cameraFOV: 40,      // in degrees, 3D camera FOV
+    numberBees: 8
 };
 
 // some globalz :f0.5
-let THREEVIDEOTEXTURE
-let THREERENDERER
-let THREEFACEOBJ3D
-let THREEFACEOBJ3DPIVOTED
-let THREESCENE
 let THREECAMERA;
-let ISDETECTED = false;
+const GLASSESOBJ3D = new THREE.Object3D();
 
-let GLASSESOBJ3D = new THREE.Object3D();
-
-let CANVAS;
-let NUMBERBEES = 8;
-let ACTIONS = [];
-let MIXERS = [];
+const ACTIONS = [];
+const MIXERS = [];
 
 let ISANIMATED;
 
@@ -39,9 +31,6 @@ function detect_callback(isDetected) {
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
     const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
-
-    // grab a reference to our canvas
-    CANVAS = document.getElementById('jeeFaceFilterCanvas')
 
     let frameMesh;
     let lensesMesh;
@@ -68,7 +57,7 @@ function init_threeScene(spec) {
             frameMesh.frustumCulled = false;
             frameMesh.renderOrder = 10000;
         }
-    )
+    );
 
     // CREATE OUR LENSES
     const loaderLenses = new THREE.BufferGeometryLoader(loadingManager);
@@ -85,7 +74,7 @@ function init_threeScene(spec) {
             lensesMesh.frustumCulled = false;
             lensesMesh.renderOrder = 10000;
         }
-    )
+    );
     // CREATE OUR BRANCHES
     const loaderBranches = new THREE.BufferGeometryLoader(loadingManager);
 
@@ -103,7 +92,7 @@ function init_threeScene(spec) {
             branchesMesh.frustumCulled = false;
             branchesMesh.renderOrder = 10000;
         }
-    )
+    );
 
     // CREATE OUR DECO
     const loaderDeco = new THREE.BufferGeometryLoader(loadingManager);
@@ -121,7 +110,7 @@ function init_threeScene(spec) {
             decoMesh.frustumCulled = false;
             decoMesh.renderOrder = 10000;
         }
-    )
+    );
 
     loadingManager.onLoad = () => {
         GLASSESOBJ3D.add(branchesMesh, frameMesh, lensesMesh, decoMesh);
@@ -133,7 +122,7 @@ function init_threeScene(spec) {
         addDragEventListener(GLASSESOBJ3D);
 
         threeStuffs.faceObject.add(GLASSESOBJ3D);
-    }
+    };
 
     // ADD OUR BEES
     const beeLoader = new THREE.JSONLoader();
@@ -160,7 +149,7 @@ function init_threeScene(spec) {
 
             BEEOBJ3D = new THREE.Object3D();
 
-            for (let i = 1; i < NUMBERBEES; i++) {
+            for (let i = 1; i < SETTINGS.numberBees; i++) {
                 const sign = i % 2 === 0 ? 1 : -1;
                 const beeInstance = BEEMESH.clone();
 
@@ -204,6 +193,7 @@ function init_threeScene(spec) {
                 }, index*33);
             });
 
+            ISANIMATED = true;
             
             threeStuffs.faceObject.add(BEEOBJ3D);
         }
@@ -254,26 +244,25 @@ function init_threeScene(spec) {
 } // end init_threeScene()
 
 function animateFlyBees(mesh, theta, sign) {
-    let count = 0
+    let count = 0;
     setInterval(() => {
-        count += 1
-        const x = mesh.position.x
-        const z = mesh.position.z
-        const y = mesh.position.y
-        const rotY = mesh.rotation._y
+        count += 1;
+        const x = mesh.position.x;
+        const z = mesh.position.z;
+        const y = mesh.position.y;
 
         mesh.position.set(
             (x * Math.cos(theta) + z * Math.sin(theta)),
             (y * Math.cos(theta) + x * Math.sin(theta))*0.96 + 0.05,
             (z * Math.cos(theta) - x * Math.sin(theta)) //(z * Math.cos(0.03*theta) - x * Math.sin(0.03*theta)*theta)
-        )
-        mesh.rotation.set(-(x * Math.cos(theta) + z * Math.sin(theta))*sign, -(y * Math.cos(theta) + z * Math.sin(theta))*sign, -(z * Math.cos(theta) - x * Math.sin(theta))*sign)
+        );
+        mesh.rotation.set(-(x * Math.cos(theta) + z * Math.sin(theta))*sign, -(y * Math.cos(theta) + z * Math.sin(theta))*sign, -(z * Math.cos(theta) - x * Math.sin(theta))*sign);
         // mesh.rotation._y = Math.sin(Math.random()*2*Math.PI*100)
     }, 16)
 }
 
 //launched by body.onload() :
-function main(){
+function main() {
     JeelizResizer.size_canvas({
         canvasId: 'jeeFaceFilterCanvas',
         callback: function(isError, bestVideoSettings){
@@ -301,7 +290,8 @@ function init_faceFilter(videoSettings){
         callbackTrack: function (detectState) {
             THREE.JeelizHelper.render(detectState, THREECAMERA);
 
-            TWEEN.update()
+            TWEEN.update();
+
             if (MIXERS.length > 1) {
                 MIXERS.forEach((m) => {
                     m.update(0.16);

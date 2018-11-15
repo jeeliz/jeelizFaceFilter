@@ -99,7 +99,6 @@ These demonstration are included in this repository. So they are released under 
     * Angel/Demon (discover who of the angel or demon will win in this animated scene): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/angel_demon/), [source code](/demos/threejs/angel_demon)
     * Anonymous mask and video effect: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/anonymous/), [source code](/demos/threejs/anonymous)
     * Rupy Motorcycle Helmet VTO: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/rupy_helmet/), [source code](/demos/threejs/rupy_helmet)
-    * Dog-Face filter: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/dog_face/), [source code](/demos/threejs/dog_face/)
     * Butterflies animation: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/butterflies/), [source code](/demos/threejs/butterflies/)
     * Clouds above the head: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cloud/), [source code](/demos/threejs/cloud/)
     * Casa-de-Papel mask: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/casa_de_papel/), [source code](/demos/threejs/casa_de_papel/)
