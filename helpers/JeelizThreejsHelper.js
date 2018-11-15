@@ -32,7 +32,7 @@ THREE.JeelizHelper=(function(){
 
 		    const threeCompositeObjectPIVOTED=new THREE.Object3D(); 
 		    threeCompositeObjectPIVOTED.frustumCulled=false;
-		    threeCompositeObjectPIVOTED.position.set(0, -_settings.pivotOffsetYZ[0], -_settings.pivotOffsetYZ[1]);
+		    //threeCompositeObjectPIVOTED.position.set(0, -_settings.pivotOffsetYZ[0], -_settings.pivotOffsetYZ[1]);
 		    threeCompositeObject.add(threeCompositeObjectPIVOTED);
 
 		    _threeCompositeObjects.push(threeCompositeObject);
@@ -139,25 +139,32 @@ THREE.JeelizHelper=(function(){
 			if (!threeCompositeObject.visible) return;
 			const detectState=ds[i];
 
+			//tweak Y position depending on rx (see)
 			const tweak=_settings.tweakMoveYRotateY*Math.tan(detectState.rx);
-			const yTweaked=detectState.y + tweak*(detectState.s/THREECAMERA.aspect);
-			
+			const cz=Math.cos(detectState.rz), sz=Math.sin(detectState.rz);
+            
+            const xTweak=sz*tweak*detectState.s;
+            const yTweak=cz*tweak*(detectState.s/THREECAMERA.aspect);
+
 			//move the cube in order to fit the head
 	        const W=detectState.s;      //relative width of the detection window (1-> whole width of the detection window)
 	        const D=1/(2*W*halfTanFOV); //distance between the front face of the cube and the camera
 	        
 	        //coords in 2D of the center of the detection window in the viewport :
-	        const xv=detectState.x;
-	        const yv=yTweaked;
+	        const xv=detectState.x+xTweak;
+	        const yv=detectState.y+yTweak;
 	        
 	        //coords in 3D of the center of the cube (in the view coordinates system)
 	        const z=-D-0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
 	        const x=xv*D*halfTanFOV;
 	        const y=yv*D*halfTanFOV/threeCamera.aspect;
 
+	        //the pivot position depends on rz rotation
+	        _threePivotedObjects[i].position.set(-sz*_settings.pivotOffsetYZ[0],-cz*_settings.pivotOffsetYZ[0], -_settings.pivotOffsetYZ[1]);
+
 	        //move and rotate the cube
 	        threeCompositeObject.position.set(x,y+_settings.pivotOffsetYZ[0],z+_settings.pivotOffsetYZ[1]);
-	        threeCompositeObject.rotation.set(detectState.rx+_settings.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
+	        threeCompositeObject.rotation.set(detectState.rx+_settings.rotationOffsetX, detectState.ry, detectState.rz, "ZXY");
 		}); //end loop on composite objects
 	}
 

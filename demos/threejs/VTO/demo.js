@@ -54,6 +54,7 @@ function main(){
 
 function init_faceFilter(videoSettings){
     JEEFACEFILTERAPI.init({
+        followZRot: true,
         canvasId: 'jeeFaceFilterCanvas',
         NNCpath: '../../../dist/', // root of NNC.json file
         maxFacesDetected: 1,

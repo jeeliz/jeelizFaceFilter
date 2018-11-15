@@ -81,14 +81,14 @@ These demonstration are included in this repository. So they are released under 
 
 * THREE.JS based demos - [specific README about THREE.js based demo problems](demos/threejs/):
   * Boilerplates:
-    * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeWithHelper/), [source code](/demos/threejs/cubeWithHelper/)
-    * Boilerplate with ES6: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
-    * Boilerplate with 2 canvas: 1 for FaceFilter and 1 for THREE.JS: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/), [source code](/demos/threejs/cube2cv/)
-    * Boilerplate using `dist/NNClight.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNClight/), [source code](/demos/threejs/cubeNNClight/)
-    * Boilerplate using `dist/NNCwideAngles.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNCwideAngles/), [source code](/demos/threejs/cubeNNCwideAngles/)
-    * Boilerplate without JeelizThreeHelper: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
+    * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
+    * Same boilerplate but using `dist/NNClight.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNClight/), [source code](/demos/threejs/cubeNNClight/)
+    * Same boilerplate but using `dist/NNCwideAngles.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNCwideAngles/), [source code](/demos/threejs/cubeNNCwideAngles/)
+    * Boilerplate with ES6 instead of ES5: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
     * Multiple face tracking: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/), [source code](/demos/threejs/multiCubes/)
     * GLTF fullscreen demo with HD video: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/), [source code](/demos/threejs/gltf_fullScreen/)
+    * Boilerplate with 2 canvas: 1 for FaceFilter and 1 for THREE.JS (not recommended): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/), [source code](/demos/threejs/cube2cv/)
+    
   
   * AR 3D demos:
     * Daft Punk (put the iconic helmet): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/daft_punk/)
@@ -201,6 +201,7 @@ JEEFACEFILTERAPI.init({
 ```
 
 ### Optionnal init arguments
+* `<boolean> followZRot`: Allow full rotation around depth axis. Default value: `false`. See [Issue 42](https://github.com/jeeliz/jeelizFaceFilter/issues/42) for more details,
 * `<integer> maxFacesDetected`: Only for multiple face detection - maximum number of faces which can be detected and tracked. Should be between `1` (no multiple detection) and `8`,
 * `<integer> animateDelay`: It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
 * `<function> onWebcamAsk`: Function launched just before asking for the user to allow its webcam sharing,
