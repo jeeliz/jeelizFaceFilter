@@ -1,4 +1,12 @@
+let MOUSEVECTOR = new THREE.Vector3();
+let DIRECTIONVECTOR = new THREE.Vector3();
+let VIEWPORTVECTOR = new THREE.Vector3();
+
+var _headCenterZ = -1;
+let Z;
+
 function addDragEventListener (mesh) {
+    const CANVAS = document.getElementById('jeeFaceFilterCanvas')
     var _dP=new THREE.Vector3();
     function updateMeshPosition (event) {
         const xPx=event.clientX;

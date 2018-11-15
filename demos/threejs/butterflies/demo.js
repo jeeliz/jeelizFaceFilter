@@ -46,6 +46,7 @@ function init_threeScene(spec) {
             let xRand;
             let yRand;
             let zRand;
+            let sign;
 
             BUTTERFLYOBJ3D = new THREE.Object3D();
 

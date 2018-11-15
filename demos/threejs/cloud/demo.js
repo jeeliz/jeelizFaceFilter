@@ -262,8 +262,6 @@ function generateSprite(color) {
 }
 
 function animateParticleCloud(particle, index, tag) {
-
-    console.log(particle.position)
     particle.visible = true;
     new TWEEN.Tween(particle.position)
         .to( { y: - 20 }, 3000)

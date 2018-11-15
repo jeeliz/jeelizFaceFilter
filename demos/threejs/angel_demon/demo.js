@@ -3,32 +3,16 @@
 
 // SETTINGS of this demo :
 const SETTINGS = {
-    rotationOffsetX: 0, // negative -> look upper. in radians
-    cameraFOV: 40,      // in degrees, 3D camera FOV
-    pivotOffsetYZ: [-0.2, -0.5], // XYZ of the distance between the center of the cube and the pivot
-    detectionThreshold: 0.5, // sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.1,
-    scale: 1 // scale of the 3D cube
+    cameraFOV: 40      // in degrees, 3D camera FOV
 };
 
 
 // some globalz :
-let THREEVIDEOTEXTURE;
-let THREERENDERER;
-let THREEFACEOBJ3D;
-let THREEFACEOBJ3DPIVOTED
-let THREESCENE;
+
 let THREECAMERA;
 let ISDETECTED = false;
-let CANVAS;
 
-let MOUSEVECTOR = new THREE.Vector3();
-let DIRECTIONVECTOR = new THREE.Vector3();
-let VIEWPORTVECTOR = new THREE.Vector3();
 
-var _headCenterZ = -1;
-
-let Z;
 
 let FACEMESH;
 
@@ -72,11 +56,9 @@ let ACTIONFORK1 = false;
 let ACTIONFORK2 = false;
 let ACTIONFORK3 = false;
 
-let GROUPOBJ3D = new THREE.Object3D();
+const GROUPOBJ3D = new THREE.Object3D();
 
-let isFighting = false;
-
-let states = {
+const states = {
     intro: 0,
     idle: 1,
     fight: 2
@@ -98,31 +80,11 @@ function detect_callback(isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-    // get a reference for our canvas
-    CANVAS = document.getElementById('jeeFaceFilterCanvas');
+    const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
     $('#openMouthInstructions').hide();
 
-    // INIT THE THREE.JS context
-    THREERENDERER = new THREE.WebGLRenderer({
-        context: spec.GL,
-        canvas: spec.canvasElement
-    });
-
-
-
-    // COMPOSITE OBJECT WHICH WILL FOLLOW THE HEAD
-    // in fact we create 2 objects to be able to shift the pivot point
-    THREEFACEOBJ3D = new THREE.Object3D();
-    THREEFACEOBJ3D.frustumCulled = false;
-    THREEFACEOBJ3DPIVOTED = new THREE.Object3D();
-    THREEFACEOBJ3DPIVOTED.frustumCulled = false;
-    THREEFACEOBJ3DPIVOTED.position.set(0, -SETTINGS.pivotOffsetYZ[0], -SETTINGS.pivotOffsetYZ[1]);
-    THREEFACEOBJ3DPIVOTED.scale.set(SETTINGS.scale, SETTINGS.scale, SETTINGS.scale);
-    THREEFACEOBJ3D.add(THREEFACEOBJ3DPIVOTED);
-
     const loadingManager = new THREE.LoadingManager();
-
 
     /*
         LOAD ALL THE ANGEL MESHS
@@ -204,8 +166,6 @@ function init_threeScene(spec) {
     /*
         LOAD ALL HARP MESHS
     */
-
-
     const loaderHarpIntro = new THREE.JSONLoader(loadingManager);
 
     loaderHarpIntro.load(
@@ -286,7 +246,6 @@ function init_threeScene(spec) {
     /*
         LOAD ALL DEMON MESHS
     */
-
     const loaderDemonIntro = new THREE.JSONLoader(loadingManager);
 
     loaderDemonIntro.load(
@@ -367,7 +326,6 @@ function init_threeScene(spec) {
     /*
         LOAD ALL FORK MESHS
     */
-
     const loaderForkIntro = new THREE.JSONLoader(loadingManager);
 
     loaderForkIntro.load(
@@ -447,59 +405,11 @@ function init_threeScene(spec) {
 
 
     // CREATE THE MASK
-    const maskLoader = new THREE.BufferGeometryLoader(loadingManager);
-    /*
-    faceLowPolyEyesEarsFill.json has been exported from dev/faceLowPolyEyesEarsFill.blend using THREE.JS blender exporter with Blender v2.76
-    */
-    maskLoader.load('./models/face/face.json', function (maskBufferGeometry) {
-        const vertexShaderSource = 'varying vec2 vUVvideo;\n\
-        varying float vY, vNormalDotZ;\n\
-        const float THETAHEAD=0.25;\n\
-        void main() {\n\
-            vec4 mvPosition = modelViewMatrix * vec4( position, 1.0);\n\
-            vec4 projectedPosition=projectionMatrix * mvPosition;\n\
-            gl_Position=projectedPosition;\n\
-            \n\
-            //compute UV coordinates on the video texture :\n\
-            vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
-            vec4 projectedPosition0=projectionMatrix * mvPosition0;\n\
-            vUVvideo=vec2(0.5,0.5)+0.5*projectedPosition0.xy/projectedPosition0.w;\n\
-            vY=position.y*cos(THETAHEAD)-position.z*sin(THETAHEAD);\n\
-            vec3 normalView=vec3(modelViewMatrix * vec4(normal,0.));\n\
-            vNormalDotZ=pow(abs(normalView.z), 1.5);\n\
-        }';
-
-       const fragmentShaderSource = "precision lowp float;\n\
-        uniform sampler2D samplerVideo;\n\
-        varying vec2 vUVvideo;\n\
-        varying float vY, vNormalDotZ;\n\
-        void main() {\n\
-            vec3 videoColor=texture2D(samplerVideo, vUVvideo).rgb;\n\
-            float darkenCoeff=smoothstep(-0.15, 0.15, vY);\n\
-            float borderCoeff=smoothstep(0.0, 0.85, vNormalDotZ);\n\
-            gl_FragColor=vec4(videoColor*(1.-darkenCoeff), borderCoeff );\n\
-            gl_FragColor=vec4(videoColor, borderCoeff );\n\
-            // gl_FragColor=vec4(borderCoeff, 0., 0., 1.);\n\
-            // gl_FragColor=vec4(darkenCoeff, 0., 0., 1.);\n\
-        }";
-
-        const mat = new THREE.ShaderMaterial({
-            vertexShader: vertexShaderSource,
-            fragmentShader: fragmentShaderSource,
-            transparent: true,
-            flatShading: false,
-            uniforms: {
-                samplerVideo:{ value: THREEVIDEOTEXTURE }
-            }
-           ,transparent: true
-        });
-        maskBufferGeometry.computeVertexNormals();
-        FACEMESH = new THREE.Mesh(maskBufferGeometry, mat);
-        FACEMESH.frustumCulled = false;
-        FACEMESH.scale.multiplyScalar(1.1);
-        FACEMESH.position.set(0, 0.7, -0.75);
-        FACEMESH.renderOrder = 100000
-    });
+    FACEMESH = THREE.JeelizHelper.create_threejsOccluder('./models/face/face.json');
+    FACEMESH.frustumCulled = false;
+    FACEMESH.scale.multiplyScalar(1.1);
+    FACEMESH.position.set(0, 0.7, -0.75);
+    FACEMESH.renderOrder = 100000;
 
     loadingManager.onLoad = () => {
         isLoaded = true;
@@ -523,54 +433,11 @@ function init_threeScene(spec) {
         GROUPOBJ3D.position.z -= 0.5;
 
 
-        addDragEventListener(GROUPOBJ3D);
-        THREEFACEOBJ3DPIVOTED.add(GROUPOBJ3D);
+        // addDragEventListener(GROUPOBJ3D);
+        threeStuffs.faceObject.add(GROUPOBJ3D);
 
         animateIntro();
-    }
-
-    // CREATE THE SCENE
-    THREESCENE = new THREE.Scene();
-    
-    THREESCENE.add(THREEFACEOBJ3D);
-
-    // init video texture with red
-    THREEVIDEOTEXTURE = new THREE.DataTexture(new Uint8Array([255, 0, 0]), 1, 1, THREE.RGBFormat);
-    THREEVIDEOTEXTURE.needsUpdate = true;
-
-    // CREATE THE VIDEO BACKGROUND
-    const videoMaterial = new THREE.RawShaderMaterial({
-        depthWrite: false,
-        depthTest: false,
-        vertexShader: "attribute vec2 position;\n\
-            varying vec2 vUV;\n\
-            void main(void){\n\
-                gl_Position=vec4(position, 0., 1.);\n\
-                vUV=0.5+0.5*position;\n\
-            }",
-        fragmentShader: "precision lowp float;\n\
-            uniform sampler2D samplerVideo;\n\
-            varying vec2 vUV;\n\
-            void main(void){\n\
-                gl_FragColor=texture2D(samplerVideo, vUV);\n\
-            }",
-         uniforms:{
-            samplerVideo: { value: THREEVIDEOTEXTURE }
-         }
-    });
-    const videoGeometry = new THREE.BufferGeometry()
-    const videoScreenCorners = new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
-    videoGeometry.addAttribute('position', new THREE.BufferAttribute( videoScreenCorners, 2));
-    videoGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
-    const videoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
-    videoMesh.onAfterRender = function () {
-        // replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
-        THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
-        delete(videoMesh.onAfterRender);
-    };
-    videoMesh.renderOrder = -1000; // render first
-    videoMesh.frustumCulled = false;
-    THREESCENE.add(videoMesh);   
+    } 
 
     // CREATE THE CAMERA
     const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
@@ -584,11 +451,7 @@ function animateIntro () {
     ACTIONHARP1.clampWhenFinished = true;
     ACTIONDEMON1.clampWhenFinished = true;
     ACTIONFORK1.clampWhenFinished = true;
-    /*
-    ACTIONANGEL1.loop = THREE.LoopOnce;
-    ACTIONHARP1.loop = THREE.LoopOnce;
-    ACTIONDEMON1.loop = THREE.LoopOnce;
-    ACTIONFORK1.loop = THREE.LoopOnce;*/
+
 
     MIXERANGEL1.addEventListener('loop', () => {
         animateIdle();
@@ -602,6 +465,7 @@ function animateIntro () {
 
 function animateIdle() {
     $('#openMouthInstructions').show();
+
     state = states.idle;
 
     // Stop animation + hide meshes
@@ -664,7 +528,7 @@ function animateFight() {
 }
 
 //launched by body.onload() :
-function main(){
+function main() {
     JeelizResizer.size_canvas({
         canvasId: 'jeeFaceFilterCanvas',
         callback: function(isError, bestVideoSettings){
@@ -690,43 +554,12 @@ function init_faceFilter(videoSettings) {
 
         // called at each render iteration (drawing loop)
         callbackTrack: function (detectState) {
-            if (ISDETECTED && detectState.detected < SETTINGS.detectionThreshold - SETTINGS.detectionHysteresis) {
-                // DETECTION LOST
-                detect_callback(false);
-                ISDETECTED = false;
-            } else if (!ISDETECTED && detectState.detected > SETTINGS.detectionThreshold + SETTINGS.detectionHysteresis) {
-                // FACE DETECTED
-                detect_callback(true);
-                ISDETECTED = true;
+            ISDETECTED = THREE.JeelizHelper.get_isDetected();
+            
+            if (detectState.expressions[0] >= 0.8 && isLoaded && state !== 0 && state !== 2) {
+                animateFight();
             }
 
-            if (ISDETECTED) {
-                // move the cube in order to fit the head
-                const tanFOV = Math.tan(THREECAMERA.aspect * THREECAMERA.fov * Math.PI / 360); // tan(FOV/2), in radians
-                const W = detectState.s;  // relative width of the detection window (1-> whole width of the detection window)
-                const D = 1/(2*W*tanFOV); // distance between the front face of the cube and the camera
-                
-                // coords in 2D of the center of the detection window in the viewport :
-                const xv=detectState.x;
-                const yv=detectState.y;
-                
-                // coords in 3D of the center of the cube (in the view coordinates system)
-                const z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
-                const x = xv * D * tanFOV;
-                const y = (yv * D * tanFOV / THREECAMERA.aspect);
-
-                // move and rotate the cube
-                THREEFACEOBJ3D.position.set(x, y + SETTINGS.pivotOffsetYZ[0], z + SETTINGS.pivotOffsetYZ[1]);
-                THREEFACEOBJ3D.rotation.set(detectState.rx + SETTINGS.rotationOffsetX, detectState.ry, detectState.rz, "XYZ");
-
-                
-                if (detectState.expressions[0] >= 0.8 && isLoaded && state !== 0 && state !== 2) {
-                    animateFight();
-                }
-            }
-
-            // reinitialize the state of THREE.JS because JEEFACEFILTER have changed stuffs
-            THREERENDERER.state.reset();
 
             switch (state) {
                 case 0:
@@ -751,7 +584,7 @@ function init_faceFilter(videoSettings) {
             }
 
             // trigger the render of the THREE.JS SCENE
-            THREERENDERER.render(THREESCENE, THREECAMERA);
+            THREE.JeelizHelper.render(detectState, THREECAMERA);
         } // end callbackTrack()
     }); // end JEEFACEFILTERAPI.init call
 } // end main()

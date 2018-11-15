@@ -19,7 +19,7 @@ THREE.JeelizHelper=(function(){
 
 	//private vars :
 	var _threeRenderer, _threeScene, _maxFaces, _isMultiFaces, _threeCompositeObjects=[], _threePivotedObjects=[], _detect_callback=null,
-		_threeVideoMesh, _gl, _glVideoTexture, _threeVideoTexture, _isVideoTextureReady=false, _isSeparateThreejsCanvas=false, _faceFilterCv, _glShpCopy;
+		_threeVideoMesh, _gl, _glVideoTexture, _threeVideoTexture, _isVideoTextureReady=false, _isSeparateThreejsCanvas=false, _faceFilterCv, _glShpCopy, _isDetected;
 
 	//private funcs :
 	function create_threeCompositeObjects(){
@@ -118,13 +118,13 @@ THREE.JeelizHelper=(function(){
 
 	function detect(detectState){
 		_threeCompositeObjects.forEach(function(threeCompositeObject, i){
-			const isDetected=threeCompositeObject.visible;
+			_isDetected=threeCompositeObject.visible;
 			const ds=detectState[i];
-			if (isDetected && ds.detected<_settings.detectionThreshold-_settings.detectionHysteresis){
+			if (_isDetected && ds.detected<_settings.detectionThreshold-_settings.detectionHysteresis){
 	                //DETECTION LOST
 	            if (_detect_callback) _detect_callback(i, false);
 	            threeCompositeObject.visible=false;
-	        } else if (!isDetected && ds.detected>_settings.detectionThreshold+_settings.detectionHysteresis){
+	        } else if (!_isDetected && ds.detected>_settings.detectionThreshold+_settings.detectionHysteresis){
 	            //FACE DETECTED
 	            if (_detect_callback) _detect_callback(i, true);
 	            threeCompositeObject.visible=true;
@@ -217,6 +217,10 @@ THREE.JeelizHelper=(function(){
 			detect(ds);
 		},
 
+		get_isDetected: function() {
+			return _isDetected;
+		},
+
 		render: function(detectState, threeCamera){
 			const ds=(_isMultiFaces)?detectState:[detectState];
 
@@ -301,7 +305,7 @@ THREE.JeelizHelper=(function(){
 		},
 
 		//create an occluder, IE a transparent object which writes on the depth buffer
-		create_threejsOccluder: function(occluderURL){
+		create_threejsOccluder: function(occluderURL, callback){
 			const occluderMesh=new THREE.Mesh();
             new THREE.BufferGeometryLoader().load(occluderURL, function(occluderGeometry){
                 const mat=new THREE.ShaderMaterial({
@@ -317,6 +321,9 @@ THREE.JeelizHelper=(function(){
                 if (typeof(callback)!=='undefined' && callback) callback(occluderMesh);
             });
             return occluderMesh;
+		},
+		set_pivotOffsetYZ(pivotOffset) {
+			_settings.pivotOffsetYZ = pivotOffset;
 		}
 	}
 	return that;
