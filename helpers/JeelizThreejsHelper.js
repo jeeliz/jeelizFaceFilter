@@ -139,7 +139,8 @@ THREE.JeelizHelper=(function(){
 			if (!threeCompositeObject.visible) return;
 			const detectState=ds[i];
 
-			const yTweaked=detectState.y + detectState.s*_settings.tweakMoveYRotateY*Math.tan(detectState.rx);
+			const tweak=_settings.tweakMoveYRotateY*Math.tan(detectState.rx);
+			const yTweaked=detectState.y + tweak*(detectState.s/THREECAMERA.aspect);
 			
 			//move the cube in order to fit the head
 	        const W=detectState.s;      //relative width of the detection window (1-> whole width of the detection window)
