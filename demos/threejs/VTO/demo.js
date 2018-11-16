@@ -38,7 +38,7 @@ function init_threeScene(spec) {
 
 
     //CREATE THE CAMERA
-    var aspecRatio=spec.canvasElement.width / spec.canvasElement.height;
+    const aspecRatio=spec.canvasElement.width / spec.canvasElement.height;
     THREECAMERA=new THREE.PerspectiveCamera(40, aspecRatio, 0.1, 100);
 } // end init_threeScene()
 
@@ -54,6 +54,7 @@ function main(){
 
 function init_faceFilter(videoSettings){
     JEEFACEFILTERAPI.init({
+        followZRot: true,
         canvasId: 'jeeFaceFilterCanvas',
         NNCpath: '../../../dist/', // root of NNC.json file
         maxFacesDetected: 1,
