@@ -7,46 +7,46 @@
     
     <style type="text/css">
       body {
-      	background-color: #2A2A2A;
-      	color: white;
-      	margin: 0px;
-      	width: 100vw;
-      	font-family:sans-serif;
+          background-color: #2A2A2A;
+          color: white;
+          margin: 0px;
+          width: 100vw;
+          font-family:sans-serif;
       }
       @font-face {
-	    font-family: 'BDCartoonShoutRegular';
+        font-family: 'BDCartoonShoutRegular';
         src: url('BD_Cartoon_Shout-webfont.ttf') format('truetype');
-	    font-weight: normal;
-	    font-style: normal;
+        font-weight: normal;
+        font-style: normal;
       }
       .content {
-      	margin-left: auto;
-      	margin-right: auto;
-      	width: 1024px;
-      	text-align: center;
-      	background-color: black;
-      	padding-bottom: 32px;
-      	padding-top: 16px;
+          margin-left: auto;
+          margin-right: auto;
+          width: 1024px;
+          text-align: center;
+          background-color: black;
+          padding-bottom: 32px;
+          padding-top: 16px;
       }
       .laius {
-      	display: block;
-      	width: 300px;
-      	height: 300px;
-      	float: left;
-      	text-align: justify;
-      	line-height: 2em;
-      	margin-left: 32px;
-      	margin-top: 64px;
+          display: block;
+          width: 300px;
+          height: 300px;
+          float: left;
+          text-align: justify;
+          line-height: 2em;
+          margin-left: 32px;
+          margin-top: 64px;
       }
       .laius p {
-      	margin-right: 16px;
+          margin-right: 16px;
       }
       .laius a {
-      	color: yellow;
-      	text-decoration: none
+          color: yellow;
+          text-decoration: none
       }
       .laius a:hover {
-      	color: white;
+          color: white;
       }
       #pacman {
         height:450px;
@@ -61,40 +61,40 @@
       h1 { font-family: BDCartoonShoutRegular; text-align:center; color: white; }
       a { text-decoration:none; }
       #headControlsCanvas{
-      	 display: block;
-      	 float: right;
-      	 width: 300px !important;
-      	 margin-right: 32px;
-      	 margin-top: 64px;
+           display: block;
+           float: right;
+           width: 300px !important;
+           margin-right: 32px;
+           margin-top: 64px;
       }
       #start {
-      	width: 300px;
-      	padding: 8px;
-      	font-size: 32pt;
-      	cursor: pointer;
-      	font-family: BDCartoonShoutRegular; 
-      	background-color: red;
-      	border-color: red;
-      	color: white;
-      	display: none;
+          width: 300px;
+          padding: 8px;
+          font-size: 32pt;
+          cursor: pointer;
+          font-family: BDCartoonShoutRegular; 
+          background-color: red;
+          border-color: red;
+          color: white;
+          display: none;
       }
     </style>
 
     <!-- modified pacman -->
     <script src="pacman.js"></script>
-  	<script src="modernizr-1.5.min.js"></script>
+      <script src="modernizr-1.5.min.js"></script>
   
-  	<!-- JEELIZ FACE FILTER API (required by HeadControls.js) : -->
+      <!-- JEELIZ FACE FILTER API (required by HeadControls.js) : -->
     <script src="../../dist/jeelizFaceFilter.js"></script>
 
     <!-- HEAD CONTROLLER : -->
-  	<script src="../../helpers/HeadControls.js"></script>
+      <script src="../../helpers/HeadControls.js"></script>
 
     <!-- INCLUDE FORK ME ON GITHUB BANNER -->
     <script type="text/javascript" src="../appearance/widget.js"></script>
 
-  	<!-- main script : -->
-  	<script src="main.js"></script>
+      <!-- main script : -->
+      <script src="main.js"></script>
 </head>
 
 <body onload='main()'>
@@ -102,23 +102,23 @@
   <div id="shim">shim for font face</div>
 
   <div class='content'>
-  	<h1>Head controlled Pacman</h1>
-  	<div class='laius'>
-  		<p>
-  		Your face orientation is detected with <a href='https://github.com/jeeliz/jeelizFaceFilter' target='_blank'>Jeeliz Facefilter API</a>. It detects and tracks the face using a deep learning neural network running on your GPU thanks to WebGL.
-  		</p>
+      <h1>Head controlled Pacman</h1>
+      <div class='laius'>
+          <p>
+          Your face orientation is detected with <a href='https://github.com/jeeliz/jeelizFaceFilter' target='_blank'>Jeeliz Facefilter API</a>. It detects and tracks the face using a deep learning neural network running on your GPU thanks to WebGL.
+          </p>
 
-  		<p>
-  		The Pacman game comes from <a href='https://github.com/daleharvey/pacman' target='_blank'>This Github repository</a>
-  		</p>
+          <p>
+          The Pacman game comes from <a href='https://github.com/daleharvey/pacman' target='_blank'>This Github repository</a>
+          </p>
 
-  		<p>
-  		<input id='disableGhosts' type='checkbox' />Disable ghosts (for testing purpose)
-  		</p>
-  	</div>
-  	<div id="pacman"></div>
-  	<canvas id='headControlsCanvas' width='512' height='512'></canvas>	
-  	<button id='start'>START</button>
+          <p>
+          <input id='disableGhosts' type='checkbox' />Disable ghosts (for testing purpose)
+          </p>
+      </div>
+      <div id="pacman"></div>
+      <canvas id='headControlsCanvas' width='512' height='512'></canvas>    
+      <button id='start'>START</button>
   </div>
 
 </body>

@@ -120,24 +120,24 @@ function init_threeScene(spec){
     //LOAD THE TIGGER MESH
     var tigerMaskLoader=new THREE.BufferGeometryLoader();
     tigerMaskLoader.load('TigerHead.json', function(tigerMaskGeom){
-    	var tigerFaceSkinMat=build_customMaskMaterial('headTexture2.png');
-    	var tigerEyesMat=build_customMaskMaterial('white.png');
+        var tigerFaceSkinMat=build_customMaskMaterial('headTexture2.png');
+        var tigerEyesMat=build_customMaskMaterial('white.png');
 
-    	var whiskersMat=new THREE.MeshLambertMaterial({
-    		color: 0xffffff
-    	});
-    	var insideEarsMat=new THREE.MeshBasicMaterial({
-    		color: 0x331100
-    	});
-    	var tigerMaskMesh=new THREE.Mesh(tigerMaskGeom, [
-    		whiskersMat, tigerEyesMat, tigerFaceSkinMat, insideEarsMat
-    		]);
-    	tigerMaskMesh.scale.set(2,3,2);
-    	tigerMaskMesh.position.set(0., 0.2, -0.48);
+        var whiskersMat=new THREE.MeshLambertMaterial({
+            color: 0xffffff
+        });
+        var insideEarsMat=new THREE.MeshBasicMaterial({
+            color: 0x331100
+        });
+        var tigerMaskMesh=new THREE.Mesh(tigerMaskGeom, [
+            whiskersMat, tigerEyesMat, tigerFaceSkinMat, insideEarsMat
+            ]);
+        tigerMaskMesh.scale.set(2,3,2);
+        tigerMaskMesh.position.set(0., 0.2, -0.48);
 
         //small black quad to hide inside the mouth
         //(visible only if the user opens the mouth)
-    	TIGERMOUTHHIDEMESH=new THREE.Mesh(
+        TIGERMOUTHHIDEMESH=new THREE.Mesh(
             new THREE.PlaneBufferGeometry(0.5,0.6),
             new THREE.MeshBasicMaterial({color: 0x000000})
         );

@@ -1,16 +1,16 @@
 "use strict";
 
 /*
-	Build 3D glasses.
-	spec properties: 
-	   * <string> envMapURL: url of the envMap
-	   * <string> frameMeshURL: url of the mesh used for the glasses frames
-	   * <string> lensesMeshURL: url of the mesh of the lenses
-	   * <string> occluderURL: url of the occluder
+    Build 3D glasses.
+    spec properties: 
+       * <string> envMapURL: url of the envMap
+       * <string> frameMeshURL: url of the mesh used for the glasses frames
+       * <string> lensesMeshURL: url of the mesh of the lenses
+       * <string> occluderURL: url of the occluder
 */
 
 const JeelizThreeGlassesCreator=function(spec){
-	const threeGlasses=new THREE.Object3D();
+    const threeGlasses=new THREE.Object3D();
     
     //enMap texture
     const textureEquirec = new THREE.TextureLoader().load( spec.envMapURL );
@@ -68,7 +68,7 @@ const JeelizThreeGlassesCreator=function(spec){
     const occluderMesh = THREE.JeelizHelper.create_threejsOccluder(spec.occluderURL);
     
     return {
-    	glasses: threeGlasses,
-    	occluder: occluderMesh
+        glasses: threeGlasses,
+        occluder: occluderMesh
     };
 }
