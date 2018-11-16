@@ -67,7 +67,7 @@ function init_threeScene(spec) {
 
             ANONYMOUSOBJ3D.add(ANONYMOUSMESH);
 
-            // addDragEventListener(ANONYMOUSOBJ3D);
+            addDragEventListener(ANONYMOUSOBJ3D);
 
             threeStuffs.faceObject.add(ANONYMOUSOBJ3D);
             openMouthInstruction.show();

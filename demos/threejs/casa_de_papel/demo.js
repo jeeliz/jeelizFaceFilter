@@ -65,7 +65,7 @@ function init_threeScene(spec) {
             maskMesh.position.y = -0.8;
             maskMesh.scale.x = 0.07;
 
-            // addDragEventListener(maskMesh);
+            addDragEventListener(maskMesh);
 
             THREESTUFF.faceObject.add(maskMesh);
         }

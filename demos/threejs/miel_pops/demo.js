@@ -119,7 +119,7 @@ function init_threeScene(spec) {
         GLASSESOBJ3D.position.setZ(0.25);//move glasses a bit forward
         window.zou=GLASSESOBJ3D;
 
-        // addDragEventListener(GLASSESOBJ3D);
+        addDragEventListener(GLASSESOBJ3D);
 
         threeStuffs.faceObject.add(GLASSESOBJ3D);
     };

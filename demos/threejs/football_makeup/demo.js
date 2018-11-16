@@ -40,7 +40,7 @@ function init_threeScene(spec) {
             faceMesh.position.y += 0.15;
             faceMesh.position.z -= 0.25;
 
-            // addDragEventListener(faceMesh);
+            addDragEventListener(faceMesh);
 
             threeStuffs.faceObject.add(faceMesh);
         }

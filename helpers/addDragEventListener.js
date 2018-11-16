@@ -58,9 +58,13 @@ function addDragEventListener (mesh) {
         _dP.copy(DIRECTIONVECTOR).multiplyScalar(k);
         _dP.setZ(0); // bcoz we only want to displace in the (0xy) plane
         
+        const _quat = new THREE.Quaternion();
+        const _eul = new THREE.Euler();
+        _eul.setFromQuaternion(_quat);
+
         // convert _dP to mesh ref to apply it directly to mesh.position :
         // _dP is a vector so apply only the rotation part (not the translation)
-        _dP.applyEuler(mesh.getWorldRotation());
+        _dP.applyEuler(mesh.getWorldQuaternion(_eul));
 
         // Boost movement to follow better the mouse/touch
         _dP.multiplyScalar(5)

@@ -433,7 +433,7 @@ function init_threeScene(spec) {
         GROUPOBJ3D.position.z -= 0.5;
 
 
-        // addDragEventListener(GROUPOBJ3D);
+        addDragEventListener(GROUPOBJ3D);
         threeStuffs.faceObject.add(GROUPOBJ3D);
 
         animateIntro();
