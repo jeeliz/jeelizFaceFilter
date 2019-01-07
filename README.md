@@ -162,7 +162,7 @@ These amazing applications rely on this library for face detection and tracking:
   * [Been there, done that](https://www.movablecamera.com/1/templates/d8f2a1b6-0a73-4645-9e2b-7eb3c85ca2e0/109867fc-1ec0-4545-9bbe-6364ab1a3049.html),
   * [I <3 NY](https://www.movablecamera.com/1/templates/3e9a6b04-2663-4e2e-a8f8-0c675cd429fa/bb03f2fe-1ab0-4b4d-bc94-f146eefe8198.html),
   * [Find your inner creative](https://www.movablecamera.com/1/templates/442bcb7c-3793-49e4-bea2-d56e68e73ec3/df7484bc-211d-4f43-adc1-41b13ca39f32.html)
-* Demos made by [Human Foundry](https://humanfoundry.com/):
+* Demos made by [Sansho](https://sansho.studio/):
   * [Battle Santa for beard superiority](https://xmas.humanfoundry.com/)
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here ! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
