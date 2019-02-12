@@ -299,7 +299,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `<int> nStepsX`: number of detection steps for each scan line. Default: `6`,
   * `<int> nStepsY`: number of scan lines. Default: `5`,
   * `<int> nStepsScale`: number of detection steps for the scale. Default: `3`,
-  * `<int> nDetectsPerLoop`: specify the number of detection per drawing loop. `0` for adaptative value. Default: `0`
+  * `<int> nDetectsPerLoop`: specify the number of detection per drawing loop. `-1` for adaptative value. Default: `-1`
 
 * `JEEFACEFILTERAPI.set_stabilizationSettings(<object> stabilizationSettings)`: Override detection stabilization settings. The output of the neural network is always noisy, so we need to stabilize it using a floatting average to avoid shaking artifacts. The internal algorithm computes first a stabilization factor `k` between `0` and `1`. If `k==0.0`, the detection is bad and we favor responsivity against stabilization. It happens when the user is moving quickly, rotating the head or when the detection is bad. On the contrary, if `k` is close to `1`, the detection is nice and the user does not move a lot so we can stabilize a lot. `stabilizationSettings` is a dictionnary with the following properties:
   * `[<float> minValue, <float> maxValue] translationFactorRange`: multiply `k` by a factor `kTranslation` depending on the translation speed of the head (relative to the viewport). `kTranslation=0` if `translationSpeed<minValue` and `kTranslation=1` if `translationSpeed>maxValue`. The regression is linear. Default value: `[0.0015, 0.005]`,
