@@ -23,7 +23,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [Optimization](#optimization)
   * [Changing the 3D engine](#changing-the-3d-engine)
   * [Changing the neural network](#changing-the-neural-network)
-  * [Using ES6](#using-es6)
+  * [Using the ES6 module](#using-the-es6-module)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
   * [Hosting optimization](#hosting-optimization)
@@ -376,7 +376,7 @@ We provide several neural network models:
 * `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25).
 
 
-### Using ES6
+### Using the ES6 module
 `/dist/jeelizFaceFilterES6.js` is exactly the same than `/dist/jeelizFaceFilter.js` except that it works with ES6, so you can import it directly using:
 
 ```javascript
