@@ -241,7 +241,7 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 * `false`: no error occurs,
 * `"GL_INCOMPATIBLE"`: WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
 * `"ALREADY_INITIALIZED"`: the API has been already initialized,
-* `"NO_CANVASID"`: no canvas ID was specified,
+* `"NO_CANVASID"`: no canvas or canvas ID was specified,
 * `"INVALID_CANVASID"`: cannot found the `<canvas>` element in the DOM,
 * `"INVALID_CANVASDIMENSIONS"`: the dimensions `width` and `height` of the canvas are not specified,
 * `"WEBCAM_UNAVAILABLE"`: cannot get access to the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
@@ -389,6 +389,8 @@ or using `require` ([see issue #72](https://github.com/jeeliz/jeelizFaceFilter/i
 const faceFilter =require('./lib/jeelizFaceFilterES6.js')
 
 faceFilter.init({
+    //you can also provide the canvas directly
+    //using the canvas property instead of canvasId:
     canvasId: 'jeeFaceFilterCanvas',
     NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
     callbackReady: function(errCode, spec){
