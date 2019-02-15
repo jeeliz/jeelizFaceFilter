@@ -209,7 +209,7 @@ JEEFACEFILTERAPI.init({
 * `<integer> animateDelay`: It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
 * `<function> onWebcamAsk`: Function launched just before asking for the user to allow its webcam sharing,
 * `<function> onWebcamGet`: Function launched just after the user has accepted to share its video. It is called with the video element as argument,
-* `<dict> videoSetting`: override WebRTC specified video settings, which are by default:
+* `<dict> videoSettings`: override WebRTC specified video settings, which are by default:
 ```javascript
 {
   'videoElement' //not set by default. <video> element used
