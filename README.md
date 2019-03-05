@@ -209,7 +209,7 @@ JEEFACEFILTERAPI.init({
 * `<integer> animateDelay`: It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
 * `<function> onWebcamAsk`: Function launched just before asking for the user to allow its webcam sharing,
 * `<function> onWebcamGet`: Function launched just after the user has accepted to share its video. It is called with the video element as argument,
-* `<dict> videoSetting`: override WebRTC specified video settings, which are by default:
+* `<dict> videoSettings`: override WebRTC specified video settings, which are by default:
 ```javascript
 {
   'videoElement' //not set by default. <video> element used
@@ -241,7 +241,7 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 * `false`: no error occurs,
 * `"GL_INCOMPATIBLE"`: WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
 * `"ALREADY_INITIALIZED"`: the API has been already initialized,
-* `"NO_CANVASID"`: no canvas ID was specified,
+* `"NO_CANVASID"`: no canvas or canvas ID was specified,
 * `"INVALID_CANVASID"`: cannot found the `<canvas>` element in the DOM,
 * `"INVALID_CANVASDIMENSIONS"`: the dimensions `width` and `height` of the canvas are not specified,
 * `"WEBCAM_UNAVAILABLE"`: cannot get access to the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
@@ -389,6 +389,8 @@ or using `require` ([see issue #72](https://github.com/jeeliz/jeelizFaceFilter/i
 const faceFilter =require('./lib/jeelizFaceFilterES6.js')
 
 faceFilter.init({
+    //you can also provide the canvas directly
+    //using the canvas property instead of canvasId:
     canvasId: 'jeeFaceFilterCanvas',
     NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
     callbackReady: function(errCode, spec){
