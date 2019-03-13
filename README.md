@@ -366,6 +366,7 @@ Since July 2018 it is possible to change the neural network. When calling `JEEFA
     //...
   })
 ```
+It is also possible to give directly the NNC json file content by using `NNC` property instead of `NNCpath`.
 
 We provide several neural network models:
 * `dist/NNC.json`: this is the default neural network. Good tradeoff between size and performances,
