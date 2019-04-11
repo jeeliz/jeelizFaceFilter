@@ -182,7 +182,7 @@ THREE.JeelizHelper=(function(){
             if (spec.threejsCanvasId){
                 _isSeparateThreejsCanvas=true;
                 //set the threejs canvas size to the threejs canvas
-                threejsCanvas=document.getElementById('threejsCanvas');
+                threejsCanvas=document.getElementById(spec.threejsCanvasId);
                 threejsCanvas.setAttribute('width', _faceFilterCv.width);
                 threejsCanvas.setAttribute('height', _faceFilterCv.height);
             } else {
