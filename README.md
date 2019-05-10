@@ -166,6 +166,9 @@ These amazing applications rely on this library for face detection and tracking:
 * Demos made by [Sansho](https://sansho.studio/):
   * [Battle Santa for beard superiority](https://xmas.humanfoundry.com/)
 
+* Demos made by [けしごむ/Nono](https://twitter.com/ke4563):
+  * [VRMjidori: Replace your head by a manga style character! ](https://vrmjidori.netlify.com/)
+
 * Other demos:
   * [Bose headphones virtual try-on](https://www.bose.com/en_us/products/headphones/over_ear_headphones/quietcomfort-35-ii-wireless-custom.html?EarCap=sps-gloss&EarCup=jet-gloss&InnerBand=com-metallic&OuterBand=com-metallic&Spacer=com-metallic) (click on the TRY-ON button at the bottom right of the screen)
 
