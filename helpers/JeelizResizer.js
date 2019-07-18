@@ -163,7 +163,7 @@ const JeelizResizer = (function(){
       }
 
       //compute the best camera resolutions :
-      var allResolutions = _cameraResolutions.slice(0);
+      const allResolutions = _cameraResolutions.slice(0);
 
       //if we are in portrait mode, the camera is also in portrait mode
       //so we need to set all resolutions to portrait mode
