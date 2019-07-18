@@ -3,7 +3,7 @@
 */ 
 "use strict";
 
-THREE.JeelizHelper=(function(){
+THREE.JeelizHelper = (function(){
   //internal settings
   const _settings={
     rotationOffsetX: 0, //negative -> look upper. in radians
