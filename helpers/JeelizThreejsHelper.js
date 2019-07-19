@@ -24,7 +24,7 @@ THREE.JeelizHelper = (function(){
   //private funcs :
   function create_threeCompositeObjects(){
     for (let i=0; i<_maxFaces; ++i){
-      //COMPOSITE OBJECT WHICH WILL FOLLOW A DETECTED FACE
+      //COMPOSITE OBJECT WHICH WILL TRACK A DETECTED FACE
       //in fact we create 2 objects to be able to shift the pivot point
       const threeCompositeObject = new THREE.Object3D();
       threeCompositeObject.frustumCulled = false;
@@ -55,14 +55,14 @@ THREE.JeelizHelper = (function(){
     const videoScreenVertexShaderSource = "attribute vec2 position;\n\
         varying vec2 vUV;\n\
         void main(void){\n\
-          gl_Position=vec4(position, 0., 1.);\n\
-          vUV=0.5+0.5*position;\n\
+          gl_Position = vec4(position, 0., 1.);\n\
+          vUV = 0.5+0.5*position;\n\
         }";
     const videoScreenFragmentShaderSource = "precision lowp float;\n\
         uniform sampler2D samplerVideo;\n\
         varying vec2 vUV;\n\
         void main(void){\n\
-          gl_FragColor=texture2D(samplerVideo, vUV);\n\
+          gl_FragColor = texture2D(samplerVideo, vUV);\n\
         }";
 
     if (_isSeparateThreejsCanvas){
@@ -100,9 +100,9 @@ THREE.JeelizHelper = (function(){
       depthTest: false,
       vertexShader: videoScreenVertexShaderSource,
       fragmentShader: videoScreenFragmentShaderSource,
-       uniforms:{
+      uniforms:{
         samplerVideo: {value: _threeVideoTexture}
-       }
+      }
     });
     const videoGeometry = new THREE.BufferGeometry()
     const videoScreenCorners = new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
@@ -120,10 +120,12 @@ THREE.JeelizHelper = (function(){
       _isDetected = threeCompositeObject.visible;
       const ds = detectState[i];
       if (_isDetected && ds.detected<_settings.detectionThreshold-_settings.detectionHysteresis){
-          //DETECTION LOST
+        
+        //DETECTION LOST
         if (_detect_callback) _detect_callback(i, false);
         threeCompositeObject.visible = false;
       } else if (!_isDetected && ds.detected>_settings.detectionThreshold+_settings.detectionHysteresis){
+        
         //FACE DETECTED
         if (_detect_callback) _detect_callback(i, true);
         threeCompositeObject.visible = true;
@@ -220,7 +222,7 @@ THREE.JeelizHelper = (function(){
     detect: function(detectState){
       const ds = (_isMultiFaces) ? detectState : [detectState];
 
-      //update detection states
+      // update detection states:
       detect(ds);
     },
 
