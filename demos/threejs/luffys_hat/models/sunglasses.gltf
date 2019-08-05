@@ -1,0 +1,283 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 1034,
+      "max": [
+        7.3536200523376465,
+        4.223020076751709,
+        6.1394500732421875
+      ],
+      "min": [
+        -7.3730697631835938,
+        -0.98217397928237915,
+        -9.2453098297119141
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 12408,
+      "componentType": 5126,
+      "count": 1034,
+      "max": [
+        0.99918061494827271,
+        0.99985277652740479,
+        0.99994724988937378
+      ],
+      "min": [
+        -0.9995805025100708,
+        -0.9997362494468689,
+        -0.99930465221405029
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 6216,
+      "max": [
+        1033
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 24816,
+      "componentType": 5126,
+      "count": 836,
+      "max": [
+        6.5996999740600586,
+        3.778749942779541,
+        5.9142799377441406
+      ],
+      "min": [
+        -6.5617599487304688,
+        -0.87931197881698608,
+        5.138279914855957
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 34848,
+      "componentType": 5126,
+      "count": 836,
+      "max": [
+        0.99767100811004639,
+        0.99583876132965088,
+        0.99949163198471069
+      ],
+      "min": [
+        -0.99839156866073608,
+        -0.98637473583221436,
+        -0.99862921237945557
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 24864,
+      "componentType": 5125,
+      "count": 4992,
+      "max": [
+        835
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "ryotlabs (https://sketchfab.com/ryotlabs)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/sunglasses-009aee78483e404197c2d34e2d43e9a1",
+      "title": "Sunglasses"
+    },
+    "generator": "Sketchfab-5.38.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 44832,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 44880,
+      "byteOffset": 44832,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 89712,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "phong2",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.023643000000000001,
+          0,
+          0.42857099999999998,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.46817041029999995
+      }
+    },
+    {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "name": "phong1",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.012200000000000001,
+          0.012200000000000001,
+          0.012200000000000001,
+          0.046405000000000002
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.28868823600000004
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "geometryElement5",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "geometryElement10",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -4.3711390063094768e-08,
+        0.999999999999999,
+        0,
+        0,
+        -0.999999999999999,
+        -4.3711390063094768e-08,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "Collada visual scene group"
+    },
+    {
+      "children": [
+        4,
+        5
+      ],
+      "matrix": [
+        0.01,
+        0,
+        0,
+        0,
+        0,
+        0.01,
+        0,
+        0,
+        0,
+        0,
+        0.01,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "Sunglasses"
+    },
+    {
+      "mesh": 0,
+      "name": "geometryElement5"
+    },
+    {
+      "children": [
+        6
+      ],
+      "name": "Lens_"
+    },
+    {
+      "mesh": 1,
+      "name": "geometryElement10"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
+

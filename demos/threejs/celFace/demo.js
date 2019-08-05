@@ -180,10 +180,11 @@ function init_threeScene(spec) {
     /*
     faceLowPoly.json has been exported from dev/faceLowPoly.blend using THREE.JS blender exporter with Blender v2.76
     */
-    maskLoader.load('./models/faceLowPoly.json', function (maskBufferGeometry) {
-        maskBufferGeometry.computeVertexNormals();
-        _maskBufferGeometry = maskBufferGeometry;
-    });
+    // maskLoader.load('./models/faceLowPoly.json', function (maskBufferGeometry) {
+    //     maskBufferGeometry.computeVertexNormals();
+    //     _maskBufferGeometry = maskBufferGeometry;
+    // });
+    _maskBufferGeometry = new THREE.BoxGeometry( 1, 1, 1 )
     var celFragmentShaderLoader = new THREE.FileLoader(_threeLoadingManager);
     celFragmentShaderLoader.load('./shaders/celFragmentShader.gl', function (fragmentShaderSource) {
         _maskMaterial = build_maskMaterial(fragmentShaderSource, [spec.canvasElement.width, spec.canvasElement.height]);
