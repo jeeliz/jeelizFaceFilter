@@ -383,7 +383,8 @@ We provide several neural network models:
 * `dist/NNClight.json`: this is a light version of the neural network. The file is twice lighter and it runs faster but it is less accurate for large head rotation angles,
 * `dist/NNCveryLight.json`: even lighter than the previous version: 250Kbytes, and very fast. But not very accurate and robust to all lighting conditions,
 * `dist/NNCviewTop.json`: this neural net is perfect if the camera has a bird's eye view (if you use this library for a kiosk setup for example),
-* `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25).
+* `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25),
+* `dist/NNCIntel1536.json`: neural network working with Intel 1536 Iris GPUs (there is a graphic driver bug, see [#85](https://github.com/jeeliz/jeelizFaceFilter/issues/85))
 
 
 ### Using the ES6 module
