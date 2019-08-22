@@ -226,7 +226,7 @@ JEEFACEFILTERAPI.init({
    //all other settings will be useless
    //it means that you fully handle the video aspect
 
-  'deviceId'             //not set by default
+  'deviceId'            //not set by default
   'facingMode': 'user', //to use the rear camera, set to 'environment'
 
   'idealWidth': 800,  //ideal video width in pixels
@@ -235,7 +235,8 @@ JEEFACEFILTERAPI.init({
   'maxWidth': 1280,   //max video width in pixels
   'minHeight': 480,   //min video height in pixels
   'maxHeight': 1280,  //max video height in pixels,
-  'rotate': 0         //rotation in degrees possible values: 0,90,-90,180
+  'rotate': 0,        //rotation in degrees possible values: 0,90,-90,180
+  'flipX': false      //if we should flip horizontally the video. Default: false
 },
 ```
 * `<dict> scanSettings`: override face scan settings - see `set_scanSettings(...)` method for more information.
@@ -317,6 +318,8 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `[<float> minValue, <float> maxValue] alphaRange`: it specify how to apply `k`. Between 2 successive detections, we blend the previous `detectState` values with the current detection values using a mixing factor `alpha`. `alpha=<minValue>` if `k<0.0` and `alpha=<maxValue>` if `k>1.0`. Between the 2 values, the variation is quadratic. Default value: `[0.05, 1]`.
 
 * `JEEFACEFILTERAPI.update_videoElement(<video> vid, <function|False> callback)`: change the video element used for the face detection (which can be provided via `VIDEOSETTINGS.videoElement`) by another video element. A callback function can be called when it is done.
+
+* `JEEFACEFILTERAPI.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`.
 
 
 ### Optimization
