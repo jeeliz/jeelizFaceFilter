@@ -145,7 +145,7 @@ THREE.JeelizHelper = (function(){
       const cz = Math.cos(detectState.rz), sz = Math.sin(detectState.rz);
       
       const xTweak = sz * tweak * detectState.s;
-      const yTweak = cz * tweak * (detectState.s/threeCamera.aspect);
+      const yTweak = cz * tweak * (detectState.s*threeCamera.aspect);
 
       //move the cube in order to fit the head
       const W = detectState.s;    //relative width of the detection window (1-> whole width of the detection window)
