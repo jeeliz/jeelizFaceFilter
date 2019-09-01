@@ -226,7 +226,7 @@ JEEFACEFILTERAPI.init({
    //all other settings will be useless
    //it means that you fully handle the video aspect
 
-  'deviceId'             //not set by default
+  'deviceId'            //not set by default
   'facingMode': 'user', //to use the rear camera, set to 'environment'
 
   'idealWidth': 800,  //ideal video width in pixels
@@ -235,7 +235,8 @@ JEEFACEFILTERAPI.init({
   'maxWidth': 1280,   //max video width in pixels
   'minHeight': 480,   //min video height in pixels
   'maxHeight': 1280,  //max video height in pixels,
-  'rotate': 0         //rotation in degrees possible values: 0,90,-90,180
+  'rotate': 0,        //rotation in degrees possible values: 0,90,-90,180
+  'flipX': false      //if we should flip horizontally the video. Default: false
 },
 ```
 * `<dict> scanSettings`: override face scan settings - see `set_scanSettings(...)` method for more information.
@@ -286,7 +287,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEEFACEFILTERAPI.resize()`: should be called after resizing the `<canvas>` element to adapt the cut of the video,
 
-* `JEEFACEFILTERAPI.toggle_pause(<boolean> isPause)`: pause/resume,
+* `JEEFACEFILTERAPI.toggle_pause(<boolean> isPause)`: pause/resume. This method will completely stop the rendering/detection loop,
 
 * `JEEFACEFILTERAPI.toggle_slow(<boolean> isSlow)`: toggle the slow rendering mode: because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relieve the GPU. Unfortunately the tracking and the 3D rendering will also be slower but this is not a problem is the user is focusing on other elements of the application. We encourage to enable the slow mode as soon as a the user's attention is focused on a different part of the canvas,
 
@@ -314,9 +315,11 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `[<float> minValue, <float> maxValue] translationFactorRange`: multiply `k` by a factor `kTranslation` depending on the translation speed of the head (relative to the viewport). `kTranslation=0` if `translationSpeed<minValue` and `kTranslation=1` if `translationSpeed>maxValue`. The regression is linear. Default value: `[0.0015, 0.005]`,
   * `[<float> minValue, <float> maxValue] rotationFactorRange`: analogous to `translationFactorRange` but for rotation speed. Default value: `[0.003, 0.02]`,
   * `[<float> minValue, <float> maxValue] qualityFactorRange`: analogous to `translationFactorRange` but for the head detection coefficient. Default value: `[0.9, 0.98]`,
-  * `[<float> minValue, <float> maxValue] alphaRange`: it specify how to apply `k`. Between 2 successive detections, we blend the previous `detectState` values with the current detection values using a mixing factor `alpha`. `alpha=<minValue>` if `k<0.0` and `alpha=<maxValue>` if `k>1.0`. Between the 2 values, the variation is quadratic.
+  * `[<float> minValue, <float> maxValue] alphaRange`: it specify how to apply `k`. Between 2 successive detections, we blend the previous `detectState` values with the current detection values using a mixing factor `alpha`. `alpha=<minValue>` if `k<0.0` and `alpha=<maxValue>` if `k>1.0`. Between the 2 values, the variation is quadratic. Default value: `[0.05, 1]`.
 
 * `JEEFACEFILTERAPI.update_videoElement(<video> vid, <function|False> callback)`: change the video element used for the face detection (which can be provided via `VIDEOSETTINGS.videoElement`) by another video element. A callback function can be called when it is done.
+
+* `JEEFACEFILTERAPI.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`.
 
 
 ### Optimization
@@ -383,7 +386,8 @@ We provide several neural network models:
 * `dist/NNClight.json`: this is a light version of the neural network. The file is twice lighter and it runs faster but it is less accurate for large head rotation angles,
 * `dist/NNCveryLight.json`: even lighter than the previous version: 250Kbytes, and very fast. But not very accurate and robust to all lighting conditions,
 * `dist/NNCviewTop.json`: this neural net is perfect if the camera has a bird's eye view (if you use this library for a kiosk setup for example),
-* `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25).
+* `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25),
+* `dist/NNCIntel1536.json`: neural network working with Intel 1536 Iris GPUs (there is a graphic driver bug, see [#85](https://github.com/jeeliz/jeelizFaceFilter/issues/85))
 
 
 ### Using the ES6 module
