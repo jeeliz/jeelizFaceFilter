@@ -175,7 +175,12 @@ const JeelizResizer = (function(){
 
       //sort camera resolutions from the best to the worst :
       allResolutions.sort(function(resA, resB){
-        return compute_overlap(resB, _whCanvasPx)-compute_overlap(resA, _whCanvasPx);
+        // To find the correct resolution for iOS one should consider the window.devicePixelRatio factor
+        let dpr = 1
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+          dpr = window.devicePixelRatio;
+        }
+        return compute_overlap(resB, [_whCanvasPx[0] * dpr, _whCanvasPx[1] * dpr])-compute_overlap(resA, [_whCanvasPx[0] * dpr, _whCanvasPx[1] * dpr]);        
       });
 
       //pick the best camera resolution
