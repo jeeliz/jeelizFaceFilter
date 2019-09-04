@@ -28,9 +28,9 @@ const JeelizResizer = (function(){
 
   //private functions
   function add_CSStransform(domElement, CSS){
-    var CSStransform=domElement.style.transform;
+    const CSStransform = domElement.style.transform;
     if (CSStransform.indexOf(CSS) !== -1) return;
-    domElement.style.transform=CSS+' '+CSStransform;
+    domElement.style.transform = CSS + ' ' + CSStransform;
   }
 
   //compute overlap between 2 rectangles A and B
@@ -82,7 +82,7 @@ const JeelizResizer = (function(){
   }
 
   function resize_canvasToFullScreen(){
-    _whCanvasPx=[window['innerWidth'], window['innerHeight']];
+    _whCanvasPx = [window['innerWidth'], window['innerHeight']];
     if (_isInvFullscreenWH){
       _whCanvasPx.reverse();
     }
@@ -93,7 +93,7 @@ const JeelizResizer = (function(){
   function resize_fullScreen(){
     resize_canvasToFullScreen();
     JEEFACEFILTERAPI.resize();
-    _timerFullScreen=false;
+    _timerFullScreen = false;
     if (_callbackResize) {
       _callbackResize();
     }
@@ -131,15 +131,15 @@ const JeelizResizer = (function(){
       _isInvFullscreenWH = (typeof(options.isInvWH)!=='undefined' && options.isInvWH);
 
       if (_isFullScreen){
-        //we are in fullscreen mode
-        if (typeof(options.onResize)!=='undefined'){
+        // we are in fullscreen mode
+        if (typeof(options.onResize) !== 'undefined'){
           _callbackResize = options.onResize;
         }
         resize_canvasToFullScreen();
         window.addEventListener('resize', on_windowResize, false);
       } else { //not fullscreen mode
 
-        //get display size of the canvas
+        // get display size of the canvas:
         const domRect = _domCanvas.getBoundingClientRect();
         if (domRect.width===0 || domRect.height===0){
           console.log('WARNING in JeelizResize.size_canvas() : the canvas has its width or its height null, Retry a bit later...');
@@ -151,46 +151,46 @@ const JeelizResizer = (function(){
           return;
         }
 
-        //do resize canvas :
+        // do resize canvas:
         _resizeAttemptsCounter=0;
-        _overSamplingFactor=(typeof(options.overSamplingFactor)==='undefined') ? 1 : options.overSamplingFactor;
+        _overSamplingFactor = (typeof(options.overSamplingFactor) === 'undefined') ? 1 : options.overSamplingFactor;
         update_sizeCanvas();
       }
 
-      //flip horizontally if required :
+      // flip horizontally if required:
       if (typeof(options.isFlipY)!=='undefined' && options.isFlipY){
         add_CSStransform(_domCanvas, 'rotateY(180deg)');
       }
 
-      //compute the best camera resolutions :
+      // compute the best camera resolutions :
       const allResolutions = _cameraResolutions.slice(0);
 
-      //if we are in portrait mode, the camera is also in portrait mode
-      //so we need to set all resolutions to portrait mode
+      // if we are in portrait mode, the camera is also in portrait mode
+      // so we need to set all resolutions to portrait mode
       if (that.is_portrait()){
         allResolutions.forEach(function(wh){
           wh.reverse();
         });
       }
 
-      //sort camera resolutions from the best to the worst :
+      // scale canvas size to device pixel ratio:
+      // (To find the correct resolution, especially for iOS one should consider the window.devicePixelRatio factor)
+      const dpr = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
+      const whCanvasPxScaled = [_whCanvasPx[0] * dpr, _whCanvasPx[1] * dpr];
+
+      // sort camera resolutions from the best to the worst:
       allResolutions.sort(function(resA, resB){
-        // To find the correct resolution for iOS one should consider the window.devicePixelRatio factor
-        let dpr = 1
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-          dpr = window.devicePixelRatio;
-        }
-        return compute_overlap(resB, [_whCanvasPx[0] * dpr, _whCanvasPx[1] * dpr])-compute_overlap(resA, [_whCanvasPx[0] * dpr, _whCanvasPx[1] * dpr]);        
+        return compute_overlap(resB, whCanvasPxScaled) - compute_overlap(resA, whCanvasPxScaled);        
       });
 
-      //pick the best camera resolution
+      // pick the best camera resolution:
       const bestCameraResolution = {
-        'idealWidth': allResolutions[0][0],
-        'idealHeight':allResolutions[0][1]
+        'idealWidth':  allResolutions[0][0],
+        'idealHeight': allResolutions[0][1]
       };
 
-      //launch the callback function after a small interval to let it
-      //some time to size
+      // launch the callback function after a small interval to let it
+      // some time to size:
       setTimeout(options.callback.bind(null, false, bestCameraResolution), 1);
     }, //end size_canvas()
 
