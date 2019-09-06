@@ -1,10 +1,5 @@
 "use strict";
 
-// SETTINGS of this demo :
-const SETTINGS = {
-  cameraFOV: 40,    // in degrees, 3D camera FOV
-};
-
 // some globalz :
 let THREEVIDEOTEXTURE;
 var THREECAMERA; // should be prop of window
@@ -208,8 +203,7 @@ function init_threeScene(spec) {
   threeStuffs.videoMesh.material.needsUpdate = true;
 
   // CREATE THE CAMERA
-  const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
-  THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
+  THREECAMERA = THREE.JeelizHelper.create_camera();
 } // end init_threeScene()
 
 function animateWolf (object3D) {

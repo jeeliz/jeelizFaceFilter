@@ -14,12 +14,34 @@ THREE.JeelizHelper = (function(){
 
     tweakMoveYRotateY: 0.5, //tweak value: move detection window along Y axis when rotate the face
     
+    cameraMinVideoDimFov: 46, //Field of View for the smallest dimension of the video in degrees
+
     isDebugPivotPoint: false //display a small cube for the pivot point
   };
 
   //private vars :
-  var _threeRenderer, _threeScene, _maxFaces, _isMultiFaces, _threeCompositeObjects=[], _threePivotedObjects=[], _detect_callback=null,
-    _threeVideoMesh, _gl, _glVideoTexture, _threeVideoTexture, _isVideoTextureReady=false, _isSeparateThreejsCanvas=false, _faceFilterCv, _glShpCopy, _isDetected;
+  let _threeRenderer = null,
+      _threeScene = null,
+      _threeVideoMesh = null,
+      _threeVideoTexture = null;
+
+  let _maxFaces = -1,
+      _isMultiFaces = false,
+      _detect_callback = null,
+      _isVideoTextureReady = false,
+      _isSeparateThreejsCanvas = false,
+      _faceFilterCv = null,
+      _videoElement = null,
+      _isDetected = false,
+      _scaleW = 1,
+      _scaleH = 1;
+
+  const _threeCompositeObjects = [],
+        _threePivotedObjects = [];
+    
+  let _gl = null,
+      _glVideoTexture = null,
+      _glShpCopy = null;
 
   //private funcs :
   function create_threeCompositeObjects(){
@@ -92,7 +114,7 @@ THREE.JeelizHelper = (function(){
 
     //init video texture with red
     _threeVideoTexture = new THREE.DataTexture( new Uint8Array([255,0,0]), 1, 1, THREE.RGBFormat);
-    _threeVideoTexture.needsUpdate=true;
+    _threeVideoTexture.needsUpdate = true;
 
     //CREATE THE VIDEO BACKGROUND
     const videoMaterial = new THREE.RawShaderMaterial({
@@ -144,16 +166,18 @@ THREE.JeelizHelper = (function(){
       const tweak = _settings.tweakMoveYRotateY * Math.tan(detectState.rx);
       const cz = Math.cos(detectState.rz), sz = Math.sin(detectState.rz);
       
-      const xTweak = sz * tweak * detectState.s;
-      const yTweak = cz * tweak * (detectState.s*threeCamera.aspect);
+      const s = detectState.s * _scaleW;
+
+      const xTweak = sz * tweak * s;
+      const yTweak = cz * tweak * (s * threeCamera.aspect);
 
       //move the cube in order to fit the head
-      const W = detectState.s;    //relative width of the detection window (1-> whole width of the detection window)
+      const W = s;    //relative width of the detection window (1-> whole width of the detection window)
       const D = 1 / (2*W*halfTanFOV); //distance between the front face of the cube and the camera
       
       //coords in 2D of the center of the detection window in the viewport :
-      const xv = detectState.x + xTweak;
-      const yv = detectState.y + yTweak;
+      const xv = (detectState.x * _scaleW + xTweak);
+      const yv = (detectState.y + yTweak);
       
       //coords in 3D of the center of the cube (in the view coordinates system)
       const z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
@@ -177,9 +201,10 @@ THREE.JeelizHelper = (function(){
       _gl = spec.GL;
       _faceFilterCv = spec.canvasElement;
       _isMultiFaces = (_maxFaces>1);
+      _videoElement = spec.videoElement;
 
       //enable 2 canvas mode if necessary
-      var threejsCanvas;
+      let threejsCanvas = null;
       if (spec.threejsCanvasId){
         _isSeparateThreejsCanvas = true;
         //set the threejs canvas size to the threejs canvas
@@ -196,9 +221,9 @@ THREE.JeelizHelper = (function(){
 
        //INIT THE THREE.JS context
       _threeRenderer = new THREE.WebGLRenderer({
-        context: (_isSeparateThreejsCanvas)?null:_gl,
+        context: (_isSeparateThreejsCanvas) ? null : _gl,
         canvas: threejsCanvas,
-        alpha: (_isSeparateThreejsCanvas || spec.alpha)?true:false
+        alpha: (_isSeparateThreejsCanvas || spec.alpha) ? true : false
       });
 
       _threeScene = new THREE.Scene();
@@ -332,8 +357,56 @@ THREE.JeelizHelper = (function(){
       return occluderMesh;
     },
     
-    set_pivotOffsetYZ(pivotOffset) {
+    set_pivotOffsetYZ: function(pivotOffset) {
       _settings.pivotOffsetYZ = pivotOffset;
+    },
+
+    create_camera: function(zNear, zFar){
+      const threeCamera = new THREE.PerspectiveCamera(1, 1, (zNear) ? zNear : 0.1, (zFar) ? zFar : 100);
+      that.update_camera(threeCamera);
+
+      return threeCamera;
+    },
+
+    update_camera: function(threeCamera){
+      // compute aspectRatio:
+      const canvasElement = _threeRenderer.domElement;
+      const cvw = canvasElement.width;
+      const cvh = canvasElement.height;
+      const canvasAspecRatio = cvw / cvh;
+
+      // compute vertical field of view:
+      const vw = _videoElement.videoWidth;
+      const vh = _videoElement.videoHeight;
+      const videoAspectRatio = vw / vh;
+      const fovFactor = (vh > vw) ? (1.0 / videoAspectRatio) : 1.0;
+      const fov = _settings.cameraMinVideoDimFov * fovFactor;
+      
+      // compute X and Y offsets in pixels:
+      let scale = 1.0;
+      if (canvasAspecRatio > videoAspectRatio) {
+        // the canvas is more in landscape format than the video, so we crop top and bottom margins:
+        scale = cvw / vw;
+      } else {
+        // the canvas is more in portrait format than the video, so we crop right and left margins:
+        scale = cvh / vh;
+      }
+      const cvws = vw * scale, cvhs = vh * scale;
+      const offsetX = (cvws - cvw) / 2.0;
+      const offsetY = (cvhs - cvh) / 2.0;
+      _scaleW = cvw / cvws;
+      _scaleH = cvh / cvhs;
+
+      // apply parameters:
+      threeCamera.aspect = canvasAspecRatio;
+      threeCamera.fov = fov;
+      console.log('INFO in JeelizThreejsHelper.update_camera() : camera vertical estimated FoV is', fov);
+      threeCamera.setViewOffset(cvws, cvhs, offsetX, offsetY, cvw, cvh);
+      threeCamera.updateProjectionMatrix();
+
+      // update drawing area:
+      _threeRenderer.setSize(cvw, cvh);
+      _threeRenderer.setViewport(0, 0, cvw, cvh);
     }
   }
   return that;

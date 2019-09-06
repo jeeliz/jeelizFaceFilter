@@ -14,8 +14,16 @@ to balance between performance and quality
 
 const JeelizResizer = (function(){
   //private vars :
-  var _domCanvas, _whCanvasPx, _resizeAttemptsCounter=0, _overSamplingFactor=1, _isFullScreen=false, _timerFullScreen=false, _callbackResize=false;
-  const _cameraResolutions=[ //all resolutions should be in landscape mode
+  let _domCanvas = null,
+      _whCanvasPx = null,
+      _resizeAttemptsCounter = 0,
+      _overSamplingFactor = 1,
+      _isFullScreen = false,
+      _timerFullScreen = false,
+      _callbackResize = false,
+      _isInvFullscreenWH = false;
+
+  const _cameraResolutions = [ //all resolutions should be in landscape mode
     [640,480],
     [768,480],
     [800,600],
@@ -24,8 +32,7 @@ const JeelizResizer = (function(){
     [1024,768],
     [1280,720]
   ];
-  var _isInvFullscreenWH = false;
-
+  
   //private functions
   function add_CSStransform(domElement, CSS){
     const CSStransform = domElement.style.transform;
@@ -42,14 +49,14 @@ const JeelizResizer = (function(){
     const aspectRatioB = whB[0] / whB[1]; //higher aspectRatio -> more landscape
     
     var whLandscape, whPortrait;
-    if (aspectRatioA>aspectRatioB){ 
+    if (aspectRatioA > aspectRatioB){ 
       whLandscape = whA, whPortrait = whB;
     } else {
       whLandscape = whB, whPortrait = whA;
     }
 
     //the overlapped area will be always a rectangle
-    const areaOverlap = Math.min(whLandscape[0], whPortrait[0])*Math.min(whLandscape[1], whPortrait[1]);
+    const areaOverlap = Math.min(whLandscape[0], whPortrait[0]) * Math.min(whLandscape[1], whPortrait[1]);
     
     var areaTotal;
     if (whLandscape[0]>=whPortrait[0] && whLandscape[1]>=whPortrait[1]){ //union is a rectangle
@@ -66,7 +73,7 @@ const JeelizResizer = (function(){
 
   function update_sizeCanvas(){
     const domRect = _domCanvas.getBoundingClientRect();
-    _whCanvasPx=[
+    _whCanvasPx = [
       Math.round(_overSamplingFactor * domRect.width),
       Math.round(_overSamplingFactor * domRect.height)
     ];
@@ -118,6 +125,7 @@ const JeelizResizer = (function(){
     //when the canvas has already the right size
     //options:
     // - <string> canvasId: id of the canvas
+    // - <HTMLCanvasElement> canvas: if canvasId is not provided
     // - <function> callback: function to launch if there was an error or not
     // - <float> overSamplingFactor: facultative. If 1, same resolution than displayed size (default). 
     //   If 2, resolution twice higher than real size
@@ -126,7 +134,7 @@ const JeelizResizer = (function(){
     // - <function> onResize: function called when the window is resized. Only enabled if isFullScreen=true
     // - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default=false
     size_canvas: function(options){
-      _domCanvas = document.getElementById(options.canvasId);
+      _domCanvas = (options.canvas) ? options.canvas : document.getElementById(options.canvasId);
       _isFullScreen = (typeof(options.isFullScreen)!=='undefined' && options.isFullScreen);
       _isInvFullscreenWH = (typeof(options.isInvWH)!=='undefined' && options.isInvWH);
 

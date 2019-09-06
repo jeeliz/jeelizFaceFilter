@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta http-equiv="content-language" content="en-EN" />
-        
-        <title>JEELIZ FACE FILTER : THREE.JS CUBE DEMO WITH 2 CANVAS</title>
-        
-        <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
-        <script type="text/javascript" src="../../../dist/jeelizFaceFilter.js"></script>
-
-        <!-- INCLUDE THREE.JS -->
-        <script type="text/javascript" src="../../../libs/threejs/v90/three.min.js"></script>
-
-        <!-- INCLUDE JEELIZ THREE.JS HELPER -->
-        <script type="text/javascript" src="../../../helpers/JeelizThreejsHelper.js"></script>
-
-        <!-- INCLUDE JEELIZRESIZER -->
-        <script type="text/javascript" src="../../../helpers/JeelizResizer.js"></script>
-
-        <!-- INCLUDE DEMO SCRIPT -->
-        <script type="text/javascript" src="./demo.js"></script>
-
-        <!-- INCLUDE FORK ME ON GITHUB BANNER -->
-        <script type="text/javascript" src="../../appearance/widget.js"></script>
-
-        <link rel="stylesheet" href="../../appearance/style.css" type="text/css" />
-        <style type='text/css'>
-            #threejsCanvas{
-                z-index: 11;
-                position: absolute;
-                max-height: 100%;
-                max-width: 100%;
-                left: 50%;
-                top: 50%;
-                width: 100vmin;
-                transform: translate(-50%, -50%) rotateY(180deg);
-            }
-
-        </style>
-    </head>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-language" content="en-EN" />
     
-    <body onload="main()" style='color: white'>
-        <!-- CANVAS BEHIND : VIDEO FACEFILTER ONLY -->
-        <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+    <title>JEELIZ FACE FILTER : THREE.JS CUBE DEMO WITH 2 CANVAS</title>
+    
+    <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
+    <script src="../../../dist/jeelizFaceFilter.js"></script>
 
-        <!-- CANVAS ABOVE : AR WITH THREE.JS -->
-        <canvas width="600" height="600" id='threejsCanvas'></canvas>
-    </body>
+    <!-- INCLUDE THREE.JS -->
+    <script src="../../../libs/threejs/v90/three.min.js"></script>
+
+    <!-- INCLUDE JEELIZ THREE.JS HELPER -->
+    <script src="../../../helpers/JeelizThreejsHelper.js"></script>
+
+    <!-- INCLUDE JEELIZRESIZER -->
+    <script src="../../../helpers/JeelizResizer.js"></script>
+
+    <!-- INCLUDE DEMO SCRIPT -->
+    <script src="./demo.js"></script>
+
+    <!-- INCLUDE FORK ME ON GITHUB BANNER -->
+    <script src="../../appearance/widget.js"></script>
+
+    <link rel="stylesheet" href="../../appearance/style.css" type="text/css" />
+    <style type='text/css'>
+      #threejsCanvas{
+        z-index: 11;
+        position: absolute;
+        max-height: 100%;
+        max-width: 100%;
+        left: 50%;
+        top: 50%;
+        width: 100vmin;
+        transform: translate(-50%, -50%) rotateY(180deg);
+      }
+
+    </style>
+  </head>
+  
+  <body onload="main()" style='color: white'>
+    <!-- CANVAS BEHIND : VIDEO FACEFILTER ONLY -->
+    <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+
+    <!-- CANVAS ABOVE : AR WITH THREE.JS -->
+    <canvas width="600" height="600" id='threejsCanvas'></canvas>
+  </body>
 </html>
  
  

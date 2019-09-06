@@ -34,10 +34,8 @@ function init_threeScene(spec) {
   threeGlasses.scale.multiplyScalar(0.006);
   threeStuffs.faceObject.add(threeGlasses);
 
-
   //CREATE THE CAMERA
-  const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
-  THREECAMERA = new THREE.PerspectiveCamera(50, aspecRatio, 0.1, 100);
+  THREECAMERA = THREE.JeelizHelper.create_camera();
 } // end init_threeScene()
 
 //launched by body.onload() :

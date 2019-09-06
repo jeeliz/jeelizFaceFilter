@@ -267,6 +267,7 @@ The initialization callback function ( `callbackReady` in the code snippet ) is 
 * `<WebGLRenderingContext> GL`: the WebGL context. The rendering 3D engine should use this WebGL context,
 * `<canvas> canvasElement`: the `<canvas>` element,
 * `<WebGLTexture> videoTexture`: a WebGL texture displaying the webcam video. It matches the dimensions of the canvas. It can be used as a background,
+* `<HTMLVideoElement> videoElement`: the video used as source for the webgl texture `videoTexture`,
 * `<int> maxFacesDetected`: the maximum number of detected faces. 
 
 

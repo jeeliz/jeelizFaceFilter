@@ -1,14 +1,8 @@
 "use strict";
 
-// SETTINGS of this demo :
-const SETTINGS = {
-  cameraFOV: 40,    // in degrees, 3D camera FOV
-};
-
 // some globalz :
 var THREECAMERA;
 const ARRAY_BILLS = [];
-
 
 // callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
 function detect_callback(isDetected) {
@@ -112,8 +106,7 @@ function init_threeScene(spec) {
   THREESTUFF.scene.add(calqueMesh);
 
   // CREATE THE CAMERA
-  const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
-  THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
+  THREECAMERA = THREE.JeelizHelper.create_camera();
 
   // CREATE A LIGHT
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);

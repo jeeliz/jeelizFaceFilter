@@ -2,13 +2,11 @@
 
 // SETTINGS of this demo :
 const SETTINGS = {
-  cameraFOV: 40,    // in degrees, 3D camera FOV
   pivotOffsetYZ: [-0.2, -0.2]
 };
 
 // some globalz :
 var THREECAMERA; //should be prop of window
-let ISDETECTED;
 
 let ANONYMOUSMESH;
 let ANONYMOUSOBJ3D;
@@ -81,15 +79,14 @@ function init_threeScene(spec) {
   }
 
   // CREATE THE CAMERA
-  const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
-  THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
+  THREECAMERA = THREE.JeelizHelper.create_camera();
   
   // CREATE A LIGHT
   const ambient = new THREE.AmbientLight(0xffffff, 0.8);
   threeStuffs.scene.add(ambient);
 
   // CREAT A SPOTLIGHT
-  var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
   dirLight.position.set(100, 1000, 1000);
   threeStuffs.scene.add(dirLight);
 } // end init_threeScene()
@@ -131,10 +128,10 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
-      ISDETECTED = THREE.JeelizHelper.get_isDetected();
+      const isDetected = THREE.JeelizHelper.get_isDetected();
 
 
-      if (ISDETECTED && detectState.expressions[0] >= 0.8 && !isTransformed) {
+      if (isDetected && detectState.expressions[0] >= 0.8 && !isTransformed) {
         isTransformed = true;
         animateAppear(ANONYMOUSMESH);
         const openMouthInstruction = $('#openMouthInstruction');

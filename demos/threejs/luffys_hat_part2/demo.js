@@ -3,7 +3,6 @@
 
 // SETTINGS of this demo :
 const SETTINGS = {
-  cameraFOV: 40,    // in degrees, 3D camera FOV
   pivotOffsetYZ: [-0.2, -0.5], // XYZ of the distance between the center of the cube and the pivot
 };
 
@@ -143,8 +142,7 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(ambient);
 
   // CREATE THE CAMERA
-  const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
-  THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
+  THREECAMERA = THREE.JeelizHelper.create_camera();
 } // end init_threeScene()
 
 //launched by body.onload() :
