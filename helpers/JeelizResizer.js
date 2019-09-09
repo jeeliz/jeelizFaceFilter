@@ -12,7 +12,7 @@ to balance between performance and quality
 */ 
 "use strict";
 
-const JeelizResizer = (function(){
+var JeelizResizer = (function(){
   //private vars :
   let _domCanvas = null,
       _whCanvasPx = null,
