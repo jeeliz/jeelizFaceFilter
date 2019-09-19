@@ -129,7 +129,7 @@ const JeelizResizer = (function(){
     // - <function> callback: function to launch if there was an error or not
     // - <float> overSamplingFactor: facultative. If 1, same resolution than displayed size (default). 
     //   If 2, resolution twice higher than real size
-    // - <boolean> isFlipY: if we should flip the canvas or not. Default: false
+    // - <boolean> CSSFlipX: if we should flip the canvas or not. Default: false
     // - <boolean> isFullScreen: if we should set the canvas fullscreen. Default : false
     // - <function> onResize: function called when the window is resized. Only enabled if isFullScreen=true
     // - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default=false
@@ -166,7 +166,7 @@ const JeelizResizer = (function(){
       }
 
       // flip horizontally if required:
-      if (typeof(options.isFlipY)!=='undefined' && options.isFlipY){
+      if (typeof(options.CSSFlipX)!=='undefined' && options.CSSFlipX){
         add_CSStransform(_domCanvas, 'rotateY(180deg)');
       }
 

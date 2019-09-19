@@ -8,7 +8,7 @@ function main(){
   //set canvas fullscreen with JeelizResizer.js helper :
   JeelizResizer.size_canvas({
     canvasId: 'matrixCanvas',
-    isFlipY: true,
+    CSSFlipX: true, //This option was previously called isFlipY
     isFullScreen: true,
     callback: start,
     onResize: function(){

@@ -33,8 +33,7 @@ THREE.JeelizHelper = (function(){
       _faceFilterCv = null,
       _videoElement = null,
       _isDetected = false,
-      _scaleW = 1,
-      _scaleH = 1;
+      _scaleW = 1;
 
   const _threeCompositeObjects = [],
         _threePivotedObjects = [];
@@ -373,7 +372,7 @@ THREE.JeelizHelper = (function(){
       const canvasElement = _threeRenderer.domElement;
       const cvw = canvasElement.width;
       const cvh = canvasElement.height;
-      const canvasAspecRatio = cvw / cvh;
+      const canvasAspectRatio = cvw / cvh;
 
       // compute vertical field of view:
       const vw = _videoElement.videoWidth;
@@ -384,7 +383,7 @@ THREE.JeelizHelper = (function(){
       
       // compute X and Y offsets in pixels:
       let scale = 1.0;
-      if (canvasAspecRatio > videoAspectRatio) {
+      if (canvasAspectRatio > videoAspectRatio) {
         // the canvas is more in landscape format than the video, so we crop top and bottom margins:
         scale = cvw / vw;
       } else {
@@ -395,10 +394,9 @@ THREE.JeelizHelper = (function(){
       const offsetX = (cvws - cvw) / 2.0;
       const offsetY = (cvhs - cvh) / 2.0;
       _scaleW = cvw / cvws;
-      _scaleH = cvh / cvhs;
 
       // apply parameters:
-      threeCamera.aspect = canvasAspecRatio;
+      threeCamera.aspect = canvasAspectRatio;
       threeCamera.fov = fov;
       console.log('INFO in JeelizThreejsHelper.update_camera() : camera vertical estimated FoV is', fov);
       threeCamera.setViewOffset(cvws, cvhs, offsetX, offsetY, cvw, cvh);
