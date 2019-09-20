@@ -161,7 +161,7 @@ THREE.JeelizHelper = (function(){
       if (!threeCompositeObject.visible) return;
       const detectState = ds[i];
 
-      //tweak Y position depending on rx (see)
+      // tweak Y position depending on rx:
       const tweak = _settings.tweakMoveYRotateY * Math.tan(detectState.rx);
       const cz = Math.cos(detectState.rz), sz = Math.sin(detectState.rz);
       
@@ -170,31 +170,32 @@ THREE.JeelizHelper = (function(){
       const xTweak = sz * tweak * s;
       const yTweak = cz * tweak * (s * threeCamera.aspect);
 
-      //move the cube in order to fit the head
+      // move the cube in order to fit the head:
       const W = s;    //relative width of the detection window (1-> whole width of the detection window)
       const D = 1 / (2*W*halfTanFOV); //distance between the front face of the cube and the camera
       
-      //coords in 2D of the center of the detection window in the viewport :
+      //coords in 2D of the center of the detection window in the viewport:
       const xv = (detectState.x * _scaleW + xTweak);
       const yv = (detectState.y + yTweak);
       
-      //coords in 3D of the center of the cube (in the view coordinates system)
+      // coords in 3D of the center of the cube (in the view coordinates system)
       const z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
       const x = xv * D * halfTanFOV;
       const y = yv * D * halfTanFOV/threeCamera.aspect;
 
-      //the pivot position depends on rz rotation
+      // the pivot position depends on rz rotation:
       _threePivotedObjects[i].position.set(-sz*_settings.pivotOffsetYZ[0], -cz*_settings.pivotOffsetYZ[0], -_settings.pivotOffsetYZ[1]);
 
-      //move and rotate the cube
+      // move and rotate the cube:
       threeCompositeObject.position.set(x,y+_settings.pivotOffsetYZ[0], z+_settings.pivotOffsetYZ[1]);
       threeCompositeObject.rotation.set(detectState.rx+_settings.rotationOffsetX, detectState.ry, detectState.rz, "ZXY");
     }); //end loop on composite objects
   }
 
-  //public methods :
-  var that={
-    init: function(spec, detectCallback){ //launched with the same spec object than callbackReady. set spec.threejsCanvasId to the ID of the threejsCanvas to be in 2 canvas mode
+  //public methods:
+  const that = {
+    // launched with the same spec object than callbackReady. set spec.threejsCanvasId to the ID of the threejsCanvas to be in 2 canvas mode:
+    init: function(spec, detectCallback){
       _maxFaces = spec.maxFacesDetected;
       _glVideoTexture = spec.videoTexture;
       _gl = spec.GL;
@@ -202,11 +203,11 @@ THREE.JeelizHelper = (function(){
       _isMultiFaces = (_maxFaces>1);
       _videoElement = spec.videoElement;
 
-      //enable 2 canvas mode if necessary
+      // enable 2 canvas mode if necessary:
       let threejsCanvas = null;
       if (spec.threejsCanvasId){
         _isSeparateThreejsCanvas = true;
-        //set the threejs canvas size to the threejs canvas
+        // adjust the threejs canvas size to the threejs canvas:
         threejsCanvas = document.getElementById(spec.threejsCanvasId);
         threejsCanvas.setAttribute('width', _faceFilterCv.width);
         threejsCanvas.setAttribute('height', _faceFilterCv.height);
@@ -218,7 +219,7 @@ THREE.JeelizHelper = (function(){
         _detect_callback = detectCallback;
       }
 
-       //INIT THE THREE.JS context
+       // init THREE.JS context:
       _threeRenderer = new THREE.WebGLRenderer({
         context: (_isSeparateThreejsCanvas) ? null : _gl,
         canvas: threejsCanvas,
@@ -229,6 +230,11 @@ THREE.JeelizHelper = (function(){
 
       create_threeCompositeObjects();
       create_videoScreen();
+
+      // handle device orientation change:
+      window.addEventListener('orientationchange', function(){
+        setTimeout(JEEFACEFILTERAPI.resize, 1000);
+      }, false);
       
       const returnedDict = {
         videoMesh: _threeVideoMesh,

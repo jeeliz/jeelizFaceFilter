@@ -286,7 +286,7 @@ In multiface detection mode, `detectState` is an array. Its size is equal to the
 ### Miscellaneous methods
 After the initialization (ie after that `callbackReady` is launched ) , these methods are available:
 
-* `JEEFACEFILTERAPI.resize()`: should be called after resizing the `<canvas>` element to adapt the cut of the video,
+* `JEEFACEFILTERAPI.resize()`: should be called after resizing the `<canvas>` element to adapt the cut of the video. It should also be called if the device orientation is changed to take account of new video dimensions,
 
 * `JEEFACEFILTERAPI.toggle_pause(<boolean> isPause)`: pause/resume. This method will completely stop the rendering/detection loop,
 

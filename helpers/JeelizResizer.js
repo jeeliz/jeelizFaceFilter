@@ -145,6 +145,8 @@ var JeelizResizer = (function(){
         }
         resize_canvasToFullScreen();
         window.addEventListener('resize', on_windowResize, false);
+        window.addEventListener('orientationchange', on_windowResize, false);
+        
       } else { //not fullscreen mode
 
         // get display size of the canvas:
