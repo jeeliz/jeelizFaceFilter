@@ -464,7 +464,8 @@ This API uses Jeeliz WebGL Deep Learning technology to detect and track the user
 
 In all cases, WebRTC should be implemented in the web browser, otherwise FaceFilter API will not be able to get the webcam video feed. Here are the compatibility tables from [caniuse.com](https://caniuse.com/) here: [WebGL1](https://caniuse.com/#feat=webgl), [WebGL2](https://caniuse.com/#feat=webgl2), [WebRTC](https://caniuse.com/#feat=stream).
 
-If a compatibility error is triggered, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all applications which could use your device (Skype, Messenger, other browser tabs and windows, ...). Please include:
+If a compatibility error occurred, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all applications which could use the camera (Skype, Messenger, other browser tabs and windows, ...). Please include:
+* the browser, the version of the browser, the operating system, the version of the operating system, the device model and the GPU if it is a desktop computer,
 * a screenshot of [webglreport.com - WebGL1](http://webglreport.com/?v=1) (about your `WebGL1` implementation),
 * a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your `WebGL2` implementation),
 * the log from the web console,
