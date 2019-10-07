@@ -488,6 +488,8 @@ We are currently writing a series of tutorial for the API, starting by building 
 
 * Tutorial: Matrix theme face filter: [French version](https://xavierbourry.developpez.com/filtre-facial-webcam/), [English translation](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/)
 
+* Video tutorial: a neat video tutorial about [Headtracking Controls with Three JS](https://www.youtube.com/watch?v=_Fs4Sbn2LPc&t=127s) by [Chris Godber](http://chrisgodber.co.uk/). He also releases other great video tutorials about web development, VR, 3D on [his Youtube channel](https://www.youtube.com/channel/UCdwx6HHyPoDTtL9iq1-sI3A)
+
 ## License
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
 
