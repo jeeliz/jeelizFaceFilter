@@ -24,6 +24,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [Changing the 3D engine](#changing-the-3d-engine)
   * [Changing the neural network](#changing-the-neural-network)
   * [Using the ES6 module](#using-the-es6-module)
+* [Integration](#integration)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
   * [Hosting optimization](#hosting-optimization)
@@ -426,6 +427,20 @@ faceFilter.init({
     } //end callbackTrack()
 });//end init call
 ```
+
+## Integration
+We don't cover here the integration with mainstream JavaScript frontend frameworks (*React*, *Vue*, *Angular*).
+If you submit Pull Request adding the boilerplate or a demo integrated with specific frameworks, you are welcome and they will be accepted of course.
+We can provide this kind of integration as a specific development service ( please contact us [here](https://jeeliz.com/contact-us/) ). But it is not so hard to do it by yourself. Here is a bunch of submitted issues dealing with *React* integration:
+
+* React integration: [#74](https://github.com/jeeliz/jeelizFaceFilter/issues/74#issuecomment-455624092) and [#122](https://github.com/jeeliz/jeelizFaceFilter/issues/122#issuecomment-533185928)
+* [is it possible to use this library in react native project](https://github.com/jeeliz/jeelizFaceFilter/issues/21)
+* [Having difficulty using JeelizThreejsHelper in ReactApp](https://github.com/jeeliz/jeelizFaceFilter/issues/137)
+
+You can also take a look at these Github code repositories:
+* [ikebastuz/jeelizTest](https://github.com/ikebastuz/jeelizTest): React demo of a CSS3D FaceFilter. It is based on [Create React App](https://github.com/facebook/create-react-app).
+* [nickydev100/FFMpeg-Angular-Face-Filter](https://github.com/nickydev100/FFMpeg-Angular-Face-Filter): Angular boilerplate
+
 
 
 ## Hosting
