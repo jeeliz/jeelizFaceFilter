@@ -25,6 +25,8 @@ This library is lightweight and it does not include any 3D engine or third party
   * [Changing the neural network](#changing-the-neural-network)
   * [Using the ES6 module](#using-the-es6-module)
 * [Integration](#integration)
+  * [With JavaScript frontend frameworks](#with-javascript-frontend-frameworks)
+  * [Native](#native)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
   * [Hosting optimization](#hosting-optimization)
@@ -429,6 +431,7 @@ faceFilter.init({
 ```
 
 ## Integration
+### With JavaScript frontend frameworks
 We don't cover here the integration with mainstream JavaScript frontend frameworks (*React*, *Vue*, *Angular*).
 If you submit Pull Request adding the boilerplate or a demo integrated with specific frameworks, you are welcome and they will be accepted of course.
 We can provide this kind of integration as a specific development service ( please contact us [here](https://jeeliz.com/contact-us/) ). But it is not so hard to do it by yourself. Here is a bunch of submitted issues dealing with *React* integration:
@@ -441,7 +444,18 @@ You can also take a look at these Github code repositories:
 * [ikebastuz/jeelizTest](https://github.com/ikebastuz/jeelizTest): React demo of a CSS3D FaceFilter. It is based on [Create React App](https://github.com/facebook/create-react-app).
 * [nickydev100/FFMpeg-Angular-Face-Filter](https://github.com/nickydev100/FFMpeg-Angular-Face-Filter): Angular boilerplate
 
+## Native
+It is possible to execute a JavaScript application using this library into a *Webview* for a native app integration.
+But with IOS the camera access is disabled inside webviews. You have to implement a hack to stream the camera video into the webview using websockets.
 
+His hack has not been implemented into this repository but in a similar Jeeliz Library, [Jeeliz Weboji](https://github.com/jeeliz/jeelizWeboji). Here are the links:
+
+* [Apache Cordova IOS demo (it should also work on Android)](https://github.com/jeeliz/jeelizWeboji/tree/master/demos/cordova)
+* [Youtube video of the demo](https://youtu.be/yx9uA1g6-rA)
+* [Github submitted issue](https://github.com/jeeliz/jeelizWeboji/issues/27)
+* [Linkedin post detailing pros and cons](https://www.linkedin.com/feed/update/urn:li:activity:6587781973287198720)
+
+But it is still a dirty hack introducing a bottleneck. It still run pretty well on a high end device (tested on Iphone XR), but it is better to stick on a full web environment.
 
 ## Hosting
 
