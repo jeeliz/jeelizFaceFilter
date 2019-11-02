@@ -25,6 +25,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [Changing the neural network](#changing-the-neural-network)
   * [Using the ES6 module](#using-the-es6-module)
 * [Integration](#integration)
+  * [With a bundler](#with-a-bundler)
   * [With JavaScript frontend frameworks](#with-javascript-frontend-frameworks)
   * [Native](#native)
 * [Hosting](#hosting)
@@ -40,7 +41,7 @@ This library is lightweight and it does not include any 3D engine or third party
 
 
 <p align="center">
-<img src='https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg' />
+  <img src='https://user-images.githubusercontent.com/11960872/37533324-cfa3e516-2941-11e8-99a9-96a1e20c80a3.jpg' />
 </p>
 
 
@@ -188,32 +189,36 @@ Here we describe how to use this library. Although we planned to add new feature
 
 ### Get started
 On your HTML page, you first need to include the main script between the tags `<head>` and `</head>`:
+
 ```html
  <script src="dist/jeelizFaceFilter.js"></script>
 ```
+
 Then you should include a `<canvas>` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the `<canvas>` element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEEFACEFILTERAPI.resize()` if you resize the canvas after the initialization step. We strongly encourage you to use our helper `/helpers/JeelizResizer.js` to set the width and height of the canvas (see [Optimization/Canvas and video resolutions](#optimization) section).
+
 ```html
 <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
 ```
+
 This canvas will be used by WebGL both for the computation and the 3D rendering. When your page is loaded you should launch this function:
 ```javascript
 JEEFACEFILTERAPI.init({
-    canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
-    callbackReady: function(errCode, spec){
-        if (errCode){
-            console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
-            return;
-        }
-        [init scene with spec...]
-        console.log('INFO: JEEFACEFILTERAPI IS READY');
-    }, //end callbackReady()
+  canvasId: 'jeeFaceFilterCanvas',
+  NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
+  callbackReady: function(errCode, spec){
+    if (errCode){
+      console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
+      return;
+    }
+    // [init scene with spec...]
+    console.log('INFO: JEEFACEFILTERAPI IS READY');
+  }, //end callbackReady()
 
-    //called at each render iteration (drawing loop)
-    callbackTrack: function(detectState){
-        //render your scene here
-        [... do something with detectState]
-    } //end callbackTrack()
+  //called at each render iteration (drawing loop)
+  callbackTrack: function(detectState){
+    // Render your scene here
+    // [... do something with detectState]
+  } //end callbackTrack()
 });//end init call
 ```
 
@@ -341,11 +346,11 @@ Then in your main script, before initializing Jeeliz FaceFilter, you should call
 JeelizResizer.size_canvas({
   canvasId: 'jeeFaceFilterCanvas',
     callback: function(isError, bestVideoSettings){
-        JEEFACEFILTERAPI.init({
-          videoSettings: bestVideoSettings,
-          //...
-          //...
-        });
+      JEEFACEFILTERAPI.init({
+        videoSettings: bestVideoSettings,
+        //...
+        //...
+      });
     }
 });
 ```
@@ -384,7 +389,7 @@ Since July 2018 it is possible to change the neural network. When calling `JEEFA
     //...
   })
 ```
-It is also possible to give directly the NNC json file content by using `NNC` property instead of `NNCpath`.
+It is also possible to give directly the neural network model JSON file content by using `NNC` property instead of `NNCpath`.
 
 We provide several neural network models:
 * `dist/NNC.json`: this is the default neural network. Good tradeoff between size and performances,
@@ -406,31 +411,51 @@ import 'dist/jeelizFaceFilterES6.js'
 or using `require` ([see issue #72](https://github.com/jeeliz/jeelizFaceFilter/issues/72)):
 
 ```javascript
-const faceFilter =require('./lib/jeelizFaceFilterES6.js')
+const faceFilter = require('./lib/jeelizFaceFilterES6.js')
 
 faceFilter.init({
-    //you can also provide the canvas directly
-    //using the canvas property instead of canvasId:
-    canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
-    callbackReady: function(errCode, spec){
-        if (errCode){
-            console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
-            return;
-        }
-        [init scene with spec...]
-        console.log('INFO: JEEFACEFILTERAPI IS READY');
-    }, //end callbackReady()
+  //you can also provide the canvas directly
+  //using the canvas property instead of canvasId:
+  canvasId: 'jeeFaceFilterCanvas',
+  NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
+  callbackReady: function(errCode, spec){
+    if (errCode){
+      console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
+      return;
+    }
+    // [init scene with spec...]
+    console.log('INFO: JEEFACEFILTERAPI IS READY');
+  }, //end callbackReady()
 
-    //called at each render iteration (drawing loop)
-    callbackTrack: function(detectState){
-        //render your scene here
-        [... do something with detectState]
-    } //end callbackTrack()
+  //called at each render iteration (drawing loop)
+  callbackTrack: function(detectState){
+      // Render your scene here
+      // [... do something with detectState]
+  } //end callbackTrack()
 });//end init call
 ```
 
 ## Integration
+
+### With a bundler
+If you use this library with a bundler (typically *Webpack* or *Parcel*), first you should use the [ES6 version](#using-the-es6-module).
+
+Then, with the standard library, we load the neural network model (specified by `NNCpath` provided as initialization parameter) using AJAX for the following reasons:
+* If the user does not accept to share its webcam, or if WebGL is not enabled, we don't have to load the neural network model,
+* We suppose that the library is deployed using a static HTTPS server.
+
+With a bundler, it is a bit more complicated. It is easier to load the neural network model using a classical `import` or `require` call and to provide it using the `NNC` init parameter:
+
+```javascript
+const faceFilter = require('./lib/jeelizFaceFilterES6.js')
+const neuralNetworkModel = require('./dist/NNC.json')
+
+faceFilter.init({
+  NNC:  neuralNetworkModel, //instead of NNCpath
+  //... other init parameters
+});
+```
+
 ### With JavaScript frontend frameworks
 We don't cover here the integration with mainstream JavaScript frontend frameworks (*React*, *Vue*, *Angular*).
 If you submit Pull Request adding the boilerplate or a demo integrated with specific frameworks, you are welcome and they will be accepted of course.
@@ -444,7 +469,7 @@ You can also take a look at these Github code repositories:
 * [ikebastuz/jeelizTest](https://github.com/ikebastuz/jeelizTest): React demo of a CSS3D FaceFilter. It is based on [Create React App](https://github.com/facebook/create-react-app).
 * [nickydev100/FFMpeg-Angular-Face-Filter](https://github.com/nickydev100/FFMpeg-Angular-Face-Filter): Angular boilerplate
 
-## Native
+### Native
 It is possible to execute a JavaScript application using this library into a *Webview* for a native app integration.
 But with IOS the camera access is disabled inside webviews. You have to implement a hack to stream the camera video into the webview using websockets.
 
