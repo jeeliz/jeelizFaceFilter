@@ -30,7 +30,8 @@ var JeelizResizer = (function(){
     [960,640],
     [960,720],
     [1024,768],
-    [1280,720]
+    [1280,720],
+    [1920, 1080]
   ];
   
   //private functions
@@ -198,6 +199,8 @@ var JeelizResizer = (function(){
         'idealWidth':  allResolutions[0][0],
         'idealHeight': allResolutions[0][1]
       };
+
+      console.log('INFO in JeelizResizer: bestCameraResolution =', bestCameraResolution);
 
       // launch the callback function after a small interval to let it
       // some time to size:
