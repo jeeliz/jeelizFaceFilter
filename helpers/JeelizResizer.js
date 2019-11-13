@@ -41,10 +41,10 @@ var JeelizResizer = (function(){
     domElement.style.transform = CSS + ' ' + CSStransform;
   }
 
-  //compute overlap between 2 rectangles A and B
-  //characterized by their width and their height in pixels
-  //the rectangles are centered
-  //return the ratio (pixels overlaped)/(total pixels)
+  // Compute overlap between 2 rectangles A and B
+  // characterized by their width and their height in pixels
+  // the rectangles are centered
+  // return the ratio (pixels overlaped)/(total pixels)
   function compute_overlap(whA, whB){ 
     const aspectRatioA = whA[0] / whA[1];
     const aspectRatioB = whB[0] / whB[1]; //higher aspectRatio -> more landscape
@@ -56,7 +56,7 @@ var JeelizResizer = (function(){
       whLandscape = whB, whPortrait = whA;
     }
 
-    //the overlapped area will be always a rectangle
+    // The overlapped area will be always a rectangle
     const areaOverlap = Math.min(whLandscape[0], whPortrait[0]) * Math.min(whLandscape[1], whPortrait[1]);
     
     var areaTotal;
@@ -108,8 +108,10 @@ var JeelizResizer = (function(){
   }
 
   //public methods :
-  const that = { //return true or false if the device is in portrait or landscape mode
-    is_portrait: function(){ //https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
+  const that = {
+    // return true or false if the device is in portrait or landscape mode
+    // see https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
+    is_portrait: function(){
       try{
         if (window['matchMedia']("(orientation: portrait)")['matches']){
           return true;
@@ -121,19 +123,50 @@ var JeelizResizer = (function(){
       }
     },
 
-    //size canvas to the right resolution
-    //should be called after the page loading
-    //when the canvas has already the right size
-    //options:
-    // - <string> canvasId: id of the canvas
-    // - <HTMLCanvasElement> canvas: if canvasId is not provided
-    // - <function> callback: function to launch if there was an error or not
-    // - <float> overSamplingFactor: facultative. If 1, same resolution than displayed size (default). 
-    //   If 2, resolution twice higher than real size
-    // - <boolean> CSSFlipX: if we should flip the canvas or not. Default: false
-    // - <boolean> isFullScreen: if we should set the canvas fullscreen. Default : false
-    // - <function> onResize: function called when the window is resized. Only enabled if isFullScreen=true
-    // - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default=false
+    // check whether the user is using IOS or not
+    // see https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
+    check_isIOS: function(){
+      const isIOS = /iPad|iPhone|iPod/.test(navigator['userAgent']) && !window['MSStream'];
+      return isIOS;
+    },
+
+    // should be called only if IOS was detected
+    // see https://stackoverflow.com/questions/8348139/detect-ios-version-less-than-5-with-javascript
+    get_IOSVersion: function(){ 
+      const v = (navigator['appVersion']).match(/OS (\d+)_(\d+)_?(\d+)?/);
+      return (v.length > 2) ? [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)] : [0, 0, 0];
+    },
+
+    // to get a video of 480x640 (480 width and 640 height)
+    // with a mobile phone in portrait mode, the default implementation
+    // should require a 480x640 video (Chrome, Firefox)
+    // but bad implementations needs to always request landscape resolutions (so 640x480)
+    // see https://github.com/jeeliz/jeelizFaceFilter/issues/144
+    require_flipVideoWHIfPortrait: function(){
+      if (that.check_isIOS()){
+        //the user is using IOS
+        const version = this.get_IOSVersion();
+        if (version[0] >= 13){
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+    // size canvas to the right resolution
+    // should be called after the page loading
+    // when the canvas has already the right size
+    // options:
+    //  - <string> canvasId: id of the canvas
+    //  - <HTMLCanvasElement> canvas: if canvasId is not provided
+    //  - <function> callback: function to launch if there was an error or not
+    //  - <float> overSamplingFactor: facultative. If 1, same resolution than displayed size (default). 
+    //    If 2, resolution twice higher than real size
+    //  - <boolean> CSSFlipX: if we should flip the canvas or not. Default: false
+    //  - <boolean> isFullScreen: if we should set the canvas fullscreen. Default : false
+    //  - <function> onResize: function called when the window is resized. Only enabled if isFullScreen=true
+    //  - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default=false
     size_canvas: function(options){
       _domCanvas = (options.canvas) ? options.canvas : document.getElementById(options.canvasId);
       _isFullScreen = (typeof(options.isFullScreen)!=='undefined' && options.isFullScreen);
@@ -178,7 +211,7 @@ var JeelizResizer = (function(){
 
       // if we are in portrait mode, the camera is also in portrait mode
       // so we need to set all resolutions to portrait mode
-      if (that.is_portrait()){
+      if (that.is_portrait() && that.require_flipVideoWHIfPortrait()){
         allResolutions.forEach(function(wh){
           wh.reverse();
         });
@@ -207,7 +240,8 @@ var JeelizResizer = (function(){
       setTimeout(options.callback.bind(null, false, bestCameraResolution), 1);
     }, //end size_canvas()
 
-    resize_canvas: function(){ //should be called if the canvas is resized to update the canvas resolution
+    // Should be called if the canvas is resized to update the canvas resolution:
+    resize_canvas: function(){
       if (_isFullScreen){
         return;
       }
