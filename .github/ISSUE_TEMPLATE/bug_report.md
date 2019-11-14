@@ -4,32 +4,15 @@ about: Create a report to help us improve
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**If you have troubles with THREE.js or another 3D framework (importing a 3D model, displaying a texture, etc...) please submit your bug elsewhere (in a THREE.js support forum for example).**
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**If you have trouble with React, Vue, Angular... please also file your bug elsewhere. If we release a framework agnostic library it is not to talk about these specific frameworks.**
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**If you need support with THREE.JS or integration into a specific frontend framework, we would be happy to help you :) ( we charge for this ). You can contact us on [Jeeliz official website](https://jeeliz.com)**
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+If your bug is about FaceFilter, compatibility error, camera access, thank you very much for helping us to make our library better. Please provide:
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+* A clear and concise description of what the bug is: what you expect and what happens,
+* How to reproduce it,
+* Some screenshots if applicable,
+* Detailed information about your configuration, especially if you are facing a compatibility error with a specific device. Please read [this section of the README](https://github.com/jeeliz/jeelizFaceFilter#compatibility).
