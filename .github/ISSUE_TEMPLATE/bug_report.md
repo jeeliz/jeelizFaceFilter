@@ -1,16 +1,12 @@
----
-name: Bug report
-about: Create a report to help us improve
+This is NOT a help site. Do not ask help questions here.
 
----
+* If you have troubles with THREE.js or another 3D framework (importing a 3D model, displaying a texture, etc...) please submit your bug on [THREE.js issue section](https://github.com/mrdoob/three.js/issues) or [THREE.js forum](https://discourse.threejs.org/) or [stackoverflow](http://stackoverflow.com/questions/tagged/three.js).
 
-**If you have troubles with THREE.js or another 3D framework (importing a 3D model, displaying a texture, etc...) please submit your bug elsewhere (in a THREE.js support forum for example).**
+* If you have trouble with React, Vue, Angular... please also file your bug elsewhere. If we release a framework agnostic library it is not to talk about these specific frameworks.
 
-**If you have trouble with React, Vue, Angular... please also file your bug elsewhere. If we release a framework agnostic library it is not to talk about these specific frameworks.**
+If you need support with THREE.JS or integration into a specific frontend framework, we would be happy to help you :) ( we charge for this ). You can contact us on [Jeeliz official website](https://jeeliz.com)**
 
-**If you need support with THREE.JS or integration into a specific frontend framework, we would be happy to help you :) ( we charge for this ). You can contact us on [Jeeliz official website](https://jeeliz.com)**
-
-If your bug is about FaceFilter, compatibility error, camera access, thank you very much for helping us to make our library better. Please provide:
+If your bug is about FaceFilter, compatibility error, camera access, thank you very much for helping us to improve this library. Please provide:
 
 * A clear and concise description of what the bug is: what you expect and what happens,
 * How to reproduce it,
