@@ -1,3 +1,9 @@
+---
+name: Bug report
+about: Submitting a bug report
+
+---
+
 This is NOT a help site. Do not ask help questions here.
 
 * If you have troubles with THREE.js or another 3D framework (importing a 3D model, displaying a texture, etc...) please submit your bug on [THREE.js issue section](https://github.com/mrdoob/three.js/issues) or [THREE.js forum](https://discourse.threejs.org/) or [stackoverflow](http://stackoverflow.com/questions/tagged/three.js).
