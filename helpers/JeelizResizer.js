@@ -147,10 +147,15 @@ var JeelizResizer = (function(){
         //the user is using IOS
         const version = this.get_IOSVersion();
         if (version[0] >= 13){
-          return false;
+          if (version[1] <= 1 //IOS 13.0.X
+              || (version[1] === 1 && version[2] < 3)){ //IOS 13.1.X with X<3
+            return false;
+          }
         }
+
       }
 
+      // normal implementation
       return true;
     },
 
