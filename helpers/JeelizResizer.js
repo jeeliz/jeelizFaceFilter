@@ -130,11 +130,34 @@ var JeelizResizer = (function(){
       return isIOS;
     },
 
-    // should be called only if IOS was detected
+    // Should be called only if IOS was detected
     // see https://stackoverflow.com/questions/8348139/detect-ios-version-less-than-5-with-javascript
     get_IOSVersion: function(){ 
       const v = (navigator['appVersion']).match(/OS (\d+)_(\d+)_?(\d+)?/);
       return (v.length > 2) ? [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)] : [0, 0, 0];
+    },
+
+    // Check whether the user is using Android or not
+    // see https://stackoverflow.com/questions/6031412/detect-android-phone-via-javascript-jquery
+    check_isAndroid: function(){
+      const ua = navigator['userAgent'].toLowerCase();
+      return (ua.indexOf("android") > -1);
+    },
+
+    // Should be called only if Android was detected
+    // see https://stackoverflow.com/questions/7184573/pick-up-the-android-version-in-the-browser-by-javascript
+    get_androidVersion: function(){
+      const ua = navigator['userAgent'].toLowerCase(); 
+      const match = ua.match(/android\s([0-9\.]*)/i);
+      if (!match || match.length<2){
+        return [0,0,0];
+      }
+      const v = match[1].split('.');
+      return [
+        parseInt(v[0], 10),
+        parseInt(v[1], 10),
+        parseInt(v[2] || 0, 10)
+      ];
     },
 
     // to get a video of 480x640 (480 width and 640 height)
@@ -145,14 +168,20 @@ var JeelizResizer = (function(){
     require_flipVideoWHIfPortrait: function(){
       if (that.check_isIOS()){
         //the user is using IOS
-        const version = this.get_IOSVersion();
+        const version = that.get_IOSVersion();
         if (version[0] >= 13){
-          if (version[1] <= 1 //IOS 13.0.X
-              || (version[1] === 1 && version[2] < 3)){ //IOS 13.1.X with X<3
+          if (version[1] <= 1 // IOS 13.0.X
+              || (version[1] === 1 && version[2] < 3)){ // IOS 13.1.X with X<3
             return false;
           }
         }
+      }
 
+      if (that.check_isAndroid()){
+        const version = that.get_androidVersion();
+        if (version[0] >= 9){ // Android 9+
+          return false;
+        }
       }
 
       // normal implementation
