@@ -35,8 +35,9 @@ This library is lightweight and it does not include any 3D engine or third party
   * [Under the hood](#under-the-hood)
   * [Compatibility](#compatibility)
 * [Articles and tutorials](#articles-and-tutorials)
-* [License](#license)
+* [Jeeliz Partner Network](#jeeliz-partner-network)
 * [See also](#see-also)
+* [License](#license)
 * [References](#references)
 
 
@@ -546,10 +547,11 @@ We are currently writing a series of tutorial for the API, starting by building 
 
 * Video tutorial: a neat video tutorial about [Headtracking Controls with Three JS](https://youtu.be/_Fs4Sbn2LPc) by [Chris Godber](http://chrisgodber.co.uk/). He also releases other great video tutorials about web development, VR, 3D on [his Youtube channel](https://www.youtube.com/channel/UCdwx6HHyPoDTtL9iq1-sI3A)
 
-## License
-[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
 
-We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and a link to the [Jeeliz website](https://jeeliz.com) in your application or desktop website. Of course we do not expect a large link to Jeeliz over your face filter, but if you can put the link in the credits/about/help/footer section it would be great.
+## Jeeliz Partner Network
+If you are a freelance developer, or if you represent a software company or a web agency able to build projects with this library, you can join the Jeeliz Partner Network (JPN) by filling this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSccwO9Seyi4ZHkXc_Udn0VRWUhKZfXpO6AGMFamnWVVXOA1hA/viewform?usp=sf_link). We will redirect you development services requests involving this library. We will also provide premium support for integrating and using this library.
+
+Conversely, if you are looking for a reliable development service provider to build your face filter using this library, please [contact us here](https://jeeliz.com/contact-us/).
 
 
 ## See also
@@ -558,6 +560,12 @@ Our newest deep learning based library is called *Weboji*. It detects 11 facial 
 If you just want to detect if the user is looking at the screen or not, [Jeeliz Glance Tracker](https://github.com/jeeliz/jeelizGlanceTracker) is what you are looking for. It can be useful to play and pause a video whether the user is watching or not. This library needs fewer resources and the neural network file is much lighter.
 
 If you want to use this library for glasses virtual try-on (sunglasses, spectacles, ski masks), you can take a look at [Jeeliz VTO widget](https://github.com/jeeliz/jeelizGlassesVTOWidget). It includes a high quality and lightweight 3D engine which implements the following features: deferred shading, PBR, raytraced shadows, normal mapping, ... It also reconstructs the lighting environment around the user (ambient and directional lighting). But the glasses comes from a database hosted in our servers. If you want to add some models, please contact us.
+
+
+## License
+[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
+
+We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and a link to the [Jeeliz website](https://jeeliz.com) in your application or desktop website. Of course we do not expect a large link to Jeeliz over your face filter, but if you can put the link in the credits/about/help/footer section it would be great.
 
 
 ## References

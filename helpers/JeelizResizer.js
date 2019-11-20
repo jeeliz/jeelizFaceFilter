@@ -141,7 +141,7 @@ var JeelizResizer = (function(){
     // see https://stackoverflow.com/questions/6031412/detect-android-phone-via-javascript-jquery
     check_isAndroid: function(){
       const ua = navigator['userAgent'].toLowerCase();
-      return (ua.indexOf("android") > -1);
+      return (ua.indexOf('android') !== -1);
     },
 
     // Should be called only if Android was detected
