@@ -169,17 +169,17 @@ These amazing applications rely on this library for face detection and tracking:
   * [Find your oasis](https://www.movablecamera.com/1/templates/70c57645-dca1-4a50-b312-0ea3d7c537fd/e1e7aa24-34a5-4818-b487-50ca3852754d.html),
   * [Been there, done that](https://www.movablecamera.com/1/templates/d8f2a1b6-0a73-4645-9e2b-7eb3c85ca2e0/109867fc-1ec0-4545-9bbe-6364ab1a3049.html),
   * [I <3 NY](https://www.movablecamera.com/1/templates/3e9a6b04-2663-4e2e-a8f8-0c675cd429fa/bb03f2fe-1ab0-4b4d-bc94-f146eefe8198.html),
-  * [Find your inner creative](https://www.movablecamera.com/1/templates/442bcb7c-3793-49e4-bea2-d56e68e73ec3/df7484bc-211d-4f43-adc1-41b13ca39f32.html)
-  * [Ski mask demo, with snow](https://www.movablecamera.com/6454/templates/7ed27eff-5978-4e0e-8345-0d53c7e894a2/d0115266-6d57-4d59-8775-1ac22f90eed6.html?mi_app_key=70ebf69e95809bf0&name=&mi_u=%7B%7Blead.SFDC%20Id%7D%7D)
+  * [Find your inner creative](https://www.movablecamera.com/1/templates/442bcb7c-3793-49e4-bea2-d56e68e73ec3/df7484bc-211d-4f43-adc1-41b13ca39f32.html),
+  * [Ski mask demo, with snow](https://www.movablecamera.com/6454/templates/7ed27eff-5978-4e0e-8345-0d53c7e894a2/d0115266-6d57-4d59-8775-1ac22f90eed6.html?mi_app_key=70ebf69e95809bf0&name=&mi_u=%7B%7Blead.SFDC%20Id%7D%7D),
 
-* Demos made by [Sansho](https://sansho.studio/):
-  * [Battle Santa for beard superiority](https://xmas.humanfoundry.com/)
+* [Battle Santa for beard superiority](https://xmas.humanfoundry.com/), made by [Sansho](https://sansho.studio/)
 
-* Demos made by [けしごむ/Nono](https://twitter.com/ke4563):
-  * [VRMjidori: Replace your head by a manga style character! ](https://vrmjidori.netlify.com/)
+* [VRMjidori](https://vrmjidori.netlify.com/): Replace your head by a manga style character provided in .VRM file format. This demo has been developed by [けしごむ/Nono](https://twitter.com/ke4563)
 
-* Other demos:
-  * [Bose headphones virtual try-on](https://www.bose.com/en_us/products/headphones/over_ear_headphones/quietcomfort-35-ii-wireless-custom.html?EarCap=sps-gloss&EarCup=jet-gloss&InnerBand=com-metallic&OuterBand=com-metallic&Spacer=com-metallic) (click on the TRY-ON button at the bottom right of the screen)
+* [Bose headphones virtual try-on](https://www.bose.com/en_us/products/headphones/over_ear_headphones/quietcomfort-35-ii-wireless-custom.html?EarCap=sps-gloss&EarCup=jet-gloss&InnerBand=com-metallic&OuterBand=com-metallic&Spacer=com-metallic) (click on the TRY-ON button at the bottom right of the screen)
+
+* [FaceVoice](https://github.com/CloffWrangler/facevoice): Control the mouse pointer with your head and by saying *Click*. [Discussion on Reddit](https://www.reddit.com/r/badUIbattles/comments/e1npf6/an_app_where_you_control_the_cursor_by_turning/)
+
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
 
@@ -467,7 +467,8 @@ We can provide this kind of integration as a specific development service ( plea
 * [Having difficulty using JeelizThreejsHelper in ReactApp](https://github.com/jeeliz/jeelizFaceFilter/issues/137)
 
 You can also take a look at these Github code repositories:
-* [ikebastuz/jeelizTest](https://github.com/ikebastuz/jeelizTest): React demo of a CSS3D FaceFilter. It is based on [Create React App](https://github.com/facebook/create-react-app).
+* [ikebastuz/jeelizTest](https://github.com/ikebastuz/jeelizTest): React demo of a CSS3D FaceFilter. It is based on [Create React App](https://github.com/facebook/create-react-app)
+* [CloffWrangler/facevoice](https://github.com/CloffWrangler/facevoice): Another demo based on [Create React App]
 * [nickydev100/FFMpeg-Angular-Face-Filter](https://github.com/nickydev100/FFMpeg-Angular-Face-Filter): Angular boilerplate
 
 ### Native
