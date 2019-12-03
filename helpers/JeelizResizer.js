@@ -166,7 +166,10 @@ var JeelizResizer = (function(){
     // but bad implementations needs to always request landscape resolutions (so 640x480)
     // see https://github.com/jeeliz/jeelizFaceFilter/issues/144
     require_flipVideoWHIfPortrait: function(){
-      if (that.check_isIOS()){
+      // disabled because of https://github.com/jeeliz/jeelizFaceFilter/issues/144
+      // seems quite a mess though...
+      
+      /* if (that.check_isIOS()){
         //the user is using IOS
         const version = that.get_IOSVersion();
         if (version[0] >= 13){
@@ -182,7 +185,7 @@ var JeelizResizer = (function(){
         if (version[0] >= 9){ // Android 9+
           return false;
         }
-      }
+      } */
 
       // normal implementation
       return true;
