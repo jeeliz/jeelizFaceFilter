@@ -180,7 +180,7 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [FaceVoice](https://github.com/CloffWrangler/facevoice): Control the mouse pointer with your head and by saying *Click*. [Discussion on Reddit](https://www.reddit.com/r/badUIbattles/comments/e1npf6/an_app_where_you_control_the_cursor_by_turning/)
 
-* [Halloween masks](https://halloween.tripod-digital.co.nz/): Amazing halloween masks experience made by [Thorsten Bux](https://twitter.com/thor_bux)
+* [Halloween masks](https://halloween.tripod-digital.co.nz/): Amazing halloween masks experience made by [Thorsten Bux](https://twitter.com/thor_bux). The code is published on Github here: [ThorstenBux/halloween-masks](https://github.com/ThorstenBux/halloween-masks).
 
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
