@@ -4,12 +4,12 @@
 "use strict";
 
 THREE.JeelizHelper = (function(){
-  //internal settings
+  // internal settings:
   const _settings = {
     rotationOffsetX: 0, //negative -> look upper. in radians
     pivotOffsetYZ: [0.4,0.2], //[0.2,0.2], //XYZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
     
-    detectionThreshold: 0.75, //sensibility, between 0 and 1. Less -> more sensitive
+    detectionThreshold: 0.8, //sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,
 
     tweakMoveYRotateY: 0.5, //tweak value: move detection window along Y axis when rotate the face
@@ -19,7 +19,7 @@ THREE.JeelizHelper = (function(){
     isDebugPivotPoint: false //display a small cube for the pivot point
   };
 
-  //private vars :
+  // private vars:
   let _threeRenderer = null,
       _threeScene = null,
       _threeVideoMesh = null,
@@ -42,11 +42,11 @@ THREE.JeelizHelper = (function(){
       _glVideoTexture = null,
       _glShpCopy = null;
 
-  //private funcs :
+  // private funcs:
   function create_threeCompositeObjects(){
     for (let i=0; i<_maxFaces; ++i){
-      //COMPOSITE OBJECT WHICH WILL TRACK A DETECTED FACE
-      //in fact we create 2 objects to be able to shift the pivot point
+      // COMPOSITE OBJECT WHICH WILL TRACK A DETECTED FACE
+      // in fact we create 2 objects to be able to shift the pivot point
       const threeCompositeObject = new THREE.Object3D();
       threeCompositeObject.frustumCulled = false;
       threeCompositeObject.visible = false;
@@ -142,12 +142,12 @@ THREE.JeelizHelper = (function(){
       const ds = detectState[i];
       if (_isDetected && ds.detected<_settings.detectionThreshold-_settings.detectionHysteresis){
         
-        //DETECTION LOST
+        // DETECTION LOST
         if (_detect_callback) _detect_callback(i, false);
         threeCompositeObject.visible = false;
       } else if (!_isDetected && ds.detected>_settings.detectionThreshold+_settings.detectionHysteresis){
         
-        //FACE DETECTED
+        // FACE DETECTED
         if (_detect_callback) _detect_callback(i, true);
         threeCompositeObject.visible = true;
       }
@@ -404,13 +404,22 @@ THREE.JeelizHelper = (function(){
       // apply parameters:
       threeCamera.aspect = canvasAspectRatio;
       threeCamera.fov = fov;
-      console.log('INFO in JeelizThreejsHelper.update_camera() : camera vertical estimated FoV is', fov);
+      console.log('INFO in JeelizThreejsHelper.update_camera() : camera vertical estimated FoV is', fov, 'deg');
       threeCamera.setViewOffset(cvws, cvhs, offsetX, offsetY, cvw, cvh);
       threeCamera.updateProjectionMatrix();
 
       // update drawing area:
-      _threeRenderer.setSize(cvw, cvh);
+      _threeRenderer.setSize(cvw, cvh, false);
       _threeRenderer.setViewport(0, 0, cvw, cvh);
+    }, //end update_camera()
+
+    resize: function(w, h, threeCamera){
+      _threeRenderer.domElement.width = w;
+      _threeRenderer.domElement.height = h;
+      JEEFACEFILTERAPI.resize();
+      if (threeCamera){
+        that.update_camera(threeCamera);
+      }
     }
   }
   return that;
