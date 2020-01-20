@@ -15,6 +15,10 @@ function detect_callback(faceIndex, isDetected) {
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
+  // improve WebGLRenderer settings:
+  threeStuffs.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  threeStuffs.renderer.outputEncoding = THREE.sRGBEncoding;
+
   // CREATE THE GLASSES AND ADD THEM
   const r = JeelizThreeGlassesCreator({
     envMapURL: "envMap.jpg",
