@@ -18,29 +18,29 @@
  
 
   <style>
-      @import url(../../../libs/cesium/Widgets/widgets.css);
-      html, body, #cesiumContainer {
-          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
-      }
+    @import url(../../../libs/cesium/Widgets/widgets.css);
+    html, body, #cesiumContainer {
+        width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+    }
 
-      #startHeadControlsButton {
-        position: fixed;
-        width: 256px;
-        top: 1em;
-        left: 50%;
-        margin-left: -128px;
-        cursor: pointer;
-      }
+    #startHeadControlsButton {
+      position: fixed;
+      width: 256px;
+      top: 1em;
+      left: 50%;
+      margin-left: -128px;
+      cursor: pointer;
+    }
 
-      #headControlsCanvas {
-        position: fixed;
-        right: 0px;
-        bottom: 30px;
-        z-index: 1000;
-        transform-origin: bottom right;
-        max-height: 25%;
-        max-width: 25%;
-      }
+    #headControlsCanvas {
+      position: fixed;
+      right: 0px;
+      bottom: 30px;
+      z-index: 1000;
+      transform-origin: bottom right;
+      max-height: 25%;
+      max-width: 25%;
+    }
   </style>
 </head>
 <body>
@@ -52,57 +52,57 @@
   <canvas id='headControlsCanvas' width='512' height='512'></canvas>
 
   <script>
-    //some settings
-    var SETTINGS={
+    // some settings:
+    var SETTINGS = {
       zoomSensibility: 5.5,
       panSensibility: 0.00000015
     };
 
-    //initialize Cesium
+    // initialize Cesium:
     var CESIUMVIEWER = new Cesium.Viewer('cesiumContainer');
-    var ISHEADCONTROLSON=false,  ISHEADCONTROLSINITIALIZED=false;
+    let ISHEADCONTROLSON = false,  ISHEADCONTROLSINITIALIZED = false;
     
     function toggleHeadControls(isOn){
-      DOMbutton.innerHTML=(isOn)?'Toggle OFF head controls':'toggle ON head controls';
+      DOMbutton.innerHTML = (isOn) ? 'Toggle OFF head controls' : 'toggle ON head controls';
       HeadControls.toggle(isOn);
-      ISHEADCONTROLSON=isOn;
+      ISHEADCONTROLSON = isOn;
     }
 
     function callbackMove(mv){
       var cameraHeight = CESIUMVIEWER.scene.globe.ellipsoid.cartesianToCartographic(CESIUMVIEWER.camera.position).height/1000.0 || Number.MAX_VALUE;
         
-      if (mv.dZ!==0) { //move head forward/backward
-        var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
+      if (mv.dZ!==0) { // move head forward/backward
+        const zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
         CESIUMVIEWER.camera.moveForward(zoomAmount);
       }
-      if (mv.dRx!==0) { //turn head up-down
-        var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight;
+      if (mv.dRx!==0) { // turn head up-down
+        const panAmountX = SETTINGS.panSensibility * mv.dRx * cameraHeight;
         CESIUMVIEWER.scene.camera.rotateUp(panAmountX);
       }
-      if (mv.dRy!==0) { //turn head left-right
-        var panAmountY=SETTINGS.panSensibility*mv.dRy* cameraHeight;
+      if (mv.dRy!==0) { // turn head left-right
+        const panAmountY = SETTINGS.panSensibility * mv.dRy * cameraHeight;
         CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
       }
     } //end callbackMove()
 
-    var DOMbutton=document.getElementById('startHeadControlsButton');
+    const DOMbutton = document.getElementById('startHeadControlsButton');
 
-    //the user stats head navigation
-    DOMbutton.onclick=function(){
+    // the user stats head navigation:
+    DOMbutton.onclick = function(){
       if (ISHEADCONTROLSINITIALIZED){
         toggleHeadControls(!ISHEADCONTROLSON);
         return;
       }
-      ISHEADCONTROLSINITIALIZED=true;
+      ISHEADCONTROLSINITIALIZED = true;
 
       HeadControls.init({
         canvasId: 'headControlsCanvas',
         callbackMove: callbackMove,
         callbackReady: function(err){
           if (err){
-            console.log('ERROR in index.html : HEAD CONTROLS NOT READY. err =', err);
+            console.log('ERROR in index.html: HEAD CONTROLS NOT READY. err =', err);
           } else {
-            console.log('INFO in index.html : HEAD CONTROLS ARE READY :)');
+            console.log('INFO in index.html: HEAD CONTROLS ARE READY :)');
             toggleHeadControls(true);
           }
         },
