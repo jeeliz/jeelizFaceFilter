@@ -1,232 +1,232 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta http-equiv="content-language" content="en-EN" />
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-language" content="en-EN" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
-        
-        <title>JEELIZ FACE FILTER : FACE REPLACEMENT IN GIF DEMO</title>
-        
-        <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
-        <script type="text/javascript" src="../../../dist/jeelizFaceFilter.js"></script>
-
-        <!-- INCLUDE DEMO SCRIPT -->
-        <script type="text/javascript" src="./demo_faceReplacementGif.js"></script>
-
-        <!-- INCLUDE FORK ME ON GITHUB BANNER -->
-        <script type="text/javascript" src="../../appearance/widget.js"></script>
-
-        <!-- LIB TO GET GIF METADATA (GIFY) -->
-        <script type="text/javascript" src="../../../libs/gify/jdataview.js"></script>
-        <script type="text/javascript" src="../../../libs/gify/gify.min.js"></script>
- 
-        <!-- LIB TO EXTRACT GIF FRAMES (GIF-FRAMES) -->
-        <script type="text/javascript" src="../../../libs/gif-frames/gif-frames.min.js"></script>
-               
-
-
-        <style type='text/css'>
-        body {
-            margin: 0px;
-            box-sizing: border-box;
-            overflow: hidden;
-            font-family: Helvetica, Arial, Sans-Serif;
-            background-image: url('../../appearance/bg.png');
-            background-attachment: fixed;
-            background-position: center;
-            background-size: contain;
-        }
-        #gifContainer {
-            background-color: silver;
-             z-index: 10;
-            position: absolute; 
-            max-height: calc(100vh - 160px);
-            max-width: 100vw;
-            left: 50%;
-            top: 50%;
-            margin-top: -76px;
-            transform: translate(-50%, -50%); 
-        }
-        #jeeFaceFilterCanvas {
-        }
-        .gif  {
-            z-index: 8;
-            top: 4px;
-            left: 0px;
-            max-width: 100vw;
-            max-height:  calc(100vh - 160px);
-           
-        }
-        .canvasDetected { /*style of the canvas when user face is detected*/
-            position: absolute;
-            z-index: -1;
-        }
-        .canvasNotDetected { /*style of the canvas when user face is lost */
-            z-index: 11;
-            position: absolute;
-            top: auto !important;
-            bottom: 0px !important;
-            left: 0px !important;
-            max-width: 100% !important;
-            max-height: 100% !important;
-        }
-        #carousel {
-            z-index: 20;
-            position: absolute;
-            max-width: 100vw;
-            bottom: 0px;
-        }
-        .carouselItem{
-            cursor: pointer;
-            border: 6px solid transparent;
-            min-height: 128px;
-            width: auto !important;
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-        .slick-slide{
-          /* width: auto !important; */
-        }
-        .slick-center {
-          transform: scale(1.1);
-          z-index: 99;
-          transform-origin: center bottom;
-          box-shadow: 0px 0px 12px white;
-        }
-        .slick-center .carouselItem{
-            border: none !important;
-          
-        }
-        .slick-track{
-            height: 144px;
-            margin-top: 20px;
-        }
-        .carouselItem0{
-            background-image: url('thumbnails/boss.gif.png');
-            width: 128px !important;
-        }
-        .carouselItem1{
-            background-image: url('thumbnails/fuck.gif.png');
-            width: 184px !important;
-        }
-        .carouselItem2{
-            background-image: url('thumbnails/chuckHat.gif.png');
-            width: 228px !important;
-        }
-        .carouselItem3{
-            background-image: url('thumbnails/chuck.gif.png');
-            width: 260px !important;
-        }
-        .carouselItem4{
-            background-image: url('thumbnails/jcv.gif.png');
-            width: 165px !important;
-        }
-        .carouselItem5{
-            background-image: url('thumbnails/trumpFan.gif.png');
-            width: 235px !important;
-        }
-        .carouselItem6{
-            background-image: url('thumbnails/zombie.gif.png');
-            width: 227px !important;
-        }
-        .carouselItem7{
-            background-image: url('thumbnails/dodgeball.gif.png');
-            width: 320px !important;
-        }
-        .carouselItem8{
-            background-image: url('thumbnails/supporter.gif.png');
-            width: 129px !important;
-        }
-        .carouselItem9{
-            background-image: url('thumbnails/soccer2.gif.png');
-            width: 179px !important;
-        }
-        .carouselItem10{
-            background-image: url('thumbnails/murder.gif.png');
-            width: 203px !important;
-        }
-        
-        .carouselItemCustom{
-            background-image: url('images/own.png');
-            color: black;
-            font-size: 10pt;
-            line-height: 1.5em;
-            font-variant: small-caps;
-            text-align: center;
-            width: 128px !important;
-            overflow: hidden;
-        }
-        .carouselItemCustomText{
-            margin-top: 8px;
-            margin-left: 16px;
-            margin-right: 16px;
-            text-shadow: 0px 0px 4px white;
-        }
-        #customImage{
-            cursor: pointer;
-            width: 118px;
-        }
-
-        </style>
-
-        <!-- SLICK CAROUSEL STYLE -->
-        <!-- Add the slick-theme.css if you want default styling -->
-        <link rel="stylesheet" type="text/css" href="../../../libs/slickCarousel/v1_9/slick.css"/>
-        <!-- Add the slick-theme.css if you want default styling -->
-        <link rel="stylesheet" type="text/css" href="../../../libs/slickCarousel/v1_9/slick-theme.css"/>
-        <!-- jQuery (required by Slick Carousel) -->
-        <script type='text/javascript' src='../../../libs/jquery/jquery-3.3.1.min.js'></script>
-
-    </head>
     
-    <body onload="main()" style='color: white'>
-        <div id='gifContainer'>
-            <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='gif'></canvas>
-        </div>
+    <title>JEELIZ FACE FILTER : FACE REPLACEMENT IN GIF DEMO</title>
+    
+    <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
+    <script src="../../../dist/jeelizFaceFilter.js"></script>
 
-        <!-- SLICK CAROUSEL CONTENT -->
-        <!--
-            If the detected State is not provided (ie [{x: ..., y:.., s:..., ry:..., rz:...}]
-            We will search for a face on each frame of the provided GIF
-            (and display the found face detected State in the JS console)
-            Otherwise we build the image mask directly using the detected State.
-        -->
-        <div id="carousel">
-           <div onclick="change_gif('gifs/fuck.gif',[{x:-0.359,y:0.322,s:0.175,ry:-0.033,rz:0.239},{x:-0.34,y:0.32,s:0.171,ry:-0.024,rz:0.239},{x:-0.277,y:0.31,s:0.173,ry:-0.059,rz:0.221},{x:-0.256,y:0.316,s:0.174,ry:-0.077,rz:0.203},{x:-0.242,y:0.321,s:0.173,ry:-0.107,rz:0.187},{x:-0.24,y:0.334,s:0.168,ry:-0.074,rz:0.165},{x:-0.239,y:0.347,s:0.164,ry:-0.061,rz:0.148},{x:-0.235,y:0.352,s:0.162,ry:-0.058,rz:0.133},{x:-0.233,y:0.354,s:0.161,ry:-0.06,rz:0.133},{x:-0.228,y:0.356,s:0.163,ry:-0.067,rz:0.138},{x:-0.234,y:0.352,s:0.166,ry:-0.089,rz:0.154},{x:-0.233,y:0.364,s:0.168,ry:-0.076,rz:0.148},{x:-0.216,y:0.37,s:0.174,ry:-0.098,rz:0.145},{x:-0.191,y:0.373,s:0.175,ry:-0.132,rz:0.139},{x:-0.131,y:0.388,s:0.178,ry:-0.134,rz:0.102},{x:-0.091,y:0.384,s:0.178,ry:-0.146,rz:0.096},{x:-0.062,y:0.383,s:0.177,ry:-0.157,rz:0.079},{x:-0.01,y:0.363,s:0.179,ry:-0.109,rz:0.08},{x:0.049,y:0.345,s:0.178,ry:-0.174,rz:0.032},{x:0.124,y:0.336,s:0.182,ry:-0.25,rz:-0.052}], true)" class='carouselItem carouselItem1'> </div>
+    <!-- INCLUDE DEMO SCRIPT -->
+    <script src="./demo_faceReplacementGif.js"></script>
+
+    <!-- INCLUDE FORK ME ON GITHUB BANNER -->
+    <script src="../../appearance/widget.js"></script>
+
+    <!-- LIB TO GET GIF METADATA (GIFY) -->
+    <script src="../../../libs/gify/jdataview.js"></script>
+    <script src="../../../libs/gify/gify.min.js"></script>
+ 
+    <!-- LIB TO EXTRACT GIF FRAMES (GIF-FRAMES) -->
+    <script src="../../../libs/gif-frames/gif-frames.min.js"></script>
          
 
-          <div class='carouselItem carouselItemCustom'>
-            <div class='carouselItemCustomText'>
-                TRY WITH YOUR OWN GIF :
-            </div>
-            <input type='file' id='customImage' accept=".gif" onChange="change_gif('CUSTOM');" />
-          </div>
 
-          <div onclick="change_gif('gifs/boss.gif',[{x:-0.058,y:0.286,s:0.125,ry:0.01,rz:-0.018},{x:-0.058,y:0.282,s:0.125,ry:0.011,rz:-0.017},{x:-0.059,y:0.28,s:0.125,ry:-0.002,rz:-0.015},{x:-0.059,y:0.28,s:0.125,ry:0.013,rz:-0.015},{x:-0.059,y:0.279,s:0.125,ry:0.012,rz:-0.022},{x:-0.062,y:0.281,s:0.127,ry:0.001,rz:-0.022},{x:-0.065,y:0.282,s:0.127,ry:-0.002,rz:-0.022},{x:-0.066,y:0.284,s:0.129,ry:0.002,rz:-0.025},{x:-0.07,y:0.285,s:0.129,ry:0.004,rz:-0.02},{x:-0.072,y:0.286,s:0.129,ry:0.01,rz:-0.017},{x:-0.074,y:0.286,s:0.129,ry:-0.004,rz:-0.004},{x:-0.078,y:0.286,s:0.129,ry:0.006,rz:0.002},{x:-0.081,y:0.29,s:0.129,ry:0.004,rz:0.008},{x:-0.082,y:0.292,s:0.129,ry:0.009,rz:0.007},{x:-0.083,y:0.293,s:0.129,ry:-0.006,rz:0.015},{x:-0.085,y:0.294,s:0.129,ry:-0.018,rz:0.019},{x:-0.086,y:0.294,s:0.131,ry:-0.031,rz:0.018},{x:-0.088,y:0.297,s:0.131,ry:-0.022,rz:0.017},{x:-0.09,y:0.3,s:0.132,ry:-0.015,rz:0.006},{x:-0.093,y:0.301,s:0.132,ry:-0.004,rz:0},{x:-0.093,y:0.302,s:0.133,ry:0.001,rz:-0.006},{x:-0.093,y:0.302,s:0.133,ry:-0.004,rz:-0.007},{x:-0.096,y:0.302,s:0.134,ry:-0.003,rz:-0.008},{x:-0.095,y:0.303,s:0.134,ry:0.011,rz:-0.007},{x:-0.092,y:0.307,s:0.133,ry:0.029,rz:-0.009},{x:-0.089,y:0.309,s:0.133,ry:0.042,rz:-0.002},{x:-0.086,y:0.309,s:0.133,ry:0.047,rz:0.005},{x:-0.085,y:0.311,s:0.133,ry:0.056,rz:0.004},{x:-0.084,y:0.313,s:0.133,ry:0.043,rz:0.013},{x:-0.083,y:0.314,s:0.133,ry:0.044,rz:0.008},{x:-0.083,y:0.316,s:0.134,ry:0.034,rz:0.008},{x:-0.083,y:0.313,s:0.136,ry:0.021,rz:0.011},{x:-0.085,y:0.315,s:0.134,ry:0.025,rz:0.008},{x:-0.083,y:0.316,s:0.135,ry:0.016,rz:0.01},{x:-0.084,y:0.317,s:0.134,ry:0.036,rz:0.005},{x:-0.083,y:0.316,s:0.134,ry:0.032,rz:0.004},{x:-0.083,y:0.317,s:0.134,ry:0.047,rz:0.005},{x:-0.082,y:0.314,s:0.133,ry:0.054,rz:0.007},{x:-0.082,y:0.311,s:0.133,ry:0.048,rz:0.007},{x:-0.085,y:0.311,s:0.133,ry:0.053,rz:0.004},{x:-0.085,y:0.31,s:0.133,ry:0.057,rz:-0.005},{x:-0.088,y:0.31,s:0.133,ry:0.049,rz:-0.009},{x:-0.09,y:0.305,s:0.133,ry:0.032,rz:-0.007},{x:-0.092,y:0.304,s:0.133,ry:0.024,rz:-0.009},{x:-0.092,y:0.303,s:0.133,ry:0.007,rz:-0.011},{x:-0.092,y:0.301,s:0.133,ry:0.009,rz:-0.013},{x:-0.091,y:0.297,s:0.133,ry:0,rz:-0.01},{x:-0.09,y:0.295,s:0.131,ry:-0.004,rz:-0.001},{x:-0.088,y:0.295,s:0.13,ry:-0.008,rz:0.007},{x:-0.086,y:0.294,s:0.13,ry:-0.017,rz:0.013},{x:-0.084,y:0.294,s:0.129,ry:-0.026,rz:0.02},{x:-0.083,y:0.294,s:0.129,ry:-0.02,rz:0.023},{x:-0.083,y:0.29,s:0.129,ry:-0.011,rz:0.018},{x:-0.079,y:0.288,s:0.129,ry:-0.012,rz:0.016},{x:-0.077,y:0.287,s:0.128,ry:-0.014,rz:0.009},{x:-0.075,y:0.287,s:0.128,ry:-0.018,rz:0.003},{x:-0.075,y:0.286,s:0.129,ry:-0.008,rz:-0.008},{x:-0.07,y:0.286,s:0.129,ry:-0.01,rz:-0.012},{x:-0.068,y:0.282,s:0.127,ry:-0.009,rz:-0.017},{x:-0.066,y:0.283,s:0.127,ry:-0.003,rz:-0.022},{x:-0.067,y:0.28,s:0.128,ry:0.004,rz:-0.025},{x:-0.062,y:0.28,s:0.127,ry:0.003,rz:-0.024},{x:-0.06,y:0.283,s:0.126,ry:0.001,rz:-0.021},{x:-0.059,y:0.284,s:0.126,ry:0.006,rz:-0.017},{x:-0.059,y:0.285,s:0.126,ry:0.007,rz:-0.018}])" class='carouselItem carouselItem0'> </div>
+    <style type='text/css'>
+    body {
+      margin: 0px;
+      box-sizing: border-box;
+      overflow: hidden;
+      font-family: Helvetica, Arial, Sans-Serif;
+      background-image: url('../../appearance/bg.png');
+      background-attachment: fixed;
+      background-position: center;
+      background-size: contain;
+    }
+    #gifContainer {
+      background-color: silver;
+       z-index: 10;
+      position: absolute; 
+      max-height: calc(100vh - 160px);
+      max-width: 100vw;
+      left: 50%;
+      top: 50%;
+      margin-top: -76px;
+      transform: translate(-50%, -50%); 
+    }
+    #jeeFaceFilterCanvas {
+    }
+    .gif  {
+      z-index: 8;
+      top: 4px;
+      left: 0px;
+      max-width: 100vw;
+      max-height:  calc(100vh - 160px);
+       
+    }
+    .canvasDetected { /*style of the canvas when user face is detected*/
+      position: absolute;
+      z-index: -1;
+    }
+    .canvasNotDetected { /*style of the canvas when user face is lost */
+      z-index: 11;
+      position: absolute;
+      top: auto !important;
+      bottom: 0px !important;
+      left: 0px !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+    }
+    #carousel {
+      z-index: 20;
+      position: absolute;
+      max-width: 100vw;
+      bottom: 0px;
+    }
+    .carouselItem{
+      cursor: pointer;
+      border: 6px solid transparent;
+      min-height: 128px;
+      width: auto !important;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .slick-slide{
+      /* width: auto !important; */
+    }
+    .slick-center {
+      transform: scale(1.1);
+      z-index: 99;
+      transform-origin: center bottom;
+      box-shadow: 0px 0px 12px white;
+    }
+    .slick-center .carouselItem{
+      border: none !important;
+      
+    }
+    .slick-track{
+      height: 144px;
+      margin-top: 20px;
+    }
+    .carouselItem0{
+      background-image: url('thumbnails/boss.gif.png');
+      width: 128px !important;
+    }
+    .carouselItem1{
+      background-image: url('thumbnails/fuck.gif.png');
+      width: 184px !important;
+    }
+    .carouselItem2{
+      background-image: url('thumbnails/chuckHat.gif.png');
+      width: 228px !important;
+    }
+    .carouselItem3{
+      background-image: url('thumbnails/chuck.gif.png');
+      width: 260px !important;
+    }
+    .carouselItem4{
+      background-image: url('thumbnails/jcv.gif.png');
+      width: 165px !important;
+    }
+    .carouselItem5{
+      background-image: url('thumbnails/trumpFan.gif.png');
+      width: 235px !important;
+    }
+    .carouselItem6{
+      background-image: url('thumbnails/zombie.gif.png');
+      width: 227px !important;
+    }
+    .carouselItem7{
+      background-image: url('thumbnails/dodgeball.gif.png');
+      width: 320px !important;
+    }
+    .carouselItem8{
+      background-image: url('thumbnails/supporter.gif.png');
+      width: 129px !important;
+    }
+    .carouselItem9{
+      background-image: url('thumbnails/soccer2.gif.png');
+      width: 179px !important;
+    }
+    .carouselItem10{
+      background-image: url('thumbnails/murder.gif.png');
+      width: 203px !important;
+    }
+    
+    .carouselItemCustom{
+      background-image: url('images/own.png');
+      color: black;
+      font-size: 10pt;
+      line-height: 1.5em;
+      font-variant: small-caps;
+      text-align: center;
+      width: 128px !important;
+      overflow: hidden;
+    }
+    .carouselItemCustomText{
+      margin-top: 8px;
+      margin-left: 16px;
+      margin-right: 16px;
+      text-shadow: 0px 0px 4px white;
+    }
+    #customImage{
+      cursor: pointer;
+      width: 118px;
+    }
 
-          <div onclick="change_gif('gifs/chuckHat.gif', [{x:-0.081,y:-0.001,s:0.251,ry:-0.012,rz:0.218},{x:-0.079,y:-0.003,s:0.252,ry:-0.022,rz:0.22},{x:-0.079,y:-0.004,s:0.251,ry:-0.01,rz:0.218},{x:-0.078,y:-0.004,s:0.25,ry:-0.013,rz:0.218},{x:-0.076,y:-0.004,s:0.25,ry:-0.004,rz:0.213},{x:-0.077,y:-0.001,s:0.249,ry:-0.01,rz:0.22},{x:-0.076,y:-0.002,s:0.248,ry:-0.019,rz:0.22},{x:-0.075,y:-0.003,s:0.248,ry:-0.011,rz:0.216},{x:-0.073,y:-0.003,s:0.246,ry:0.006,rz:0.212},{x:-0.071,y:-0.003,s:0.248,ry:-0.005,rz:0.211},{x:-0.065,y:-0.009,s:0.25,ry:-0.029,rz:0.208},{x:-0.06,y:-0.011,s:0.248,ry:-0.01,rz:0.201},{x:-0.059,y:-0.009,s:0.245,ry:0.02,rz:0.2},{x:-0.057,y:-0.021,s:0.251,ry:0.031,rz:0.191},{x:-0.047,y:-0.023,s:0.256,ry:0.016,rz:0.18},{x:-0.039,y:-0.02,s:0.254,ry:0.002,rz:0.175},{x:-0.033,y:-0.019,s:0.252,ry:0.007,rz:0.164},{x:-0.023,y:-0.019,s:0.247,ry:0.031,rz:0.145},{x:-0.015,y:-0.017,s:0.242,ry:0.064,rz:0.144},{x:-0.003,y:-0.017,s:0.239,ry:0.073,rz:0.124},{x:0.007,y:-0.022,s:0.241,ry:0.095,rz:0.103},{x:0.009,y:-0.026,s:0.239,ry:0.143,rz:0.097},{x:0.009,y:-0.026,s:0.239,ry:0.136,rz:0.103},{x:0.011,y:-0.027,s:0.239,ry:0.12,rz:0.102},{x:0.014,y:-0.028,s:0.239,ry:0.12,rz:0.09},{x:0.016,y:-0.031,s:0.239,ry:0.152,rz:0.08},{x:0.013,y:-0.027,s:0.238,ry:0.145,rz:0.098},{x:0.018,y:-0.022,s:0.236,ry:0.138,rz:0.099},{x:0.024,y:-0.017,s:0.234,ry:0.12,rz:0.07},{x:0.033,y:-0.005,s:0.227,ry:0.056,rz:0.062},{x:0.035,y:-0.024,s:0.233,ry:0.101,rz:0.027},{x:0.04,y:-0.032,s:0.233,ry:0.105,rz:0.017},{x:0.05,y:-0.036,s:0.229,ry:0.071,rz:0.02},{x:0.051,y:-0.054,s:0.233,ry:0.091,rz:0.016},{x:0.054,y:-0.055,s:0.231,ry:0.086,rz:0.034},{x:0.058,y:-0.046,s:0.225,ry:0.05,rz:0.044},{x:0.049,y:-0.059,s:0.237,ry:0.086,rz:0.03},{x:0.039,y:-0.06,s:0.24,ry:0.097,rz:0.025},{x:0.007,y:-0.053,s:0.246,ry:0.126,rz:0.056},{x:-0.019,y:-0.045,s:0.246,ry:0.154,rz:0.068},{x:-0.025,y:-0.034,s:0.245,ry:0.129,rz:0.085},{x:-0.046,y:-0.023,s:0.248,ry:0.11,rz:0.101},{x:-0.056,y:-0.013,s:0.246,ry:0.099,rz:0.12}], true)" class='carouselItem carouselItem2'> </div>
+    </style>
 
-          <div onclick="change_gif('gifs/chuck.gif', [{x:-0.475,y:-0.152,s:0.278,ry:0.226,rz:0},{x:-0.457,y:-0.17,s:0.287,ry:0.205,rz:-0.011},{x:-0.447,y:-0.163,s:0.286,ry:0.22,rz:-0.003},{x:-0.396,y:-0.108,s:0.283,ry:0.242,rz:0.025},{x:-0.341,y:-0.072,s:0.282,ry:0.209,rz:0.007},{x:-0.302,y:0.027,s:0.255,ry:-0.005,rz:0.083},{x:-0.409,y:-0.083,s:0.3,ry:0.353,rz:-0.009},{x:-0.405,y:-0.054,s:0.302,ry:0.353,rz:0.015},{x:-0.392,y:-0.049,s:0.295,ry:0.371,rz:0.025},{x:-0.383,y:-0.027,s:0.273,ry:0.334,rz:0.028},{x:-0.383,y:-0.021,s:0.274,ry:0.337,rz:0.05},{x:-0.387,y:-0.032,s:0.283,ry:0.352,rz:0.025},{x:-0.382,y:-0.023,s:0.277,ry:0.323,rz:0.031},{x:-0.381,y:-0.02,s:0.267,ry:0.322,rz:0.028},{x:-0.38,y:-0.02,s:0.265,ry:0.309,rz:0.032},{x:-0.391,y:-0.032,s:0.29,ry:0.36,rz:0.017},{x:-0.389,y:-0.022,s:0.275,ry:0.361,rz:0.045},{x:-0.382,y:-0.026,s:0.272,ry:0.324,rz:0.037},{x:-0.381,y:-0.021,s:0.268,ry:0.345,rz:0.035},{x:-0.382,y:-0.013,s:0.27,ry:0.336,rz:0.044},{x:-0.386,y:-0.007,s:0.274,ry:0.359,rz:0.038},{x:-0.387,y:-0.005,s:0.271,ry:0.361,rz:0.046},{x:-0.385,y:-0.004,s:0.277,ry:0.343,rz:0.053},{x:-0.381,y:0,s:0.269,ry:0.348,rz:0.055},{x:-0.381,y:0.003,s:0.267,ry:0.338,rz:0.054},{x:-0.381,y:0.002,s:0.27,ry:0.348,rz:0.052},{x:-0.38,y:-0.002,s:0.27,ry:0.327,rz:0.044},{x:-0.386,y:-0.004,s:0.276,ry:0.371,rz:0.05},{x:-0.387,y:-0.004,s:0.277,ry:0.374,rz:0.049},{x:-0.382,y:-0.004,s:0.272,ry:0.343,rz:0.048},{x:-0.381,y:-0.011,s:0.278,ry:0.333,rz:0.051},{x:-0.38,y:-0.012,s:0.278,ry:0.327,rz:0.05},{x:-0.38,y:-0.012,s:0.281,ry:0.346,rz:0.049},{x:-0.38,y:-0.016,s:0.279,ry:0.32,rz:0.045},{x:-0.38,y:-0.013,s:0.278,ry:0.316,rz:0.037},{x:-0.38,y:-0.019,s:0.282,ry:0.316,rz:0.047},{x:-0.38,y:-0.013,s:0.279,ry:0.343,rz:0.045},{x:-0.38,y:-0.006,s:0.273,ry:0.363,rz:0.059},{x:-0.38,y:-0.004,s:0.271,ry:0.351,rz:0.051},{x:-0.38,y:-0.004,s:0.276,ry:0.341,rz:0.057},{x:-0.38,y:-0.004,s:0.274,ry:0.342,rz:0.054},{x:-0.38,y:-0.004,s:0.274,ry:0.324,rz:0.059},{x:-0.38,y:-0.004,s:0.275,ry:0.342,rz:0.063},{x:-0.38,y:-0.004,s:0.275,ry:0.371,rz:0.06},{x:-0.38,y:-0.004,s:0.275,ry:0.362,rz:0.054}])" class='carouselItem carouselItem3'> </div>
-          
-          <div onclick="change_gif('gifs/jcv.gif',[{x:0.376,y:-0.033,s:0.267,ry:-0.039,rz:-0.122},{x:0.367,y:-0.04,s:0.264,ry:-0.032,rz:-0.11},{x:0.353,y:-0.042,s:0.271,ry:-0.016,rz:-0.116},{x:0.324,y:-0.031,s:0.259,ry:-0.04,rz:-0.102},{x:0.3,y:-0.028,s:0.256,ry:-0.013,rz:-0.1},{x:0.29,y:-0.042,s:0.264,ry:-0.027,rz:-0.079},{x:0.311,y:-0.056,s:0.26,ry:-0.027,rz:-0.1},{x:0.334,y:-0.07,s:0.259,ry:-0.023,rz:-0.125},{x:0.351,y:-0.073,s:0.259,ry:-0.035,rz:-0.131},{x:0.36,y:-0.068,s:0.259,ry:-0.051,rz:-0.129},{x:0.37,y:-0.067,s:0.259,ry:-0.021,rz:-0.136},{x:0.384,y:-0.067,s:0.262,ry:0.016,rz:-0.132},{x:0.391,y:-0.067,s:0.263,ry:0.027,rz:-0.128},{x:0.404,y:-0.102,s:0.258,ry:0.037,rz:-0.147},{x:0.393,y:-0.111,s:0.262,ry:0.067,rz:-0.154},{x:0.389,y:-0.109,s:0.262,ry:0.076,rz:-0.157},{x:0.386,y:-0.107,s:0.256,ry:0.018,rz:-0.159},{x:0.387,y:-0.107,s:0.254,ry:-0.003,rz:-0.165}],true)" class='carouselItem carouselItem4'> </div>
+    <!-- SLICK CAROUSEL STYLE -->
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="../../../libs/slickCarousel/v1_9/slick.css"/>
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="../../../libs/slickCarousel/v1_9/slick-theme.css"/>
+    <!-- jQuery (required by Slick Carousel) -->
+    <script src='../../../libs/jquery/jquery-3.3.1.min.js'></script>
 
-          <div onclick="change_gif('gifs/trumpFan.gif',[{x:0.067,y:0.468,s:0.086,ry:0.026,rz:0.058},{x:0.067,y:0.467,s:0.086,ry:0.027,rz:0.058},{x:0.073,y:0.467,s:0.086,ry:0.037,rz:0.058},{x:0.074,y:0.467,s:0.086,ry:0.033,rz:0.063},{x:0.074,y:0.467,s:0.086,ry:0.017,rz:0.042},{x:0.08,y:0.467,s:0.086,ry:0.004,rz:0.032},{x:0.082,y:0.467,s:0.086,ry:-0.003,rz:0.029},{x:0.087,y:0.467,s:0.086,ry:-0.012,rz:0.023},{x:0.089,y:0.461,s:0.086,ry:0.001,rz:0.038},{x:0.09,y:0.459,s:0.086,ry:0,rz:0.044},{x:0.096,y:0.465,s:0.086,ry:-0.026,rz:0.029},{x:0.097,y:0.472,s:0.086,ry:-0.023,rz:0.019},{x:0.092,y:0.474,s:0.086,ry:-0.026,rz:0.032},{x:0.085,y:0.48,s:0.083,ry:-0.025,rz:0.05},{x:0.077,y:0.476,s:0.086,ry:-0.016,rz:0.068},{x:0.069,y:0.481,s:0.086,ry:-0.037,rz:0.075},{x:0.043,y:0.476,s:0.086,ry:-0.009,rz:0.107},{x:0.025,y:0.475,s:0.084,ry:-0.002,rz:0.099},{x:0.003,y:0.471,s:0.085,ry:0.012,rz:0.111},{x:-0.032,y:0.468,s:0.086,ry:-0.02,rz:0.115},{x:-0.053,y:0.467,s:0.086,ry:-0.047,rz:0.118},{x:-0.087,y:0.473,s:0.086,ry:-0.016,rz:0.092},{x:-0.108,y:0.468,s:0.087,ry:-0.039,rz:0.109},{x:-0.141,y:0.467,s:0.087,ry:-0.021,rz:0.123},{x:-0.156,y:0.467,s:0.086,ry:-0.026,rz:0.122},{x:-0.172,y:0.467,s:0.086,ry:-0.026,rz:0.111},{x:-0.187,y:0.467,s:0.084,ry:0.045,rz:0.102},{x:-0.191,y:0.467,s:0.086,ry:0.044,rz:0.099},{x:-0.198,y:0.467,s:0.083,ry:0.042,rz:0.092},{x:-0.199,y:0.461,s:0.086,ry:0.006,rz:0.102},{x:-0.206,y:0.459,s:0.083,ry:0.061,rz:0.102},{x:-0.201,y:0.453,s:0.086,ry:0.021,rz:0.108},{x:-0.194,y:0.445,s:0.086,ry:-0.006,rz:0.098},{x:-0.155,y:0.428,s:0.09,ry:-0.091,rz:0.07},{x:-0.142,y:0.428,s:0.087,ry:-0.102,rz:0.038},{x:-0.126,y:0.428,s:0.086,ry:-0.047,rz:0.037},{x:-0.105,y:0.427,s:0.086,ry:-0.003,rz:0.051},{x:-0.076,y:0.433,s:0.086,ry:0.023,rz:0.099},{x:-0.052,y:0.435,s:0.087,ry:-0.036,rz:0.092},{x:-0.039,y:0.441,s:0.086,ry:0.012,rz:0.096},{x:-0.012,y:0.443,s:0.086,ry:0.003,rz:0.061},{x:0,y:0.449,s:0.086,ry:-0.01,rz:0.047},{x:0.009,y:0.451,s:0.086,ry:0.005,rz:0.046},{x:0.018,y:0.451,s:0.087,ry:-0.001,rz:0.036},{x:0.031,y:0.451,s:0.086,ry:0.008,rz:0.03},{x:0.034,y:0.451,s:0.086,ry:0.003,rz:0.027},{x:0.035,y:0.451,s:0.086,ry:0.013,rz:0.024},{x:0.037,y:0.451,s:0.086,ry:0.011,rz:0.013},{x:0.042,y:0.457,s:0.086,ry:-0.008,rz:0.009},{x:0.037,y:0.458,s:0.086,ry:-0.005,rz:0.016},{x:0.036,y:0.459,s:0.086,ry:-0.013,rz:0.021}], true)" class='carouselItem carouselItem5'> </div>
-          
-          <div onclick="change_gif('gifs/zombie.gif',[{x:0.247,y:0.161,s:0.129,ry:-0.048,rz:0.024},{x:0.224,y:0.216,s:0.137,ry:-0.096,rz:0.015},{x:0.192,y:0.325,s:0.137,ry:-0.246,rz:0.001},{x:0.137,y:0.427,s:0.137,ry:-0.121,rz:0.071},{x:0.137,y:0.435,s:0.145,ry:-0.111,rz:0.044},{x:0.153,y:0.412,s:0.145,ry:-0.133,rz:0.041},{x:0.202,y:0.388,s:0.152,ry:-0.116,rz:0.001},{x:0.239,y:0.31,s:0.149,ry:-0.113,rz:0.009},{x:0.262,y:0.263,s:0.15,ry:-0.167,rz:-0.012},{x:0.301,y:0.295,s:0.141,ry:-0.113,rz:0.018},{x:0.333,y:0.38,s:0.141,ry:-0.174,rz:0.008},{x:0.325,y:0.413,s:0.137,ry:-0.117,rz:0.044}])" class='carouselItem carouselItem6'> </div>
+  </head>
+  
+  <body onload="main()" style='color: white'>
+    <div id='gifContainer'>
+      <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='gif'></canvas>
+    </div>
 
-          <div onclick="change_gif('gifs/dodgeball.gif',[false,false,false,false,false,false,false,false,false,{x:-0.216,y:0.231,s:0.098,ry:0.046,rz:0.069},{x:-0.21,y:0.231,s:0.098,ry:0.043,rz:0.064},{x:-0.211,y:0.237,s:0.095,ry:0.035,rz:0.075},{x:-0.209,y:0.239,s:0.094,ry:0.041,rz:0.074},{x:-0.21,y:0.237,s:0.096,ry:0.012,rz:0.072},{x:-0.225,y:0.236,s:0.096,ry:-0.12,rz:0.048},{x:-0.286,y:0.237,s:0.09,ry:-0.161,rz:0.139},{x:-0.349,y:0.2,s:0.082,ry:-0.341,rz:0.228},false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],false,3)" class='carouselItem carouselItem7'> </div>
+    <!-- SLICK CAROUSEL CONTENT -->
+    <!--
+      If the detected State is not provided (ie [{x: ..., y:.., s:..., ry:..., rz:...}]
+      We will search for a face on each frame of the provided GIF
+      (and display the found face detected State in the JS console)
+      Otherwise we build the image mask directly using the detected State.
+    -->
+    <div id="carousel">
+       <div onclick="change_gif('gifs/fuck.gif',[{x:-0.359,y:0.322,s:0.175,ry:-0.033,rz:0.239},{x:-0.34,y:0.32,s:0.171,ry:-0.024,rz:0.239},{x:-0.277,y:0.31,s:0.173,ry:-0.059,rz:0.221},{x:-0.256,y:0.316,s:0.174,ry:-0.077,rz:0.203},{x:-0.242,y:0.321,s:0.173,ry:-0.107,rz:0.187},{x:-0.24,y:0.334,s:0.168,ry:-0.074,rz:0.165},{x:-0.239,y:0.347,s:0.164,ry:-0.061,rz:0.148},{x:-0.235,y:0.352,s:0.162,ry:-0.058,rz:0.133},{x:-0.233,y:0.354,s:0.161,ry:-0.06,rz:0.133},{x:-0.228,y:0.356,s:0.163,ry:-0.067,rz:0.138},{x:-0.234,y:0.352,s:0.166,ry:-0.089,rz:0.154},{x:-0.233,y:0.364,s:0.168,ry:-0.076,rz:0.148},{x:-0.216,y:0.37,s:0.174,ry:-0.098,rz:0.145},{x:-0.191,y:0.373,s:0.175,ry:-0.132,rz:0.139},{x:-0.131,y:0.388,s:0.178,ry:-0.134,rz:0.102},{x:-0.091,y:0.384,s:0.178,ry:-0.146,rz:0.096},{x:-0.062,y:0.383,s:0.177,ry:-0.157,rz:0.079},{x:-0.01,y:0.363,s:0.179,ry:-0.109,rz:0.08},{x:0.049,y:0.345,s:0.178,ry:-0.174,rz:0.032},{x:0.124,y:0.336,s:0.182,ry:-0.25,rz:-0.052}], true)" class='carouselItem carouselItem1'> </div>
+     
 
-          <div onclick="change_gif('gifs/supporter.gif',[{x:0.412,y:0.208,s:0.125,ry:0.03,rz:-0.003},{x:0.412,y:0.208,s:0.125,ry:0.024,rz:-0.018},{x:0.404,y:0.202,s:0.125,ry:0.022,rz:-0.016},{x:0.353,y:0.184,s:0.124,ry:0.026,rz:-0.015},{x:0.344,y:0.172,s:0.125,ry:0.03,rz:-0.058},{x:0.33,y:0.158,s:0.125,ry:0.033,rz:-0.066},{x:0.283,y:0.146,s:0.125,ry:0.046,rz:0.028},{x:0.292,y:0.145,s:0.125,ry:0.03,rz:0.003},{x:0.315,y:0.127,s:0.125,ry:0.053,rz:0.022},{x:0.323,y:0.12,s:0.126,ry:0.054,rz:0.041},{x:0.332,y:0.121,s:0.129,ry:0.051,rz:-0.017},{x:0.322,y:0.121,s:0.129,ry:0.071,rz:-0.006},{x:0.327,y:0.121,s:0.129,ry:0.055,rz:0.029},{x:0.349,y:0.122,s:0.126,ry:0.056,rz:0.047},{x:0.361,y:0.128,s:0.123,ry:0.083,rz:0.018},{x:0.358,y:0.153,s:0.125,ry:0.085,rz:0.008},{x:0.345,y:0.171,s:0.125,ry:0.075,rz:-0.096},{x:0.318,y:0.169,s:0.125,ry:0.037,rz:-0.056},{x:0.288,y:0.163,s:0.126,ry:0.033,rz:-0.026},false,false,false,false,false,{x:0.244,y:0.137,s:0.139,ry:-0.158,rz:-0.003},{x:0.216,y:0.153,s:0.131,ry:-0.051,rz:0.026},{x:0.197,y:0.177,s:0.131,ry:-0.045,rz:-0.001},{x:0.175,y:0.206,s:0.13,ry:-0.044,rz:-0.027},{x:0.164,y:0.237,s:0.127,ry:-0.011,rz:-0.054},{x:0.172,y:0.245,s:0.129,ry:0.03,rz:-0.057},{x:0.161,y:0.224,s:0.124,ry:0.093,rz:0.089},{x:0.313,y:-0.003,s:0.315,ry:0.182,rz:-0.195},{x:0.184,y:0.192,s:0.137,ry:0.036,rz:-0.088},{x:0.178,y:0.187,s:0.133,ry:0.06,rz:-0.061},{x:0.183,y:0.185,s:0.127,ry:0.081,rz:-0.043},{x:0.196,y:0.184,s:0.126,ry:0.089,rz:-0.041},{x:0.205,y:0.178,s:0.124,ry:0.067,rz:-0.045},{x:0.213,y:0.188,s:0.125,ry:0.082,rz:-0.054},{x:0.209,y:0.204,s:0.125,ry:0.07,rz:-0.002},{x:0.208,y:0.213,s:0.125,ry:0.071,rz:-0.014},{x:0.208,y:0.215,s:0.126,ry:0.062,rz:-0.013},{x:0.19,y:0.216,s:0.126,ry:0.058,rz:-0.003},{x:0.174,y:0.21,s:0.126,ry:0.079,rz:-0.009},{x:0.158,y:0.194,s:0.125,ry:0.081,rz:-0.019},{x:0.136,y:0.198,s:0.126,ry:0.097,rz:-0.013},{x:0.137,y:0.212,s:0.126,ry:0.079,rz:-0.022},{x:0.143,y:0.206,s:0.125,ry:0.086,rz:-0.031},{x:0.139,y:0.201,s:0.125,ry:0.086,rz:-0.006},{x:0.126,y:0.2,s:0.125,ry:0.108,rz:-0.023},{x:0.134,y:0.188,s:0.125,ry:0.098,rz:-0.048},{x:0.143,y:0.203,s:0.122,ry:0.093,rz:-0.034},{x:0.162,y:0.225,s:0.122,ry:0.073,rz:-0.027},{x:0.173,y:0.242,s:0.125,ry:0.088,rz:-0.038},{x:0.17,y:0.246,s:0.125,ry:0.093,rz:-0.029},{x:0.145,y:0.257,s:0.125,ry:0.102,rz:-0.052},{x:0.133,y:0.255,s:0.126,ry:0.117,rz:-0.078},{x:0.101,y:0.231,s:0.129,ry:0.106,rz:-0.028},{x:0.094,y:0.222,s:0.129,ry:0.118,rz:-0.018},{x:0.093,y:0.229,s:0.129,ry:0.086,rz:0.001},{x:0.102,y:0.261,s:0.122,ry:-0.108,rz:-0.018},{x:0.093,y:0.286,s:0.11,ry:-0.117,rz:-0.022},{x:0.028,y:0.294,s:0.118,ry:0.03,rz:-0.011},{x:-0.122,y:0.2,s:0.201,ry:0.521,rz:0.153},{x:-0.02,y:0.292,s:0.118,ry:-0.004,rz:-0.001},{x:-0.049,y:0.28,s:0.124,ry:0.063,rz:0.008},{x:-0.057,y:0.261,s:0.125,ry:0.091,rz:0.004},{x:-0.052,y:0.244,s:0.125,ry:0.109,rz:0.002},{x:-0.051,y:0.23,s:0.127,ry:0.124,rz:0.007},{x:-0.053,y:0.219,s:0.129,ry:0.122,rz:0.024},false,false,{x:-0.025,y:0.22,s:0.129,ry:0.138,rz:0.064},{x:-0.015,y:0.217,s:0.128,ry:0.16,rz:0.035},{x:-0.008,y:0.201,s:0.126,ry:0.197,rz:0.064},{x:0.019,y:0.176,s:0.127,ry:0.235,rz:0.071},{x:0.064,y:0.176,s:0.129,ry:0.219,rz:0.104},{x:0.092,y:0.182,s:0.129,ry:0.234,rz:0.082},{x:0.117,y:0.196,s:0.129,ry:0.234,rz:0.06},{x:0.141,y:0.193,s:0.129,ry:0.208,rz:0.054},{x:0.168,y:0.186,s:0.127,ry:0.215,rz:0.055},{x:0.196,y:0.185,s:0.13,ry:0.168,rz:0},{x:0.223,y:0.19,s:0.132,ry:0.144,rz:-0.042},{x:0.241,y:0.192,s:0.13,ry:0.146,rz:-0.05},{x:0.252,y:0.204,s:0.13,ry:0.15,rz:-0.031},{x:0.27,y:0.254,s:0.129,ry:0.125,rz:-0.09},{x:0.275,y:0.256,s:0.129,ry:0.169,rz:-0.098},{x:0.29,y:0.255,s:0.129,ry:0.182,rz:-0.113},{x:0.293,y:0.255,s:0.126,ry:0.183,rz:-0.114},{x:0.302,y:0.255,s:0.119,ry:0.186,rz:-0.018},{x:0.314,y:0.261,s:0.118,ry:0.157,rz:-0.017},{x:0.323,y:0.274,s:0.12,ry:0.195,rz:-0.038},{x:0.331,y:0.289,s:0.124,ry:0.235,rz:-0.042},{x:0.339,y:0.293,s:0.125,ry:0.223,rz:-0.049},{x:0.352,y:0.277,s:0.125,ry:0.21,rz:-0.07},{x:0.35,y:0.248,s:0.123,ry:0.211,rz:-0.077},{x:0.343,y:0.218,s:0.122,ry:0.252,rz:-0.047},{x:0.36,y:0.213,s:0.119,ry:0.22,rz:-0.062},{x:0.369,y:0.219,s:0.118,ry:0.235,rz:-0.066},{x:0.37,y:0.234,s:0.118,ry:0.275,rz:-0.067},{x:0.366,y:0.238,s:0.118,ry:0.289,rz:-0.038},{x:0.359,y:0.239,s:0.12,ry:0.339,rz:-0.014},{x:0.369,y:0.257,s:0.121,ry:0.291,rz:-0.005},{x:0.38,y:0.273,s:0.124,ry:0.29,rz:-0.026},{x:0.392,y:0.277,s:0.125,ry:0.293,rz:-0.032},{x:0.383,y:0.256,s:0.125,ry:0.282,rz:-0.054},{x:0.369,y:0.231,s:0.125,ry:0.262,rz:-0.037},{x:0.376,y:0.201,s:0.124,ry:0.235,rz:-0.025},{x:0.379,y:0.176,s:0.125,ry:0.215,rz:-0.038},{x:0.373,y:0.162,s:0.118,ry:0.074,rz:-0.06},{x:0.365,y:0.183,s:0.125,ry:-0.093,rz:-0.123},{x:0.329,y:0.216,s:0.128,ry:-0.217,rz:-0.065}])" class='carouselItem carouselItem8'> </div>
+      <div class='carouselItem carouselItemCustom'>
+      <div class='carouselItemCustomText'>
+        TRY WITH YOUR OWN GIF :
+      </div>
+      <input type='file' id='customImage' accept=".gif" onChange="change_gif('CUSTOM');" />
+      </div>
 
-          <div onclick="change_gif('gifs/soccer2.gif',[{x:0.263,y:0.31,s:0.157,ry:-0.162,rz:-0.046},{x:0.263,y:0.31,s:0.157,ry:-0.149,rz:-0.058},{x:0.257,y:0.316,s:0.157,ry:-0.131,rz:-0.054},{x:0.249,y:0.317,s:0.157,ry:-0.155,rz:-0.042},{x:0.242,y:0.328,s:0.157,ry:-0.147,rz:-0.05},{x:0.24,y:0.332,s:0.157,ry:-0.138,rz:-0.055},{x:0.239,y:0.333,s:0.157,ry:-0.135,rz:-0.056},{x:0.245,y:0.333,s:0.157,ry:-0.14,rz:-0.047},{x:0.247,y:0.327,s:0.157,ry:-0.103,rz:-0.054},{x:0.253,y:0.32,s:0.157,ry:-0.108,rz:-0.057},{x:0.254,y:0.318,s:0.157,ry:-0.098,rz:-0.056},{x:0.255,y:0.312,s:0.157,ry:-0.092,rz:-0.064},{x:0.261,y:0.316,s:0.157,ry:-0.101,rz:-0.062},{x:0.263,y:0.317,s:0.16,ry:-0.101,rz:-0.065},{x:0.269,y:0.33,s:0.158,ry:-0.099,rz:-0.07},{x:0.266,y:0.334,s:0.157,ry:-0.075,rz:-0.074},{x:0.27,y:0.345,s:0.159,ry:-0.083,rz:-0.069},{x:0.27,y:0.354,s:0.157,ry:-0.087,rz:-0.075},{x:0.271,y:0.362,s:0.157,ry:-0.086,rz:-0.065},{x:0.271,y:0.364,s:0.157,ry:-0.067,rz:-0.063},{x:0.277,y:0.377,s:0.157,ry:-0.081,rz:-0.067},{x:0.278,y:0.385,s:0.157,ry:-0.085,rz:-0.068},{x:0.272,y:0.388,s:0.157,ry:-0.069,rz:-0.065},{x:0.265,y:0.394,s:0.157,ry:-0.055,rz:-0.071},{x:0.263,y:0.395,s:0.157,ry:-0.065,rz:-0.068},{x:0.257,y:0.402,s:0.157,ry:-0.065,rz:-0.065},{x:0.255,y:0.403,s:0.157,ry:-0.057,rz:-0.066},{x:0.255,y:0.416,s:0.157,ry:-0.085,rz:-0.063},{x:0.249,y:0.431,s:0.157,ry:-0.074,rz:-0.073},{x:0.248,y:0.446,s:0.157,ry:-0.099,rz:-0.063},{x:0.241,y:0.456,s:0.157,ry:-0.076,rz:-0.061},{x:0.24,y:0.476,s:0.157,ry:-0.074,rz:-0.057},{x:0.239,y:0.487,s:0.157,ry:-0.081,rz:-0.058},{x:0.239,y:0.501,s:0.154,ry:-0.073,rz:-0.055},{x:0.233,y:0.505,s:0.156,ry:-0.063,rz:-0.059},{x:0.232,y:0.512,s:0.157,ry:-0.088,rz:-0.059},{x:0.226,y:0.513,s:0.157,ry:-0.095,rz:-0.056},{x:0.224,y:0.514,s:0.157,ry:-0.085,rz:-0.059},{x:0.218,y:0.514,s:0.157,ry:-0.062,rz:-0.059},{x:0.21,y:0.508,s:0.159,ry:-0.025,rz:-0.057},{x:0.208,y:0.494,s:0.16,ry:-0.023,rz:-0.055},{x:0.208,y:0.485,s:0.155,ry:-0.007,rz:-0.061},{x:0.208,y:0.465,s:0.156,ry:-0.009,rz:-0.067},{x:0.196,y:0.436,s:0.157,ry:0.065,rz:-0.047},{x:0.193,y:0.406,s:0.157,ry:0.069,rz:-0.06},{x:0.186,y:0.369,s:0.16,ry:0.032,rz:-0.061},{x:0.185,y:0.342,s:0.161,ry:0,rz:-0.065},{x:0.184,y:0.329,s:0.155,ry:-0.004,rz:-0.06},{x:0.184,y:0.308,s:0.156,ry:-0.035,rz:-0.053},{x:0.178,y:0.298,s:0.157,ry:-0.055,rz:-0.051},{x:0.171,y:0.295,s:0.157,ry:-0.046,rz:-0.053},{x:0.157,y:0.3,s:0.154,ry:-0.054,rz:-0.04},{x:0.148,y:0.302,s:0.159,ry:-0.071,rz:-0.035},{x:0.146,y:0.314,s:0.157,ry:-0.054,rz:-0.042},{x:0.145,y:0.329,s:0.154,ry:-0.03,rz:-0.035},{x:0.151,y:0.332,s:0.159,ry:-0.022,rz:-0.039},{x:0.141,y:0.333,s:0.154,ry:0.022,rz:-0.02},{x:0.132,y:0.333,s:0.155,ry:-0.004,rz:-0.015},{x:0.124,y:0.332,s:0.156,ry:-0.036,rz:-0.021},{x:0.116,y:0.327,s:0.154,ry:0.007,rz:-0.01},{x:0.114,y:0.332,s:0.153,ry:-0.021,rz:-0.013},{x:0.114,y:0.332,s:0.156,ry:0.018,rz:-0.006},{x:0.12,y:0.327,s:0.157,ry:0.006,rz:-0.004},{x:0.121,y:0.338,s:0.154,ry:0.001,rz:-0.003}], true)" class='carouselItem carouselItem9'> </div>
+      <div onclick="change_gif('gifs/boss.gif',[{x:-0.058,y:0.286,s:0.125,ry:0.01,rz:-0.018},{x:-0.058,y:0.282,s:0.125,ry:0.011,rz:-0.017},{x:-0.059,y:0.28,s:0.125,ry:-0.002,rz:-0.015},{x:-0.059,y:0.28,s:0.125,ry:0.013,rz:-0.015},{x:-0.059,y:0.279,s:0.125,ry:0.012,rz:-0.022},{x:-0.062,y:0.281,s:0.127,ry:0.001,rz:-0.022},{x:-0.065,y:0.282,s:0.127,ry:-0.002,rz:-0.022},{x:-0.066,y:0.284,s:0.129,ry:0.002,rz:-0.025},{x:-0.07,y:0.285,s:0.129,ry:0.004,rz:-0.02},{x:-0.072,y:0.286,s:0.129,ry:0.01,rz:-0.017},{x:-0.074,y:0.286,s:0.129,ry:-0.004,rz:-0.004},{x:-0.078,y:0.286,s:0.129,ry:0.006,rz:0.002},{x:-0.081,y:0.29,s:0.129,ry:0.004,rz:0.008},{x:-0.082,y:0.292,s:0.129,ry:0.009,rz:0.007},{x:-0.083,y:0.293,s:0.129,ry:-0.006,rz:0.015},{x:-0.085,y:0.294,s:0.129,ry:-0.018,rz:0.019},{x:-0.086,y:0.294,s:0.131,ry:-0.031,rz:0.018},{x:-0.088,y:0.297,s:0.131,ry:-0.022,rz:0.017},{x:-0.09,y:0.3,s:0.132,ry:-0.015,rz:0.006},{x:-0.093,y:0.301,s:0.132,ry:-0.004,rz:0},{x:-0.093,y:0.302,s:0.133,ry:0.001,rz:-0.006},{x:-0.093,y:0.302,s:0.133,ry:-0.004,rz:-0.007},{x:-0.096,y:0.302,s:0.134,ry:-0.003,rz:-0.008},{x:-0.095,y:0.303,s:0.134,ry:0.011,rz:-0.007},{x:-0.092,y:0.307,s:0.133,ry:0.029,rz:-0.009},{x:-0.089,y:0.309,s:0.133,ry:0.042,rz:-0.002},{x:-0.086,y:0.309,s:0.133,ry:0.047,rz:0.005},{x:-0.085,y:0.311,s:0.133,ry:0.056,rz:0.004},{x:-0.084,y:0.313,s:0.133,ry:0.043,rz:0.013},{x:-0.083,y:0.314,s:0.133,ry:0.044,rz:0.008},{x:-0.083,y:0.316,s:0.134,ry:0.034,rz:0.008},{x:-0.083,y:0.313,s:0.136,ry:0.021,rz:0.011},{x:-0.085,y:0.315,s:0.134,ry:0.025,rz:0.008},{x:-0.083,y:0.316,s:0.135,ry:0.016,rz:0.01},{x:-0.084,y:0.317,s:0.134,ry:0.036,rz:0.005},{x:-0.083,y:0.316,s:0.134,ry:0.032,rz:0.004},{x:-0.083,y:0.317,s:0.134,ry:0.047,rz:0.005},{x:-0.082,y:0.314,s:0.133,ry:0.054,rz:0.007},{x:-0.082,y:0.311,s:0.133,ry:0.048,rz:0.007},{x:-0.085,y:0.311,s:0.133,ry:0.053,rz:0.004},{x:-0.085,y:0.31,s:0.133,ry:0.057,rz:-0.005},{x:-0.088,y:0.31,s:0.133,ry:0.049,rz:-0.009},{x:-0.09,y:0.305,s:0.133,ry:0.032,rz:-0.007},{x:-0.092,y:0.304,s:0.133,ry:0.024,rz:-0.009},{x:-0.092,y:0.303,s:0.133,ry:0.007,rz:-0.011},{x:-0.092,y:0.301,s:0.133,ry:0.009,rz:-0.013},{x:-0.091,y:0.297,s:0.133,ry:0,rz:-0.01},{x:-0.09,y:0.295,s:0.131,ry:-0.004,rz:-0.001},{x:-0.088,y:0.295,s:0.13,ry:-0.008,rz:0.007},{x:-0.086,y:0.294,s:0.13,ry:-0.017,rz:0.013},{x:-0.084,y:0.294,s:0.129,ry:-0.026,rz:0.02},{x:-0.083,y:0.294,s:0.129,ry:-0.02,rz:0.023},{x:-0.083,y:0.29,s:0.129,ry:-0.011,rz:0.018},{x:-0.079,y:0.288,s:0.129,ry:-0.012,rz:0.016},{x:-0.077,y:0.287,s:0.128,ry:-0.014,rz:0.009},{x:-0.075,y:0.287,s:0.128,ry:-0.018,rz:0.003},{x:-0.075,y:0.286,s:0.129,ry:-0.008,rz:-0.008},{x:-0.07,y:0.286,s:0.129,ry:-0.01,rz:-0.012},{x:-0.068,y:0.282,s:0.127,ry:-0.009,rz:-0.017},{x:-0.066,y:0.283,s:0.127,ry:-0.003,rz:-0.022},{x:-0.067,y:0.28,s:0.128,ry:0.004,rz:-0.025},{x:-0.062,y:0.28,s:0.127,ry:0.003,rz:-0.024},{x:-0.06,y:0.283,s:0.126,ry:0.001,rz:-0.021},{x:-0.059,y:0.284,s:0.126,ry:0.006,rz:-0.017},{x:-0.059,y:0.285,s:0.126,ry:0.007,rz:-0.018}])" class='carouselItem carouselItem0'> </div>
 
-          <div onclick="change_gif('gifs/murder.gif', [{x:-0.035,y:0.086,s:0.456,ry:0.242,rz:0.152},{x:-0.03,y:0.086,s:0.462,ry:0.221,rz:0.155},{x:-0.033,y:0.087,s:0.463,ry:0.215,rz:0.154},{x:-0.033,y:0.087,s:0.456,ry:0.235,rz:0.156},{x:-0.03,y:0.088,s:0.457,ry:0.227,rz:0.152},{x:-0.028,y:0.09,s:0.459,ry:0.211,rz:0.144},{x:-0.024,y:0.084,s:0.462,ry:0.206,rz:0.148},{x:-0.021,y:0.086,s:0.46,ry:0.208,rz:0.143},{x:-0.02,y:0.083,s:0.46,ry:0.207,rz:0.148},{x:-0.017,y:0.082,s:0.465,ry:0.21,rz:0.153},{x:-0.01,y:0.08,s:0.468,ry:0.189,rz:0.135},{x:-0.006,y:0.077,s:0.464,ry:0.198,rz:0.143},{x:-0.004,y:0.075,s:0.465,ry:0.219,rz:0.138},{x:-0.002,y:0.064,s:0.467,ry:0.219,rz:0.128},{x:0.003,y:0.063,s:0.47,ry:0.233,rz:0.154},{x:0.015,y:0.043,s:0.466,ry:0.217,rz:0.14},{x:0.026,y:0.032,s:0.458,ry:0.221,rz:0.118},{x:0.047,y:0.025,s:0.452,ry:0.219,rz:0.124},false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,{x:0.459,y:-0.09,s:0.338,ry:0.198,rz:0.064},{x:0.459,y:-0.084,s:0.341,ry:0.189,rz:0.065},{x:0.452,y:-0.077,s:0.341,ry:0.171,rz:0.084},{x:0.445,y:-0.077,s:0.344,ry:0.166,rz:0.084},{x:0.437,y:-0.079,s:0.348,ry:0.167,rz:0.088},{x:0.436,y:-0.075,s:0.349,ry:0.172,rz:0.086},{x:0.435,y:-0.071,s:0.353,ry:0.135,rz:0.087},{x:0.435,y:-0.068,s:0.359,ry:0.11,rz:0.084},{x:0.429,y:-0.065,s:0.36,ry:0.126,rz:0.078},{x:0.421,y:-0.06,s:0.366,ry:0.131,rz:0.067},{x:0.413,y:-0.053,s:0.372,ry:0.124,rz:0.062},{x:0.399,y:-0.045,s:0.374,ry:0.135,rz:0.061},{x:0.386,y:-0.032,s:0.377,ry:0.132,rz:0.062},{x:0.375,y:-0.015,s:0.38,ry:0.127,rz:0.062},{x:0.36,y:-0.012,s:0.38,ry:0.133,rz:0.063},{x:0.344,y:0.001,s:0.385,ry:0.153,rz:0.058},{x:0.329,y:0.01,s:0.388,ry:0.135,rz:0.061},{x:0.32,y:0.022,s:0.391,ry:0.115,rz:0.065},{x:0.305,y:0.033,s:0.395,ry:0.111,rz:0.072},{x:0.29,y:0.04,s:0.399,ry:0.106,rz:0.076},{x:0.262,y:0.049,s:0.412,ry:0.089,rz:0.093},{x:0.243,y:0.057,s:0.415,ry:0.09,rz:0.102},{x:0.234,y:0.058,s:0.416,ry:0.068,rz:0.11},false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false], false, 3)" class='carouselItem carouselItem10'> </div>
-        </div>
+      <div onclick="change_gif('gifs/chuckHat.gif', [{x:-0.081,y:-0.001,s:0.251,ry:-0.012,rz:0.218},{x:-0.079,y:-0.003,s:0.252,ry:-0.022,rz:0.22},{x:-0.079,y:-0.004,s:0.251,ry:-0.01,rz:0.218},{x:-0.078,y:-0.004,s:0.25,ry:-0.013,rz:0.218},{x:-0.076,y:-0.004,s:0.25,ry:-0.004,rz:0.213},{x:-0.077,y:-0.001,s:0.249,ry:-0.01,rz:0.22},{x:-0.076,y:-0.002,s:0.248,ry:-0.019,rz:0.22},{x:-0.075,y:-0.003,s:0.248,ry:-0.011,rz:0.216},{x:-0.073,y:-0.003,s:0.246,ry:0.006,rz:0.212},{x:-0.071,y:-0.003,s:0.248,ry:-0.005,rz:0.211},{x:-0.065,y:-0.009,s:0.25,ry:-0.029,rz:0.208},{x:-0.06,y:-0.011,s:0.248,ry:-0.01,rz:0.201},{x:-0.059,y:-0.009,s:0.245,ry:0.02,rz:0.2},{x:-0.057,y:-0.021,s:0.251,ry:0.031,rz:0.191},{x:-0.047,y:-0.023,s:0.256,ry:0.016,rz:0.18},{x:-0.039,y:-0.02,s:0.254,ry:0.002,rz:0.175},{x:-0.033,y:-0.019,s:0.252,ry:0.007,rz:0.164},{x:-0.023,y:-0.019,s:0.247,ry:0.031,rz:0.145},{x:-0.015,y:-0.017,s:0.242,ry:0.064,rz:0.144},{x:-0.003,y:-0.017,s:0.239,ry:0.073,rz:0.124},{x:0.007,y:-0.022,s:0.241,ry:0.095,rz:0.103},{x:0.009,y:-0.026,s:0.239,ry:0.143,rz:0.097},{x:0.009,y:-0.026,s:0.239,ry:0.136,rz:0.103},{x:0.011,y:-0.027,s:0.239,ry:0.12,rz:0.102},{x:0.014,y:-0.028,s:0.239,ry:0.12,rz:0.09},{x:0.016,y:-0.031,s:0.239,ry:0.152,rz:0.08},{x:0.013,y:-0.027,s:0.238,ry:0.145,rz:0.098},{x:0.018,y:-0.022,s:0.236,ry:0.138,rz:0.099},{x:0.024,y:-0.017,s:0.234,ry:0.12,rz:0.07},{x:0.033,y:-0.005,s:0.227,ry:0.056,rz:0.062},{x:0.035,y:-0.024,s:0.233,ry:0.101,rz:0.027},{x:0.04,y:-0.032,s:0.233,ry:0.105,rz:0.017},{x:0.05,y:-0.036,s:0.229,ry:0.071,rz:0.02},{x:0.051,y:-0.054,s:0.233,ry:0.091,rz:0.016},{x:0.054,y:-0.055,s:0.231,ry:0.086,rz:0.034},{x:0.058,y:-0.046,s:0.225,ry:0.05,rz:0.044},{x:0.049,y:-0.059,s:0.237,ry:0.086,rz:0.03},{x:0.039,y:-0.06,s:0.24,ry:0.097,rz:0.025},{x:0.007,y:-0.053,s:0.246,ry:0.126,rz:0.056},{x:-0.019,y:-0.045,s:0.246,ry:0.154,rz:0.068},{x:-0.025,y:-0.034,s:0.245,ry:0.129,rz:0.085},{x:-0.046,y:-0.023,s:0.248,ry:0.11,rz:0.101},{x:-0.056,y:-0.013,s:0.246,ry:0.099,rz:0.12}], true)" class='carouselItem carouselItem2'> </div>
 
-        <!-- SLICK CAROUSEL SCRIPT -->
-        <script type="text/javascript" src="../../../libs/slickCarousel/v1_9/slick.min.js"></script>
-    </body>
+      <div onclick="change_gif('gifs/chuck.gif', [{x:-0.475,y:-0.152,s:0.278,ry:0.226,rz:0},{x:-0.457,y:-0.17,s:0.287,ry:0.205,rz:-0.011},{x:-0.447,y:-0.163,s:0.286,ry:0.22,rz:-0.003},{x:-0.396,y:-0.108,s:0.283,ry:0.242,rz:0.025},{x:-0.341,y:-0.072,s:0.282,ry:0.209,rz:0.007},{x:-0.302,y:0.027,s:0.255,ry:-0.005,rz:0.083},{x:-0.409,y:-0.083,s:0.3,ry:0.353,rz:-0.009},{x:-0.405,y:-0.054,s:0.302,ry:0.353,rz:0.015},{x:-0.392,y:-0.049,s:0.295,ry:0.371,rz:0.025},{x:-0.383,y:-0.027,s:0.273,ry:0.334,rz:0.028},{x:-0.383,y:-0.021,s:0.274,ry:0.337,rz:0.05},{x:-0.387,y:-0.032,s:0.283,ry:0.352,rz:0.025},{x:-0.382,y:-0.023,s:0.277,ry:0.323,rz:0.031},{x:-0.381,y:-0.02,s:0.267,ry:0.322,rz:0.028},{x:-0.38,y:-0.02,s:0.265,ry:0.309,rz:0.032},{x:-0.391,y:-0.032,s:0.29,ry:0.36,rz:0.017},{x:-0.389,y:-0.022,s:0.275,ry:0.361,rz:0.045},{x:-0.382,y:-0.026,s:0.272,ry:0.324,rz:0.037},{x:-0.381,y:-0.021,s:0.268,ry:0.345,rz:0.035},{x:-0.382,y:-0.013,s:0.27,ry:0.336,rz:0.044},{x:-0.386,y:-0.007,s:0.274,ry:0.359,rz:0.038},{x:-0.387,y:-0.005,s:0.271,ry:0.361,rz:0.046},{x:-0.385,y:-0.004,s:0.277,ry:0.343,rz:0.053},{x:-0.381,y:0,s:0.269,ry:0.348,rz:0.055},{x:-0.381,y:0.003,s:0.267,ry:0.338,rz:0.054},{x:-0.381,y:0.002,s:0.27,ry:0.348,rz:0.052},{x:-0.38,y:-0.002,s:0.27,ry:0.327,rz:0.044},{x:-0.386,y:-0.004,s:0.276,ry:0.371,rz:0.05},{x:-0.387,y:-0.004,s:0.277,ry:0.374,rz:0.049},{x:-0.382,y:-0.004,s:0.272,ry:0.343,rz:0.048},{x:-0.381,y:-0.011,s:0.278,ry:0.333,rz:0.051},{x:-0.38,y:-0.012,s:0.278,ry:0.327,rz:0.05},{x:-0.38,y:-0.012,s:0.281,ry:0.346,rz:0.049},{x:-0.38,y:-0.016,s:0.279,ry:0.32,rz:0.045},{x:-0.38,y:-0.013,s:0.278,ry:0.316,rz:0.037},{x:-0.38,y:-0.019,s:0.282,ry:0.316,rz:0.047},{x:-0.38,y:-0.013,s:0.279,ry:0.343,rz:0.045},{x:-0.38,y:-0.006,s:0.273,ry:0.363,rz:0.059},{x:-0.38,y:-0.004,s:0.271,ry:0.351,rz:0.051},{x:-0.38,y:-0.004,s:0.276,ry:0.341,rz:0.057},{x:-0.38,y:-0.004,s:0.274,ry:0.342,rz:0.054},{x:-0.38,y:-0.004,s:0.274,ry:0.324,rz:0.059},{x:-0.38,y:-0.004,s:0.275,ry:0.342,rz:0.063},{x:-0.38,y:-0.004,s:0.275,ry:0.371,rz:0.06},{x:-0.38,y:-0.004,s:0.275,ry:0.362,rz:0.054}])" class='carouselItem carouselItem3'> </div>
+      
+      <div onclick="change_gif('gifs/jcv.gif',[{x:0.376,y:-0.033,s:0.267,ry:-0.039,rz:-0.122},{x:0.367,y:-0.04,s:0.264,ry:-0.032,rz:-0.11},{x:0.353,y:-0.042,s:0.271,ry:-0.016,rz:-0.116},{x:0.324,y:-0.031,s:0.259,ry:-0.04,rz:-0.102},{x:0.3,y:-0.028,s:0.256,ry:-0.013,rz:-0.1},{x:0.29,y:-0.042,s:0.264,ry:-0.027,rz:-0.079},{x:0.311,y:-0.056,s:0.26,ry:-0.027,rz:-0.1},{x:0.334,y:-0.07,s:0.259,ry:-0.023,rz:-0.125},{x:0.351,y:-0.073,s:0.259,ry:-0.035,rz:-0.131},{x:0.36,y:-0.068,s:0.259,ry:-0.051,rz:-0.129},{x:0.37,y:-0.067,s:0.259,ry:-0.021,rz:-0.136},{x:0.384,y:-0.067,s:0.262,ry:0.016,rz:-0.132},{x:0.391,y:-0.067,s:0.263,ry:0.027,rz:-0.128},{x:0.404,y:-0.102,s:0.258,ry:0.037,rz:-0.147},{x:0.393,y:-0.111,s:0.262,ry:0.067,rz:-0.154},{x:0.389,y:-0.109,s:0.262,ry:0.076,rz:-0.157},{x:0.386,y:-0.107,s:0.256,ry:0.018,rz:-0.159},{x:0.387,y:-0.107,s:0.254,ry:-0.003,rz:-0.165}],true)" class='carouselItem carouselItem4'> </div>
+
+      <div onclick="change_gif('gifs/trumpFan.gif',[{x:0.067,y:0.468,s:0.086,ry:0.026,rz:0.058},{x:0.067,y:0.467,s:0.086,ry:0.027,rz:0.058},{x:0.073,y:0.467,s:0.086,ry:0.037,rz:0.058},{x:0.074,y:0.467,s:0.086,ry:0.033,rz:0.063},{x:0.074,y:0.467,s:0.086,ry:0.017,rz:0.042},{x:0.08,y:0.467,s:0.086,ry:0.004,rz:0.032},{x:0.082,y:0.467,s:0.086,ry:-0.003,rz:0.029},{x:0.087,y:0.467,s:0.086,ry:-0.012,rz:0.023},{x:0.089,y:0.461,s:0.086,ry:0.001,rz:0.038},{x:0.09,y:0.459,s:0.086,ry:0,rz:0.044},{x:0.096,y:0.465,s:0.086,ry:-0.026,rz:0.029},{x:0.097,y:0.472,s:0.086,ry:-0.023,rz:0.019},{x:0.092,y:0.474,s:0.086,ry:-0.026,rz:0.032},{x:0.085,y:0.48,s:0.083,ry:-0.025,rz:0.05},{x:0.077,y:0.476,s:0.086,ry:-0.016,rz:0.068},{x:0.069,y:0.481,s:0.086,ry:-0.037,rz:0.075},{x:0.043,y:0.476,s:0.086,ry:-0.009,rz:0.107},{x:0.025,y:0.475,s:0.084,ry:-0.002,rz:0.099},{x:0.003,y:0.471,s:0.085,ry:0.012,rz:0.111},{x:-0.032,y:0.468,s:0.086,ry:-0.02,rz:0.115},{x:-0.053,y:0.467,s:0.086,ry:-0.047,rz:0.118},{x:-0.087,y:0.473,s:0.086,ry:-0.016,rz:0.092},{x:-0.108,y:0.468,s:0.087,ry:-0.039,rz:0.109},{x:-0.141,y:0.467,s:0.087,ry:-0.021,rz:0.123},{x:-0.156,y:0.467,s:0.086,ry:-0.026,rz:0.122},{x:-0.172,y:0.467,s:0.086,ry:-0.026,rz:0.111},{x:-0.187,y:0.467,s:0.084,ry:0.045,rz:0.102},{x:-0.191,y:0.467,s:0.086,ry:0.044,rz:0.099},{x:-0.198,y:0.467,s:0.083,ry:0.042,rz:0.092},{x:-0.199,y:0.461,s:0.086,ry:0.006,rz:0.102},{x:-0.206,y:0.459,s:0.083,ry:0.061,rz:0.102},{x:-0.201,y:0.453,s:0.086,ry:0.021,rz:0.108},{x:-0.194,y:0.445,s:0.086,ry:-0.006,rz:0.098},{x:-0.155,y:0.428,s:0.09,ry:-0.091,rz:0.07},{x:-0.142,y:0.428,s:0.087,ry:-0.102,rz:0.038},{x:-0.126,y:0.428,s:0.086,ry:-0.047,rz:0.037},{x:-0.105,y:0.427,s:0.086,ry:-0.003,rz:0.051},{x:-0.076,y:0.433,s:0.086,ry:0.023,rz:0.099},{x:-0.052,y:0.435,s:0.087,ry:-0.036,rz:0.092},{x:-0.039,y:0.441,s:0.086,ry:0.012,rz:0.096},{x:-0.012,y:0.443,s:0.086,ry:0.003,rz:0.061},{x:0,y:0.449,s:0.086,ry:-0.01,rz:0.047},{x:0.009,y:0.451,s:0.086,ry:0.005,rz:0.046},{x:0.018,y:0.451,s:0.087,ry:-0.001,rz:0.036},{x:0.031,y:0.451,s:0.086,ry:0.008,rz:0.03},{x:0.034,y:0.451,s:0.086,ry:0.003,rz:0.027},{x:0.035,y:0.451,s:0.086,ry:0.013,rz:0.024},{x:0.037,y:0.451,s:0.086,ry:0.011,rz:0.013},{x:0.042,y:0.457,s:0.086,ry:-0.008,rz:0.009},{x:0.037,y:0.458,s:0.086,ry:-0.005,rz:0.016},{x:0.036,y:0.459,s:0.086,ry:-0.013,rz:0.021}], true)" class='carouselItem carouselItem5'> </div>
+      
+      <div onclick="change_gif('gifs/zombie.gif',[{x:0.247,y:0.161,s:0.129,ry:-0.048,rz:0.024},{x:0.224,y:0.216,s:0.137,ry:-0.096,rz:0.015},{x:0.192,y:0.325,s:0.137,ry:-0.246,rz:0.001},{x:0.137,y:0.427,s:0.137,ry:-0.121,rz:0.071},{x:0.137,y:0.435,s:0.145,ry:-0.111,rz:0.044},{x:0.153,y:0.412,s:0.145,ry:-0.133,rz:0.041},{x:0.202,y:0.388,s:0.152,ry:-0.116,rz:0.001},{x:0.239,y:0.31,s:0.149,ry:-0.113,rz:0.009},{x:0.262,y:0.263,s:0.15,ry:-0.167,rz:-0.012},{x:0.301,y:0.295,s:0.141,ry:-0.113,rz:0.018},{x:0.333,y:0.38,s:0.141,ry:-0.174,rz:0.008},{x:0.325,y:0.413,s:0.137,ry:-0.117,rz:0.044}])" class='carouselItem carouselItem6'> </div>
+
+      <div onclick="change_gif('gifs/dodgeball.gif',[false,false,false,false,false,false,false,false,false,{x:-0.216,y:0.231,s:0.098,ry:0.046,rz:0.069},{x:-0.21,y:0.231,s:0.098,ry:0.043,rz:0.064},{x:-0.211,y:0.237,s:0.095,ry:0.035,rz:0.075},{x:-0.209,y:0.239,s:0.094,ry:0.041,rz:0.074},{x:-0.21,y:0.237,s:0.096,ry:0.012,rz:0.072},{x:-0.225,y:0.236,s:0.096,ry:-0.12,rz:0.048},{x:-0.286,y:0.237,s:0.09,ry:-0.161,rz:0.139},{x:-0.349,y:0.2,s:0.082,ry:-0.341,rz:0.228},false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],false,3)" class='carouselItem carouselItem7'> </div>
+
+      <div onclick="change_gif('gifs/supporter.gif',[{x:0.412,y:0.208,s:0.125,ry:0.03,rz:-0.003},{x:0.412,y:0.208,s:0.125,ry:0.024,rz:-0.018},{x:0.404,y:0.202,s:0.125,ry:0.022,rz:-0.016},{x:0.353,y:0.184,s:0.124,ry:0.026,rz:-0.015},{x:0.344,y:0.172,s:0.125,ry:0.03,rz:-0.058},{x:0.33,y:0.158,s:0.125,ry:0.033,rz:-0.066},{x:0.283,y:0.146,s:0.125,ry:0.046,rz:0.028},{x:0.292,y:0.145,s:0.125,ry:0.03,rz:0.003},{x:0.315,y:0.127,s:0.125,ry:0.053,rz:0.022},{x:0.323,y:0.12,s:0.126,ry:0.054,rz:0.041},{x:0.332,y:0.121,s:0.129,ry:0.051,rz:-0.017},{x:0.322,y:0.121,s:0.129,ry:0.071,rz:-0.006},{x:0.327,y:0.121,s:0.129,ry:0.055,rz:0.029},{x:0.349,y:0.122,s:0.126,ry:0.056,rz:0.047},{x:0.361,y:0.128,s:0.123,ry:0.083,rz:0.018},{x:0.358,y:0.153,s:0.125,ry:0.085,rz:0.008},{x:0.345,y:0.171,s:0.125,ry:0.075,rz:-0.096},{x:0.318,y:0.169,s:0.125,ry:0.037,rz:-0.056},{x:0.288,y:0.163,s:0.126,ry:0.033,rz:-0.026},false,false,false,false,false,{x:0.244,y:0.137,s:0.139,ry:-0.158,rz:-0.003},{x:0.216,y:0.153,s:0.131,ry:-0.051,rz:0.026},{x:0.197,y:0.177,s:0.131,ry:-0.045,rz:-0.001},{x:0.175,y:0.206,s:0.13,ry:-0.044,rz:-0.027},{x:0.164,y:0.237,s:0.127,ry:-0.011,rz:-0.054},{x:0.172,y:0.245,s:0.129,ry:0.03,rz:-0.057},{x:0.161,y:0.224,s:0.124,ry:0.093,rz:0.089},{x:0.313,y:-0.003,s:0.315,ry:0.182,rz:-0.195},{x:0.184,y:0.192,s:0.137,ry:0.036,rz:-0.088},{x:0.178,y:0.187,s:0.133,ry:0.06,rz:-0.061},{x:0.183,y:0.185,s:0.127,ry:0.081,rz:-0.043},{x:0.196,y:0.184,s:0.126,ry:0.089,rz:-0.041},{x:0.205,y:0.178,s:0.124,ry:0.067,rz:-0.045},{x:0.213,y:0.188,s:0.125,ry:0.082,rz:-0.054},{x:0.209,y:0.204,s:0.125,ry:0.07,rz:-0.002},{x:0.208,y:0.213,s:0.125,ry:0.071,rz:-0.014},{x:0.208,y:0.215,s:0.126,ry:0.062,rz:-0.013},{x:0.19,y:0.216,s:0.126,ry:0.058,rz:-0.003},{x:0.174,y:0.21,s:0.126,ry:0.079,rz:-0.009},{x:0.158,y:0.194,s:0.125,ry:0.081,rz:-0.019},{x:0.136,y:0.198,s:0.126,ry:0.097,rz:-0.013},{x:0.137,y:0.212,s:0.126,ry:0.079,rz:-0.022},{x:0.143,y:0.206,s:0.125,ry:0.086,rz:-0.031},{x:0.139,y:0.201,s:0.125,ry:0.086,rz:-0.006},{x:0.126,y:0.2,s:0.125,ry:0.108,rz:-0.023},{x:0.134,y:0.188,s:0.125,ry:0.098,rz:-0.048},{x:0.143,y:0.203,s:0.122,ry:0.093,rz:-0.034},{x:0.162,y:0.225,s:0.122,ry:0.073,rz:-0.027},{x:0.173,y:0.242,s:0.125,ry:0.088,rz:-0.038},{x:0.17,y:0.246,s:0.125,ry:0.093,rz:-0.029},{x:0.145,y:0.257,s:0.125,ry:0.102,rz:-0.052},{x:0.133,y:0.255,s:0.126,ry:0.117,rz:-0.078},{x:0.101,y:0.231,s:0.129,ry:0.106,rz:-0.028},{x:0.094,y:0.222,s:0.129,ry:0.118,rz:-0.018},{x:0.093,y:0.229,s:0.129,ry:0.086,rz:0.001},{x:0.102,y:0.261,s:0.122,ry:-0.108,rz:-0.018},{x:0.093,y:0.286,s:0.11,ry:-0.117,rz:-0.022},{x:0.028,y:0.294,s:0.118,ry:0.03,rz:-0.011},{x:-0.122,y:0.2,s:0.201,ry:0.521,rz:0.153},{x:-0.02,y:0.292,s:0.118,ry:-0.004,rz:-0.001},{x:-0.049,y:0.28,s:0.124,ry:0.063,rz:0.008},{x:-0.057,y:0.261,s:0.125,ry:0.091,rz:0.004},{x:-0.052,y:0.244,s:0.125,ry:0.109,rz:0.002},{x:-0.051,y:0.23,s:0.127,ry:0.124,rz:0.007},{x:-0.053,y:0.219,s:0.129,ry:0.122,rz:0.024},false,false,{x:-0.025,y:0.22,s:0.129,ry:0.138,rz:0.064},{x:-0.015,y:0.217,s:0.128,ry:0.16,rz:0.035},{x:-0.008,y:0.201,s:0.126,ry:0.197,rz:0.064},{x:0.019,y:0.176,s:0.127,ry:0.235,rz:0.071},{x:0.064,y:0.176,s:0.129,ry:0.219,rz:0.104},{x:0.092,y:0.182,s:0.129,ry:0.234,rz:0.082},{x:0.117,y:0.196,s:0.129,ry:0.234,rz:0.06},{x:0.141,y:0.193,s:0.129,ry:0.208,rz:0.054},{x:0.168,y:0.186,s:0.127,ry:0.215,rz:0.055},{x:0.196,y:0.185,s:0.13,ry:0.168,rz:0},{x:0.223,y:0.19,s:0.132,ry:0.144,rz:-0.042},{x:0.241,y:0.192,s:0.13,ry:0.146,rz:-0.05},{x:0.252,y:0.204,s:0.13,ry:0.15,rz:-0.031},{x:0.27,y:0.254,s:0.129,ry:0.125,rz:-0.09},{x:0.275,y:0.256,s:0.129,ry:0.169,rz:-0.098},{x:0.29,y:0.255,s:0.129,ry:0.182,rz:-0.113},{x:0.293,y:0.255,s:0.126,ry:0.183,rz:-0.114},{x:0.302,y:0.255,s:0.119,ry:0.186,rz:-0.018},{x:0.314,y:0.261,s:0.118,ry:0.157,rz:-0.017},{x:0.323,y:0.274,s:0.12,ry:0.195,rz:-0.038},{x:0.331,y:0.289,s:0.124,ry:0.235,rz:-0.042},{x:0.339,y:0.293,s:0.125,ry:0.223,rz:-0.049},{x:0.352,y:0.277,s:0.125,ry:0.21,rz:-0.07},{x:0.35,y:0.248,s:0.123,ry:0.211,rz:-0.077},{x:0.343,y:0.218,s:0.122,ry:0.252,rz:-0.047},{x:0.36,y:0.213,s:0.119,ry:0.22,rz:-0.062},{x:0.369,y:0.219,s:0.118,ry:0.235,rz:-0.066},{x:0.37,y:0.234,s:0.118,ry:0.275,rz:-0.067},{x:0.366,y:0.238,s:0.118,ry:0.289,rz:-0.038},{x:0.359,y:0.239,s:0.12,ry:0.339,rz:-0.014},{x:0.369,y:0.257,s:0.121,ry:0.291,rz:-0.005},{x:0.38,y:0.273,s:0.124,ry:0.29,rz:-0.026},{x:0.392,y:0.277,s:0.125,ry:0.293,rz:-0.032},{x:0.383,y:0.256,s:0.125,ry:0.282,rz:-0.054},{x:0.369,y:0.231,s:0.125,ry:0.262,rz:-0.037},{x:0.376,y:0.201,s:0.124,ry:0.235,rz:-0.025},{x:0.379,y:0.176,s:0.125,ry:0.215,rz:-0.038},{x:0.373,y:0.162,s:0.118,ry:0.074,rz:-0.06},{x:0.365,y:0.183,s:0.125,ry:-0.093,rz:-0.123},{x:0.329,y:0.216,s:0.128,ry:-0.217,rz:-0.065}])" class='carouselItem carouselItem8'> </div>
+
+      <div onclick="change_gif('gifs/soccer2.gif',[{x:0.263,y:0.31,s:0.157,ry:-0.162,rz:-0.046},{x:0.263,y:0.31,s:0.157,ry:-0.149,rz:-0.058},{x:0.257,y:0.316,s:0.157,ry:-0.131,rz:-0.054},{x:0.249,y:0.317,s:0.157,ry:-0.155,rz:-0.042},{x:0.242,y:0.328,s:0.157,ry:-0.147,rz:-0.05},{x:0.24,y:0.332,s:0.157,ry:-0.138,rz:-0.055},{x:0.239,y:0.333,s:0.157,ry:-0.135,rz:-0.056},{x:0.245,y:0.333,s:0.157,ry:-0.14,rz:-0.047},{x:0.247,y:0.327,s:0.157,ry:-0.103,rz:-0.054},{x:0.253,y:0.32,s:0.157,ry:-0.108,rz:-0.057},{x:0.254,y:0.318,s:0.157,ry:-0.098,rz:-0.056},{x:0.255,y:0.312,s:0.157,ry:-0.092,rz:-0.064},{x:0.261,y:0.316,s:0.157,ry:-0.101,rz:-0.062},{x:0.263,y:0.317,s:0.16,ry:-0.101,rz:-0.065},{x:0.269,y:0.33,s:0.158,ry:-0.099,rz:-0.07},{x:0.266,y:0.334,s:0.157,ry:-0.075,rz:-0.074},{x:0.27,y:0.345,s:0.159,ry:-0.083,rz:-0.069},{x:0.27,y:0.354,s:0.157,ry:-0.087,rz:-0.075},{x:0.271,y:0.362,s:0.157,ry:-0.086,rz:-0.065},{x:0.271,y:0.364,s:0.157,ry:-0.067,rz:-0.063},{x:0.277,y:0.377,s:0.157,ry:-0.081,rz:-0.067},{x:0.278,y:0.385,s:0.157,ry:-0.085,rz:-0.068},{x:0.272,y:0.388,s:0.157,ry:-0.069,rz:-0.065},{x:0.265,y:0.394,s:0.157,ry:-0.055,rz:-0.071},{x:0.263,y:0.395,s:0.157,ry:-0.065,rz:-0.068},{x:0.257,y:0.402,s:0.157,ry:-0.065,rz:-0.065},{x:0.255,y:0.403,s:0.157,ry:-0.057,rz:-0.066},{x:0.255,y:0.416,s:0.157,ry:-0.085,rz:-0.063},{x:0.249,y:0.431,s:0.157,ry:-0.074,rz:-0.073},{x:0.248,y:0.446,s:0.157,ry:-0.099,rz:-0.063},{x:0.241,y:0.456,s:0.157,ry:-0.076,rz:-0.061},{x:0.24,y:0.476,s:0.157,ry:-0.074,rz:-0.057},{x:0.239,y:0.487,s:0.157,ry:-0.081,rz:-0.058},{x:0.239,y:0.501,s:0.154,ry:-0.073,rz:-0.055},{x:0.233,y:0.505,s:0.156,ry:-0.063,rz:-0.059},{x:0.232,y:0.512,s:0.157,ry:-0.088,rz:-0.059},{x:0.226,y:0.513,s:0.157,ry:-0.095,rz:-0.056},{x:0.224,y:0.514,s:0.157,ry:-0.085,rz:-0.059},{x:0.218,y:0.514,s:0.157,ry:-0.062,rz:-0.059},{x:0.21,y:0.508,s:0.159,ry:-0.025,rz:-0.057},{x:0.208,y:0.494,s:0.16,ry:-0.023,rz:-0.055},{x:0.208,y:0.485,s:0.155,ry:-0.007,rz:-0.061},{x:0.208,y:0.465,s:0.156,ry:-0.009,rz:-0.067},{x:0.196,y:0.436,s:0.157,ry:0.065,rz:-0.047},{x:0.193,y:0.406,s:0.157,ry:0.069,rz:-0.06},{x:0.186,y:0.369,s:0.16,ry:0.032,rz:-0.061},{x:0.185,y:0.342,s:0.161,ry:0,rz:-0.065},{x:0.184,y:0.329,s:0.155,ry:-0.004,rz:-0.06},{x:0.184,y:0.308,s:0.156,ry:-0.035,rz:-0.053},{x:0.178,y:0.298,s:0.157,ry:-0.055,rz:-0.051},{x:0.171,y:0.295,s:0.157,ry:-0.046,rz:-0.053},{x:0.157,y:0.3,s:0.154,ry:-0.054,rz:-0.04},{x:0.148,y:0.302,s:0.159,ry:-0.071,rz:-0.035},{x:0.146,y:0.314,s:0.157,ry:-0.054,rz:-0.042},{x:0.145,y:0.329,s:0.154,ry:-0.03,rz:-0.035},{x:0.151,y:0.332,s:0.159,ry:-0.022,rz:-0.039},{x:0.141,y:0.333,s:0.154,ry:0.022,rz:-0.02},{x:0.132,y:0.333,s:0.155,ry:-0.004,rz:-0.015},{x:0.124,y:0.332,s:0.156,ry:-0.036,rz:-0.021},{x:0.116,y:0.327,s:0.154,ry:0.007,rz:-0.01},{x:0.114,y:0.332,s:0.153,ry:-0.021,rz:-0.013},{x:0.114,y:0.332,s:0.156,ry:0.018,rz:-0.006},{x:0.12,y:0.327,s:0.157,ry:0.006,rz:-0.004},{x:0.121,y:0.338,s:0.154,ry:0.001,rz:-0.003}], true)" class='carouselItem carouselItem9'> </div>
+
+      <div onclick="change_gif('gifs/murder.gif', [{x:-0.035,y:0.086,s:0.456,ry:0.242,rz:0.152},{x:-0.03,y:0.086,s:0.462,ry:0.221,rz:0.155},{x:-0.033,y:0.087,s:0.463,ry:0.215,rz:0.154},{x:-0.033,y:0.087,s:0.456,ry:0.235,rz:0.156},{x:-0.03,y:0.088,s:0.457,ry:0.227,rz:0.152},{x:-0.028,y:0.09,s:0.459,ry:0.211,rz:0.144},{x:-0.024,y:0.084,s:0.462,ry:0.206,rz:0.148},{x:-0.021,y:0.086,s:0.46,ry:0.208,rz:0.143},{x:-0.02,y:0.083,s:0.46,ry:0.207,rz:0.148},{x:-0.017,y:0.082,s:0.465,ry:0.21,rz:0.153},{x:-0.01,y:0.08,s:0.468,ry:0.189,rz:0.135},{x:-0.006,y:0.077,s:0.464,ry:0.198,rz:0.143},{x:-0.004,y:0.075,s:0.465,ry:0.219,rz:0.138},{x:-0.002,y:0.064,s:0.467,ry:0.219,rz:0.128},{x:0.003,y:0.063,s:0.47,ry:0.233,rz:0.154},{x:0.015,y:0.043,s:0.466,ry:0.217,rz:0.14},{x:0.026,y:0.032,s:0.458,ry:0.221,rz:0.118},{x:0.047,y:0.025,s:0.452,ry:0.219,rz:0.124},false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,{x:0.459,y:-0.09,s:0.338,ry:0.198,rz:0.064},{x:0.459,y:-0.084,s:0.341,ry:0.189,rz:0.065},{x:0.452,y:-0.077,s:0.341,ry:0.171,rz:0.084},{x:0.445,y:-0.077,s:0.344,ry:0.166,rz:0.084},{x:0.437,y:-0.079,s:0.348,ry:0.167,rz:0.088},{x:0.436,y:-0.075,s:0.349,ry:0.172,rz:0.086},{x:0.435,y:-0.071,s:0.353,ry:0.135,rz:0.087},{x:0.435,y:-0.068,s:0.359,ry:0.11,rz:0.084},{x:0.429,y:-0.065,s:0.36,ry:0.126,rz:0.078},{x:0.421,y:-0.06,s:0.366,ry:0.131,rz:0.067},{x:0.413,y:-0.053,s:0.372,ry:0.124,rz:0.062},{x:0.399,y:-0.045,s:0.374,ry:0.135,rz:0.061},{x:0.386,y:-0.032,s:0.377,ry:0.132,rz:0.062},{x:0.375,y:-0.015,s:0.38,ry:0.127,rz:0.062},{x:0.36,y:-0.012,s:0.38,ry:0.133,rz:0.063},{x:0.344,y:0.001,s:0.385,ry:0.153,rz:0.058},{x:0.329,y:0.01,s:0.388,ry:0.135,rz:0.061},{x:0.32,y:0.022,s:0.391,ry:0.115,rz:0.065},{x:0.305,y:0.033,s:0.395,ry:0.111,rz:0.072},{x:0.29,y:0.04,s:0.399,ry:0.106,rz:0.076},{x:0.262,y:0.049,s:0.412,ry:0.089,rz:0.093},{x:0.243,y:0.057,s:0.415,ry:0.09,rz:0.102},{x:0.234,y:0.058,s:0.416,ry:0.068,rz:0.11},false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false], false, 3)" class='carouselItem carouselItem10'> </div>
+    </div>
+
+    <!-- SLICK CAROUSEL SCRIPT -->
+    <script src="../../../libs/slickCarousel/v1_9/slick.min.js"></script>
+  </body>
 </html>
  
  
