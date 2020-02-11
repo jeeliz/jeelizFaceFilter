@@ -1,14 +1,13 @@
 "use strict";
 
-// some globalz :
 var THREECAMERA;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -16,7 +15,7 @@ function detect_callback(isDetected) {
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
-  // Add our face model
+  // Add our face model:
   const loader = new THREE.BufferGeometryLoader();
 
   loader.load(
@@ -24,7 +23,6 @@ function init_threeScene(spec) {
     (geometry) => {
       const mat = new THREE.MeshBasicMaterial({
         // DEBUG: uncomment color, comment map and alphaMap
-        // color: 0xFF0000,
         map: new THREE.TextureLoader().load('./models/football_makeup/texture.png'),
         alphaMap: new THREE.TextureLoader().load('./models/football_makeup/alpha_map_256.png'),
         transparent: true,
@@ -41,7 +39,7 @@ function init_threeScene(spec) {
     }
   )
 
-  // We load the font that we'll use to display 3D text
+  // We load the font that we'll use to display 3D text:
   const fontLoader = new THREE.FontLoader();
 
   fontLoader.load(
@@ -100,7 +98,7 @@ function init_threeScene(spec) {
   THREECAMERA = THREE.JeelizHelper.create_camera();
 } // end init_threeScene()
 
-//launched by body.onload() :
+// Entry point, launched by body.onload():
 function main() {
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -108,12 +106,12 @@ function main() {
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {
@@ -121,7 +119,7 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, // end callbackReady()
 

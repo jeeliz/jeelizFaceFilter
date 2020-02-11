@@ -7,66 +7,63 @@ let ISDETECTED = false;
 
 
 
-let FACEMESH;
+let FACEMESH = null, GROUPOBJ3D = null;
 
-let ANGELMESH1 = false;
-let ANGELMESH2 = false;
-let ANGELMESH3 = false;
-let MIXERANGEL1 = false;
-let MIXERANGEL2 = false;
-let MIXERANGEL3 = false;
-let ACTIONANGEL1 = false;
-let ACTIONANGEL2 = false;
-let ACTIONANGEL3 = false;
+let ANGELMESH1 = null;
+let ANGELMESH2 = null;
+let ANGELMESH3 = null;
+let MIXERANGEL1 = null;
+let MIXERANGEL2 = null;
+let MIXERANGEL3 = null;
+let ACTIONANGEL1 = null;
+let ACTIONANGEL2 = null;
+let ACTIONANGEL3 = null;
 
-let HARPMESH1 = false;
-let HARPMESH2 = false;
-let HARPMESH3 = false;
-let MIXERHARP1 = false;
-let MIXERHARP2 = false;
-let MIXERHARP3 = false;
-let ACTIONHARP1 = false;
-let ACTIONHARP2 = false;
-let ACTIONHARP3 = false;
+let HARPMESH1 = null;
+let HARPMESH2 = null;
+let HARPMESH3 = null;
+let MIXERHARP1 = null;
+let MIXERHARP2 = null;
+let MIXERHARP3 = null;
+let ACTIONHARP1 = null;
+let ACTIONHARP2 = null;
+let ACTIONHARP3 = null;
 
-let DEMONMESH1 = false;
-let DEMONMESH2 = false;
-let DEMONMESH3 = false;
-let MIXERDEMON1 = false;
-let MIXERDEMON2 = false;
-let MIXERDEMON3 = false;
-let ACTIONDEMON1 = false;
-let ACTIONDEMON2 = false;
-let ACTIONDEMON3 = false;
+let DEMONMESH1 = null;
+let DEMONMESH2 = null;
+let DEMONMESH3 = null;
+let MIXERDEMON1 = null;
+let MIXERDEMON2 = null;
+let MIXERDEMON3 = null;
+let ACTIONDEMON1 = null;
+let ACTIONDEMON2 = null;
+let ACTIONDEMON3 = null;
 
-let FORKMESH1 = false;
-let FORKMESH2 = false;
-let FORKMESH3 = false;
-let MIXERFORK1 = false;
-let MIXERFORK2 = false;
-let MIXERFORK3 = false;
-let ACTIONFORK1 = false;
-let ACTIONFORK2 = false;
-let ACTIONFORK3 = false;
-
-const GROUPOBJ3D = new THREE.Object3D();
+let FORKMESH1 = null;
+let FORKMESH2 = null;
+let FORKMESH3 = null;
+let MIXERFORK1 = null;
+let MIXERFORK2 = null;
+let MIXERFORK3 = null;
+let ACTIONFORK1 = null;
+let ACTIONFORK2 = null;
+let ACTIONFORK3 = null;
 
 const states = {
+  notLoaded: -1,
   intro: 0,
   idle: 1,
   fight: 2
 }
-
-let state = false;
-
+let state = states.notLoaded;
 let isLoaded = false;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -519,20 +516,22 @@ function animateFight() {
   ACTIONFORK3.play();
 }
 
-//launched by body.onload() :
+// Entry point, launched by body.onload():
 function main() {
+  GROUPOBJ3D = new THREE.Object3D();
+
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
     callback: function(isError, bestVideoSettings){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings) {
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {
@@ -540,7 +539,7 @@ function init_faceFilter(videoSettings) {
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, // end callbackReady()
 

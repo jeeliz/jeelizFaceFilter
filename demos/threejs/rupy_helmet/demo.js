@@ -1,29 +1,26 @@
 "use strict";
 
-// some globalz :
+// some globalz:
 var THREECAMERA; // should be prop of window (so no let)
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
-// build the 3D. called once when Jeeliz Face Filter is OK
+// build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
   // CREATE OUR HELMET MESH AND ADD IT TO OUR SCENE
   const HELMETOBJ3D = new THREE.Object3D();
-  let helmetMesh;
-  let visiereMesh;
-  let faceMesh;
+  let helmetMesh = null, visorMesh = null, faceMesh = null;
 
   const loadingManager = new THREE.LoadingManager();
-
   const helmetLoader = new THREE.BufferGeometryLoader(loadingManager);
 
   helmetLoader.load(
@@ -54,19 +51,20 @@ function init_threeScene(spec) {
         side: THREE.FrontSide
       });
 
-      visiereMesh = new THREE.Mesh(visiereGeometry, visiereMaterial);
-      visiereMesh.scale.multiplyScalar(0.037);
-      visiereMesh.position.y -= 0.3;
-      visiereMesh.position.z -= 0.5;
-      visiereMesh.rotation.x += 0.5;
-      visiereMesh.frustumCulled = false;
+      visorMesh = new THREE.Mesh(visiereGeometry, visiereMaterial);
+      visorMesh.scale.multiplyScalar(0.037);
+      visorMesh.position.y -= 0.3;
+      visorMesh.position.z -= 0.5;
+      visorMesh.rotation.x += 0.5;
+      visorMesh.frustumCulled = false;
     }
   );
 
   // CREATE THE MASK
   const maskLoader = new THREE.BufferGeometryLoader(loadingManager);
   /*
-  faceLowPolyEyesEarsFill.json has been exported from dev/faceLowPolyEyesEarsFill.blend using THREE.JS blender exporter with Blender v2.76
+    faceLowPolyEyesEarsFill.json has been exported from dev/faceLowPolyEyesEarsFill.blend
+    using THREE.JS blender exporter with Blender v2.76
   */
   maskLoader.load('./models/face/faceLowPolyEyesEarsFill2.json', function (maskBufferGeometry) {
     const vertexShaderSource = 'varying vec2 vUVvideo;\n\
@@ -119,7 +117,7 @@ function init_threeScene(spec) {
 
   loadingManager.onLoad = () => {
     HELMETOBJ3D.add(helmetMesh);
-    HELMETOBJ3D.add(visiereMesh);
+    HELMETOBJ3D.add(visorMesh);
     HELMETOBJ3D.add(faceMesh);
 
     addDragEventListener(HELMETOBJ3D);
@@ -151,7 +149,7 @@ function init_threeScene(spec) {
     });
   }
 
-  //MT216 : create the frame. We reuse the geometry of the video
+  // MT216: create the frame. We reuse the geometry of the video
   const calqueMesh = new THREE.Mesh(threeStuffs.videoMesh.geometry,  create_mat2d(new THREE.TextureLoader().load('./images/frame_rupy.png'), true));
   calqueMesh.renderOrder = 999; // render last
   calqueMesh.frustumCulled = false;
@@ -170,7 +168,7 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(dirLight);
 } // end init_threeScene()
 
-//launched by body.onload():
+// Entry point, launched by body.onload():
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -178,7 +176,7 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
@@ -191,7 +189,7 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, // end callbackReady()
 
@@ -200,5 +198,5 @@ function init_faceFilter(videoSettings){
       THREE.JeelizHelper.render(detectState, THREECAMERA);
     }
   }); // end JEEFACEFILTERAPI.init call
-} // end main()
+}
 

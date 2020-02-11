@@ -1,17 +1,17 @@
 "use strict";
 
-let THREECAMERA;
+let THREECAMERA = null;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback : launched if a face is detected or lost.
 function detect_callback(faceIndex, isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
-// build the 3D. called once when Jeeliz Face Filter is OK
+// build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
@@ -38,11 +38,11 @@ function init_threeScene(spec) {
   threeGlasses.scale.multiplyScalar(0.006);
   threeStuffs.faceObject.add(threeGlasses);
 
-  //CREATE THE CAMERA
+  // CREATE THE CAMERA:
   THREECAMERA = THREE.JeelizHelper.create_camera();
 } // end init_threeScene()
 
-//launched by body.onload() :
+// entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -50,13 +50,13 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
     followZRot: true,
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     maxFacesDetected: 1,
     callbackReady: function(errCode, spec){
       if (errCode){
@@ -64,11 +64,11 @@ function init_faceFilter(videoSettings){
       return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, //end callbackReady()
 
-    //called at each render iteration (drawing loop) :
+    // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
       THREE.JeelizHelper.render(detectState, THREECAMERA);
     } //end callbackTrack()

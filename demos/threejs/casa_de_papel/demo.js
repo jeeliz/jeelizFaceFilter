@@ -1,19 +1,19 @@
 "use strict";
 
-// some globalz :
+// some globalz:
 var THREECAMERA;
 const ARRAY_BILLS = [];
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
-function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creation of the video material in a func because we will also use it for the frame
+function create_mat2d(threeTexture, isTransparent){ // MT216: we put the creation of the video material in a func because we will also use it for the frame
   return new THREE.RawShaderMaterial({
     depthWrite: false,
     depthTest: false,
@@ -65,7 +65,7 @@ function init_threeScene(spec) {
     }
   )
 
-  // Create the bills
+  // Create the bills:
   const billGeometry = new THREE.PlaneGeometry(0.4, 0.4);
   const billMaterial = new THREE.MeshLambertMaterial({
     map: new THREE.TextureLoader().load('./images/billet_50.png'),
@@ -74,7 +74,7 @@ function init_threeScene(spec) {
   });
 
   
-  // Position each bill randomly + add animations
+  // Position each bill randomly + add animations:
   for (let i = 0; i < 40; i++) {
 
     const xRand = Math.random()*1 - 0.5;
@@ -91,7 +91,7 @@ function init_threeScene(spec) {
     billMesh.rotation.z = zRand;
 
     billMesh.scale.multiplyScalar(0.4);
-    billMesh.scale.z = xRand*10;
+    billMesh.scale.z = xRand * 10;
 
     ARRAY_BILLS.push(billMesh);
 
@@ -120,7 +120,7 @@ function init_threeScene(spec) {
 } // end init_threeScene()
 
 
-// Animate the falling bills
+// Animate the falling bills:
 function animateBill(mesh, index) {
   mesh.visible = true;
   
@@ -143,7 +143,7 @@ function animateBill(mesh, index) {
 
 let contextAudio;
 
-// Plays the theme song and starts animation for the bills
+// Plays the theme song and starts animation for the bills:
 function playAudio() {
   ARRAY_BILLS.forEach((bill, i) => {
     setTimeout(() => {
@@ -183,7 +183,7 @@ function playAudio() {
 }
 
 
-//launched by body.onload() :
+// entry point, launched by body.onload() :
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -191,12 +191,12 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings) {
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {

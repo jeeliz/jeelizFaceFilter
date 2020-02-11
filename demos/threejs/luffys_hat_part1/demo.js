@@ -10,7 +10,7 @@
 // some globalz :
 let THREECAMERA;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
     console.log('INFO in detect_callback() : DETECTED');
@@ -24,10 +24,10 @@ function detect_callback(isDetected) {
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
-  // Create the JSONLoader for our hat
+  // Create the JSONLoader for our hat:
   const loader = new THREE.BufferGeometryLoader();
   
-  // Load our cool hat
+  // Load our cool hat:
   loader.load(
     'models/luffys_hat.json',
     function (geometry, materials) {
@@ -60,7 +60,7 @@ function init_threeScene(spec) {
   THREECAMERA = THREE.JeelizHelper.create_camera();
 } // end init_threeScene()
 
-//launched by body.onload():
+// Entry point, launched by body.onload():
 function main() {
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -68,12 +68,12 @@ function main() {
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {

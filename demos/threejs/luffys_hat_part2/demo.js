@@ -1,7 +1,7 @@
 "use strict";
 
 
-// SETTINGS of this demo :
+// SETTINGS of this demo:
 const SETTINGS = {
   pivotOffsetYZ: [-0.2, -0.5], // XYZ of the distance between the center of the cube and the pivot
 };
@@ -10,7 +10,7 @@ const SETTINGS = {
 // some globalz :
 var THREECAMERA;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
     console.log('INFO in detect_callback() : DETECTED');
@@ -145,7 +145,7 @@ function init_threeScene(spec) {
   THREECAMERA = THREE.JeelizHelper.create_camera();
 } // end init_threeScene()
 
-//launched by body.onload() :
+// Entry point, launched by body.onload():
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -153,7 +153,7 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   });
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   // Here we set a different pivotOffset value so that the mask fits better
@@ -161,7 +161,7 @@ function init_faceFilter(videoSettings){
 
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {
@@ -169,7 +169,7 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, // end callbackReady()
 

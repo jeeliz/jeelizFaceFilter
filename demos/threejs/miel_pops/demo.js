@@ -5,25 +5,23 @@ const SETTINGS = {
   numberBees: 8
 };
 
-// some globalz :f0.5
+// some globalz:
 var THREECAMERA;
-const GLASSESOBJ3D = new THREE.Object3D();
+let GLASSESOBJ3D = null
 
 const ACTIONS = [];
 const MIXERS = [];
 
-let ISANIMATED;
-
-let BEEMESH;
-let BEEOBJ3D;
+let ISANIMATED = false;
+let BEEMESH = null, BEEOBJ3D = null;
 
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -31,10 +29,10 @@ function detect_callback(isDetected) {
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
-  let frameMesh;
-  let lensesMesh;
-  let branchesMesh;
-  let decoMesh;
+  let frameMesh = null;
+  let lensesMesh = null;
+  let branchesMesh = null;
+  let decoMesh = null;
 
   const loadingManager = new THREE.LoadingManager();
 
@@ -140,11 +138,9 @@ function init_threeScene(spec) {
 
       // let butterFlyInstance
       // let action;
-      let clips;
-      let clip;
-      let xRand;
-      let yRand;
-      let zRand;
+      let clips = null;
+      let clip = null;
+      let xRand = 0, yRand = 0, zRand = 0;
 
       BEEOBJ3D = new THREE.Object3D();
 
@@ -222,7 +218,7 @@ function init_threeScene(spec) {
     });
   }
 
-  //MT216 : create the frame. We reuse the geometry of the video
+  // MT216 : create the frame. We reuse the geometry of the video
   const calqueMesh = new THREE.Mesh(threeStuffs.videoMesh.geometry,  create_mat2d(new THREE.TextureLoader().load('./images/frame.png'), true))
   calqueMesh.renderOrder = 999; // render last
   calqueMesh.frustumCulled = false;
@@ -258,20 +254,22 @@ function animateFlyBees(mesh, theta, sign) {
   }, 16)
 }
 
-//launched by body.onload() :
+// Entry point, launched by body.onload():
 function main() {
+  GLASSESOBJ3D = new THREE.Object3D();
+
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
     callback: function(isError, bestVideoSettings){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {
@@ -279,11 +277,11 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, // end callbackReady()
 
-    // called at each render iteration (drawing loop)
+    // called at each render iteration (drawing loop):
     callbackTrack: function (detectState) {
       THREE.JeelizHelper.render(detectState, THREECAMERA);
 

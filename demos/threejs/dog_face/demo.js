@@ -1,42 +1,35 @@
 "use strict";
 
-// some globalz :
+// some globalz:
 var THREECAMERA;
 let ISDETECTED = false;
-let TONGUEMESH;
-let NOSEMESH;
-const DOGOBJ3D = new THREE.Object3D();
-let EARMESH;
+let TONGUEMESH = null, NOSEMESH = null, EARMESH = null;
+let DOGOBJ3D = null, FRAMEOBJ3D = null;
 
-let ISOVERTHRESHOLD = false;
-let ISUNDERTRESHOLD = true;
+let ISOVERTHRESHOLD = false, ISUNDERTRESHOLD = true;
 
 let ISLOADED = false;
 
-let MIXER = false;
-let ACTION = false;
+let MIXER = null;
+let ACTION = null;
 
 let ISANIMATING = false;
 let ISOPAQUE = false;
 let ISTONGUEOUT = false;
 let ISANIMATIONOVER = false;
 
-let y_ears;
+let _flexParts = [];
 
-let _flexParts=[];
-
-const FRAMEOBJ3D = new THREE.Object3D();
-
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
-function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creation of the video material in a func because we will also use it for the frame
+function create_mat2d(threeTexture, isTransparent){ // MT216 : we put the creation of the video material in a func because we will also use it for the frame
   return new THREE.RawShaderMaterial({
     depthWrite: false,
     depthTest: false,
@@ -267,15 +260,18 @@ function animateTongue (mesh, isReverse) {
   }
 }
 
-//launched by body.onload() :
+// Entry point: launched by body.onload()
 function main(){
+  DOGOBJ3D = new THREE.Object3D();
+  FRAMEOBJ3D = new THREE.Object3D();
+
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
     callback: function(isError, bestVideoSettings){
       init_faceFilter(bestVideoSettings);
     }
   });
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
@@ -288,7 +284,7 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, // end callbackReady()
 
@@ -301,7 +297,7 @@ function init_faceFilter(videoSettings){
         const _eul = new THREE.Euler();
         _eul.setFromQuaternion(_quat);
 
-        //flex ears material
+        // flex ears material:
         if (EARMESH && EARMESH.material.set_amortized){
           EARMESH.material.set_amortized(
             EARMESH.getWorldPosition(new THREE.Vector3(0,0,0)),
@@ -347,7 +343,7 @@ function init_faceFilter(videoSettings){
       TWEEN.update();
 
 
-      // Update the mixer on each frame
+      // Update the mixer on each frame:
       if (ISOPAQUE) {
         MIXER.update(0.16);
       }

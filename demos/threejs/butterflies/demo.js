@@ -1,28 +1,28 @@
 "use strict";
 
 // some globalz :
-let THREECAMERA;
-let BUTTERFLYOBJ3D = false;
+let THREECAMERA = null;
+let BUTTERFLYOBJ3D = null;
 const NUMBERBUTTERFLIES = 10;
 const MIXERS = [];
 const ACTIONS = [];
 let ISANIMATED = false;
 
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
-// build the 3D. called once when Jeeliz Face Filter is OK
+// build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
-  // ADD OUR BUTTERFLY
+  // ADD OUR BUTTERFLY:
   const butterflyLoader = new THREE.JSONLoader();
 
   butterflyLoader.load(
@@ -36,12 +36,12 @@ function init_threeScene(spec) {
 
       // let butterFlyInstance
       // let action;
-      let clips;
-      let clip;
-      let xRand;
-      let yRand;
-      let zRand;
-      let sign;
+      let clips = null;
+      let clip = null;
+      let xRand = null;
+      let yRand = null;
+      let zRand = null;
+      let sign = null;
 
       BUTTERFLYOBJ3D = new THREE.Object3D();
 
@@ -131,9 +131,9 @@ function init_threeScene(spec) {
 // Create the animation for the wings
 function animateFly(mesh, theta, index) {
   let count = 0
-  const x = mesh.position.x; //(Math.random() + 0.5) * 1.5
-  const y = mesh.position.y; // Math.random()*0.2 + 0.1
-  const z = mesh.position.z; // Math.random()*0.2 + 0.1
+  const x = mesh.position.x;
+  const y = mesh.position.y;
+  const z = mesh.position.z;
   
   setInterval(() => {
     count += 0.01
@@ -165,7 +165,7 @@ function animatePointLightButterfly (light) {
   opacityUp.start();
 }
 
-//launched by body.onload() :
+// entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -173,12 +173,12 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {
@@ -190,7 +190,7 @@ function init_faceFilter(videoSettings){
       init_threeScene(spec);
     }, // end callbackReady()
 
-    // called at each render iteration (drawing loop)
+    // called at each render iteration (drawing loop):
     callbackTrack: function (detectState) {
       TWEEN.update();
       

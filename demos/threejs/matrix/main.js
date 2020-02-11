@@ -1,14 +1,14 @@
 "use strict";
 
-//globals :
+// Globals :
 var THREECAMERA, MASKMATERIAL, CANVAS, THREERENDERER;
 
-//entry point :
+// Entry point:
 function main(){
-  //set canvas fullscreen with JeelizResizer.js helper :
+  // set canvas fullscreen with JeelizResizer.js helper:
   JeelizResizer.size_canvas({
     canvasId: 'matrixCanvas',
-    CSSFlipX: true, //This option was previously called isFlipY
+    CSSFlipX: true, // This option was previously called isFlipY
     isFullScreen: true,
     callback: start,
     onResize: function(){
@@ -23,7 +23,7 @@ function main(){
   }); //end size_canvas call
 }
 
-//called when the canvas is resized
+// called when the canvas is resized:
 function start(){
   //initialise Jeeliz Facefilter :
   JEEFACEFILTERAPI.init({
@@ -32,10 +32,10 @@ function start(){
     NNCpath: '../../../dist/',
     callbackReady: function(errCode, spec){ 
       if (errCode){
-        console.log('HEY, IL Y A EU UNE ERREUR =', errCode);
+        console.log('HEY, THERE IS AN ERROR =', errCode);
         return;
       }
-      console.log('JEEFACEFILTERAPI MARCHE YEAH !');
+      console.log('JEEFACEFILTERAPI WORKS YEAH !');
       init_scene(spec);
     }, //end callbackReady()
 
@@ -48,14 +48,14 @@ function init_scene(spec){
   const threeInstances = THREE.JeelizHelper.init(spec);
   THREERENDERER = threeInstances.renderer;
 
-  //create a camera with a 20° FoV - obsolete because FoV depend on device:
+  // create a camera with a 20° FoV - obsolete because FoV depend on device:
   //var aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
   //THREECAMERA = new THREE.PerspectiveCamera(20, aspecRatio, 0.1, 100);
   
   // New way to create the camera, try to guess a good FoV:
   THREECAMERA = THREE.JeelizHelper.create_camera();
 
-  //create the background video texture :
+  // create the background video texture:
   const video = document.createElement('video');
   video.src = 'matrixRain.mp4';
   video.setAttribute('loop', 'true');
@@ -67,7 +67,7 @@ function init_scene(spec){
 
   threeInstances.videoMesh.material.uniforms.samplerVideo.value = videoTexture;
 
-  try{ //workaround otherwise chrome do not want to play the video sometimes...
+  try{ // workaround otherwise chrome do not want to play the video sometimes...
     video.play();
   } catch(e){
   }
@@ -79,11 +79,11 @@ function init_scene(spec){
   window.addEventListener('mousedown', playVideo, false);
   window.addEventListener('touchdown', playVideo, false);
 
-  //import the mesh :
+  // import the mesh:
   new THREE.BufferGeometryLoader().load('maskMesh.json', function(maskGeometry){
     maskGeometry.computeVertexNormals();
     
-    //creation du matériau personnalisé
+    // create the customized material:
     MASKMATERIAL = new THREE.ShaderMaterial({
       vertexShader: "\n\
       varying vec3 vNormalView, vPosition;\n\

@@ -1,25 +1,25 @@
 "use strict";
 
-// SETTINGS of this demo :
+// SETTINGS of this demo:
 const SETTINGS = {
   pivotOffsetYZ: [0.2, 0.2] // XYZ of the distance between the center of the cube and the pivot
 };
 
-// some globalz :
-let THREECAMERA;
+// some globalz:
+let THREECAMERA = null;
 let ISDETECTED = false;
 
 const MIXERS = [];
 const ACTIONS = [];
-const MASKOBJ3D = new THREE.Object3D();
+let MASKOBJ3D = null;
 let isAnimating = false;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -27,8 +27,7 @@ function detect_callback(isDetected) {
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
-  // CREATE LOADING MANAGER
-
+  // CREATE LOADING MANAGER:
   const loadingManager = new THREE.LoadingManager();
 
   // LOAD SMALL SPIDER
@@ -82,14 +81,13 @@ function init_threeScene(spec) {
   );
 
   // LOAD FACE
-  let faceMesh;
+  let faceMesh = null;
   const faceLoader = new THREE.BufferGeometryLoader(loadingManager);
   faceLoader.load(
     './models/face/face.json',
     (geometry) => {
       const material = new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load('./models/face/diffuse_makeup.png'),
-        // transparent: true
+        map: new THREE.TextureLoader().load('./models/face/diffuse_makeup.png')
       });
       const vertexShaderSource = 'varying vec2 vUVvideo;\n\
       varying float vY, vNormalDotZ;\n\
@@ -192,17 +190,21 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(spotLight);
 } // end init_threeScene()
 
-//launched by body.onload() :
+// Entry point, launched by body.onload():
 function main(){
+  MASKOBJ3D = new THREE.Object3D();
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
     callback: function(isError, bestVideoSettings){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function animateSpiders() {
+  // Hide "open mouth" instruction:
+  document.getElementById('openMouthInstructions').style.opacity = '0';
+
   isAnimating = true;
 
   ACTIONS.forEach((action, index) => {
@@ -221,7 +223,7 @@ function animateSpiders() {
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {
@@ -229,11 +231,11 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, // end callbackReady()
 
-    // called at each render iteration (drawing loop)
+    // called at each render iteration (drawing loop):
     callbackTrack: function (detectState) {
       ISDETECTED = THREE.JeelizHelper.get_isDetected();
 

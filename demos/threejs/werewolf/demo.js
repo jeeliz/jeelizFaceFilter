@@ -1,37 +1,33 @@
 "use strict";
 
 // some globalz :
-let THREEVIDEOTEXTURE;
-var THREECAMERA; // should be prop of window
+let THREEVIDEOTEXTURE = null;
+var THREECAMERA = null; // should be prop of window
 let ISDETECTED = false;
-const WOLFOBJ3D = new THREE.Object3D();
-const MASKOBJ3D = new THREE.Object3D();
-let WOLFMESH;
-let FACEMESH;
-let COLORFILTERCOEF;
-let VIDEOMESH;
 
-let MOONSPRITE;
-let MOONHALO;
+let WOLFOBJ3D = null, MASKOBJ3D = null;
+let WOLFMESH = null, FACEMESH = null;
+let COLORFILTERCOEF = null;
+let VIDEOMESH = null;
+
+let MOONSPRITE = null, MOONHALO = null;
 
 let isTransformed = false;
 let ROTATIONX = 0;
 
 let MIXER = false;
 
-let PARTICLEGROUP;
-
-let GROUP;
+let PARTICLEGROUP = null, GROUP = null;
 
 let isLoaded = false;
 
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -236,15 +232,18 @@ function addFrame() {
   img.src = './images/frame.png'
 }
 
-//launched by body.onload() :
+// entry point - launched by body.onload() :
 function main(){
+  WOLFOBJ3D = new THREE.Object3D();
+  MASKOBJ3D = new THREE.Object3D();
+
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
     callback: function(isError, bestVideoSettings){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({

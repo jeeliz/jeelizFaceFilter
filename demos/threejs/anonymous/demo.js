@@ -1,33 +1,34 @@
 "use strict";
 
-// SETTINGS of this demo :
+// SETTINGS of this demo:
 const SETTINGS = {
-  pivotOffsetYZ: [-0.2, -0.2]
+  maskScale: 0.065,
+  maskPositionOffset: [0, -0.75, 0.35]
 };
 
-// some globalz :
-var THREECAMERA; //should be prop of window
+// some globals:
+var THREECAMERA = null; // should be prop of window
 
-let ANONYMOUSMESH;
-let ANONYMOUSOBJ3D;
+let ANONYMOUSMESH = null;
+let ANONYMOUSOBJ3D = null;
 let isTransformed = false;
 
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost.
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
-// build the 3D. called once when Jeeliz Face Filter is OK
+// build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
 
-  // Draw frame canvas
+  // Draw frame canvas:
   const frameCanvas = document.getElementById('frameCanvas');
   const ctx = frameCanvas.getContext('2d');
   const img = new Image(600, 600);
@@ -39,7 +40,7 @@ function init_threeScene(spec) {
   const openMouthInstruction = $('#openMouthInstruction');
   openMouthInstruction.hide();
 
-  // CREATE OUR ANONYMOUS MASK
+  // CREATE OUR ANONYMOUS MASK:
   const headLoader = new THREE.BufferGeometryLoader();
   headLoader.load(
     './models/anonymous/anonymous.json',
@@ -52,8 +53,8 @@ function init_threeScene(spec) {
 
       ANONYMOUSMESH = new THREE.Mesh(geometryHead, mat);
       ANONYMOUSMESH.frustumCulled = false;
-      ANONYMOUSMESH.scale.multiplyScalar(0.07);
-      ANONYMOUSMESH.position.y -= 0.7;
+      ANONYMOUSMESH.scale.multiplyScalar(SETTINGS.maskScale);
+      ANONYMOUSMESH.position.fromArray(SETTINGS.maskPositionOffset);
       ANONYMOUSMESH.renderOrder = 1000000;
 
       // FOR THE APPEAR ANIMATION
@@ -62,9 +63,7 @@ function init_threeScene(spec) {
       ANONYMOUSMESH.material.opacity = 0;
 
       ANONYMOUSOBJ3D = new THREE.Object3D();
-
       ANONYMOUSOBJ3D.add(ANONYMOUSMESH);
-
       addDragEventListener(ANONYMOUSOBJ3D);
 
       threeStuffs.faceObject.add(ANONYMOUSOBJ3D);
@@ -98,7 +97,7 @@ function animateAppear (object3D) {
     .start();
 } 
 
-//launched by body.onload() :
+// entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -106,15 +105,12 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
-  // Here we set a different pivotOffset value so that the mask fits better
-  THREE.JeelizHelper.set_pivotOffsetYZ(SETTINGS.pivotOffsetYZ);
-
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', // root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function (errCode, spec) {
       if (errCode) {

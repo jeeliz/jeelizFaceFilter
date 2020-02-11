@@ -1,25 +1,25 @@
 "use strict";
 
-//SETTINGS of this demo :
-const SETTINGS={
+// SETTINGS of this demo :
+const SETTINGS = {
   maxFaces: 4, //max number of detected faces
 };
 
-//some globalz :
+// some globalz:
 var THREECAMERA;
 
-//callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(faceIndex, isDetected){
   if (isDetected){
-    console.log('INFO in detect_callback() : face n°', faceIndex, 'DETECTED');
+    console.log('INFO in detect_callback(): face n°', faceIndex, 'DETECTED');
   } else {
-    console.log('INFO in detect_callback() : face n°', faceIndex, 'LOST');
+    console.log('INFO in detect_callback(): face n°', faceIndex, 'LOST');
   }
 }
 
 function create_libertyMaterial(){
   return new THREE.MeshLambertMaterial({
-    color: 0xadd7bf, //cyan oxidized bronze
+    color: 0xadd7bf, // cyan oxidized bronze
     alphaMap: new THREE.TextureLoader().load('./assets/libertyAlphaMapSoft512.png'),
     transparent: true,
     premultipliedAlpha: true
@@ -28,7 +28,7 @@ function create_libertyMaterial(){
 
 function create_faceMaterial(){
   return new THREE.MeshBasicMaterial({
-    color: 0x5da0a0, //cyan oxidized bronze a bit modified
+    color: 0x5da0a0, // cyan oxidized bronze a bit modified
     transparent: true,
     side: THREE.DoubleSide,
     premultipliedAlpha: false,
@@ -39,7 +39,7 @@ function create_faceMaterial(){
   });
 }
 
-//build the 3D. called once when Jeeliz Face Filter is OK
+// build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec){
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
   
@@ -52,7 +52,7 @@ function init_threeScene(spec){
     });
   }
 
-  //IMPORT THE STATUE OF LIBERTY
+  // IMPORT THE STATUE OF LIBERTY
   const libertyLoader = new  THREE.BufferGeometryLoader();
   libertyLoader.load('./assets/liberty.json', function(libertyGeometry){
     THREE.JeelizHelper.sortFaces(libertyGeometry, 'z', true);
@@ -61,7 +61,7 @@ function init_threeScene(spec){
     add_faceMesh(libertyMesh);
   });
 
-  //IMPORT THE FACE MASK
+  // IMPORT THE FACE MASK
   new THREE.BufferGeometryLoader().load('./assets/libertyFaceMask.json', function(faceGeometry){
     THREE.JeelizHelper.sortFaces(faceGeometry, 'z', true);
     const faceMesh = new THREE.Mesh(faceGeometry, create_faceMaterial());
@@ -69,21 +69,21 @@ function init_threeScene(spec){
     add_faceMesh(faceMesh);
   });
 
-  //CREATE THE CAMERA
+  // CREATE THE CAMERA
   THREECAMERA = THREE.JeelizHelper.create_camera();
 
-  //ADD LIGHTS
+  // ADD LIGHTS
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
   const dirLight = new THREE.DirectionalLight(0xffffee, 0.7);
   dirLight.position.set(0, 0.05, 1);
   threeStuffs.scene.add(ambientLight, dirLight);
 } //end init_threeScene()
 
-//launched by body.onload():
+// Entry point, launched by body.onload():
 function main(){
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', //root of NNC.json file
+    NNCpath: '../../../dist/', // path of NNC.json file
     maxFacesDetected: SETTINGS.maxFaces,
     callbackReady: function(errCode, spec){
       if (errCode){
@@ -91,11 +91,11 @@ function main(){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, //end callbackReady()
 
-    //called at each render iteration (drawing loop)
+    // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
       THREE.JeelizHelper.render(detectState, THREECAMERA);
     } //end callbackTrack()
