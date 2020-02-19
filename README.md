@@ -10,7 +10,7 @@ This library is lightweight and it does not include any 3D engine or third party
 
 * [Features](#features)
 * [Architecture](#architecture)
-* [Demonstrations](#demonstrations)
+* [Demonstrations and apps](#demonstrations-and-apps)
   * [Included in this repository](#included-in-this-repository)
   * [Third party](#third-party)
 * [Specifications](#specifications)
@@ -75,7 +75,7 @@ Here are the main features of the library:
 
 
 
-## Demonstrations
+## Demonstrations and apps
 
 ### Included in this repository
 
@@ -184,6 +184,7 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [Masks with WebM recording](https://etc.pen-nei.jp/jeeliz/): Mask demo made by [@iong](https://twitter.com/iong). You can change the mask using the lower left buttons, and record the video in WebM file format.
 
+* [GazeFilter](https://beehiveor.gitlab.io/gazefilter/): library to track accurately the pupils positions. There is a nice eye-tracking demo, including a debug view of the output of *FaceFilter* [here](https://beehiveor.gitlab.io/gazefilter/dist/index.html).
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
 
