@@ -8,9 +8,9 @@ const _states = {
 let _state = _states.idle; // MT217 : initialize your state always (even with a loading value)
 
 let _dP = new window.THREE.Vector3();
-let _x0; let _y0;
-let _scenes;
-let _boundFunction;
+let _x0 = -1; let _y0 = -1;
+let _scenes = null;
+let _boundFunction = null;
 
 function updateMeshPosition(canvas, event) {
   const MOUSEVECTOR = new window.THREE.Vector3();
