@@ -340,6 +340,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEEFACEFILTERAPI.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`.
 
+* `JEEFACEFILTERAPI.destroy()`: Clean both graphic memory and JavaScript memory, uninit the library. After that you need to init the library again.
 
 ### Optimization
 
