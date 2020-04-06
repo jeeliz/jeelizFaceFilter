@@ -336,11 +336,11 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEEFACEFILTERAPI.update_videoElement(<video> vid, <function|False> callback)`: change the video element used for the face detection (which can be provided via `VIDEOSETTINGS.videoElement`) by another video element. A callback function can be called when it is done.
 
-* `HANDTRACKER.update_videoSettings(<object> videoSettings)`: dynamically change the video settings (see [Optionnal init arguments](optionnal-init-arguments) for the properties of `videoSettings`). It is useful to change the camera from the selfie camera (user) to the back (environment) camera. A `Promise` is returned.
+* `JEEFACEFILTERAPI.update_videoSettings(<object> videoSettings)`: dynamically change the video settings (see [Optionnal init arguments](optionnal-init-arguments) for the properties of `videoSettings`). It is useful to change the camera from the selfie camera (user) to the back (environment) camera. A `Promise` is returned.
 
 * `JEEFACEFILTERAPI.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`.
 
-* `JEEFACEFILTERAPI.destroy()`: Clean both graphic memory and JavaScript memory, uninit the library. After that you need to init the library again.
+* `JEEFACEFILTERAPI.destroy()`: Clean both graphic memory and JavaScript memory, uninit the library. After that you need to init the library again. A `Promise` is returned.
 
 ### Optimization
 
