@@ -1,8 +1,8 @@
 "use strict";
 
-// some globalz :
+// some globalz:
 let THREEVIDEOTEXTURE = null;
-var THREECAMERA = null; // should be prop of window
+let THREECAMERA = null;
 let ISDETECTED = false;
 
 let WOLFOBJ3D = null, MASKOBJ3D = null;
@@ -40,13 +40,8 @@ function init_threeScene(spec) {
 
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
             
-  // Add our wolf head model
-
+  // Add our wolf head model:
   const loadingManager = new THREE.LoadingManager();
-  let wolfMesh;
-  let faceMesh;
-
-
   const headLoader = new THREE.JSONLoader(loadingManager);
 
   headLoader.load(
@@ -65,7 +60,7 @@ function init_threeScene(spec) {
         morphTargets: true
       });
 
-      const matFur = new THREE.MeshPhongMaterial({ //MT203 : should not apply lighting because normals are wrong
+      const matFur = new THREE.MeshPhongMaterial({
         map: new THREE.TextureLoader().load('./models/werewolf/fur_diffuse.jpg'),
         normalMap: new THREE.TextureLoader().load('./models/werewolf/fur_normal.png'),
         alphaMap: new THREE.TextureLoader().load('./models/werewolf/fur_alpha.jpg'),
@@ -90,9 +85,7 @@ function init_threeScene(spec) {
       WOLFMESH.renderOrder = 1000000;
 
       WOLFMESH.material[0].opacity = 0;
-
       WOLFMESH.material[1].opacity = 0;
-
       WOLFMESH.material[2].opacity = 0;
 
       WOLFOBJ3D.add(WOLFMESH);
@@ -110,14 +103,14 @@ function init_threeScene(spec) {
 
   // CREATE THE MOON
   const moonGeometry = new THREE.PlaneGeometry(10, 10, 10);
-  const moonMaterial = new THREE.SpriteMaterial({ //MT219 : sprites are textured with specific material
+  const moonMaterial = new THREE.SpriteMaterial({ //MT219: sprites are textured with specific material
     map: new THREE.TextureLoader().load('./images/moon.png'),
     transparent: true,
     depthTest: false
   });
 
-  MOONSPRITE = new THREE.Sprite(moonMaterial); //MT219 : the geometry of a sprite is always a 2D plane, so u don't need to specify it
-  MOONSPRITE.position.set(1.5, 1.5, -5); //MT219 : even if it is a sprite you should position it in 3D : a sprite is a 2D object in a 3D scene
+  MOONSPRITE = new THREE.Sprite(moonMaterial); //MT219: the geometry of a sprite is always a 2D plane, so u don't need to specify it
+  MOONSPRITE.position.set(1.5, 1.5, -5); //MT219: even if it is a sprite you should position it in 3D: a sprite is a 2D object in a 3D scene
   MOONSPRITE.scale.multiplyScalar(1.2);
   MOONSPRITE.renderOrder = -10000000;
   threeStuffs.scene.add(MOONSPRITE);
@@ -131,7 +124,7 @@ function init_threeScene(spec) {
   const moonGlowGeometry = new THREE.SphereGeometry(0.8,32, 32);
   THREEx.dilateGeometry(moonGlowGeometry, 0.15);
 
-  var material = THREEx.createAtmosphereMaterial();
+  const material = THREEx.createAtmosphereMaterial();
   material.opacity = 0.1;
   
   MOONHALO = new THREE.Mesh(moonGlowGeometry, material);
@@ -157,8 +150,7 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(dirLight);
 
   // White directional light at half intensity shining from the top.
-  // var directionalLight = new THREE.DirectionalLight( 0x444477, 1.5 );
-  var directionalLight = new THREE.DirectionalLight(new THREE.Color(0, 0.1, 0.2), 1);
+  const directionalLight = new THREE.DirectionalLight(new THREE.Color(0, 0.1, 0.2), 1);
   threeStuffs.scene.add(directionalLight);
 
   // init video texture with red
@@ -169,14 +161,14 @@ function init_threeScene(spec) {
   COLORFILTERCOEF = 0.7;
 
   //CREATE THE VIDEO BACKGROUND
-  var videoMaterial = new THREE.RawShaderMaterial({
+  const videoMaterial = new THREE.RawShaderMaterial({
     depthWrite: false,
     depthTest: false,
     vertexShader: "attribute vec2 position;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
         gl_Position=vec4(position, 0., 1.);\n\
-        vUV=0.5+0.5*position;\n\
+        vUV = 0.5 + 0.5*position;\n\
       }",
     fragmentShader: "precision lowp float;\n\
       uniform sampler2D samplerVideo;\n\
@@ -184,9 +176,9 @@ function init_threeScene(spec) {
       uniform float colorFilterCoef;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
-        vec3 col=texture2D(samplerVideo, vUV).rgb;\n\
-        col=mix(col, colorFilter, colorFilterCoef);\n\
-        gl_FragColor=vec4(col,1.);\n\
+        vec3 col = texture2D(samplerVideo, vUV).rgb;\n\
+        col = mix(col, colorFilter, colorFilterCoef);\n\
+        gl_FragColor = vec4(col,1.);\n\
       }",
      uniforms: {
       samplerVideo: { value: THREEVIDEOTEXTURE },
@@ -204,14 +196,10 @@ function init_threeScene(spec) {
 
 function animateWolf (object3D) {
   object3D.visible = true
-  // new TWEEN.Tween(object3D.material[1].opacity)
   new TWEEN.Tween(object3D.material[1])
-    // .to({ value: 1 }, 700)
     .to({ opacity: 1 }, 1000)
     .start();
-  // new TWEEN.Tween(object3D.material[2].opacity)
   new TWEEN.Tween(object3D.material[2])
-    // .to({ value: 1 }, 700)
     .to({ opacity: 1 }, 1000)
     .start();
   new TWEEN.Tween(object3D.material[0])
@@ -221,18 +209,15 @@ function animateWolf (object3D) {
 
 function addFrame() {
   const frame = document.getElementById('frame');
-
   const ctx = frame.getContext('2d');
-
   const img = new Image(600, 600);
   img.onload = () => {
     ctx.drawImage(img, 0, 0, 600, 600)
   }
-
   img.src = './images/frame.png'
 }
 
-// entry point - launched by body.onload() :
+// entry point - launched by body.onload():
 function main(){
   WOLFOBJ3D = new THREE.Object3D();
   MASKOBJ3D = new THREE.Object3D();
@@ -256,9 +241,9 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, // end callbackReady()
+    },
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
@@ -274,13 +259,12 @@ function init_faceFilter(videoSettings){
       }
       
       TWEEN.update();
-
       if (MIXER) {
         MIXER.update(0.08);
       }
 
       THREE.JeelizHelper.render(detectState, THREECAMERA);
-    } // end callbackTrack()
+    }
   }); // end JEEFACEFILTERAPI.init call
-} // end main()
+}
 

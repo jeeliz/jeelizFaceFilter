@@ -7,7 +7,7 @@ const SETTINGS = {
 };
 
 // some globals:
-var THREECAMERA = null; // should be prop of window
+let THREECAMERA = null; // should be prop of window
 
 let ANONYMOUSMESH = null;
 let ANONYMOUSOBJ3D = null;
@@ -118,9 +118,9 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, // end callbackReady()
+    },
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
@@ -137,7 +137,7 @@ function init_faceFilter(videoSettings){
       TWEEN.update();
 
       THREE.JeelizHelper.render(detectState, THREECAMERA);
-    } // end callbackTrack()
+    }
   }); // end JEEFACEFILTERAPI.init call
-} // end main()
+}
 

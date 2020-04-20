@@ -8,3 +8,6 @@
 ehthumbs.db
 Thumbs.db
 .idea/
+**/.DS_Store
+**/.directory
+.directory

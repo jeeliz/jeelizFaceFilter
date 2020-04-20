@@ -1,13 +1,10 @@
 "use strict";
 
-// some globalz :
-
-var THREECAMERA;
+// some globalz:
+let THREECAMERA = null;
 let ISDETECTED = false;
-
-
-
 let FACEMESH = null, GROUPOBJ3D = null;
+
 
 let ANGELMESH1 = null;
 let ANGELMESH2 = null;
@@ -71,9 +68,7 @@ function detect_callback(isDetected) {
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
-
   $('#openMouthInstructions').hide();
-
   const loadingManager = new THREE.LoadingManager();
 
   /*
@@ -96,7 +91,6 @@ function init_threeScene(spec) {
 
       MIXERANGEL1 = new THREE.AnimationMixer(ANGELMESH1);
       const clipsAngel = ANGELMESH1.geometry.animations;
-
       const clipAngel = clipsAngel[0];
 
       ACTIONANGEL1 = MIXERANGEL1.clipAction(clipAngel);
@@ -121,7 +115,6 @@ function init_threeScene(spec) {
 
       MIXERANGEL2 = new THREE.AnimationMixer(ANGELMESH2);
       const clipsAngel = ANGELMESH2.geometry.animations;
-
       const clipAngel = clipsAngel[0];
 
       ACTIONANGEL2 = MIXERANGEL2.clipAction(clipAngel);
@@ -146,7 +139,6 @@ function init_threeScene(spec) {
 
       MIXERANGEL3 = new THREE.AnimationMixer(ANGELMESH3);
       const clipsAngel = ANGELMESH3.geometry.animations;
-
       const clipAngel = clipsAngel[0];
 
       ACTIONANGEL3 = MIXERANGEL3.clipAction(clipAngel);
@@ -225,8 +217,6 @@ function init_threeScene(spec) {
 
       MIXERHARP3 = new THREE.AnimationMixer(HARPMESH3);
       const clipsHarp = HARPMESH3.geometry.animations;
-
-
       const clipHarp = clipsHarp[0];
 
       ACTIONHARP3 = MIXERHARP3.clipAction(clipHarp);      
@@ -253,8 +243,6 @@ function init_threeScene(spec) {
 
       MIXERDEMON1 = new THREE.AnimationMixer(DEMONMESH1);
       const clipsDemon = DEMONMESH1.geometry.animations;
-
-
       const clipDemon = clipsDemon[0];
 
       ACTIONDEMON1 = MIXERDEMON1.clipAction(clipDemon);
@@ -279,8 +267,6 @@ function init_threeScene(spec) {
 
       MIXERDEMON2 = new THREE.AnimationMixer(DEMONMESH2);
       const clipsDemon = DEMONMESH2.geometry.animations;
-
-
       const clipDemon = clipsDemon[0];
 
       ACTIONDEMON2 = MIXERDEMON2.clipAction(clipDemon);
@@ -305,8 +291,6 @@ function init_threeScene(spec) {
 
       MIXERDEMON3 = new THREE.AnimationMixer(DEMONMESH3);
       const clipsDemon = DEMONMESH3.geometry.animations;
-
-
       const clipDemon = clipsDemon[0];
 
       ACTIONDEMON3 = MIXERDEMON3.clipAction(clipDemon);
@@ -359,8 +343,6 @@ function init_threeScene(spec) {
 
       MIXERFORK2 = new THREE.AnimationMixer(FORKMESH2);
       const clipsFork = FORKMESH2.geometry.animations;
-
-
       const clipFork = clipsFork[0];
 
       ACTIONFORK2 = MIXERFORK2.clipAction(clipFork);  
@@ -385,8 +367,6 @@ function init_threeScene(spec) {
 
       MIXERFORK3 = new THREE.AnimationMixer(FORKMESH3);
       const clipsFork = FORKMESH3.geometry.animations;
-
-
       const clipFork = clipsFork[0];
 
       ACTIONFORK3 = MIXERFORK3.clipAction(clipFork);
@@ -541,9 +521,9 @@ function init_faceFilter(videoSettings) {
 
       console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, // end callbackReady()
+    },
 
-    // called at each render iteration (drawing loop)
+    // called at each render iteration (drawing loop):
     callbackTrack: function (detectState) {
       ISDETECTED = THREE.JeelizHelper.get_isDetected();
       
@@ -578,5 +558,5 @@ function init_faceFilter(videoSettings) {
       THREE.JeelizHelper.render(detectState, THREECAMERA);
     } // end callbackTrack()
   }); // end JEEFACEFILTERAPI.init call
-} // end main()
+}
 
