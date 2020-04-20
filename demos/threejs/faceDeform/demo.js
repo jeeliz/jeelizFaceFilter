@@ -1,14 +1,14 @@
 "use strict";
 
-//some globalz :
-var THREECAMERA;
+// some globalz:
+let THREECAMERA = null;
 
-//callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected){
   if (isDetected){
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -20,45 +20,45 @@ function build_maskMaterial(){
     3) select a radius: the bigger the radius the bigger the size of the deformed zone
     around your tearpoint will be
   */
-  const vertexShaderSource='varying vec2 vUVvideo;\n\
-  //deformation 0 parameters :\n\
-  const vec2 TEARPOINT0=vec2(0.,-0.5);\n\
-  const vec2 DISPLACEMENT0=vec2(0.,0.15);\n\
-  const float RADIUS0=0.4;\n\
-  //deformation 1 parameters :\n\
-  const vec2 TEARPOINT1=vec2(0.25,-0.4);\n\
-  const vec2 DISPLACEMENT1=vec2(0.12,-0.07);\n\
-  const float RADIUS1=0.3;\n\
-  //deformation 2 parameters :\n\
-  const vec2 TEARPOINT2=vec2(-0.25,-0.4);\n\
-  const vec2 DISPLACEMENT2=vec2(-0.12,-0.07);\n\
-  const float RADIUS2=0.3;\n\
+  const vertexShaderSource = 'varying vec2 vUVvideo;\n\
+  // deformation 0 parameters:\n\
+  const vec2 TEARPOINT0 = vec2(0.,-0.5);\n\
+  const vec2 DISPLACEMENT0 = vec2(0.,0.15);\n\
+  const float RADIUS0 = 0.4;\n\
+  // deformation 1 parameters:\n\
+  const vec2 TEARPOINT1 = vec2(0.25,-0.4);\n\
+  const vec2 DISPLACEMENT1 = vec2(0.12,-0.07);\n\
+  const float RADIUS1 = 0.3;\n\
+  // deformation 2 parameters:\n\
+  const vec2 TEARPOINT2 = vec2(-0.25,-0.4);\n\
+  const vec2 DISPLACEMENT2 = vec2(-0.12,-0.07);\n\
+  const float RADIUS2 = 0.3;\n\
   void main() {\n\
     vec3 positionDeformed=position;\n\
-    //apply deformation 0\n\
-    float deformFactor0=1.-smoothstep(0.0, RADIUS0, distance(TEARPOINT0, position.xy));\n\
-    positionDeformed.xy+=deformFactor0*DISPLACEMENT0;\n\
-    //apply deformation 1\n\
-    float deformFactor1=1.-smoothstep(0.0, RADIUS1, distance(TEARPOINT1, position.xy));\n\
-    positionDeformed.xy+=deformFactor1*DISPLACEMENT1;\n\
-    //apply deformation 2\n\
-    float deformFactor2=1.-smoothstep(0.0, RADIUS2, distance(TEARPOINT2, position.xy));\n\
-    positionDeformed.xy+=deformFactor2*DISPLACEMENT2;\n\
-    //project deformed point :\n\
+    // apply deformation 0\n\
+    float deformFactor0 = 1.-smoothstep(0.0, RADIUS0, distance(TEARPOINT0, position.xy));\n\
+    positionDeformed.xy += deformFactor0*DISPLACEMENT0;\n\
+    // apply deformation 1\n\
+    float deformFactor1 = 1.-smoothstep(0.0, RADIUS1, distance(TEARPOINT1, position.xy));\n\
+    positionDeformed.xy += deformFactor1*DISPLACEMENT1;\n\
+    // apply deformation 2\n\
+    float deformFactor2 = 1. - smoothstep(0.0, RADIUS2, distance(TEARPOINT2, position.xy));\n\
+    positionDeformed.xy += deformFactor2*DISPLACEMENT2;\n\
+    // project deformed point:\n\
     vec4 mvPosition = modelViewMatrix * vec4( positionDeformed, 1.0 );\n\
     vec4 projectedPosition=projectionMatrix * mvPosition;\n\
     gl_Position=projectedPosition;\n\
-    //compute UV coordinates on the video texture :\n\
+    // compute UV coordinates on the video texture:\n\
     vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
-    vec4 projectedPosition0=projectionMatrix * mvPosition0;\n\
-    vUVvideo=vec2(0.5,0.5)+0.5*projectedPosition0.xy/projectedPosition0.w;\n\
+    vec4 projectedPosition0 = projectionMatrix * mvPosition0;\n\
+    vUVvideo = vec2(0.5,0.5) + 0.5*projectedPosition0.xy/projectedPosition0.w;\n\
   }';
 
-  const fragmentShaderSource="precision mediump float;\n\
+  const fragmentShaderSource = "precision mediump float;\n\
   uniform sampler2D samplerVideo;\n\
   varying vec2 vUVvideo;\n\
   void main() {\n\
-    gl_FragColor=texture2D(samplerVideo, vUVvideo);\n\
+    gl_FragColor = texture2D(samplerVideo, vUVvideo);\n\
   }";
 
   const mat = new THREE.ShaderMaterial({
@@ -71,11 +71,11 @@ function build_maskMaterial(){
   return mat;
 }
 
-//build the 3D. called once when Jeeliz Face Filter is OK
+// build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec){
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
-  //CREATE THE MASK
+  // CREATE THE MASK:
   const maskLoader=new  THREE.BufferGeometryLoader();
   /*
   faceLowPoly.json has been exported from dev/faceLowPoly.blend using THREE.JS blender exporter with Blender v2.76
@@ -89,11 +89,11 @@ function init_threeScene(spec){
     threeStuffs.faceObject.add(threeMask);
   });
 
-  //CREATE THE CAMERA
+  // CREATE THE CAMERA:
   THREECAMERA = THREE.JeelizHelper.create_camera();
 } //end init_threeScene()
 
-//launched by body.onload() :
+// Entry point, launched by body.onload():
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -101,12 +101,12 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', //root of NNC.json file
+    NNCpath: '../../../dist/', // root of NNC.json file
     videoSettings: videoSettings,
     callbackReady: function(errCode, spec){
       if (errCode){
@@ -114,14 +114,14 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, //end callbackReady()
+    },
 
-    //called at each render iteration (drawing loop)
+    // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
        THREE.JeelizHelper.render(detectState, THREECAMERA);
-    } //end callbackTrack()
+    }
   }); //end JEEFACEFILTERAPI.init call
-} //end main()
+}
 

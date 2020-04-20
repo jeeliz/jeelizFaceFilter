@@ -6,7 +6,7 @@ const SETTINGS = {
 };
 
 // some globalz:
-var THREECAMERA;
+let THREECAMERA = null;
 let GLASSESOBJ3D = null
 
 const ACTIONS = [];
@@ -56,7 +56,7 @@ function init_threeScene(spec) {
     }
   );
 
-  // CREATE OUR LENSES
+  // CREATE LENSES:
   const loaderLenses = new THREE.BufferGeometryLoader(loadingManager);
 
   loaderLenses.load(
@@ -72,7 +72,8 @@ function init_threeScene(spec) {
       lensesMesh.renderOrder = 10000;
     }
   );
-  // CREATE OUR BRANCHES
+
+  // CREATE GLASSES BRANCHES:
   const loaderBranches = new THREE.BufferGeometryLoader(loadingManager);
 
   loaderBranches.load(
@@ -91,7 +92,7 @@ function init_threeScene(spec) {
     }
   );
 
-  // CREATE OUR DECO
+  // CREATE DECO:
   const loaderDeco = new THREE.BufferGeometryLoader(loadingManager);
 
   loaderDeco.load(
@@ -112,10 +113,9 @@ function init_threeScene(spec) {
   loadingManager.onLoad = () => {
     GLASSESOBJ3D.add(branchesMesh, frameMesh, lensesMesh, decoMesh);
     GLASSESOBJ3D.scale.multiplyScalar(1.1);
-    GLASSESOBJ3D.position.setY(0.05); //move glasses a bit up
-    GLASSESOBJ3D.position.setZ(0.25);//move glasses a bit forward
-    window.zou=GLASSESOBJ3D;
-
+    GLASSESOBJ3D.position.setY(0.05); // move glasses a bit up
+    GLASSESOBJ3D.position.setZ(0.25);// move glasses a bit forward
+    
     addDragEventListener(GLASSESOBJ3D);
 
     threeStuffs.faceObject.add(GLASSESOBJ3D);
@@ -134,25 +134,16 @@ function init_threeScene(spec) {
         morphTargets: true
       });
 
-      BEEMESH = new THREE.Mesh(geometry, materialBee);
-
-      // let butterFlyInstance
-      // let action;
-      let clips = null;
-      let clip = null;
-      let xRand = 0, yRand = 0, zRand = 0;
-
+      BEEMESH = new THREE.Mesh(geometry, materialBee);      
       BEEOBJ3D = new THREE.Object3D();
 
       for (let i = 1; i < SETTINGS.numberBees; i++) {
         const sign = i % 2 === 0 ? 1 : -1;
         const beeInstance = BEEMESH.clone();
 
-
-
-        xRand = Math.random() * 1.5 - 0.75;
-        yRand = Math.random() * 2 - 1 + 1;
-        zRand = Math.random() * 0.5 - 0.25;
+        const xRand = Math.random() * 1.5 - 0.75;
+        const yRand = Math.random() * 2 - 1 + 1;
+        const zRand = Math.random() * 0.5 - 0.25;
 
         beeInstance.position.set(xRand, yRand, zRand);
         beeInstance.scale.multiplyScalar(0.1);
@@ -165,13 +156,9 @@ function init_threeScene(spec) {
           // This is where adding our animation begins
           const mixer = new THREE.AnimationMixer(beeInstance);
 
-          clips = beeInstance.geometry.animations;
-
-          clip = clips[0];
-
-
+          const clips = beeInstance.geometry.animations;
+          const clip = clips[0];
           const action = mixer.clipAction(clip);
-
 
           ACTIONS.push(action);
           MIXERS.push(mixer);
@@ -194,7 +181,7 @@ function init_threeScene(spec) {
     }
   );
 
-  // CREATE THE VIDEO BACKGROUND
+  // CREATE THE VIDEO BACKGROUND:
   function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creation of the video material in a func because we will also use it for the frame
     return new THREE.RawShaderMaterial({
       depthWrite: false,
@@ -210,7 +197,7 @@ function init_threeScene(spec) {
         uniform sampler2D samplerVideo;\n\
         varying vec2 vUV;\n\
         void main(void){\n\
-          gl_FragColor=texture2D(samplerVideo, vUV);\n\
+          gl_FragColor = texture2D(samplerVideo, vUV);\n\
         }",
        uniforms:{
         samplerVideo: { value: threeTexture }
@@ -226,13 +213,13 @@ function init_threeScene(spec) {
 
   // CREATE THE CAMERA
   THREECAMERA = THREE.JeelizHelper.create_camera();
-  // CREATE A LIGHT
+
+  // CREATE LIGHTS:
   const ambient = new THREE.AmbientLight(0xffffff, 1);
   threeStuffs.scene.add(ambient)
 
-  var dirLight = new THREE.DirectionalLight(0xffffff);
+  const dirLight = new THREE.DirectionalLight(0xffffff);
   dirLight.position.set(100, 1000, 100);
-
   threeStuffs.scene.add(dirLight)
 } // end init_threeScene()
 
@@ -279,7 +266,7 @@ function init_faceFilter(videoSettings){
 
       console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, // end callbackReady()
+    },
 
     // called at each render iteration (drawing loop):
     callbackTrack: function (detectState) {
@@ -292,7 +279,7 @@ function init_faceFilter(videoSettings){
           m.update(0.16);
         })
       }
-    } // end callbackTrack()
+    }
   }); // end JEEFACEFILTERAPI.init call
-} // end main()
+}
 

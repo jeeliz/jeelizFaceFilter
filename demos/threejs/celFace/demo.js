@@ -1,43 +1,42 @@
 "use strict";
 
-// SETTINGS of this demo :
+// SETTINGS of this demo:
 const SETTINGS = {
-  rotationOffsetX: 0, //negative -> look upper. in radians
-  cameraFOV: 40,    //in degrees, 3D camera FOV
-  pivotOffsetYZ: [0.2,0.0], //XYZ of the distance between the center of the cube and the pivot
-  detectionThreshold: 0.75, //sensibility, between 0 and 1. Less -> more sensitive
+  rotationOffsetX: 0, // negative -> look upper. in radians
+  cameraFOV: 40,    // in degrees, 3D camera FOV
+  pivotOffsetYZ: [0.2,0.0], // XYZ of the distance between the center of the cube and the pivot
+  detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
   detectionHysteresis: 0.05,
-  scale: 1.1, //scale of the 3D cube
+  scale: 1.1, // scale of the 3D cube
   blurEdgeSoftness: 10
 };
 
-// global THREE objects :
-let THREEVIDEOTEXTURE;
-let THREERENDERER;
-let THREEFACEOBJ3D
-let THREEFACEOBJ3DPIVOTED;
-let THREESCENE;
-let THREECAMERA;
-let THREESCENE0;
-let THREESCENE0RENDERTARGET;
-let THREESCENE1;
-let THREESCENE1RENDERTARGET;
-let THREESCENE2;
-let THREESCENE2RENDERTARGET;
+// global THREE objects:
+let THREEVIDEOTEXTURE = null;
+let THREERENDERER = null;
+let THREEFACEOBJ3D = null;
+let THREEFACEOBJ3DPIVOTED = null;
+let THREESCENE = null;
+let THREECAMERA = null;
+let THREESCENE0 = null;
+let THREESCENE0RENDERTARGET = null;
+let THREESCENE1 = null;
+let THREESCENE1RENDERTARGET = null;
+let THREESCENE2 = null;
+let THREESCENE2RENDERTARGET = null;
 
-// global initilialized by JEEFACEFILTER :
-let GL;
-let GLVIDEOTEXTURE;
+// global initilialized by JEEFACEFILTER:
+let GL = null, GLVIDEOTEXTURE = null;
 
-// other globalz :
+// other globalz:
 let ISDETECTED = false;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -45,8 +44,8 @@ function get_mat2DshaderSource() {
   return "attribute vec2 position;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
-        gl_Position=vec4(position,0.,1.);\n\
-        vUV=0.5+0.5*position;\n\
+        gl_Position = vec4(position,0.,1.);\n\
+        vUV = 0.5 + 0.5*position;\n\
       }";
 }
 
@@ -63,10 +62,10 @@ function build_videoMaterial(blurredAlphaTexture) {
       void main(void){\n\
         vec3 videoColor=texture2D(samplerVideo, vUV).rgb;\n\
         vec4 faceColor=texture2D(samplerBlurredAlphaFace, vUV);\n\
-        //apply some tweaks to faceColor;\n\
-        vec3 faceColorTweaked=dot(LUMA, faceColor.rgb)*FACECOLOR;\n\
-        vec3 mixedColor=mix(videoColor, faceColorTweaked, faceColor.a);\n\
-        gl_FragColor=vec4(mixedColor, 1.);\n\
+        // apply some tweaks to faceColor:\n\
+        vec3 faceColorTweaked = dot(LUMA, faceColor.rgb)*FACECOLOR;\n\
+        vec3 mixedColor = mix(videoColor, faceColorTweaked, faceColor.a);\n\
+        gl_FragColor = vec4(mixedColor, 1.);\n\
       }",
     uniforms: {
       samplerVideo: { value: THREEVIDEOTEXTURE },
@@ -80,10 +79,10 @@ function build_maskMaterial(fragmentShaderSource, videoDimensions) {
   const vertexShaderSource = 'varying vec2 vUVvideo;\n\
   void main() {\n\
     vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n\
-    vec4 projectedPosition=projectionMatrix * mvPosition;\n\
-    gl_Position=projectedPosition;\n\
-    //compute UV coordinates on the video texture :\n\
-    vUVvideo=vec2(0.5,0.5)+0.5*projectedPosition.xy/projectedPosition.w;\n\
+    vec4 projectedPosition = projectionMatrix * mvPosition;\n\
+    gl_Position = projectedPosition;\n\
+    // compute UV coordinates on the video texture:\n\
+    vUVvideo = vec2(0.5,0.5)+0.5*projectedPosition.xy/projectedPosition.w;\n\
   }';
 
   const mat = new THREE.ShaderMaterial({
@@ -107,7 +106,7 @@ function build_blurMaterial(dxy, threeTexture) {
       uniform vec2 dxy;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
-        vec4 colCenter=texture2D(samplerImage, vUV);\n\
+        vec4 colCenter = texture2D(samplerImage, vUV);\n\
         float alphaBlured = (8./254.) *texture2D(samplerImage, vUV-3.*dxy).a\n\
           +(28./254.)*texture2D(samplerImage, vUV-2.*dxy).a\n\
           +(56./254.)*texture2D(samplerImage, vUV-dxy).a\n\
@@ -116,7 +115,7 @@ function build_blurMaterial(dxy, threeTexture) {
           +(28./254.)*texture2D(samplerImage, vUV+2.*dxy).a\n\
           +(8./254.) *texture2D(samplerImage, vUV+3.*dxy).a;\n\
         if (colCenter.a==0.0){alphaBlured=colCenter.a;}//blur only the interior (if colCenter.a==0 do nothing);\n\
-        gl_FragColor=vec4(colCenter.rgb, pow(alphaBlured, 2.));\n\
+        gl_FragColor = vec4(colCenter.rgb, pow(alphaBlured, 2.));\n\
       }",
     uniforms: {
       samplerImage:{ value: threeTexture },
@@ -128,7 +127,7 @@ function build_blurMaterial(dxy, threeTexture) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-  // AFFECT GLOBALS :
+  // AFFECT GLOBALS:
   GL = spec.GL;
   GLVIDEOTEXTURE = spec.videoTexture;
 
@@ -175,8 +174,7 @@ function init_threeScene(spec) {
 
   // REATE THE MASK
   const maskLoader = new THREE.BufferGeometryLoader(_threeLoadingManager);
-  let _maskBufferGeometry;
-  let _maskMaterial;
+  let _maskBufferGeometry = null, _maskMaterial = null;
   /*
   faceLowPoly.json has been exported from dev/faceLowPoly.blend using THREE.JS blender exporter with Blender v2.76
   */
@@ -184,12 +182,12 @@ function init_threeScene(spec) {
     maskBufferGeometry.computeVertexNormals();
     _maskBufferGeometry = maskBufferGeometry;
   });
-  var celFragmentShaderLoader = new THREE.FileLoader(_threeLoadingManager);
+  const celFragmentShaderLoader = new THREE.FileLoader(_threeLoadingManager);
   celFragmentShaderLoader.load('./shaders/celFragmentShader.gl', function (fragmentShaderSource) {
     _maskMaterial = build_maskMaterial(fragmentShaderSource, [spec.canvasElement.width, spec.canvasElement.height]);
   });
   _threeLoadingManager.onLoad = function () {
-    console.log('INFO in demo_celFace.js : all 3D assets have been loaded successfully :)');
+    console.log('INFO in demo_celFace.js: all 3D assets have been loaded successfully :)');
     const threeMask = new THREE.Mesh(_maskBufferGeometry, _maskMaterial);
     threeMask.frustumCulled = false;
     threeMask.scale.multiplyScalar(1.2);
@@ -213,7 +211,7 @@ function init_threeScene(spec) {
   }
   THREESCENE.add(videoMesh);
 
-  // INIT STUFFS FOR THE SECOND PASS :
+  // INIT STUFFS FOR THE SECOND PASS:
   const faceBlurAlphaXmesh = new THREE.Mesh(_quad2DGeometry, build_blurMaterial([1 / spec.canvasElement.width, 0], THREESCENE0RENDERTARGET.texture));
   const faceBlurAlphaYmesh = new THREE.Mesh(_quad2DGeometry, build_blurMaterial([0, 1 / spec.canvasElement.height], THREESCENE1RENDERTARGET.texture));
   faceBlurAlphaXmesh.frustumCulled = false;
@@ -221,12 +219,12 @@ function init_threeScene(spec) {
   THREESCENE1.add(faceBlurAlphaXmesh);
   THREESCENE2.add(faceBlurAlphaYmesh);
 
-  // CREATE THE CAMERA
+  // CREATE THE CAMERA:
   const aspecRatio = spec.canvasElement.width / spec.canvasElement.height;
   THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
 } // end init_threeScene()
 
-//launched by body.onload() :
+// entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -247,9 +245,9 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, // end callbackReady()
+    },
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
@@ -269,7 +267,7 @@ function init_faceFilter(videoSettings){
         const W = detectState.s;  // relative width of the detection window (1-> whole width of the detection window)
         const D = 1 / (2 * W * tanFOV); // distance between the front face of the cube and the camera
         
-        // coords in 2D of the center of the detection window in the viewport :
+        // coords in 2D of the center of the detection window in the viewport:
         const xv = detectState.x;
         const yv = detectState.y;
         
@@ -285,13 +283,13 @@ function init_faceFilter(videoSettings){
 
       THREERENDERER.state.reset();
       
-      // first render to texture : 3D face  mask with cel shading
+      // first render to texture: 3D face  mask with cel shading
       THREERENDERER.render(THREESCENE0, THREECAMERA, THREESCENE0RENDERTARGET);
 
-      // second pass : add gaussian blur on alpha channel horizontally
+      // second pass: add gaussian blur on alpha channel horizontally
       THREERENDERER.render(THREESCENE1, THREECAMERA, THREESCENE1RENDERTARGET);
 
-      // second pass : add gaussian blur on alpha channel vertically
+      // second pass: add gaussian blur on alpha channel vertically
       THREERENDERER.render(THREESCENE2, THREECAMERA, THREESCENE2RENDERTARGET);
 
       THREERENDERER.render(THREESCENE, THREECAMERA);

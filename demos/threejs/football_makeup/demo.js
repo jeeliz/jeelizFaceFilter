@@ -1,6 +1,6 @@
 "use strict";
 
-var THREECAMERA;
+let THREECAMERA = null;
 
 // callback: launched if a face is detected or lost
 function detect_callback(isDetected) {

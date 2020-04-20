@@ -1,17 +1,17 @@
 "use strict";
 
-//SETTINGS of this demo :
+// SETTINGS of this demo:
 const SETTINGS = {
   gltfModelURL: 'DamagedHelmet/glTF/DamagedHelmet.gltf',
   cubeMapURL: 'Bridge2/',
-  offsetYZ: [0.3,0], //offset of the model in 3D along vertical and depth axis
-  scale: 2.5 //width in 3D of the GLTF model
+  offsetYZ: [0.3,0], // offset of the model in 3D along vertical and depth axis
+  scale: 2.5 // width in 3D of the GLTF model
 };
 
-var THREECAMERA = null;
+let THREECAMERA = null;
 
 
-//build the 3D. called once when Jeeliz Face Filter is OK
+// build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec){
   const threeStuffs = THREE.JeelizHelper.init(spec, null);
 
@@ -69,11 +69,11 @@ function main(){
 
 function start(){
   JEEFACEFILTERAPI.init({ 
-    videoSettings:{ //increase the default video resolution since we are in full screen
-      'idealWidth': 1280,  //ideal video width in pixels
-      'idealHeight': 800, //ideal video height in pixels
-      'maxWidth': 1920,   //max video width in pixels
-      'maxHeight': 1920   //max video height in pixels
+    videoSettings:{ // increase the default video resolution since we are in full screen
+      'idealWidth': 1280,  // ideal video width in pixels
+      'idealHeight': 800,  // ideal video height in pixels
+      'maxWidth': 1920,    // max video width in pixels
+      'maxHeight': 1920    // max video height in pixels
     },
     followZRot: true,
     canvasId: 'jeeFaceFilterCanvas',
@@ -84,11 +84,11 @@ function start(){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     }, //end callbackReady()
 
-    //called at each render iteration (drawing loop):
+    // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
       THREE.JeelizHelper.render(detectState, THREECAMERA);
     }

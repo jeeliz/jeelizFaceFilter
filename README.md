@@ -87,7 +87,7 @@ These demonstration are included in this repository. So they are released under 
 * THREE.JS based demos - [specific README about THREE.js based demo problems](demos/threejs/):
   * Boilerplates:
     * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
-    * Same boilerplate but using `dist/NNClight.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNClight/), [source code](/demos/threejs/cubeNNClight/)
+    * Same boilerplate but using `dist/NNC4Expr0.json` as neural net, and displays 4 expressions: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeExpr/), [source code](/demos/threejs/cubeExpr/)
     * Same boilerplate but using `dist/NNCwideAngles.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNCwideAngles/), [source code](/demos/threejs/cubeNNCwideAngles/)
     * Boilerplate with ES6 instead of ES5: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
     * Multiple face tracking: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/), [source code](/demos/threejs/multiCubes/)
@@ -407,7 +407,8 @@ We provide several neural network models:
 * `dist/NNCveryLight.json`: even lighter than the previous version: 250Kbytes, and very fast. But not very accurate and robust to all lighting conditions,
 * `dist/NNCviewTop.json`: this neural net is perfect if the camera has a bird's eye view (if you use this library for a kiosk setup for example),
 * `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25),
-* `dist/NNCIntel1536.json`: neural network working with Intel 1536 Iris GPUs (there is a graphic driver bug, see [#85](https://github.com/jeeliz/jeelizFaceFilter/issues/85))
+* `dist/NNCIntel1536.json`: neural network working with Intel 1536 Iris GPUs (there is a graphic driver bug, see [#85](https://github.com/jeeliz/jeelizFaceFilter/issues/85)),
+* `dist/NNCNNC4Expr0.json`: this neural network also detects 4 facial expressions (mouth opening, smile, frown eyebrows, raised eyebrows).
 
 
 ### Using the ES6 module

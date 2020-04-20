@@ -1,7 +1,7 @@
 "use strict";
 
 // some globalz:
-var THREECAMERA;
+let THREECAMERA = null;
 const ARRAY_BILLS = [];
 
 // callback: launched if a face is detected or lost
@@ -21,14 +21,14 @@ function create_mat2d(threeTexture, isTransparent){ // MT216: we put the creatio
     vertexShader: "attribute vec2 position;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
-        gl_Position=vec4(position, 0., 1.);\n\
-        vUV=0.5+0.5*position;\n\
+        gl_Position = vec4(position, 0., 1.);\n\
+        vUV = 0.5 + 0.5*position;\n\
       }",
     fragmentShader: "precision lowp float;\n\
       uniform sampler2D samplerVideo;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
-        gl_FragColor=texture2D(samplerVideo, vUV);\n\
+        gl_FragColor = texture2D(samplerVideo, vUV);\n\
       }",
      uniforms:{
       samplerVideo: { value: threeTexture }
@@ -108,14 +108,13 @@ function init_threeScene(spec) {
   // CREATE THE CAMERA
   THREECAMERA = THREE.JeelizHelper.create_camera();
 
-  // CREATE A LIGHT
+  // CREATE AN AMBIENT LIGHT
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
   THREESTUFF.scene.add(ambientLight);
 
   // CREATE A DIRECTIONALLIGHT
-  var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
   dirLight.position.set(100, 1000, 1000);
-
   THREESTUFF.scene.add(dirLight);
 } // end init_threeScene()
 
@@ -141,7 +140,7 @@ function animateBill(mesh, index) {
   }, 16)
 }
 
-let contextAudio;
+let contextAudio = null;
 
 // Plays the theme song and starts animation for the bills:
 function playAudio() {

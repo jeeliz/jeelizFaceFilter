@@ -1,22 +1,17 @@
 "use strict";
 
-// some globalz :
-let THREECAMERA;
+// some globalz:
+let THREECAMERA = null;
 let ISDETECTED = false;
-let PARTICLES;
-let PARTICLES2;
-let PARTICLES3;
-let CLOUDMESH2;
-let CLOUDMESH3;
-let CLOUDOBJ3D;
+let PARTICLES = null, PARTICLES2 = null, PARTICLES3 = null;
+let CLOUDMESH2 = null, CLOUDMESH3 = null, CLOUDOBJ3D = null;
 
-
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -24,13 +19,13 @@ function detect_callback(isDetected) {
 function init_threeScene(spec) {
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
 
-  let CLOUDMESH;
-  let LIGHTNINGMESH;
+  let CLOUDMESH = null;
+  let LIGHTNINGMESH = null;
   PARTICLES = [];
   PARTICLES2 = [];
   PARTICLES3 = [];
 
-  // CREATE OUR CLOUD
+  // CREATE OUR CLOUD:
   const loaderCloud = new THREE.BufferGeometryLoader()
 
   loaderCloud.load(
@@ -70,15 +65,12 @@ function init_threeScene(spec) {
 
       // Here we create a pointlight that we'll add to our main cloud 
       // to mimic a storm
-      var pointLight = new THREE.PointLight(0xffffff, 0, 100);
+      const pointLight = new THREE.PointLight(0xffffff, 0, 100);
       pointLight.position.set(0, 0.15, -1);
       animatePointLight(pointLight);
 
-
       // CREATE OUR PARTICLE MATERIAL
-
       let PARTICLESOBJ3D = new THREE.Object3D();
-      
 
       CLOUDOBJ3D = new THREE.Object3D();
       CLOUDOBJ3D.add(CLOUDMESH);
@@ -95,25 +87,22 @@ function init_threeScene(spec) {
         transparent: true,
         opacity: 0.5
       });
-      let particle;
-      let particle2;
-      let particle3;
       for ( let i = 0; i <= 500; i++ ) {
-        particle = new THREE.Mesh(particleGeometry, particleMaterial)
+        const particle = new THREE.Mesh(particleGeometry, particleMaterial)
         particle.position.x = Math.random()*1.4 - 0.7
         particle.position.y = 1.5
         particle.renderOrder = 100000
         particle.scale.multiplyScalar(0.1)
         particle.visible = false;
 
-        particle2 = new THREE.Mesh(particleGeometry, particleMaterial)
+        const particle2 = new THREE.Mesh(particleGeometry, particleMaterial)
         particle2.position.x = Math.random()*0.3 - 0.15 + 0.7;
         particle2.position.y = 1.19;
         particle2.renderOrder = 100000;
         particle2.scale.multiplyScalar(0.1);
         particle2.visible = false;
 
-        particle3 = new THREE.Mesh(particleGeometry, particleMaterial)
+        const particle3 = new THREE.Mesh(particleGeometry, particleMaterial)
         particle3.position.x = Math.random()*0.4 - 0.2 - 0.3;
         particle3.position.y = 1.1;
         particle3.position.z = 0.02;
@@ -125,22 +114,18 @@ function init_threeScene(spec) {
         PARTICLES2.push(particle2);
         PARTICLES3.push(particle3);
 
-
-        PARTICLESOBJ3D.add(particle);
-        PARTICLESOBJ3D.add(particle2);
-        PARTICLESOBJ3D.add(particle3);
+        PARTICLESOBJ3D.add(particle, particle2, particle3);
       }
 
-      let tag
       PARTICLES.forEach((part, index) => {
-        animateParticleCloud(part, index, tag);
+        animateParticleCloud(part, index);
       });
       PARTICLES2.forEach((part, index) => {
-        animateParticleCloud(part, index, tag);
+        animateParticleCloud(part, index);
       });
 
       PARTICLES3.forEach((part, index) => {
-        animateParticleCloud(part, index, tag);
+        animateParticleCloud(part, index);
       });
 
       threeStuffs.faceObject.add(CLOUDOBJ3D)
@@ -148,7 +133,7 @@ function init_threeScene(spec) {
   );
 
   // CREATE THE VIDEO BACKGROUND
-  function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creation of the video material in a func because we will also use it for the frame
+  function create_mat2d(threeTexture, isTransparent){ //MT216: we put the creation of the video material in a func because we will also use it for the frame
     return new THREE.RawShaderMaterial({
       depthWrite: false,
       depthTest: false,
@@ -156,14 +141,14 @@ function init_threeScene(spec) {
       vertexShader: "attribute vec2 position;\n\
         varying vec2 vUV;\n\
         void main(void){\n\
-          gl_Position=vec4(position, 0., 1.);\n\
-          vUV=0.5+0.5*position;\n\
+          gl_Position = vec4(position, 0., 1.);\n\
+          vUV = 0.5+0.5*position;\n\
         }",
       fragmentShader: "precision lowp float;\n\
         uniform sampler2D samplerVideo;\n\
         varying vec2 vUV;\n\
         void main(void){\n\
-          gl_FragColor=texture2D(samplerVideo, vUV);\n\
+          gl_FragColor = texture2D(samplerVideo, vUV);\n\
         }",
        uniforms:{
         samplerVideo: { value: threeTexture }
@@ -185,9 +170,8 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(ambient);
 
   // CREATE A SPOTLIGHT
-  var dirLight = new THREE.DirectionalLight(0xffffff);
+  const dirLight = new THREE.DirectionalLight(0xffffff);
   dirLight.position.set(100, 1000, 100);
-
   threeStuffs.scene.add(dirLight);
 } // end init_threeScene()
 
@@ -198,17 +182,12 @@ function animateParticleCloud(particle, index) {
     .delay(index*15)
     .repeat(Infinity)
     .onComplete(() => {
-      // particle.visible = false;
-
       animateParticleCloud(particle, index);
     })
     .start();
 }
 
 function animatePointLight (light) {
-  let delay = 3000;
-  let x;
-  let y;
   const opacityUp1 = new TWEEN.Tween(light)
   .to({ intensity: 3 }, 100)
 
@@ -227,19 +206,16 @@ function animatePointLight (light) {
 
   opacityDown2.onComplete(() => {
     setTimeout(() => {
-      x = Math.random() * 2 - 1;
-
+      const x = Math.random() * 2 - 1;
       light.position.set(x, 0, light.position.z);
       opacityUp1.start();
-      delay = 3000;     
     }, 3000)
-
-  })
+  });
 
   opacityUp1.start();
 }
 
-//launched by body.onload() :
+// entry point:
 function main() {
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -247,7 +223,7 @@ function main() {
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
@@ -260,15 +236,15 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, // end callbackReady()
+    },
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
       TWEEN.update();
       THREE.JeelizHelper.render(detectState, THREECAMERA);
-    } // end callbackTrack()
+    }
   }); // end JEEFACEFILTERAPI.init call
-} // end main()
+}
 

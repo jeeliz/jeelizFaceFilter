@@ -1,7 +1,7 @@
 "use strict";
 
 // some globalz:
-var THREECAMERA;
+let THREECAMERA = null;
 let ISDETECTED = false;
 let TONGUEMESH = null, NOSEMESH = null, EARMESH = null;
 let DOGOBJ3D = null, FRAMEOBJ3D = null;
@@ -92,10 +92,8 @@ function applyFilter() {
 function init_threeScene(spec) {
   // INIT THE THREE.JS context
   const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
-  window.THREESTUFF = threeStuffs;
-
-
-  // CREATE OUR DOG EARS
+  
+  // CREATE OUR DOG EARS:
 
   // let's begin by creating a loading manager that will allow us to
   // have more control over the three parts of our dog model
@@ -201,14 +199,13 @@ function init_threeScene(spec) {
     ISLOADED = true;
   }
 
-  // CREATE A LIGHT
+  // CREATE AN AMBIENT LIGHT
   const ambient = new THREE.AmbientLight(0xffffff, 0.8);
   threeStuffs.scene.add(ambient);
 
   // CREAT A DIRECTIONALLIGHT
-  var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
   dirLight.position.set(100, 1000, 1000);
-
   threeStuffs.scene.add(dirLight);
 
   // CREATE THE CAMERA
@@ -342,12 +339,10 @@ function init_faceFilter(videoSettings){
 
       TWEEN.update();
 
-
       // Update the mixer on each frame:
       if (ISOPAQUE) {
         MIXER.update(0.16);
       }
-
 
       THREE.JeelizHelper.render(detectState, THREECAMERA);
     } // end callbackTrack()

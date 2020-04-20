@@ -1,28 +1,25 @@
 "use strict";
 
-// SETTINGS of this demo :
+// SETTINGS of this demo:
 const SETTINGS = {
   numberRockets: 9,
   radiusEnd: 100,
-  animationDuration: 2000 //in ms
+  animationDuration: 2000 // in ms
 };
 
 // some globalz :
-var THREECAMERA;
+let THREECAMERA = null;
 let ROCKETS = [];
 let PARTICLES = [];
 
-let ROCKETSOBJ3D = false;
-let PARTICLESOBJ3D = new THREE.Object3D();
-let PARTCONTOBJ3D = new THREE.Object3D();
-let FIREWORKOBJ3D;
+let ROCKETSOBJ3D = null, FIREWORKOBJ3D = null;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -32,7 +29,7 @@ function init_threeScene(spec) {
 
   FIREWORKOBJ3D = new THREE.Object3D();
 
-  // CREATE ROCKETS
+  // CREATE ROCKETS:
   threeStuffs.faceObject.add(FIREWORKOBJ3D);
 
   let particleMaterial = new THREE.SpriteMaterial({
@@ -43,9 +40,8 @@ function init_threeScene(spec) {
   if (!ROCKETSOBJ3D) {
     ROCKETSOBJ3D = new THREE.Object3D();
     ROCKETS = [];
-    let rocket;
     for (let i = 0; i <= SETTINGS.numberRockets; i++) {
-      rocket = new THREE.Sprite(particleMaterial);
+      const rocket = new THREE.Sprite(particleMaterial);
       rocket.position.x = Math.random()*1.5 - 0.75;
       rocket.position.y = -2;
       rocket.renderOrder = 100000;
@@ -71,17 +67,13 @@ function init_threeScene(spec) {
 
   // CREATE PARTICLES
 
-  let particle;
   PARTICLES = [];
-
-  let PARTICLESINSTANCE;
   const colors = ['red', 'yellow', 'green', 'blue', 'pink', 'red', 'yellow', 'green', 'blue', 'yellow'];
-  
-  PARTCONTOBJ3D = new THREE.Object3D();
+  const PARTCONTOBJ3D = new THREE.Object3D();
 
   colors.forEach((color) => {
-    PARTICLESINSTANCE = [];
-    PARTICLESOBJ3D = new THREE.Object3D();
+    const PARTICLESINSTANCE = [];
+    const PARTICLESOBJ3D = new THREE.Object3D();
 
     particleMaterial = new THREE.SpriteMaterial({
       map: new THREE.CanvasTexture(generateSprite(color)),
@@ -89,7 +81,7 @@ function init_threeScene(spec) {
     });
 
     for (let i = 0; i <= 100; i++) {
-      particle = new THREE.Sprite(particleMaterial);
+      const particle = new THREE.Sprite(particleMaterial);
 
       particle.renderOrder = 100000;
       particle.scale.multiplyScalar(3);
@@ -112,14 +104,14 @@ function init_threeScene(spec) {
       vertexShader: "attribute vec2 position;\n\
         varying vec2 vUV;\n\
         void main(void){\n\
-          gl_Position=vec4(position, 0., 1.);\n\
-          vUV=0.5+0.5*position;\n\
+          gl_Position = vec4(position, 0., 1.);\n\
+          vUV = 0.5+0.5*position;\n\
         }",
       fragmentShader: "precision lowp float;\n\
         uniform sampler2D samplerVideo;\n\
         varying vec2 vUV;\n\
         void main(void){\n\
-          gl_FragColor=texture2D(samplerVideo, vUV);\n\
+          gl_FragColor = texture2D(samplerVideo, vUV);\n\
         }",
        uniforms:{
         samplerVideo: { value: threeTexture }
@@ -184,29 +176,25 @@ function animateRocket(rocket, index) {
 function animateParticle( particle, rocket, index ) {
   particle.visible = true;
   
-  // var theta = Math.clz32(Math.random()*2*Math.PI); //angle in the plane XY
-  var theta = Math.log10(Math.random()*2*Math.PI); //angle in the plane XY
-  // var theta = Math.imul(Math.random()*2*Math.PI); //angle in the plane XY
-  // var theta = Math.sign(Math.random()*2*Math.PI); //angle in the plane XY
-  // var theta = Math.cbrt(Math.random()*2*Math.PI); //angle in the plane XY
-  var phi = (Math.random()*2-1)*Math.PI/4 //angle between plane XY and the particle. 0-> in the plane XY
+  const theta = Math.log10(Math.random()*2*Math.PI); // angle in the plane XY
+  const phi = (Math.random()*2-1)*Math.PI/4 // angle between plane XY and the particle. 0-> in the plane XY
 
   particle.rotation._z = particle.rotation.z*Math.random();
 
   new TWEEN.Tween( particle.position )
-    .to( {x: 0.04*SETTINGS.radiusEnd*Math.cos(theta)*Math.sin(phi),
-        y: 0.04*SETTINGS.radiusEnd*Math.sin(theta)*Math.cos(phi),
+    .to( {x: 0.04*SETTINGS.radiusEnd * Math.cos(theta) * Math.sin(phi),
+        y: 0.04*SETTINGS.radiusEnd * Math.sin(theta) * Math.cos(phi),
         }, SETTINGS.animationDuration)
     .start();
 
-  //tween scale :
+  // tween scale:
   particle.scale.x = particle.scale.y = Math.random() * 0.1;
   new TWEEN.Tween( particle.scale )
     .to( {x: 0.0001, y: 0.0001}, SETTINGS.animationDuration)
     .start();
 }
 
-//launched by body.onload() :
+// Entry point, launched by body.onload():
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -227,15 +215,15 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, // end callbackReady()
+    },
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
       TWEEN.update();
       THREE.JeelizHelper.render(detectState, THREECAMERA);
-    } // end callbackTrack()
+    }
   }); // end JEEFACEFILTERAPI.init call
-} // end main()
+}
 
