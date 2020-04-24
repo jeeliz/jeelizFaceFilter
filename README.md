@@ -20,6 +20,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [The returned objects](#the-returned-objects)
   * [Miscellaneous methods](#miscellaneous-methods)
   * [Multiple faces](#multiple-faces)
+  * [Multiple videos](#multiple-videos)
   * [Optimization](#optimization)
   * [Changing the 3D engine](#changing-the-3d-engine)
   * [Changing the neural network](#changing-the-neural-network)
@@ -138,6 +139,8 @@ These demonstration are included in this repository. So they are released under 
   * Draw on the face with the mouse: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceDraw/), [source code](/demos/canvas2D/faceDraw/)
   * 2D face detection and tracking - 30 lines of code only !: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceTrack/), [source code](/demos/canvas2D/faceTrack/), [JSfiddle](https://jsfiddle.net/jeeliz/2p34hbeh/)
   * 2D face detection and tracking from a video file instead of webcam video: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/fromVideoFile/), [source code](/demos/canvas2D/fromVideoFile/)
+  * 2D face detection and tracking simultaneously from a video file and from the camera (multiple trackers example): [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/multipleTrackers/), [source code](/demos/canvas2D/multipleTrackers/)
+
 
 * CESIUM.JS based demos:
   * 3D view of the Earth with head controlled navigation: [live demo](https://jeeliz.com/demos/faceFilter/demos/cesium/headControls/), [source code](/demos/cesium/headControls/), [article about the demo](https://cesium.com/blog/2018/03/22/jeeliz-and-cesium/)
@@ -380,6 +383,21 @@ It is possible to detect and track several faces at the same time. To enable thi
 If multiple face tracking is enabled, the `callbackTrack` function is called with an array of detection states (instead of being executed with a simple detection state). The detection state format is still the same.
 
 You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThreejsHelper.js` to get started and test [this example](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/). The [main script](demos/threejs/multiCubes/demo_multiCubes.js) has only 60 lines of code !
+
+
+### Multiple videos
+The constructor of `JEEFACEFILTERAPI` is also exported as a global variable name, `JEEFACEFILERAPIGEN`.
+To create a new `JEEFACEFILTERAPI` instance, you need to call:
+
+```javascript
+const JEEFACEFILTERAPI2 = JEEFACEFILERAPIGEN();
+````
+
+Be aware that:
+* Each instance uses a new WebGL context. Depending on the configuration, the number of WebGL context is limited. We advise to not use more than 16 contexts simultaneously,
+* The computing power will be shared between the context. Using multiple instances may increase the latency.
+
+Checkout this demo to have an example of how it works: [source code](/demos/canvas2D/multipleTrackers/), [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/multipleTrackers/)
 
 
 

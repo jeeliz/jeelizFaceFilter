@@ -4,13 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="content-language" content="en-EN" />
     
-    <title>JEELIZ FACE FILTER: CANVAS2D FACE TRACKING DEMO FROM VIDEO FILE</title>
+    <title>JEELIZ FACE FILTER: CANVAS2D FACE TRACKING DEMO WITH MULTIPLE TRACKERS</title>
     
     <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
     <script src="../../../dist/jeelizFaceFilter.js"></script>
 
     <!-- INCLUDE DEMO SCRIPT -->
-    <script src="./demo_videoFile.js"></script>
+    <script src="./demo_multipleTrackers.js"></script>
 
     <!-- HELPER TO USE CANVAS2D WITHOUT TAKING CARE OF WEBGL -->
     <script src="../../../helpers/Canvas2DDisplay.js"></script>
@@ -32,14 +32,22 @@
       width: 400px; height: 200px;
       margin-top: -100px; margin-left: -200px;
     }
+
+    #jeeFaceFilterCanvas, #jeeFaceFilterCanvas2{
+      width: auto;
+      max-width: 40vw;
+      position: static;
+      float: left;
+      transform: none;
+    }
     </style>
   </head>
   
-  <body onload="main()" style='color: white'>
+  <body onload="main()">
     <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
+    <canvas width="600" height="600" id='jeeFaceFilterCanvas2'></canvas>
+    
     <video id='myVideo' style='display: none' src='video.mp4' playsinline preload autoplay loop></video>
-    <div id='notice'>Click or Touch <br/> to start!</div>
+    <div id='notice'>Click or Touch <br/> to start the video!</div>
   </body>
 </html>
- 
- 

@@ -61,7 +61,7 @@ JEEFACEFILTERAPI.Canvas2DDisplay = function(spec){
   CTX = CANVAS2D.getContext('2d');
     
   // create the WebGL texture with the canvas:
-  CANVASTEXTURE=GL.createTexture();
+  CANVASTEXTURE = GL.createTexture();
   GL.bindTexture(GL.TEXTURE_2D, CANVASTEXTURE);
   GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, CANVAS2D);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);

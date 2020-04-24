@@ -24,7 +24,7 @@ const SETTINGS = {
   canvasSizePx: 512 // resolution of the 2D canvas in pixels
 };
 
-// some globalz :
+// some globalz:
 let CV = null, CANVAS2D = null, CTX = null, GL = null, CANVASTEXTURE = null, CANVASTEXTURENEEDSUPDATE = false;
 let PROJMATRIX = null, PROJMATRIXNEEDSUPDATE = true;
 let VBO_VERTEX = null, VBO_FACES = null, SHADERCANVAS = null, SHADERVIDEO = null, VIDEOTEXTURE = null, MOVMATRIX = create_mat4Identity(), MOVMATRIXINV = create_mat4Identity();
@@ -33,12 +33,12 @@ let ZPLANE = 0, YPLANE = 0;
 let ISDETECTED = false;
 
 
-// callback: launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost.
 function detect_callback(isDetected){
   if (isDetected){
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -59,50 +59,46 @@ function set_mat4Position(m, x,y,z){
   m[14] = z;
 } 
 
-//set the rotation part of a flattened transposed mat4 - see https://en.wikipedia.org/wiki/Euler_angles
+// set the rotation part of a flattened transposed mat4 - see https://en.wikipedia.org/wiki/Euler_angles
 function set_mat4RotationXYZ(m, rx,ry,rz){
-  var c1=Math.cos(rx), s1=Math.sin(rx),
+  const c1=Math.cos(rx), s1=Math.sin(rx),
     c2=Math.cos(ry), s2=Math.sin(ry), 
     c3=Math.cos(rz), s3=Math.sin(rz);
-  //first line (not transposed)
-  m[0]=c2*c3;
-  m[4]=-c2*s3;
-  m[8]=s2;
+  // first line (not transposed)
+  m[0] = c2*c3;
+  m[4] = -c2*s3;
+  m[8] = s2;
   
-  //second line (not transposed)
-  m[1]=c1*s3+c3*s1*s2;
-  m[5]=c1*c3-s1*s2*s3;
-  m[9]=-c2*s1;
+  // second line (not transposed)
+  m[1] = c1*s3+c3*s1*s2;
+  m[5] = c1*c3-s1*s2*s3;
+  m[9] = -c2*s1;
   
-  //third line (not transposed)
-  m[2]=s1*s3-c1*c3*s2;
-  m[6]=c3*s1+c1*s2*s3;
-  m[10]=c1*c2;
+  // third line (not transposed)
+  m[2] = s1*s3-c1*c3*s2;
+  m[6] = c3*s1+c1*s2*s3;
+  m[10] = c1*c2;
 }
 
-
+// inverse a mat4 move matrix m and put result to mat4 matrix r
 function inverse_mat4MoveMatrix(m, r){
-}
-
-//inverse a mat4 move matrix m and put result to mat4 matrix r
-function inverse_mat4MoveMatrix(m, r){
-   //rotation part : the inverse = the transpose
-   r[0]=m[0];
-   r[1]=m[4];
-   r[2]=m[8];
+  // rotation part: the inverse = the transpose
+  r[0] = m[0];
+  r[1] = m[4];
+  r[2] = m[8];
    
-   r[4]=m[1];
-   r[5]=m[5];
-   r[6]=m[9];
+  r[4] = m[1];
+  r[5] = m[5];
+  r[6] = m[9];
 
-   r[8]=m[2];
-   r[9]=m[6];
-   r[10]=m[10];
+  r[8] = m[2];
+  r[9] = m[6];
+  r[10] = m[10];
 
-   //translation part : = -tR.T where T=[m[12], m[13], m[14]]
-   r[12]=-(m[0]*m[12]+m[1]*m[13]+m[2]*m[14]);
-   r[13]=-(m[4]*m[12]+m[5]*m[13]+m[6]*m[14]);
-   r[14]=-(m[8]*m[12]+m[9]*m[13]+m[10]*m[14]);
+  // translation part: = -tR.T where T=[m[12], m[13], m[14]]
+  r[12] = -(m[0]*m[12]+m[1]*m[13]+m[2]*m[14]);
+  r[13] = -(m[4]*m[12]+m[5]*m[13]+m[6]*m[14]);
+  r[14] = -(m[8]*m[12]+m[9]*m[13]+m[10]*m[14]);
 }
 
 function multiply_matVec4(m,v){
@@ -208,7 +204,7 @@ function init_scene(spec){
   VBO_VERTEX = GL.createBuffer ();
   GL.bindBuffer(GL.ARRAY_BUFFER, VBO_VERTEX);
   GL.bufferData(GL.ARRAY_BUFFER,
-        new Float32Array([ //format of each vertex : x,y,z,  u,v
+        new Float32Array([ //format of each vertex: x,y,z,  u,v
           -sx, -sy+YPLANE, ZPLANE,  1,1,
           sx,  -sy+YPLANE, ZPLANE,  0,1,
           sx,  sy+YPLANE,  ZPLANE,  0,0,
@@ -227,8 +223,8 @@ function init_scene(spec){
   const copyVertexShaderSource = "attribute vec2 position;\n\
      varying vec2 vUV;\n\
      void main(void){\n\
-      gl_Position=vec4(position, 0., 1.);\n\
-      vUV=vec2(0.5,0.5)+0.5*position;\n\
+      gl_Position = vec4(position, 0., 1.);\n\
+      vUV = vec2(0.5,0.5)+0.5*position;\n\
      }";
 
   const copyFragmentShaderSource = "precision lowp float;\n\
@@ -236,7 +232,7 @@ function init_scene(spec){
      varying vec2 vUV;\n\
      \n\
      void main(void){\n\
-      gl_FragColor=texture2D(samplerImage, vUV);\n\
+      gl_FragColor = texture2D(samplerImage, vUV);\n\
      }";
   const shpVideo = build_shaderProgram(copyVertexShaderSource, copyFragmentShaderSource, 'VIDEO');
   SHADERVIDEO = {
@@ -252,8 +248,8 @@ function init_scene(spec){
     uniform mat4 projMatrix, movMatrix;\n\
     varying vec2 vUV;\n\
     void main(void){\n\
-      gl_Position=projMatrix*movMatrix*vec4(position, 1.);\n\
-      vUV=uv;\n\
+      gl_Position = projMatrix*movMatrix*vec4(position, 1.);\n\
+      vUV = uv;\n\
     }",
     copyFragmentShaderSource, 'CANVAS');
   
@@ -284,7 +280,7 @@ function init_eventListeners(){
   // add touch and mouse event listeners:
   CV.addEventListener('mousedown', onMouseDown, false);
   CV.addEventListener('touchdown', onMouseDown, false);
-  CV.addEventListener('touchstart', onMouseDown, false); //for IOS
+  CV.addEventListener('touchstart', onMouseDown, false); // for IOS
   
   CV.addEventListener('mouseup', onMouseUp, false);
   CV.addEventListener('touchup', onMouseUp, false);
@@ -293,7 +289,7 @@ function init_eventListeners(){
   CV.addEventListener('touchmove', onMouseMove, false);
 }
 
-function get_eventLoc(event){ //return the position of the picked point in pixels in the canvas2D
+function get_eventLoc(event){ // return the position of the picked point in pixels in the canvas2D
   // get cursor position in pixel in the HTML page ref:
   const isTouch = (event.touches && event.touches.length) ? true : false;
   const xPx = (isTouch) ? event.touches[0].clientX : event.clientX;
@@ -330,12 +326,12 @@ function get_eventLoc(event){ //return the position of the picked point in pixel
   const yCv = CANVAS2D.height*(-yin+1)/2;
 
   return [xCv, yCv];
-} //end get_eventLoc
+} //end get_eventLoc()
 
 function onMouseDown(event){
   if (MOUSESTATE!==MOUSESTATES.idle || !ISDETECTED) return;
-  MOUSESTATE=MOUSESTATES.drag;
-  OLDXY=get_eventLoc(event);
+  MOUSESTATE = MOUSESTATES.drag;
+  OLDXY = get_eventLoc(event);
   CTX.beginPath();
   CTX.moveTo(OLDXY[0], OLDXY[1]);
 }
@@ -345,13 +341,13 @@ function onMouseMove(event){
     onMouseUp(event);
     return;
   }
-  var xy=get_eventLoc(event);
+  const xy = get_eventLoc(event);
   CTX.lineTo(xy[0], xy[1]);
   CTX.stroke();
   update_canvasTexture();
-  OLDXY=xy;
+  OLDXY = xy;
 
-  event.preventDefault(); //disable scroll or fancy stuffs
+  event.preventDefault(); // disable scroll or fancy stuffs
 }
 function onMouseUp(event){
   if (MOUSESTATE!==MOUSESTATES.drag) return;
@@ -368,7 +364,7 @@ function update_canvasTexture(){
 function main(){
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCpath: '../../../dist/', //root of NNC.json file
+    NNCpath: '../../../dist/', // root of NNC.json file
     callbackReady: function(errCode, spec){
       if (errCode){
         console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);
@@ -406,7 +402,7 @@ function main(){
         const W = detectState.s;  // relative width of the detection window (1-> whole width of the detection window)
         const D = 1 / (2*W*tanFOV); // distance between the front face of the cube and the camera
         
-        // coords in 2D of the center of the detection window in the viewport :
+        // coords in 2D of the center of the detection window in the viewport:
         const xv = detectState.x;
         const yv = detectState.y;
         
@@ -446,5 +442,5 @@ function main(){
       } //end if face detected
     } //end callbackTrack()
   }); //end JEEFACEFILTERAPI.init call
-} //end main()
+}
 

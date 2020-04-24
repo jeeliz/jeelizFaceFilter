@@ -1,6 +1,6 @@
 let VIDEOELEMENT = null;
 
-function main(){ //entry point
+function main(){ // entry point
   VIDEOELEMENT = document.getElementById('myVideo');
 
   if (VIDEOELEMENT['currentTime'] && VIDEOELEMENT['videoWidth'] && VIDEOELEMENT['videoHeight']){
@@ -29,7 +29,7 @@ function start(){ // launched when the video is loaded
       console.log('INFO: JEEFACEFILTERAPI IS READY');
       CVD = JEEFACEFILTERAPI.Canvas2DDisplay(spec);
       CVD.ctx.strokeStyle = 'yellow';
-    }, //end callbackReady()
+    },
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
@@ -41,6 +41,6 @@ function start(){ // launched when the video is loaded
         CVD.update_canvasTexture();
       }
       CVD.draw();
-    } //end callbackTrack()
+    }
   }); //end JEEFACEFILTERAPI.init call
-} //end main()
+}
