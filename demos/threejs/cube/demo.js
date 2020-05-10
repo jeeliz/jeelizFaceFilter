@@ -1,13 +1,13 @@
 "use strict";
 
-var THREECAMERA;
+let THREECAMERA = null;
 
-// callback : launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost.
 function detect_callback(faceIndex, isDetected) {
   if (isDetected) {
-    console.log('INFO in detect_callback() : DETECTED');
+    console.log('INFO in detect_callback(): DETECTED');
   } else {
-    console.log('INFO in detect_callback() : LOST');
+    console.log('INFO in detect_callback(): LOST');
   }
 }
 
@@ -34,7 +34,7 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
@@ -48,14 +48,14 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, //end callbackReady()
+    },
 
-    //called at each render iteration (drawing loop) :
+    // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
       THREE.JeelizHelper.render(detectState, THREECAMERA);
-    } //end callbackTrack()
+    }
   }); //end JEEFACEFILTERAPI.init call
-} // end main()
+}
 

@@ -272,8 +272,6 @@ function init_faceFilter(videoSettings){
     callbackTrack: function (detectState) {
       THREE.JeelizHelper.render(detectState, THREECAMERA);
 
-      TWEEN.update();
-
       if (MIXERS.length > 1) {
         MIXERS.forEach((m) => {
           m.update(0.16);

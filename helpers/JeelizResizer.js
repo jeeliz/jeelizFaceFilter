@@ -1,5 +1,5 @@
 /*
-This helper can help for :
+This helper can help for:
 * adjusting the canvas resolution to the good size -> this is crucial to
 optimize the code because if the canvas is too large,
 there are too much pixels to compute => it will be slow
@@ -13,7 +13,7 @@ to balance between performance and quality
 "use strict";
 
 var JeelizResizer = (function(){
-  //private vars :
+  // private vars:
   let _domCanvas = null,
       _whCanvasPx = null,
       _resizeAttemptsCounter = 0,
@@ -107,7 +107,7 @@ var JeelizResizer = (function(){
     }
   }
 
-  //public methods :
+  // public methods:
   const that = {
     // return true or false if the device is in portrait or landscape mode
     // see https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
@@ -201,7 +201,7 @@ var JeelizResizer = (function(){
     //  - <float> overSamplingFactor: facultative. If 1, same resolution than displayed size (default). 
     //    If 2, resolution twice higher than real size
     //  - <boolean> CSSFlipX: if we should flip the canvas or not. Default: false
-    //  - <boolean> isFullScreen: if we should set the canvas fullscreen. Default : false
+    //  - <boolean> isFullScreen: if we should set the canvas fullscreen. Default: false
     //  - <function> onResize: function called when the window is resized. Only enabled if isFullScreen=true
     //  - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default=false
     size_canvas: function(options){
@@ -223,7 +223,7 @@ var JeelizResizer = (function(){
         // get display size of the canvas:
         const domRect = _domCanvas.getBoundingClientRect();
         if (domRect.width===0 || domRect.height===0){
-          console.log('WARNING in JeelizResize.size_canvas() : the canvas has its width or its height null, Retry a bit later...');
+          console.log('WARNING in JeelizResize.size_canvas(): the canvas has its width or its height null, Retry a bit later...');
           if (++_resizeAttemptsCounter > 20){
             options.callback('CANNOT_RESIZECANVAS');
             return;
@@ -243,7 +243,7 @@ var JeelizResizer = (function(){
         add_CSStransform(_domCanvas, 'rotateY(180deg)');
       }
 
-      // compute the best camera resolutions :
+      // compute the best camera resolutions:
       const allResolutions = _cameraResolutions.slice(0);
 
       // if we are in portrait mode, the camera is also in portrait mode
