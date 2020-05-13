@@ -187,7 +187,7 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [Masks with WebM recording](https://etc.pen-nei.jp/jeeliz/): Mask demo made by [@iong](https://twitter.com/iong). You can change the mask using the lower left buttons, and record the video in WebM file format.
 
-* [GazeFilter](https://beehiveor.gitlab.io/gazefilter/): library to track accurately the pupils positions. There is a nice eye-tracking demo, including a debug view of the output of *FaceFilter* [here](https://beehiveor.gitlab.io/gazefilter/demo/index.html).
+* [GazeFilter](https://beehiveor.gitlab.io/gazefilter/): library to track accurately the pupils positions. There is a nice eye-tracking demo, including a debug view of the output of *FaceFilter* [here](https://beehiveor.gitlab.io/gazefilter/demo.html).
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
 
