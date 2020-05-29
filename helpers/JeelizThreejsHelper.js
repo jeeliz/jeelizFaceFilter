@@ -327,9 +327,9 @@ THREE.JeelizHelper = (function(){
       // reorder bufferGeometry faces:
       centroids.forEach(function(centroid, centroidIndex){
         const face = centroid[3];
-        bufferGeometry.index.array[3*centroidIndex]=face[0];
-        bufferGeometry.index.array[3*centroidIndex+1]=face[1];
-        bufferGeometry.index.array[3*centroidIndex+2]=face[2];
+        bufferGeometry.index.array[3*centroidIndex] = face[0];
+        bufferGeometry.index.array[3*centroidIndex+1] = face[1];
+        bufferGeometry.index.array[3*centroidIndex+2] = face[2];
       });
     }, //end sortFaces
 

@@ -2,7 +2,7 @@
 
 let THREECAMERA = null;
 
-// callback : launched if a face is detected or lost.
+// callback: launched if a face is detected or lost.
 function detect_callback(faceIndex, isDetected) {
   if (isDetected) {
     console.log('INFO in detect_callback(): DETECTED');
@@ -33,7 +33,7 @@ function init_threeScene(spec) {
   r.occluder.scale.multiplyScalar(0.0084);
 
   const threeGlasses = r.glasses;
-  //threeGlasses.rotation.set(-0.15,0,0); //X neg -> rotate branches down
+  //threeGlasses.rotation.set(-0.15,0,0); / /X neg -> rotate branches down
   threeGlasses.position.set(0,0.07,0.4);
   threeGlasses.scale.multiplyScalar(0.006);
   threeStuffs.faceObject.add(threeGlasses);
@@ -66,12 +66,12 @@ function init_faceFilter(videoSettings){
 
       console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, //end callbackReady()
+    },
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
       THREE.JeelizHelper.render(detectState, THREECAMERA);
-    } //end callbackTrack()
+    }
   }); //end JEEFACEFILTERAPI.init call
-} // end main()
+}
 
