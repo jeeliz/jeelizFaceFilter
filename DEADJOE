@@ -1,0 +1,22 @@
+
+*** These modified files were found in JOE when it aborted on Fri May 29 02:51:12 2020
+*** JOE was aborted by UNIX signal 1
+
+*** Fichier '(Sans nom)'
+exportData
+
+*** Fichier '(Sans nom)'
+/home/xav/data/www/jeekoinz/.git/MERGE_MSG
+/home/xav/data/www/neuronGL3/mobileApp/server-rayban/.git/MERGE_MSG
+/home/xav/data/www/neuronGL3/mobileApp/server-rayban/.git/MERGE_MSG
+/home/xav/data/www/neuronGL3/mobileApp/server-rayban/.git/MERGE_MSG
+/home/xav/data/www/neuronGL3/mobileApp/server-rayban/.git/MERGE_MSG
+/home/xav/data/www/neuronGL3/apps/weboji/releaseGit/jeelizWeboji/.git/MERGE_MSG
+/home/xav/data/www/neuronGL3/jetson/jetsonjs/.git/MERGE_MSG
+/etc/sudoers.tmp
+handObjectManip0_2020-05-10_2_0.json
+handObjectManip0_2020-05-10_2_0.json
+
+*** Fichier '* Startup Log *'
+Traitement de '/etc/joe/joerc'...Traitement de '/etc/joe/ftyperc'...Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/joerc
