@@ -16,6 +16,71 @@
  * limitations under the License.
 */
 
+// BEGIN EMULATE DOM
+
+// import some usefull stuffs
+try {
+  var Buffer = require('buffer').Buffer;
+} catch(err) {
+  console.log('Cannot import Buffer package');
+}
+
+// emulate global variables:
+const navigator = {  
+  platform: "Linux x86_64",
+  userAgent: "forceWebGL1_noAntialiasing_noDOM"
+};
+
+const window = {
+  canvas: null,
+  innnerWidth: -1,
+  innerHeight: -1,
+  URL: {
+    createObjectURL: function() {
+      return null
+    }
+  },
+  addEventListener: function() {},
+  removeEventListener: function() {},
+  requestAnimationFrame: function(step) {
+    if (window.canvas === null){
+      setTimeout(step, 1);
+      return;
+    }
+    window.canvas.requestAnimationFrame(step)
+  },
+  cancelAnimationFrame: function(step) {
+    if (window.canvas === null){
+      return;
+    }
+    window.canvas.cancelAnimationFrame(step)
+  },
+  setCanvas: function(c) {
+    window.canvas = c;
+  }
+};
+
+const document = {
+  createElement: function(elementType){
+    switch(elementType){
+      case 'canvas':
+        return null; // return a real canvas
+    }
+  },
+  getElementById: function(elementId){
+    return null;
+  },
+  body: { appendChild: function(element){ return null; }}
+};
+
+if(typeof(wx) !== 'undefined'){ //WECHAT
+  const systemInfo = wx.getSystemInfoSync()
+  window.innnerWidth = systemInfo.windowWidth;
+  window.innnerHeight = systemInfo.windowHeight;
+}
+// END EMULATE DOM
+
+
 window.JEEFACEFILTERAPIGEN=function(){function yb(){var a=null,c=null,d=null,e=0;this.kd=function(f){return a[f]};this.Jd=function(f){var k=null;e=f.length;a=f.map(function(l,n){l=Object.assign({},l,{index:n,parent:this,Oa:k,td:n===e-1});return k=n=0===n?Kb.instance(l):Lb.instance(l)});c=a[0];d=a[e-1];a.forEach(function(l,n){0!==n&&l.Ed()})};this.I=function(f,k){var l=k;a.forEach(function(n){l=n.I(l,f)});return l};this.Tb=function(){return c.A()};this.Vb=function(){return d.ld()};this.Ld=function(f){d.Uc(f)};
 this.Sb=function(){return d.Sb()};this.h=function(){a&&(a.forEach(function(f){f.h()}),d=c=a=null,e=0)}}var Ma,Na,Oa,Wa,Xa,Pa,Ya,Za,$a,ab,ib,jb,kb,lb;function mb(a,c){var d=c%8;return a[(c-d)/8]>>7-d&1}function Mb(a){var c=JSON.parse(a);a=c.ne;var d=c.nf,e=c.n;var f="undefined"===typeof btoa?Buffer.from(c.data,"base64").toString("latin1"):atob(c.data);var k=f.length;c=new Uint8Array(k);for(var l=0;l<k;++l)c[l]=f.charCodeAt(l);f=new Float32Array(e);k=new Float32Array(d);l=a+d+1;for(var n=0;n<e;++n){for(var p=
 l*n,y=0===mb(c,p)?1:-1,m=p+1,q=1,x=0,z=m+a-1;z>=m;--z)x+=q*mb(c,z),q*=2;m=x;p=p+1+a;q=k.length;x=0;for(z=p;z<p+q;++z)k[x]=mb(c,z,!0),++x;for(q=p=0;q<d;++q)p+=k[q]*Math.pow(2,-q-1);f[n]=0===p&&0===m?0:y*(1+p)*Math.pow(2,1+m-Math.pow(2,a-1))}return f}function nb(){return-1!==[ba.play,ba.pause].indexOf(ea)}function Nb(a){if(ea!==ba.pause){var c=ea===ba.play?H.Aa:I.Ec;bb=setTimeout(zb.bind(null,a),c)}}function ob(){if(ea===ba.play)return!1;ea=ba.play;P.timestamp=Date.now();Qa&&window.cancelAnimationFrame(Qa);
