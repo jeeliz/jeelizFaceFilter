@@ -513,6 +513,9 @@ His hack has not been implemented into this repository but in a similar Jeeliz L
 
 But it is still a dirty hack introducing a bottleneck. It still run pretty well on a high end device (tested on Iphone XR), but it is better to stick on a full web environment.
 
+There is also this Github issue detailing how to embed the library into a `Webview` component, for *React native*. It is for Android only:
+* [issue 21](https://github.com/jeeliz/jeelizFaceFilter/issues/21#issuecomment-644510559)
+
 ## Hosting
 
 This API requires the user's webcam video feed through `MediaStream API`. So your application should be hosted by a HTTPS server (even with a self-signed certificate). It won't work at all with unsecure HTTP, even locally with some web browsers.
