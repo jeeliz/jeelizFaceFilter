@@ -14,7 +14,7 @@ THREE.JeelizHelper = (function(){
 
     tweakMoveYRotateY: 0.5, // tweak value: move detection window along Y axis when rotate the face
     
-    cameraMinVideoDimFov: 46, // Field of View for the smallest dimension of the video in degrees
+    cameraMinVideoDimFov: 35, // Field of View for the smallest dimension of the video in degrees
 
     isDebugPivotPoint: false // display a small cube for the pivot point
   };
@@ -181,17 +181,17 @@ THREE.JeelizHelper = (function(){
       const yTweak = cz * tweak * (s * threeCamera.aspect);
 
       // move the cube in order to fit the head:
-      const W = s;    //relative width of the detection window (1-> whole width of the detection window)
-      const D = 1 / (2*W*halfTanFOV); //distance between the front face of the cube and the camera
+      const W = s;    // relative width of the detection window (1-> whole width of the detection window)
+      const D = 1 / (2*W*halfTanFOV); // distance between the front face of the cube and the camera
       
-      //coords in 2D of the center of the detection window in the viewport:
+      // coords in 2D of the center of the detection window in the viewport:
       const xv = (detectState.x * _scaleW + xTweak);
       const yv = (detectState.y + yTweak);
       
       // coords in 3D of the center of the cube (in the view coordinates system)
       const z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
       const x = xv * D * halfTanFOV;
-      const y = yv * D * halfTanFOV/threeCamera.aspect;
+      const y = yv * D * halfTanFOV / threeCamera.aspect;
 
       // the pivot position depends on rz rotation:
       _threePivotedObjects[i].position.set(-sz*_settings.pivotOffsetYZ[0], -cz*_settings.pivotOffsetYZ[0], -_settings.pivotOffsetYZ[1]);
