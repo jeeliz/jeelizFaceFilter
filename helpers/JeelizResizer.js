@@ -16,11 +16,12 @@ var JeelizResizer = (function(){
   // private vars:
   let _domCanvas = null,
       _whCanvasPx = null,
+      _isApplyCSS = false,
       _resizeAttemptsCounter = 0,
       _overSamplingFactor = 1,
       _isFullScreen = false,
-      _timerFullScreen = false,
-      _callbackResize = false,
+      _timerFullScreen = null,
+      _callbackResize = null,
       _isInvFullscreenWH = false;
 
   const _cameraResolutions = [ // all resolutions should be in landscape mode
@@ -78,11 +79,22 @@ var JeelizResizer = (function(){
       Math.round(_overSamplingFactor * domRect.width),
       Math.round(_overSamplingFactor * domRect.height)
     ];
+    apply_sizeCanvas();
+  }
+
+  function apply_sizeCanvas(){
     _domCanvas.setAttribute('width',  _whCanvasPx[0]);
     _domCanvas.setAttribute('height', _whCanvasPx[1]);
+
+    if (_isApplyCSS){
+      _domCanvas.style.width = _whCanvasPx[0].toString() + 'px';
+      _domCanvas.style.height = _whCanvasPx[1].toString() + 'px';
+    }
   }
 
   function on_windowResize(){
+    // avoid to resize too often using a timer
+    // (it can create weird bug with some browsers)
     if (_timerFullScreen){
       clearTimeout(_timerFullScreen);
     }
@@ -94,14 +106,13 @@ var JeelizResizer = (function(){
     if (_isInvFullscreenWH){
       _whCanvasPx.reverse();
     }
-    _domCanvas.setAttribute('width',  _whCanvasPx[0]);
-    _domCanvas.setAttribute('height', _whCanvasPx[1]);
+    apply_sizeCanvas();
   }
 
   function resize_fullScreen(){
     resize_canvasToFullScreen();
     JEEFACEFILTERAPI.resize();
-    _timerFullScreen = false;
+    _timerFullScreen = null;
     if (_callbackResize) {
       _callbackResize();
     }
@@ -204,16 +215,31 @@ var JeelizResizer = (function(){
     //  - <boolean> isFullScreen: if we should set the canvas fullscreen. Default: false
     //  - <function> onResize: function called when the window is resized. Only enabled if isFullScreen = true
     //  - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default = false
-    size_canvas: function(options){
+    //  - <boolean> isApplyCSS: if we should also apply canvas dimensions as CSS. default = false
+    size_canvas: function(optionsArg){
+      const options = Object.assign({
+        canvasId: 'undefinedCanvasId',
+        canvas: null,
+        overSamplingFactor: window.devicePixelRatio || 1,
+
+        isFullScreen: false,
+        isInvWH: false,
+        CSSFlipX: false,
+        isApplyCSS: false,
+        
+        onResize: null,
+        callback: function(){}
+      }, optionsArg);
+
       _domCanvas = (options.canvas) ? options.canvas : document.getElementById(options.canvasId);
-      _isFullScreen = (typeof(options.isFullScreen)!=='undefined' && options.isFullScreen);
-      _isInvFullscreenWH = (typeof(options.isInvWH)!=='undefined' && options.isInvWH);
+      _isFullScreen = options.isFullScreen;
+      _isInvFullscreenWH = options.isInvWH;
+      _isApplyCSS = options.isApplyCSS;
 
       if (_isFullScreen){
         // we are in fullscreen mode
-        if (typeof(options.onResize) !== 'undefined'){
-          _callbackResize = options.onResize;
-        }
+        _callbackResize = options.onResize;
+        
         resize_canvasToFullScreen();
         window.addEventListener('resize', on_windowResize, false);
         window.addEventListener('orientationchange', on_windowResize, false);
@@ -233,13 +259,13 @@ var JeelizResizer = (function(){
         }
 
         // do resize canvas:
-        _resizeAttemptsCounter=0;
-        _overSamplingFactor = (typeof(options.overSamplingFactor) === 'undefined') ? 1 : options.overSamplingFactor;
+        _resizeAttemptsCounter = 0;
+        _overSamplingFactor = options.overSamplingFactor;
         update_sizeCanvas();
       }
 
       // flip horizontally if required:
-      if (typeof(options.CSSFlipX)!=='undefined' && options.CSSFlipX){
+      if (options.CSSFlipX){
         add_CSStransform(_domCanvas, 'rotateY(180deg)');
       }
 
