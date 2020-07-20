@@ -23,7 +23,7 @@ var JeelizResizer = (function(){
       _callbackResize = false,
       _isInvFullscreenWH = false;
 
-  const _cameraResolutions = [ //all resolutions should be in landscape mode
+  const _cameraResolutions = [ // all resolutions should be in landscape mode
     [640,480],
     [768,480],
     [800,600],
@@ -188,7 +188,7 @@ var JeelizResizer = (function(){
       } */
 
       // normal implementation
-      return true;
+      return false;
     },
 
     // size canvas to the right resolution
@@ -202,8 +202,8 @@ var JeelizResizer = (function(){
     //    If 2, resolution twice higher than real size
     //  - <boolean> CSSFlipX: if we should flip the canvas or not. Default: false
     //  - <boolean> isFullScreen: if we should set the canvas fullscreen. Default: false
-    //  - <function> onResize: function called when the window is resized. Only enabled if isFullScreen=true
-    //  - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default=false
+    //  - <function> onResize: function called when the window is resized. Only enabled if isFullScreen = true
+    //  - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default = false
     size_canvas: function(options){
       _domCanvas = (options.canvas) ? options.canvas : document.getElementById(options.canvasId);
       _isFullScreen = (typeof(options.isFullScreen)!=='undefined' && options.isFullScreen);
@@ -218,7 +218,7 @@ var JeelizResizer = (function(){
         window.addEventListener('resize', on_windowResize, false);
         window.addEventListener('orientationchange', on_windowResize, false);
         
-      } else { //not fullscreen mode
+      } else { // not fullscreen mode
 
         // get display size of the canvas:
         const domRect = _domCanvas.getBoundingClientRect();
