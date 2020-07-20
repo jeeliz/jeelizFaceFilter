@@ -75,20 +75,23 @@ var JeelizResizer = (function(){
 
   function update_sizeCanvas(){
     const domRect = _domCanvas.getBoundingClientRect();
-    _whCanvasPx = [
-      Math.round(_overSamplingFactor * domRect.width),
-      Math.round(_overSamplingFactor * domRect.height)
-    ];
-    apply_sizeCanvas();
+    apply_sizeCanvas(domRect.width, domRect.height);
   }
 
-  function apply_sizeCanvas(){
+  function apply_sizeCanvas(width, height){
+    _whCanvasPx = [
+      Math.round(_overSamplingFactor * width),
+      Math.round(_overSamplingFactor * height)
+    ];
+
+    // set canvas resolution:
     _domCanvas.setAttribute('width',  _whCanvasPx[0]);
     _domCanvas.setAttribute('height', _whCanvasPx[1]);
 
+    // canvas display size:
     if (_isApplyCSS){
-      _domCanvas.style.width = _whCanvasPx[0].toString() + 'px';
-      _domCanvas.style.height = _whCanvasPx[1].toString() + 'px';
+      _domCanvas.style.width = width.toString() + 'px';
+      _domCanvas.style.height = height.toString() + 'px';
     }
   }
 
@@ -102,11 +105,11 @@ var JeelizResizer = (function(){
   }
 
   function resize_canvasToFullScreen(){
-    _whCanvasPx = [window['innerWidth'], window['innerHeight']];
+    const wh = [window['innerWidth'], window['innerHeight']];
     if (_isInvFullscreenWH){
-      _whCanvasPx.reverse();
+      wh.reverse();
     }
-    apply_sizeCanvas();
+    apply_sizeCanvas(wh[0], wh[1]);
   }
 
   function resize_fullScreen(){
@@ -235,6 +238,7 @@ var JeelizResizer = (function(){
       _isFullScreen = options.isFullScreen;
       _isInvFullscreenWH = options.isInvWH;
       _isApplyCSS = options.isApplyCSS;
+      _overSamplingFactor = options.overSamplingFactor;
 
       if (_isFullScreen){
         // we are in fullscreen mode
@@ -259,8 +263,7 @@ var JeelizResizer = (function(){
         }
 
         // do resize canvas:
-        _resizeAttemptsCounter = 0;
-        _overSamplingFactor = options.overSamplingFactor;
+        _resizeAttemptsCounter = 0;        
         update_sizeCanvas();
       }
 
@@ -282,14 +285,9 @@ var JeelizResizer = (function(){
         });
       }
 
-      // scale canvas size to device pixel ratio:
-      // (To find the correct resolution, especially for iOS one should consider the window.devicePixelRatio factor)
-      const dpr = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
-      const whCanvasPxScaled = [_whCanvasPx[0] * dpr, _whCanvasPx[1] * dpr];
-
       // sort camera resolutions from the best to the worst:
       allResolutions.sort(function(resA, resB){
-        return compute_overlap(resB, whCanvasPxScaled) - compute_overlap(resA, whCanvasPxScaled);        
+        return compute_overlap(resB, _whCanvasPx) - compute_overlap(resA, _whCanvasPx);        
       });
 
       // pick the best camera resolution:
@@ -308,9 +306,14 @@ var JeelizResizer = (function(){
     // Should be called if the canvas is resized to update the canvas resolution:
     resize_canvas: function(){
       if (_isFullScreen){
-        return;
+        resize_canvasToFullScreen()        
+      } else {
+        update_sizeCanvas();
       }
-      update_sizeCanvas();
+    },
+
+    get_canvasSize: function(){
+      return _whCanvasPx;
     }
   }; //end that
   return that;
