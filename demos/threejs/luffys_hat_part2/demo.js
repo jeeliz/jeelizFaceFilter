@@ -3,7 +3,7 @@
 
 // SETTINGS of this demo:
 const SETTINGS = {
-  pivotOffsetYZ: [-0.2, -0.5], // XYZ of the distance between the center of the cube and the pivot
+  pivotOffsetYZ: [0.2, 0.6 - 0.1], // XYZ of the distance between the center of the cube and the pivot
 };
 
 let THREECAMERA = null;
@@ -36,7 +36,7 @@ function init_threeScene(spec) {
 
       const HATMESH = new THREE.Mesh(geometry, mat);
 
-      HATMESH.scale.multiplyScalar(1.1);
+      HATMESH.scale.multiplyScalar(1.1 * 1.1);
       HATMESH.rotation.set(-0.1, 0, 0);
       HATMESH.position.set(0.0, 0.7, -0.3);
       HATMESH.frustumCulled = false;
@@ -92,7 +92,7 @@ function init_threeScene(spec) {
         maskBufferGeometry.computeVertexNormals();
         const FACEMESH = new THREE.Mesh(maskBufferGeometry, mat);
         FACEMESH.frustumCulled = false;
-        FACEMESH.scale.multiplyScalar(1.12);
+        FACEMESH.scale.multiplyScalar(1.12 * 1.1);
         FACEMESH.position.set(0, 0.5, -0.75);
         
 
@@ -169,12 +169,12 @@ function init_faceFilter(videoSettings){
 
       console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, // end callbackReady()
+    },
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
       THREE.JeelizHelper.render(detectState, THREECAMERA);
-    } // end callbackTrack()
+    }
   }); // end JEEFACEFILTERAPI.init call
-} // end main()
+}
 

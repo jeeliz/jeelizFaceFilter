@@ -14,8 +14,10 @@ const SETTINGS = {
   nMaxTestsGif: 300, // maximum nomber of detection trial, after that abandon
 
   detectGifThreshold: 0.6,
+
+  // hole shape parameters:
   gifMaskScale: [1.3, 1.5],
-  gifMaskOffset: [0.01,0.10], // relative. 1-> 100% scale mask width of the image (or height)
+  gifMaskOffset: [-0.2, 0.1],//[0.01,0.10], // relative. 1-> 100% scale mask width of the image (or height)
   gifCropSmoothEdge: 0.25, // crop smooth edge
   gifHeadForheadY: 0.7, // forhead start when Y>this value. Max: 1
   gifHeadJawY: 0.5, // lower jaw start when Y<this value. Max: 1
@@ -140,13 +142,13 @@ function start(){
 function set_gifFrameAsInput(frameIndex){
   console.log('INFO: set_gifFrameAsInput() - frameIndex =', frameIndex);
   GL.bindTexture(GL.TEXTURE_2D, GIF.baseTexture);
-  GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, true);
+  GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, false);
   GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, GIF.frames[frameIndex]);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
-  JEEFACEFILTERAPI.set_inputTexture(GIF.baseTexture, GIF.image.width, GIF.image.height);
+  JEEFACEFILTERAPI.set_inputTexture(GIF.baseTexture, GIF.image.width, GIF.image.height);  
 }
 
 
@@ -503,6 +505,7 @@ function build_gifFrameMask(detectState, frameIndex){
 
   GL.activeTexture(GL.TEXTURE0);
   GL.bindTexture(GL.TEXTURE_2D, GIF.baseTexture);
+  GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, true);
   GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, GIF.frames[frameIndex]);
   
   

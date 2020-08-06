@@ -1,8 +1,7 @@
 "use strict";
 
-
 const SETTINGS = {
-  detectionThreshold: 0.75 //sensibility, between 0 and 1. Less -> more sensitive
+  detectionThreshold: 0.75 // sensibility, between 0 and 1. Less -> more sensitive
 }
 
 // some globals:
@@ -42,7 +41,7 @@ function start(errCode, bestVideoSettings){
 } //end start
 
 function onResize(){
-  console.log('INFO in demo_faceSwap: resized !');
+  console.log('INFO in demo_faceSwap: resized!');
 }
 
 function init_view(spec){

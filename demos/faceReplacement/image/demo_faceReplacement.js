@@ -3,25 +3,27 @@
 const SETTINGS = {
   // art painting settings:
   artPainting: 'images/Joconde.jpg', // initial art painting
-  detectState: {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926}, //detect state in the initial art painting to avoid search step
+  detectState: {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926}, // detect state in the initial art painting to avoid search step
 
   nDetectsArtPainting: 25, // number of positive detections to perfectly locate the face in the art painting
   detectArtPaintingThreshold: 0.6,
+
+  // hold shape parameters:
   artPaintingMaskScale: [1.3, 1.5],
-  artPaintingMaskOffset: [0.01,0.10], //relative. 1-> 100% scale mask width of the image (or height)
-  artPaintingCropSmoothEdge: 0.25, //crop smooth edge
-  artPaintingHeadForheadY: 0.7, //forhead start when Y>this value. Max: 1
-  artPaintingHeadJawY: 0.5, //lower jaw start when Y<this value. Max: 1
+  artPaintingMaskOffset: [-0.2, 0.1], //[0.01,0.10], // relative. 1-> 100% scale mask width of the image (or height)
+  artPaintingCropSmoothEdge: 0.25, // crop smooth edge
+  artPaintingHeadForheadY: 0.7, // forhead start when Y>this value. Max: 1
+  artPaintingHeadJawY: 0.5, // lower jaw start when Y<this value. Max: 1
 
   // user crop face and detection settings:
   videoDetectSizePx: 1024,
   faceRenderSizePx: 256,
-  zoomFactor: 1.03, //1-> exactly the same zoom than for the art painting
-  detectionThreshold: 0.65, //sensibility, between 0 and 1. Less -> more sensitive
+  zoomFactor: 1.03, // 1-> exactly the same zoom than for the art painting
+  detectionThreshold: 0.65, // sensibility, between 0 and 1. Less -> more sensitive
   detectionHysteresis: 0.03,
     
   // mixed settings:
-  hueTextureSizePx: 4,  //should be PoT
+  hueTextureSizePx: 4,  // should be PoT
 
   // debug flags - should be set to false for standard running:
   debugArtpaintingCrop: false
@@ -45,17 +47,17 @@ const USERCROP = {
   potFaceCutTexture: null,
   hueTexture: null,
 };
-const SHPS = { //shaderprograms
+const SHPS = { // shaderprograms
   cropUserFace: null,
   copy: null
 };
 
 
 let DOMARTPAINTINGCONTAINER = null;
-let GL = null, GLDRAWTARGET = null, FBO = null; //WebGL global stuffs
+let GL = null, GLDRAWTARGET = null, FBO = null; // WebGL global stuffs
 
 let NLOADEDS=0, FFSPECS = null;
-const STATES = { //possible states of the app. ENUM equivalent
+const STATES = { // possible states of the app. ENUM equivalent
   ERROR: -1,
   IDLE: 0,
   LOADING: 1,
@@ -66,7 +68,7 @@ const STATES = { //possible states of the app. ENUM equivalent
 }
 let STATE = STATES.IDLE, ISUSERFACEDETECTED = false;
 
-//entry point
+// entry point:
 function main(){
   STATE = STATES.LOADING;
 
@@ -117,7 +119,7 @@ function start(){
   update_artPainting(SETTINGS.detectState);
 } //end start()
 
-function update_artPainting(detectState){ //called both at start (start()) and when user change the art painting
+function update_artPainting(detectState){ // called both at start (start()) and when user change the art painting
   FFSPECS.canvasElement.width = ARTPAINTING.image.width;
   FFSPECS.canvasElement.height = ARTPAINTING.image.height;
   JEEFACEFILTERAPI.resize();
@@ -156,7 +158,7 @@ function update_artPainting(detectState){ //called both at start (start()) and w
 } //end update_artPainting()
 
 function build_carousel(){
-   $('#carousel').slick({ //see http://kenwheeler.github.io/slick/
+   $('#carousel').slick({ // see http://kenwheeler.github.io/slick/
     speed: 300,
     slidesToShow: 1,
     centerMode: true,
@@ -240,7 +242,7 @@ function create_textures(){
     return create_emptyLinearTexture(SETTINGS.hueTextureSizePx, SETTINGS.hueTextureSizePx);
   };
   ARTPAINTING.hueTexture = create_hueTexture();
-  USERCROP.hueTexture=create_hueTexture();
+  USERCROP.hueTexture = create_hueTexture();
 
   // create the userCrop textures:
   const faceAspectRatio = SETTINGS.artPaintingMaskScale[1] / SETTINGS.artPaintingMaskScale[0];
@@ -259,8 +261,8 @@ function build_artPaintingMask(detectState, callback){
   const x=detectState.x, y=detectState.y, s=detectState.s, ry=detectState.ry;
 
   // compute normalized frame cut params:
-  const xn = x*0.5+0.5+s*SETTINGS.artPaintingMaskOffset[0]*Math.sin(ry); // normalized x position
-  const yn = y*0.5+0.5+s*SETTINGS.artPaintingMaskOffset[1];
+  const xn = x*0.5 + 0.5+s*SETTINGS.artPaintingMaskOffset[0] * Math.sin(ry); // normalized x position
+  const yn = y*0.5 + 0.5+s*SETTINGS.artPaintingMaskOffset[1];
   const sxn = s*SETTINGS.artPaintingMaskScale[0];
   const syn = s*SETTINGS.artPaintingMaskScale[1]*ARTPAINTING.image.width/ARTPAINTING.image.height;
 
@@ -647,8 +649,8 @@ function draw_render(detectState){
 
   // crop the user's face and put the result to USERCROP.potFaceCutTexture:
   const s = detectState.s / SETTINGS.zoomFactor;
-  const xn = detectState.x*0.5+0.5+s*SETTINGS.artPaintingMaskOffset[0]*Math.sin(detectState.ry); //normalized x position
-  const yn = detectState.y*0.5+0.5+s*SETTINGS.artPaintingMaskOffset[1];
+  const xn = detectState.x*0.5 + 0.5+s*SETTINGS.artPaintingMaskOffset[0]*Math.sin(detectState.ry); // normalized x position
+  const yn = detectState.y*0.5 + 0.5+s*SETTINGS.artPaintingMaskOffset[1];
   const sxn = s*SETTINGS.artPaintingMaskScale[0];
   const syn = s*SETTINGS.artPaintingMaskScale[1];
 

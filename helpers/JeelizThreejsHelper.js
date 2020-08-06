@@ -6,13 +6,13 @@
 THREE.JeelizHelper = (function(){
   // internal settings:
   const _settings = {
-    rotationOffsetX: 0, // negative -> look upper. in radians
-    pivotOffsetYZ: [0.4, 0.4],//[0.4, 0.2], // YZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
+    rotationOffsetX: 0.0, // negative -> look upper. in radians
+    pivotOffsetYZ: [0.2, 0.6],//[0.4, 0.2], // YZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
     
     detectionThreshold: 0.8, // sensibility, between 0 and 1. Less -> more sensitive
-    detectionHysteresis: 0.05,
+    detectionHysteresis: 0.02,
 
-    tweakMoveYRotateY: 0.5, // tweak value: move detection window along Y axis when rotate the face
+    //tweakMoveYRotateX: 0,//0.5, // tweak value: move detection window along Y axis when rotate the face around X (look up <-> down)
     
     cameraMinVideoDimFov: 35, // Field of View for the smallest dimension of the video in degrees
 
@@ -173,13 +173,13 @@ THREE.JeelizHelper = (function(){
       const detectState = ds[i];
 
       // tweak Y position depending on rx:
-      const tweak = _settings.tweakMoveYRotateY * Math.tan(detectState.rx);
+      //const tweak = _settings.tweakMoveYRotateX * Math.tan(detectState.rx);
       const cz = Math.cos(detectState.rz), sz = Math.sin(detectState.rz);
       
       const s = detectState.s * _scaleW;
 
-      const xTweak = sz * tweak * s;
-      const yTweak = cz * tweak * (s * threeCamera.aspect);
+      //const xTweak = sz * tweak * s;
+      //const yTweak = cz * tweak * (s * threeCamera.aspect);
 
       // move the cube in order to fit the head:
       const W = s;    // relative width of the detection window (1-> whole width of the detection window)
@@ -189,9 +189,11 @@ THREE.JeelizHelper = (function(){
       const D = DFront + 0.5;
 
       // coords in 2D of the center of the detection window in the viewport:
-      const xv = (detectState.x * _scaleW + xTweak);
-      const yv = (detectState.y + yTweak);
-      
+      //const xv = (detectState.x * _scaleW + xTweak);
+      //const yv = (detectState.y + yTweak);
+      const xv = detectState.x * _scaleW;
+      const yv = detectState.y;
+
       // coords in 3D of the center of the cube (in the view coordinates system)
       const z = -D;   // minus because view coordinate system Z goes backward
       const x = xv * D * halfTanFOV;
@@ -202,7 +204,7 @@ THREE.JeelizHelper = (function(){
 
       // move and rotate the cube:
       threeCompositeObject.position.set(x,y+_settings.pivotOffsetYZ[0], z+_settings.pivotOffsetYZ[1]);
-      threeCompositeObject.rotation.set(detectState.rx+_settings.rotationOffsetX, detectState.ry, detectState.rz, "ZXY");
+      threeCompositeObject.rotation.set(detectState.rx+_settings.rotationOffsetX, detectState.ry, detectState.rz, "ZYX");
     }); //end loop on composite objects
   }
 
