@@ -244,9 +244,13 @@ JEEFACEFILTERAPI.init({
 ```javascript
 {
   'videoElement' //not set by default. <video> element used
-   //If you specify this parameter,
-   //all other settings will be useless
-   //it means that you fully handle the video aspect
+   // WARN: If you specify this parameter,
+   //       1. all other settings will be useless
+   //       2. it means that you fully handle the video aspect
+   //       3. in case of using web-camera device make sure that
+   //          initialization goes after `loadeddata` event of the `videoElement`,
+   //          otherwise face detector will yield very low `detectState.detected` values
+   //          (to be more sure also await first `timeupdate` event)
 
   'deviceId'            //not set by default
   'facingMode': 'user', //to use the rear camera, set to 'environment'
