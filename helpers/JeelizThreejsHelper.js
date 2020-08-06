@@ -7,7 +7,7 @@ THREE.JeelizHelper = (function(){
   // internal settings:
   const _settings = {
     rotationOffsetX: 0, // negative -> look upper. in radians
-    pivotOffsetYZ: [0.4, 0.2], // XYZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
+    pivotOffsetYZ: [0.4, 0.4],//[0.4, 0.2], // YZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
     
     detectionThreshold: 0.8, // sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,

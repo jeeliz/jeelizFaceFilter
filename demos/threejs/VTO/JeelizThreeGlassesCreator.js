@@ -9,7 +9,7 @@
      * <string> occluderURL: url of the occluder
 */
 
-const JeelizThreeGlassesCreator=function(spec){
+const JeelizThreeGlassesCreator = function(spec){
   const threeGlasses = new THREE.Object3D();
   
   // envMap texture:

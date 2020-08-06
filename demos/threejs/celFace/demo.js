@@ -4,10 +4,10 @@
 const SETTINGS = {
   rotationOffsetX: 0, // negative -> look upper. in radians
   cameraFOV: 40,    // in degrees, 3D camera FOV
-  pivotOffsetYZ: [0.2,0.0], // XYZ of the distance between the center of the cube and the pivot
+  pivotOffsetYZ: [0.2, 0.4], // XYZ of the distance between the center of the cube and the pivot
   detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
   detectionHysteresis: 0.05,
-  scale: 1.1, // scale of the 3D cube
+  scale: 1.0, // scale
   blurEdgeSoftness: 10
 };
 
