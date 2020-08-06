@@ -7,14 +7,14 @@ THREE.JeelizHelper = (function(){
   // internal settings:
   const _settings = {
     rotationOffsetX: 0, // negative -> look upper. in radians
-    pivotOffsetYZ: [0.4,0.2], // XYZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
+    pivotOffsetYZ: [0.4, 0.2], // XYZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
     
     detectionThreshold: 0.8, // sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,
 
     tweakMoveYRotateY: 0.5, // tweak value: move detection window along Y axis when rotate the face
     
-    cameraMinVideoDimFov: 46, // Field of View for the smallest dimension of the video in degrees
+    cameraMinVideoDimFov: 35, // Field of View for the smallest dimension of the video in degrees
 
     isDebugPivotPoint: false // display a small cube for the pivot point
   };
@@ -165,6 +165,7 @@ THREE.JeelizHelper = (function(){
   }
 
   function update_positions3D(ds, threeCamera){
+    // tan( <horizontal FoV> / 2 ):
     const halfTanFOV = Math.tan(threeCamera.aspect * threeCamera.fov * Math.PI/360); //tan(<horizontal FoV>/2), in radians (threeCamera.fov is vertical FoV)
          
     _threeCompositeObjects.forEach(function(threeCompositeObject, i){
@@ -181,17 +182,20 @@ THREE.JeelizHelper = (function(){
       const yTweak = cz * tweak * (s * threeCamera.aspect);
 
       // move the cube in order to fit the head:
-      const W = s;    //relative width of the detection window (1-> whole width of the detection window)
-      const D = 1 / (2*W*halfTanFOV); //distance between the front face of the cube and the camera
+      const W = s;    // relative width of the detection window (1-> whole width of the detection window)
+      const DFront = 1 / (2*W*halfTanFOV); // distance between the front face of the cube and the camera
       
-      //coords in 2D of the center of the detection window in the viewport:
+      // D is the distance between the center of the unit cube and the camera
+      const D = DFront + 0.5;
+
+      // coords in 2D of the center of the detection window in the viewport:
       const xv = (detectState.x * _scaleW + xTweak);
       const yv = (detectState.y + yTweak);
       
       // coords in 3D of the center of the cube (in the view coordinates system)
-      const z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
+      const z = -D;   // minus because view coordinate system Z goes backward
       const x = xv * D * halfTanFOV;
-      const y = yv * D * halfTanFOV/threeCamera.aspect;
+      const y = yv * D * halfTanFOV / threeCamera.aspect;
 
       // the pivot position depends on rz rotation:
       _threePivotedObjects[i].position.set(-sz*_settings.pivotOffsetYZ[0], -cz*_settings.pivotOffsetYZ[0], -_settings.pivotOffsetYZ[1]);

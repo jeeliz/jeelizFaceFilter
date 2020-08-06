@@ -24,7 +24,7 @@ This library is lightweight and it does not include any 3D engine or third party
   * [Optimization](#optimization)
   * [Changing the 3D engine](#changing-the-3d-engine)
   * [Changing the neural network](#changing-the-neural-network)
-  * [Using the ES6 module](#using-the-es6-module)
+  * [Using module](#using-module)
 * [Integration](#integration)
   * [With a bundler](#with-a-bundler)
   * [With JavaScript frontend frameworks](#with-javascript-frontend-frameworks)
@@ -68,7 +68,7 @@ Here are the main features of the library:
 * `/demos/`: source code of the demonstrations, sorted by 2D/3D engine used,
 * `/dist/`: heart of the library: 
   * `jeelizFaceFilter.js`: main minified script,
-  * `jeelizFaceFilterES6.js`: main minified script for ES6 use (with `import` or `require`),
+  * `jeelizFaceFilter.module.js`: main minified script for use as a module (with `import` or `require`),
   * `NNC.json`: file storing the neural network parameters, loaded by the main script,
   * `NNC<xxx>.json`: alternative neural network models,
 * `/helpers/`: scripts which can help you to use this library in some specific use cases,
@@ -97,7 +97,7 @@ These demonstration are included in this repository. So they are released under 
     * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
     * Same boilerplate but using `dist/NNC4Expr0.json` as neural net, and displays 4 expressions: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeExpr/), [source code](/demos/threejs/cubeExpr/)
     * Same boilerplate but using `dist/NNCwideAngles.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNCwideAngles/), [source code](/demos/threejs/cubeNNCwideAngles/)
-    * Boilerplate with ES6 instead of ES5: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
+    * Boilerplate with module: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
     * Multiple face tracking: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/), [source code](/demos/threejs/multiCubes/)
     * GLTF fullscreen demo with HD video: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/), [source code](/demos/threejs/gltf_fullScreen/)
     * Boilerplate with 2 canvas: 1 for FaceFilter and 1 for THREE.JS (not recommended): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/), [source code](/demos/threejs/cube2cv/)
@@ -191,8 +191,9 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [GazeFilter](https://beehiveor.gitlab.io/gazefilter/): library to track accurately the pupils positions. There is a nice eye-tracking demo, including a debug view of the output of *FaceFilter* [here](https://beehiveor.gitlab.io/gazefilter/demo.html).
 
-If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
+* [SnapChat Clone](https://towhidkashem.github.io/snapchat-clone/): Great work from [Towhid Kashem](https://www.linkedin.com/in/towhid-kashem/). This library has been wrapped up to build a Snapchat clone. Check out the [Github source code repository](https://github.com/TowhidKashem/snapchat-clone), try the [live demo](https://towhidkashem.github.io/snapchat-clone/) or read the [Reddit thread](https://www.reddit.com/r/Frontend/comments/hqfu91/i_made_a_snapchat_clone_in_the_browser/).
 
+If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
 
 
 ## Specifications
@@ -435,17 +436,17 @@ We provide several neural network models:
 * `dist/NNCNNC4Expr0.json`: this neural network also detects 4 facial expressions (mouth opening, smile, frown eyebrows, raised eyebrows).
 
 
-### Using the ES6 module
-`/dist/jeelizFaceFilterES6.js` is exactly the same than `/dist/jeelizFaceFilter.js` except that it works with ES6, so you can import it directly using:
+### Using module
+`/dist/jeelizFaceFilter.module.js` is exactly the same as `/dist/jeelizFaceFilter.js` except that it works as a JavaScript module, so you can import it directly using:
 
 ```javascript
-import 'dist/jeelizFaceFilterES6.js'
+import 'dist/jeelizFaceFilter.module.js'
 ```
 
 or using `require` ([see issue #72](https://github.com/jeeliz/jeelizFaceFilter/issues/72)):
 
 ```javascript
-const faceFilter = require('./lib/jeelizFaceFilterES6.js')
+const faceFilter = require('./lib/jeelizFaceFilter.module.js')
 
 faceFilter.init({
   //you can also provide the canvas directly
@@ -472,7 +473,7 @@ faceFilter.init({
 ## Integration
 
 ### With a bundler
-If you use this library with a bundler (typically *Webpack* or *Parcel*), first you should use the [ES6 version](#using-the-es6-module).
+If you use this library with a bundler (typically *Webpack* or *Parcel*), first you should use the [module version](#using-module).
 
 Then, with the standard library, we load the neural network model (specified by `NNCpath` provided as initialization parameter) using AJAX for the following reasons:
 * If the user does not accept to share its webcam, or if WebGL is not enabled, we don't have to load the neural network model,
@@ -481,7 +482,7 @@ Then, with the standard library, we load the neural network model (specified by 
 With a bundler, it is a bit more complicated. It is easier to load the neural network model using a classical `import` or `require` call and to provide it using the `NNC` init parameter:
 
 ```javascript
-const faceFilter = require('./lib/jeelizFaceFilterES6.js')
+const faceFilter = require('./lib/jeelizFaceFilter.module.js')
 const neuralNetworkModel = require('./dist/NNC.json')
 
 faceFilter.init({
@@ -516,6 +517,9 @@ His hack has not been implemented into this repository but in a similar Jeeliz L
 * [Linkedin post detailing pros and cons](https://www.linkedin.com/feed/update/urn:li:activity:6587781973287198720)
 
 But it is still a dirty hack introducing a bottleneck. It still run pretty well on a high end device (tested on Iphone XR), but it is better to stick on a full web environment.
+
+There is also this Github issue detailing how to embed the library into a `Webview` component, for *React native*. It is for Android only:
+* [issue 21](https://github.com/jeeliz/jeelizFaceFilter/issues/21#issuecomment-644510559)
 
 ## Hosting
 

@@ -16,14 +16,15 @@ var JeelizResizer = (function(){
   // private vars:
   let _domCanvas = null,
       _whCanvasPx = null,
+      _isApplyCSS = false,
       _resizeAttemptsCounter = 0,
       _overSamplingFactor = 1,
       _isFullScreen = false,
-      _timerFullScreen = false,
-      _callbackResize = false,
+      _timerFullScreen = null,
+      _callbackResize = null,
       _isInvFullscreenWH = false;
 
-  const _cameraResolutions = [ //all resolutions should be in landscape mode
+  const _cameraResolutions = [ // all resolutions should be in landscape mode
     [640,480],
     [768,480],
     [800,600],
@@ -74,15 +75,29 @@ var JeelizResizer = (function(){
 
   function update_sizeCanvas(){
     const domRect = _domCanvas.getBoundingClientRect();
+    apply_sizeCanvas(domRect.width, domRect.height);
+  }
+
+  function apply_sizeCanvas(width, height){
     _whCanvasPx = [
-      Math.round(_overSamplingFactor * domRect.width),
-      Math.round(_overSamplingFactor * domRect.height)
+      Math.round(_overSamplingFactor * width),
+      Math.round(_overSamplingFactor * height)
     ];
+
+    // set canvas resolution:
     _domCanvas.setAttribute('width',  _whCanvasPx[0]);
     _domCanvas.setAttribute('height', _whCanvasPx[1]);
+
+    // canvas display size:
+    if (_isApplyCSS){
+      _domCanvas.style.width = width.toString() + 'px';
+      _domCanvas.style.height = height.toString() + 'px';
+    }
   }
 
   function on_windowResize(){
+    // avoid to resize too often using a timer
+    // (it can create weird bug with some browsers)
     if (_timerFullScreen){
       clearTimeout(_timerFullScreen);
     }
@@ -90,18 +105,17 @@ var JeelizResizer = (function(){
   }
 
   function resize_canvasToFullScreen(){
-    _whCanvasPx = [window['innerWidth'], window['innerHeight']];
+    const wh = [window['innerWidth'], window['innerHeight']];
     if (_isInvFullscreenWH){
-      _whCanvasPx.reverse();
+      wh.reverse();
     }
-    _domCanvas.setAttribute('width',  _whCanvasPx[0]);
-    _domCanvas.setAttribute('height', _whCanvasPx[1]);
+    apply_sizeCanvas(wh[0], wh[1]);
   }
 
   function resize_fullScreen(){
     resize_canvasToFullScreen();
     JEEFACEFILTERAPI.resize();
-    _timerFullScreen = false;
+    _timerFullScreen = null;
     if (_callbackResize) {
       _callbackResize();
     }
@@ -188,7 +202,7 @@ var JeelizResizer = (function(){
       } */
 
       // normal implementation
-      return true;
+      return false;
     },
 
     // size canvas to the right resolution
@@ -202,23 +216,39 @@ var JeelizResizer = (function(){
     //    If 2, resolution twice higher than real size
     //  - <boolean> CSSFlipX: if we should flip the canvas or not. Default: false
     //  - <boolean> isFullScreen: if we should set the canvas fullscreen. Default: false
-    //  - <function> onResize: function called when the window is resized. Only enabled if isFullScreen=true
-    //  - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default=false
-    size_canvas: function(options){
+    //  - <function> onResize: function called when the window is resized. Only enabled if isFullScreen = true
+    //  - <boolean> isInvWH: if we should invert width and height for fullscreen mode only. default = false
+    //  - <boolean> isApplyCSS: if we should also apply canvas dimensions as CSS. default = false
+    size_canvas: function(optionsArg){
+      const options = Object.assign({
+        canvasId: 'undefinedCanvasId',
+        canvas: null,
+        overSamplingFactor: window.devicePixelRatio || 1,
+
+        isFullScreen: false,
+        isInvWH: false,
+        CSSFlipX: false,
+        isApplyCSS: false,
+        
+        onResize: null,
+        callback: function(){}
+      }, optionsArg);
+
       _domCanvas = (options.canvas) ? options.canvas : document.getElementById(options.canvasId);
-      _isFullScreen = (typeof(options.isFullScreen)!=='undefined' && options.isFullScreen);
-      _isInvFullscreenWH = (typeof(options.isInvWH)!=='undefined' && options.isInvWH);
+      _isFullScreen = options.isFullScreen;
+      _isInvFullscreenWH = options.isInvWH;
+      _isApplyCSS = options.isApplyCSS;
+      _overSamplingFactor = options.overSamplingFactor;
 
       if (_isFullScreen){
         // we are in fullscreen mode
-        if (typeof(options.onResize) !== 'undefined'){
-          _callbackResize = options.onResize;
-        }
+        _callbackResize = options.onResize;
+        
         resize_canvasToFullScreen();
         window.addEventListener('resize', on_windowResize, false);
         window.addEventListener('orientationchange', on_windowResize, false);
         
-      } else { //not fullscreen mode
+      } else { // not fullscreen mode
 
         // get display size of the canvas:
         const domRect = _domCanvas.getBoundingClientRect();
@@ -233,13 +263,12 @@ var JeelizResizer = (function(){
         }
 
         // do resize canvas:
-        _resizeAttemptsCounter=0;
-        _overSamplingFactor = (typeof(options.overSamplingFactor) === 'undefined') ? 1 : options.overSamplingFactor;
+        _resizeAttemptsCounter = 0;        
         update_sizeCanvas();
       }
 
       // flip horizontally if required:
-      if (typeof(options.CSSFlipX)!=='undefined' && options.CSSFlipX){
+      if (options.CSSFlipX){
         add_CSStransform(_domCanvas, 'rotateY(180deg)');
       }
 
@@ -256,14 +285,9 @@ var JeelizResizer = (function(){
         });
       }
 
-      // scale canvas size to device pixel ratio:
-      // (To find the correct resolution, especially for iOS one should consider the window.devicePixelRatio factor)
-      const dpr = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
-      const whCanvasPxScaled = [_whCanvasPx[0] * dpr, _whCanvasPx[1] * dpr];
-
       // sort camera resolutions from the best to the worst:
       allResolutions.sort(function(resA, resB){
-        return compute_overlap(resB, whCanvasPxScaled) - compute_overlap(resA, whCanvasPxScaled);        
+        return compute_overlap(resB, _whCanvasPx) - compute_overlap(resA, _whCanvasPx);        
       });
 
       // pick the best camera resolution:
@@ -282,9 +306,14 @@ var JeelizResizer = (function(){
     // Should be called if the canvas is resized to update the canvas resolution:
     resize_canvas: function(){
       if (_isFullScreen){
-        return;
+        resize_canvasToFullScreen()        
+      } else {
+        update_sizeCanvas();
       }
-      update_sizeCanvas();
+    },
+
+    get_canvasSize: function(){
+      return _whCanvasPx;
     }
   }; //end that
   return that;

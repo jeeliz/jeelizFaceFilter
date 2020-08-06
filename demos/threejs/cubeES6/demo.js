@@ -1,4 +1,4 @@
-import '../../../dist/jeelizFaceFilterES6.js'
+import '../../../dist/jeelizFaceFilter.module.js'
 
 let THREECAMERA = null;
 
