@@ -33,7 +33,8 @@ THREE.JeelizHelper = (function(){
       _faceFilterCv = null,
       _videoElement = null,
       _isDetected = false,
-      _scaleW = 1;
+      _scaleW = 1,
+      _canvasAspectRatio = -1;
 
   const _threeCompositeObjects = [],
         _threePivotedObjects = [];
@@ -87,7 +88,7 @@ THREE.JeelizHelper = (function(){
         varying vec2 vUV;\n\
         void main(void){\n\
           gl_Position = vec4(position, 0., 1.);\n\
-          vUV = 0.5+0.5*position;\n\
+          vUV = 0.5 + 0.5 * position;\n\
         }";
     const videoScreenFragmentShaderSource = "precision lowp float;\n\
         uniform sampler2D samplerVideo;\n\
@@ -164,10 +165,10 @@ THREE.JeelizHelper = (function(){
     }); //end loop on all detection slots
   }
 
-  function update_positions3D(ds, threeCamera){
+  function update_pose(ds, threeCamera){
     // tan( <horizontal FoV> / 2 ):
-    const halfTanFOV = Math.tan(threeCamera.aspect * threeCamera.fov * Math.PI/360); //tan(<horizontal FoV>/2), in radians (threeCamera.fov is vertical FoV)
-         
+    const halfTanFOVX = Math.tan(threeCamera.aspect * threeCamera.fov * Math.PI/360); //tan(<horizontal FoV>/2), in radians (threeCamera.fov is vertical FoV)
+
     _threeCompositeObjects.forEach(function(threeCompositeObject, i){
       if (!threeCompositeObject.visible) return;
       const detectState = ds[i];
@@ -176,34 +177,29 @@ THREE.JeelizHelper = (function(){
       //const tweak = _settings.tweakMoveYRotateX * Math.tan(detectState.rx);
       const cz = Math.cos(detectState.rz), sz = Math.sin(detectState.rz);
       
-      const s = detectState.s * _scaleW;
+      // relative width of the detection window (1-> whole width of the detection window):
+      const W = detectState.s * _scaleW;
 
-      //const xTweak = sz * tweak * s;
-      //const yTweak = cz * tweak * (s * threeCamera.aspect);
-
-      // move the cube in order to fit the head:
-      const W = s;    // relative width of the detection window (1-> whole width of the detection window)
-      const DFront = 1 / (2*W*halfTanFOV); // distance between the front face of the cube and the camera
+      // distance between the front face of the cube and the camera:
+      const DFront = 1 / ( 2 * W * halfTanFOVX );
       
-      // D is the distance between the center of the unit cube and the camera
+      // D is the distance between the center of the unit cube and the camera:
       const D = DFront + 0.5;
 
       // coords in 2D of the center of the detection window in the viewport:
-      //const xv = (detectState.x * _scaleW + xTweak);
-      //const yv = (detectState.y + yTweak);
       const xv = detectState.x * _scaleW;
-      const yv = detectState.y;
+      const yv = detectState.y * _scaleW;
 
-      // coords in 3D of the center of the cube (in the view coordinates system)
+      // coords in 3D of the center of the cube (in the view coordinates system):
       const z = -D;   // minus because view coordinate system Z goes backward
-      const x = xv * D * halfTanFOV;
-      const y = yv * D * halfTanFOV / threeCamera.aspect;
+      const x = xv * D * halfTanFOVX;
+      const y = yv * D * halfTanFOVX / _canvasAspectRatio;
 
       // the pivot position depends on rz rotation:
       _threePivotedObjects[i].position.set(-sz*_settings.pivotOffsetYZ[0], -cz*_settings.pivotOffsetYZ[0], -_settings.pivotOffsetYZ[1]);
 
       // move and rotate the cube:
-      threeCompositeObject.position.set(x,y+_settings.pivotOffsetYZ[0], z+_settings.pivotOffsetYZ[1]);
+      threeCompositeObject.position.set(x, y+_settings.pivotOffsetYZ[0], z+_settings.pivotOffsetYZ[1]);
       threeCompositeObject.rotation.set(detectState.rx+_settings.rotationOffsetX, detectState.ry, detectState.rz, "ZYX");
     }); //end loop on composite objects
   }
@@ -283,7 +279,7 @@ THREE.JeelizHelper = (function(){
 
       // update detection states:
       detect(ds);
-      update_positions3D(ds, threeCamera);
+      update_pose(ds, threeCamera);
 
       if (_isSeparateThreejsCanvas){
         // render the video texture on the faceFilter canvas:
@@ -327,7 +323,7 @@ THREE.JeelizHelper = (function(){
 
       // sort centroids:
       centroids.sort(function(ca, cb){
-        return (ca[axisOffset]-cb[axisOffset])*sortWay;
+        return (ca[axisOffset]-cb[axisOffset]) * sortWay;
       });
 
       // reorder bufferGeometry faces:
@@ -396,7 +392,7 @@ THREE.JeelizHelper = (function(){
       const canvasElement = _threeRenderer.domElement;
       const cvw = canvasElement.width;
       const cvh = canvasElement.height;
-      const canvasAspectRatio = cvw / cvh;
+      _canvasAspectRatio = cvw / cvh;
 
       // compute vertical field of view:
       const vw = _videoElement.videoWidth;
@@ -404,10 +400,11 @@ THREE.JeelizHelper = (function(){
       const videoAspectRatio = vw / vh;
       const fovFactor = (vh > vw) ? (1.0 / videoAspectRatio) : 1.0;
       const fov = _settings.cameraMinVideoDimFov * fovFactor;
+      console.log('INFO in JeelizThreejsHelper - update_camera(): Estimated vertical video FoV is', fov);
       
       // compute X and Y offsets in pixels:
       let scale = 1.0;
-      if (canvasAspectRatio > videoAspectRatio) {
+      if (_canvasAspectRatio > videoAspectRatio) {
         // the canvas is more in landscape format than the video, so we crop top and bottom margins:
         scale = cvw / vw;
       } else {
@@ -420,7 +417,7 @@ THREE.JeelizHelper = (function(){
       _scaleW = cvw / cvws;
 
       // apply parameters:
-      threeCamera.aspect = canvasAspectRatio;
+      threeCamera.aspect = _canvasAspectRatio;
       threeCamera.fov = fov;
       console.log('INFO in JeelizThreejsHelper.update_camera(): camera vertical estimated FoV is', fov, 'deg');
       threeCamera.setViewOffset(cvws, cvhs, offsetX, offsetY, cvw, cvh);

@@ -27,18 +27,26 @@ function init_threeScene(spec) {
     occluderURL: "models3D/face.json"
   });
 
+  // vertical offset:
   const dy = 0.07;
 
-  threeStuffs.faceObject.add(r.occluder);
+  // create and add the occluder:
   r.occluder.rotation.set(0.3, 0, 0);
   r.occluder.position.set(0, 0.03 + dy,-0.04);
   r.occluder.scale.multiplyScalar(0.0084);
-
+  threeStuffs.faceObject.add(r.occluder);
+  
+  // create and add the glasses mesh:
   const threeGlasses = r.glasses;
   //threeGlasses.rotation.set(-0.15,0,0); / /X neg -> rotate branches down
   threeGlasses.position.set(0, dy, 0.4);
   threeGlasses.scale.multiplyScalar(0.006);
   threeStuffs.faceObject.add(threeGlasses);
+
+  // add a debug cube:
+  /* const sc = 0.1;
+  const debugCube = new THREE.Mesh(new THREE.BoxGeometry(sc,sc,sc), new THREE.MeshNormalMaterial());
+  threeStuffs.faceObject.add(debugCube); //*/
 
   // CREATE THE CAMERA:
   THREECAMERA = THREE.JeelizHelper.create_camera();
