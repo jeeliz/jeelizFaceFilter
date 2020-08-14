@@ -569,8 +569,9 @@ If a compatibility error occurred, please post an issue on this repository. If t
 
 
 ## Articles and tutorials
-We are currently writing a series of tutorial for the API, starting by building some very basic filters and moving to harder ones.
+You have written a tutorial using this library? Submit a pull request or send us the link, we would be glad to add it.
 
+### In English
 * Creating a Snapchat-like face filter using Jeeliz FaceFilter API and THREE.JS:
   * Part 1: [Creating your first filter](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/)
   * Part 2: [ User interactions and particles](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/)
@@ -581,9 +582,15 @@ We are currently writing a series of tutorial for the API, starting by building 
 
 * [JSFiddle: Face detection and tracking in 25 lines](https://jsfiddle.net/jeeliz/2p34hbeh/)
 
-* Tutorial: Matrix theme face filter: [French version](https://xavierbourry.developpez.com/filtre-facial-webcam/), [English translation](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/)
+* Tutorial: [Matrix theme face filter](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/)
 
-* Video tutorial: a neat video tutorial about [Headtracking Controls with Three JS](https://youtu.be/_Fs4Sbn2LPc) by [Chris Godber](http://chrisgodber.co.uk/). He also releases other great video tutorials about web development, VR, 3D on [his Youtube channel](https://www.youtube.com/channel/UCdwx6HHyPoDTtL9iq1-sI3A)
+* Video tutorials by [Chris Godber](http://chrisgodber.co.uk/): [Headtracking Controls with Three JS](https://youtu.be/_Fs4Sbn2LPc)
+
+### In French
+* Tutorial: Matrix theme face filter on developpez.com: [Développer un filtre facial webcam thème Matrix](https://xavierbourry.developpez.com/filtre-facial-webcam/)
+
+### In Japanese
+* Good overall review and explanations of the library on Qiita.com: [jeelizFaceFilterを試してみた](https://qiita.com/hirogw/items/2464fe62b13cf6816783)
 
 
 ## Jeeliz Partner Network

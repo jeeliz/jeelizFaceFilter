@@ -165,7 +165,7 @@ THREE.JeelizHelper = (function(){
     }); //end loop on all detection slots
   }
 
-  function update_pose(ds, threeCamera){
+  function update_poses(ds, threeCamera){
     // tan( <horizontal FoV> / 2 ):
     const halfTanFOVX = Math.tan(threeCamera.aspect * threeCamera.fov * Math.PI/360); //tan(<horizontal FoV>/2), in radians (threeCamera.fov is vertical FoV)
 
@@ -277,9 +277,9 @@ THREE.JeelizHelper = (function(){
     render: function(detectState, threeCamera){
       const ds = (_isMultiFaces) ? detectState : [detectState];
 
-      // update detection states:
+      // update detection states then poses:
       detect(ds);
-      update_pose(ds, threeCamera);
+      update_poses(ds, threeCamera);
 
       if (_isSeparateThreejsCanvas){
         // render the video texture on the faceFilter canvas:
