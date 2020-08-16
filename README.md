@@ -561,8 +561,8 @@ In all cases, WebRTC should be implemented in the web browser, otherwise FaceFil
 
 If a compatibility error occurred, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all applications which could use the camera (Skype, Messenger, other browser tabs and windows, ...). Please include:
 * the browser, the version of the browser, the operating system, the version of the operating system, the device model and the GPU if it is a desktop computer,
-* a screenshot of [webglreport.com - WebGL1](http://webglreport.com/?v=1) (about your `WebGL1` implementation),
-* a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your `WebGL2` implementation),
+* a screenshot of [webglreport.com - WebGL1](https://webglreport.com/?v=1) (about your `WebGL1` implementation),
+* a screenshot of [webglreport.com - WebGL2](https://webglreport.com/?v=2) (about your `WebGL2` implementation),
 * the log from the web console,
 * the steps to reproduce the bug, and screenshots.
 
