@@ -25,7 +25,7 @@ function detect_callback(isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
 
   // Draw frame canvas:
@@ -78,7 +78,7 @@ function init_threeScene(spec) {
   }
 
   // CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
   
   // CREATE A LIGHT
   const ambient = new THREE.AmbientLight(0xffffff, 0.8);
@@ -124,7 +124,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
-      const isDetected = THREE.JeelizHelper.get_isDetected();
+      const isDetected = JeelizThreeHelper.get_isDetected();
 
 
       if (isDetected && detectState.expressions[0] >= 0.8 && !isTransformed) {
@@ -136,7 +136,7 @@ function init_faceFilter(videoSettings){
 
       TWEEN.update();
 
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); // end JEEFACEFILTERAPI.init call
 }

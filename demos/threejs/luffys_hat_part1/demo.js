@@ -22,7 +22,7 @@ function detect_callback(isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
   // Create the JSONLoader for our hat:
   const loader = new THREE.BufferGeometryLoader();
@@ -57,7 +57,7 @@ function init_threeScene(spec) {
   //THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
   
   // New hype and lazy way, the helper guess a plausible FoV depending on the hardware:
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
 // Entry point, launched by body.onload():
@@ -87,7 +87,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop)
     callbackTrack: function(detectState) {
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); // end JEEFACEFILTERAPI.init call
 }

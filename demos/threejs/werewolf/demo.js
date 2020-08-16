@@ -38,7 +38,7 @@ function init_threeScene(spec) {
   const openMouthInstruction = $('#openMouthInstruction');
   openMouthInstruction.hide();
 
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
             
   // Add our wolf head model:
   const loadingManager = new THREE.LoadingManager();
@@ -154,7 +154,7 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(directionalLight);
 
   // init video texture with red
-  THREEVIDEOTEXTURE = THREE.JeelizHelper.get_threeVideoTexture();
+  THREEVIDEOTEXTURE = JeelizThreeHelper.get_threeVideoTexture();
   THREEVIDEOTEXTURE.needsUpdate = true;
 
   const videoColorFilter = new THREE.Vector3(0.05, 0.1, 0.15);
@@ -191,7 +191,7 @@ function init_threeScene(spec) {
   threeStuffs.videoMesh.material.needsUpdate = true;
 
   // CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
 function animateWolf (object3D) {
@@ -247,7 +247,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
-      ISDETECTED = THREE.JeelizHelper.get_isDetected;
+      ISDETECTED = JeelizThreeHelper.get_isDetected;
 
       if (ISDETECTED && detectState.expressions[0] >= 0.9 && !isTransformed && isLoaded) {
 
@@ -263,7 +263,7 @@ function init_faceFilter(videoSettings){
         MIXER.update(0.08);
       }
 
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); // end JEEFACEFILTERAPI.init call
 }

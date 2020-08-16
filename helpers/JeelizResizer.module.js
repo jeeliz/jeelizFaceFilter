@@ -320,9 +320,4 @@ const superThat = (function(){
 })();
 
 // Export ES6 module:
-try {
-  module.exports = superThat;
-} catch(e){
-  console.log('JeelizResizer ES6 Module not exported');
-  window.JeelizResizer = superThat;
-}
+export const JeelizResizer = superThat;

@@ -39,7 +39,7 @@ function create_mat2d(threeTexture, isTransparent){ // MT216: we put the creatio
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
   // We use the helper
-  window.THREESTUFF = THREE.JeelizHelper.init(spec, detect_callback);
+  window.THREESTUFF = JeelizThreeHelper.init(spec, detect_callback);
 
   // CREATE OUR MASK OBJECT AND ADD IT TO OUR SCENE
   const casaLoader = new THREE.BufferGeometryLoader();
@@ -106,7 +106,7 @@ function init_threeScene(spec) {
   THREESTUFF.scene.add(calqueMesh);
 
   // CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 
   // CREATE AN AMBIENT LIGHT
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
@@ -209,7 +209,7 @@ function init_faceFilter(videoSettings) {
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     } // end callbackTrack()
   }); // end JEEFACEFILTERAPI.init call
 } // end main()

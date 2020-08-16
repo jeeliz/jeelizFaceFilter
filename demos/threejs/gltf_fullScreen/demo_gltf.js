@@ -13,7 +13,7 @@ let THREECAMERA = null;
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec){
-  const threeStuffs = THREE.JeelizHelper.init(spec, null);
+  const threeStuffs = JeelizThreeHelper.init(spec, null);
 
   // CREATE THE ENVMAP:
   const path = SETTINGS.cubeMapURL;
@@ -52,7 +52,7 @@ function init_threeScene(spec){
   } ); //end gltfLoader.load callback
   
   //CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 } //end init_threeScene()
 
 //entry point, launched by body.onload():
@@ -62,7 +62,7 @@ function main(){
     isFullScreen: true,
     callback: start,
     onResize: function(){
-      THREE.JeelizHelper.update_camera(THREECAMERA);
+      JeelizThreeHelper.update_camera(THREECAMERA);
     }
   })
 }
@@ -90,7 +90,7 @@ function start(){
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); //end JEEFACEFILTERAPI.init call
 } //end start()

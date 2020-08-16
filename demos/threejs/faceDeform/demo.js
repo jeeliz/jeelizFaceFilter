@@ -65,7 +65,7 @@ function build_maskMaterial(){
     vertexShader: vertexShaderSource,
     fragmentShader: fragmentShaderSource,
     uniforms: {
-      samplerVideo:{value: THREE.JeelizHelper.get_threeVideoTexture()}
+      samplerVideo:{value: JeelizThreeHelper.get_threeVideoTexture()}
     }
   });
   return mat;
@@ -73,7 +73,7 @@ function build_maskMaterial(){
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec){
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
   // CREATE THE MASK:
   const maskLoader=new  THREE.BufferGeometryLoader();
@@ -90,7 +90,7 @@ function init_threeScene(spec){
   });
 
   // CREATE THE CAMERA:
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 } //end init_threeScene()
 
 // Entry point, launched by body.onload():
@@ -120,7 +120,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
-       THREE.JeelizHelper.render(detectState, THREECAMERA);
+       JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); //end JEEFACEFILTERAPI.init call
 }

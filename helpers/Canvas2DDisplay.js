@@ -1,7 +1,5 @@
-"use strict";
-
 /*
-Usage: JEEFACEFILTERAPI.Canvas2DDisplay(spec) where spec is the returned object of the initialization function (callbackReady)
+Usage: JeelizCanvas2DHelper(spec) where spec is the returned object of the initialization function (callbackReady)
 Return an object width these properties:
 
  - canvas: the CANVAS element
@@ -12,7 +10,7 @@ Return an object width these properties:
  - resize: to call if the HTML canvas size has changed
 */
 
-JEEFACEFILTERAPI.Canvas2DDisplay = function(spec){
+const JeelizCanvas2DHelper = function(spec){
 
   // some globalz:
   let CV = null, CANVAS2D = null, CTX = null, GL = null, CANVASTEXTURE = null, CANVASTEXTURENEEDSUPDATE = null, SHADERCOPY = null, VIDEOTEXTURE = null;
@@ -132,4 +130,4 @@ JEEFACEFILTERAPI.Canvas2DDisplay = function(spec){
       CANVAS2D.height = CV.height;
     }
   }; //end Canvas2DDisplay return value
-} //end JEEFACEFILTERAPI.Canvas2DDisplay()
+} //end JeelizCanvas2DHelper()

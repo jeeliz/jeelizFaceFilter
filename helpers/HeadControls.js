@@ -5,8 +5,7 @@
     - with CesiumJS for a head controlled Google Earth like demo
     - with THREE.JS for a camera controller (THREE.HeadControls)
 
- 
-  ==== INITIALIZATION ====
+   ==== INITIALIZATION ====
   HeadControls.init(spec) with spec =
   spec (*-> mandatory): 
     - settings: object. override default settings if specified
@@ -20,15 +19,15 @@
   HeadControls.toggle(<boolean>onOff): toggle on or off the HeadControls
 
 */
-"use strict";
+
 var HeadControls = (function(){
   const _defaultSettings = {
-    detectionThreshold: 0.85, //sensibility, between 0 and 1. Less -> more sensitive
+    detectionThreshold: 0.85, // sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,
     tol: {
-      rx: 5,//do not move if head turn more than this value (in degrees) from head rest position
+      rx: 5,// do not move if head turn more than this value (in degrees) from head rest position
       ry: 5,
-      s: 5 //do not move forward/backward if head is larger/smaller than this percent from the rest position
+      s: 5 // do not move forward/backward if head is larger/smaller than this percent from the rest position
     },
     sensibility: {
       rx: 1,
@@ -49,7 +48,7 @@ var HeadControls = (function(){
     isLoaded: false,
     isDetected:false,
     isEnabled: false,
-    restHeadPosition: { //position of the head matching with No Move
+    restHeadPosition: { // position of the head matching with No Move
       needsUpdate: false,
       s: 0,
       rx: 0,
@@ -247,3 +246,10 @@ var HeadControls = (function(){
   }; //end that
   return that;
 })();
+
+// Export ES6 module:
+try {
+  module.exports = HeadControls;
+} catch(e){
+  console.log('HeadControls ES6 Module not exported');
+}

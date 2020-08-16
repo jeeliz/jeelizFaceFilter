@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 This helper is usefull to cut faces (in 2D)
 It is used for example in the faceSwap demo
@@ -12,7 +10,8 @@ It does not handle the 3D aspect (no matrix stories)
 
 */
 
-var JeelizFaceCut = (function(){
+const JeelizFaceCut = (function(){
+
   // settings:
   const FACECUTSETTINGS = {
     scale: [1.1, 1.7],   // scale of the face cut area. Relative to initial square detection area
@@ -403,3 +402,11 @@ var JeelizFaceCut = (function(){
   }; //end superThat
   return superThat;
 })();
+
+
+// Export ES6 module:
+try {
+  module.exports = JeelizFaceCut;
+} catch(e){
+  console.log('JeelizFaceCut ES6 Module not exported');
+}

@@ -27,7 +27,7 @@ function start(){ // launched when the video is loaded
       }
 
       console.log('INFO: JEEFACEFILTERAPI IS READY');
-      CVD = JEEFACEFILTERAPI.Canvas2DDisplay(spec);
+      CVD = JeelizCanvas2DHelper(spec);
       CVD.ctx.strokeStyle = 'yellow';
     },
 

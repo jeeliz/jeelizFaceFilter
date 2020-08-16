@@ -90,7 +90,7 @@ function build_customMaskMaterial(textureURL){
     vertexShader: vertexShaderSource,
     fragmentShader: fragmentShaderSource,
     uniforms: Object.assign({
-      samplerVideo: {value: THREE.JeelizHelper.get_threeVideoTexture()},
+      samplerVideo: {value: JeelizThreeHelper.get_threeVideoTexture()},
       resolution: {value: new THREE.Vector2(THREESTUFF.renderer.getSize().width, THREESTUFF.renderer.getSize().height)},
       mouthOpening: {value: 0}
     }, THREE.ShaderLib.lambert.uniforms),
@@ -109,7 +109,7 @@ function build_customMaskMaterial(textureURL){
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec){
   // INIT THE THREE.JS context
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
   window.THREESTUFF = threeStuffs; // to debug in the console
 
   // LOAD THE TIGGER MESH
@@ -164,7 +164,7 @@ function init_threeScene(spec){
   threeStuffs.scene.add(ambientLight, dirLight);
 
   //CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 } //end init_threeScene()
 
 // Entry point, launched by body.onload():
@@ -184,7 +184,7 @@ function main(){
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
-      ISDETECTED = THREE.JeelizHelper.get_isDetected();
+      ISDETECTED = JeelizThreeHelper.get_isDetected();
 
       if (ISDETECTED) {
         // update mouth opening:
@@ -207,7 +207,7 @@ function main(){
 
       TWEEN.update();
 
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     } //end callbackTrack()
   }); //end JEEFACEFILTERAPI.init call
 } //end main()

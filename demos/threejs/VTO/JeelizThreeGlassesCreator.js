@@ -78,7 +78,7 @@ const JeelizThreeGlassesCreator = function(spec){
     window.debugMatLens = mat; // to debug the material il the JS console
   });
 
-  const occluderMesh = THREE.JeelizHelper.create_threejsOccluder(spec.occluderURL);
+  const occluderMesh = JeelizThreeHelper.create_threejsOccluder(spec.occluderURL);
   
   return {
     glasses: threeGlasses,

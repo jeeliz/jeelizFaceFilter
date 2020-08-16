@@ -67,7 +67,7 @@ function detect_callback(isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
   $('#openMouthInstructions').hide();
   const loadingManager = new THREE.LoadingManager();
 
@@ -375,7 +375,7 @@ function init_threeScene(spec) {
 
 
   // CREATE THE MASK
-  FACEMESH = THREE.JeelizHelper.create_threejsOccluder('./models/face/face.json');
+  FACEMESH = JeelizThreeHelper.create_threejsOccluder('./models/face/face.json');
   FACEMESH.frustumCulled = false;
   FACEMESH.scale.multiplyScalar(1.1);
   FACEMESH.position.set(0, 0.7, -0.75);
@@ -410,7 +410,7 @@ function init_threeScene(spec) {
   } 
 
   // CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
 function animateIntro () {
@@ -525,7 +525,7 @@ function init_faceFilter(videoSettings) {
 
     // called at each render iteration (drawing loop):
     callbackTrack: function (detectState) {
-      ISDETECTED = THREE.JeelizHelper.get_isDetected();
+      ISDETECTED = JeelizThreeHelper.get_isDetected();
       
       if (detectState.expressions[0] >= 0.8 && isLoaded && state !== 0 && state !== 2) {
         animateFight();
@@ -555,7 +555,7 @@ function init_faceFilter(videoSettings) {
       }
 
       // trigger the render of the THREE.JS SCENE
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     } // end callbackTrack()
   }); // end JEEFACEFILTERAPI.init call
 }

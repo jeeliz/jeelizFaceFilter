@@ -35,7 +35,7 @@ function start(jeeFaceFilterAPIInstance, canvasId, videoElement, borderColor){
       }
 
       console.log('INFO: JEEFACEFILTERAPI IS READY');
-      cvd = JEEFACEFILTERAPI.Canvas2DDisplay(spec);
+      cvd = JeelizCanvas2DHelper(spec);
       cvd.ctx.strokeStyle = borderColor;
     },
 

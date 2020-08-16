@@ -439,11 +439,4 @@ const superThat = (function(){
   return that;
 })();
 
-
-// Export ES6 module:
-try {
-  module.exports = superThat;
-} catch(e){
-  console.log('JeelizThreeHelper ES6 Module not exported');  
-  window.JeelizThreeHelper = superThat;
-}
+export const JeelizThreeHelper = superThat;

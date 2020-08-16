@@ -41,7 +41,7 @@ function create_faceMaterial(){
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec){
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
   
   function add_faceMesh(threeFaceMesh){
     threeFaceMesh.frustumCulled = false;
@@ -55,7 +55,7 @@ function init_threeScene(spec){
   // IMPORT THE STATUE OF LIBERTY
   const libertyLoader = new  THREE.BufferGeometryLoader();
   libertyLoader.load('./assets/liberty.json', function(libertyGeometry){
-    THREE.JeelizHelper.sortFaces(libertyGeometry, 'z', true);
+    JeelizThreeHelper.sortFaces(libertyGeometry, 'z', true);
     const libertyMesh = new THREE.Mesh(libertyGeometry, create_libertyMaterial());
     libertyMesh.renderOrder = 2;
     add_faceMesh(libertyMesh);
@@ -63,14 +63,14 @@ function init_threeScene(spec){
 
   // IMPORT THE FACE MASK
   new THREE.BufferGeometryLoader().load('./assets/libertyFaceMask.json', function(faceGeometry){
-    THREE.JeelizHelper.sortFaces(faceGeometry, 'z', true);
+    JeelizThreeHelper.sortFaces(faceGeometry, 'z', true);
     const faceMesh = new THREE.Mesh(faceGeometry, create_faceMaterial());
     faceMesh.renderOrder = 1;
     add_faceMesh(faceMesh);
   });
 
   // CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 
   // ADD LIGHTS
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -97,7 +97,7 @@ function main(){
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     } //end callbackTrack()
   }); //end JEEFACEFILTERAPI.init call
 } //end main()

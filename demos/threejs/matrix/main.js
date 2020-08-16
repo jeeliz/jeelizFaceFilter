@@ -45,7 +45,7 @@ function start(){
 
 function init_scene(spec){
   CANVAS = spec.canvasElement;
-  const threeInstances = THREE.JeelizHelper.init(spec);
+  const threeInstances = JeelizThreeHelper.init(spec);
   THREERENDERER = threeInstances.renderer;
 
   // create a camera with a 20° FoV - obsolete because FoV depend on device:
@@ -53,7 +53,7 @@ function init_scene(spec){
   //THREECAMERA = new THREE.PerspectiveCamera(20, aspecRatio, 0.1, 100);
   
   // New way to create the camera, try to guess a good FoV:
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 
   // create the background video texture:
   const video = document.createElement('video');
@@ -118,7 +118,7 @@ function init_scene(spec){
       }",
 
       uniforms:{
-        samplerWebcam: {value: THREE.JeelizHelper.get_threeVideoTexture()},
+        samplerWebcam: {value: JeelizThreeHelper.get_threeVideoTexture()},
         samplerVideo: {value: videoTexture},
         resolution: {
           value: new THREE.Vector2(spec.canvasElement.width,
@@ -130,10 +130,10 @@ function init_scene(spec){
     maskMesh.position.set(0, 0.3,-0.35);
     threeInstances.faceObject.add(maskMesh);
 
-    THREE.JeelizHelper.apply_videoTexture(maskMesh);
+    JeelizThreeHelper.apply_videoTexture(maskMesh);
   });
 }
 
 function callbackTrack(detectState){
-  THREE.JeelizHelper.render(detectState, THREECAMERA);
+  JeelizThreeHelper.render(detectState, THREECAMERA);
 }

@@ -14,7 +14,7 @@ function detect_callback(isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
   // CREATE OUR HELMET MESH AND ADD IT TO OUR SCENE
   const HELMETOBJ3D = new THREE.Object3D();
@@ -101,7 +101,7 @@ function init_threeScene(spec) {
       transparent: true,
       flatShading: false,
       uniforms: {
-        samplerVideo:{ value: THREE.JeelizHelper.get_threeVideoTexture() }
+        samplerVideo:{ value: JeelizThreeHelper.get_threeVideoTexture() }
       }
        ,transparent: true
     });
@@ -154,7 +154,7 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(calqueMesh);
 
   // CREATE THE CAMERA:
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 
   // CREATE THE LIGHTS:
   const ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
@@ -192,7 +192,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); // end JEEFACEFILTERAPI.init call
 }

@@ -13,7 +13,7 @@ function detect_callback(faceIndex, isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
   // CREATE A CUBE:
   const cubeGeometry = new THREE.BoxGeometry(1,1,1);
@@ -61,7 +61,7 @@ function init_faceFilter(videoSettings){
 
     //c alled at each render iteration (drawing loop):
     callbackTrack: function(detectState){
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); //end JEEFACEFILTERAPI.init call
 }

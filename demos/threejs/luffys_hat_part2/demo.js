@@ -20,7 +20,7 @@ function detect_callback(isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
   let HATOBJ3D = new THREE.Object3D();
   // Create the JSONLoader for our hat
@@ -85,7 +85,7 @@ function init_threeScene(spec) {
           transparent: true,
           flatShading: false,
           uniforms: {
-            samplerVideo:{ value: THREE.JeelizHelper.get_threeVideoTexture() }
+            samplerVideo:{ value: JeelizThreeHelper.get_threeVideoTexture() }
           },
           transparent: true
         });
@@ -140,7 +140,7 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(ambient);
 
   // CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
 // Entry point, launched by body.onload():
@@ -155,7 +155,7 @@ function main(){
 
 function init_faceFilter(videoSettings){
   // Here we set a different pivotOffset value so that the mask fits better
-  THREE.JeelizHelper.set_pivotOffsetYZ(SETTINGS.pivotOffsetYZ);
+  JeelizThreeHelper.set_pivotOffsetYZ(SETTINGS.pivotOffsetYZ);
 
   JEEFACEFILTERAPI.init({
     canvasId: 'jeeFaceFilterCanvas',
@@ -173,7 +173,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); // end JEEFACEFILTERAPI.init call
 }

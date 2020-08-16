@@ -1,8 +1,11 @@
-import '../../../dist/jeelizFaceFilter.module.js'
+import '../../../dist/jeelizFaceFilter.module.js';
+import { JeelizThreeHelper } from '../../../helpers/JeelizThreejsHelper.module.js';
+import { JeelizResizer } from '../../../helpers/JeelizResizer.module.js';
+
 
 let THREECAMERA = null;
 
-// callback : launched if a face is detected or lost
+// callback: launched if a face is detected or lost
 function detect_callback(faceIndex, isDetected) {
   if (isDetected) {
     console.log('INFO in detect_callback(): DETECTED');
@@ -13,7 +16,7 @@ function detect_callback(faceIndex, isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
    // CREATE A CUBE:
   const cubeGeometry = new THREE.BoxGeometry(1,1,1);
@@ -23,7 +26,7 @@ function init_threeScene(spec) {
   threeStuffs.faceObject.add(threeCube);
 
   // CREATE THE CAMERA:
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 }
 
 // entry point:
@@ -53,7 +56,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     }
   }); //end JEEFACEFILTERAPI.init call
 }

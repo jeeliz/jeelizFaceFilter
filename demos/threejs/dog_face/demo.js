@@ -91,7 +91,7 @@ function applyFilter() {
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
   // INIT THE THREE.JS context
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
   
   // CREATE OUR DOG EARS:
 
@@ -209,7 +209,7 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(dirLight);
 
   // CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
  
   threeStuffs.scene.add(FRAMEOBJ3D);
 
@@ -287,7 +287,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
-      ISDETECTED = THREE.JeelizHelper.get_isDetected();
+      ISDETECTED = JeelizThreeHelper.get_isDetected();
 
       if (ISDETECTED) {
         const _quat = new THREE.Quaternion();
@@ -344,7 +344,7 @@ function init_faceFilter(videoSettings){
         MIXER.update(0.16);
       }
 
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     } // end callbackTrack()
   }); // end JEEFACEFILTERAPI.init call
 } // end main()

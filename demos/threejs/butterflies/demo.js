@@ -20,7 +20,7 @@ function detect_callback(isDetected) {
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
-  const threeStuffs = THREE.JeelizHelper.init(spec, detect_callback);
+  const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
   // ADD OUR BUTTERFLY:
   const butterflyLoader = new THREE.JSONLoader();
@@ -125,7 +125,7 @@ function init_threeScene(spec) {
   );
 
   // CREATE THE CAMERA
-  THREECAMERA = THREE.JeelizHelper.create_camera();
+  THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
 // Create the animation for the wings
@@ -200,7 +200,7 @@ function init_faceFilter(videoSettings){
         });
       }
 
-      THREE.JeelizHelper.render(detectState, THREECAMERA);
+      JeelizThreeHelper.render(detectState, THREECAMERA);
     } // end callbackTrack()
   }); // end JEEFACEFILTERAPI.init call
 } // end main()
