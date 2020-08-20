@@ -542,7 +542,7 @@ https://appstatic.jeeliz.com/faceFilter/jeelizFaceFilter.js
 It uses the neuron network `NNC.json` hosted in the same path. The helpers used in these demos (all scripts in [/helpers/](helpers/)) are also hosted on `https://appstatic.jeeliz.com/faceFilter/`.
 
 It is served through a content delivery network (CDN) using gzip compression.
-If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `dist/NNC.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://checkgzipcompression.com/).
+If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `dist/NNC.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://www.giftofspeed.com/gzip-test/).
 
 The neuron network file, `dist/NNC.json` is loaded using an ajax `XMLHttpRequest` after calling `JEEFACEFILTER.init()`. This loading is proceeded after the user has accepted to share its camera. So we won't load this quite heavy file if the user refuses to share it or if there is no webcam available. The loading can be faster if you systematically preload `dist/NNC.json` using a service worker or a simple raw `XMLHttpRequest` just after the HTML page loading. Then the file will be already in the browser cache when Jeeliz Facefilter API will request it.
 
@@ -561,8 +561,8 @@ In all cases, WebRTC should be implemented in the web browser, otherwise FaceFil
 
 If a compatibility error occurred, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all applications which could use the camera (Skype, Messenger, other browser tabs and windows, ...). Please include:
 * the browser, the version of the browser, the operating system, the version of the operating system, the device model and the GPU if it is a desktop computer,
-* a screenshot of [webglreport.com - WebGL1](http://webglreport.com/?v=1) (about your `WebGL1` implementation),
-* a screenshot of [webglreport.com - WebGL2](http://webglreport.com/?v=2) (about your `WebGL2` implementation),
+* a screenshot of [webglreport.com - WebGL1](https://webglreport.com/?v=1) (about your `WebGL1` implementation),
+* a screenshot of [webglreport.com - WebGL2](https://webglreport.com/?v=2) (about your `WebGL2` implementation),
 * the log from the web console,
 * the steps to reproduce the bug, and screenshots.
 
