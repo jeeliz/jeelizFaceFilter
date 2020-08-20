@@ -2,7 +2,7 @@
   Helper for Three.js
 */
 
-const superThat = (function(){
+const JeelizThreeHelper = (function(){
   // internal settings:
   const _settings = {
     rotationOffsetX: 0.0, // negative -> look upper. in radians
@@ -442,8 +442,8 @@ const superThat = (function(){
 
 // Export ES6 module:
 try {
-  module.exports = superThat;
+  module.exports = JeelizThreeHelper;
 } catch(e){
   console.log('JeelizThreeHelper ES6 Module not exported');  
-  window.JeelizThreeHelper = superThat;
+  window.JeelizThreeHelper = JeelizThreeHelper;
 }
