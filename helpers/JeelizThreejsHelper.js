@@ -282,7 +282,7 @@ const JeelizThreeHelper = (function(){
 
       if (_isSeparateThreejsCanvas){
         // render the video texture on the faceFilter canvas:
-        _gl.viewport(0,0, _faceFilterCv.width, _faceFilterCv.height);
+        _gl.viewport(0, 0, _faceFilterCv.width, _faceFilterCv.height);
         _gl.useProgram(_glShpCopy);
         _gl.activeTexture(_gl.TEXTURE0);
         _gl.bindTexture(_gl.TEXTURE_2D, _glVideoTexture);
@@ -306,16 +306,16 @@ const JeelizThreeHelper = (function(){
       const nFaces = bufferGeometry.index.count/3;
       const faces = new Array(nFaces);
       for (let i=0; i<nFaces; ++i){
-        faces[i]=[bufferGeometry.index.array[3*i], bufferGeometry.index.array[3*i+1], bufferGeometry.index.array[3*i+2]];
+        faces[i] = [bufferGeometry.index.array[3*i], bufferGeometry.index.array[3*i+1], bufferGeometry.index.array[3*i+2]];
       }
 
       // compute centroids:
       const aPos = bufferGeometry.attributes.position.array;
       const centroids = faces.map(function(face, faceIndex){
         return [
-          (aPos[3*face[0]]+aPos[3*face[1]]+aPos[3*face[2]])/3,       //X
-          (aPos[3*face[0]+1]+aPos[3*face[1]+1]+aPos[3*face[2]+1])/3, //Y
-          (aPos[3*face[0]+2]+aPos[3*face[1]+2]+aPos[3*face[2]+2])/3, //Z
+          (aPos[3*face[0]]+aPos[3*face[1]]+aPos[3*face[2]])/3,       // X
+          (aPos[3*face[0]+1]+aPos[3*face[1]+1]+aPos[3*face[2]+1])/3, // Y
+          (aPos[3*face[0]+2]+aPos[3*face[1]+2]+aPos[3*face[2]+2])/3, // Z
           face
         ];
       });

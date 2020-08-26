@@ -4,8 +4,8 @@
 const SETTINGS = {
   gltfModelURL: 'DamagedHelmet/glTF/DamagedHelmet.gltf',
   cubeMapURL: 'Bridge2/',
-  offsetYZ: [0.3,0], // offset of the model in 3D along vertical and depth axis
-  scale: 2.5 // width in 3D of the GLTF model
+  offsetYZ: [0.3, 0], // offset of the model in 3D along vertical and depth axis
+  scale: 2.5
 };
 
 let THREECAMERA = null;

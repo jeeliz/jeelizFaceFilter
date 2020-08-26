@@ -39,6 +39,7 @@ function main(){
 
 function init_faceFilter(videoSettings){
   JEEFACEFILTERAPI.init({
+    antialias: false,
     canvasId: 'jeeFaceFilterCanvas',
     NNCpath: '../../../dist/', // root of NNC.json file
     maxFacesDetected: 1,
@@ -48,7 +49,7 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
     },
 

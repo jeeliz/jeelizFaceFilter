@@ -94,13 +94,12 @@ These demonstration are included in this repository. So they are released under 
 
 * THREE.JS based demos - [specific README about THREE.js based demo problems](demos/threejs/):
   * Boilerplates:
-    * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
+    * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/), [source code](/demos/threejs/cube2cv/)
+    * Boilerplate with only 1 `<canvas>` element: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
     * Same boilerplate but using `dist/NNC4Expr0.json` as neural net, and displays 4 expressions: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeExpr/), [source code](/demos/threejs/cubeExpr/)
-    * Same boilerplate but using `dist/NNCwideAngles.json` as neural net: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeNNCwideAngles/), [source code](/demos/threejs/cubeNNCwideAngles/)
-    * Boilerplate with module: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
+    * Boilerplate using JS module: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
     * Multiple face tracking: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/), [source code](/demos/threejs/multiCubes/)
     * GLTF fullscreen demo with HD video: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/), [source code](/demos/threejs/gltf_fullScreen/)
-    * Boilerplate with 2 canvas: 1 for FaceFilter and 1 for THREE.JS (not recommended): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/), [source code](/demos/threejs/cube2cv/)
     
   * AR 3D demos:
     * Werewolf (turn yourself into a werewolf): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/), [source code](/demos/threejs/werewolf)
@@ -348,11 +347,28 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEEFACEFILTERAPI.update_videoSettings(<object> videoSettings)`: dynamically change the video settings (see [Optionnal init arguments](optionnal-init-arguments) for the properties of `videoSettings`). It is useful to change the camera from the selfie camera (user) to the back (environment) camera. A `Promise` is returned.
 
-* `JEEFACEFILTERAPI.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`.
+* `JEEFACEFILTERAPI.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`,
 
-* `JEEFACEFILTERAPI.destroy()`: Clean both graphic memory and JavaScript memory, uninit the library. After that you need to init the library again. A `Promise` is returned.
+* `JEEFACEFILTERAPI.destroy()`: Clean both graphic memory and JavaScript memory, uninit the library. After that you need to init the library again. A `Promise` is returned,
+
+* `JEEFACEFILTERAPI.reset_GLState()`: reset the WebGL context,
+
+* `JEEFACEFILTERAPI.render_video()`: render the video on the `<canvas>` element.
+ 
+
 
 ### Optimization
+
+#### 1 or 2 Canvas?
+
+You can either:
+
+1. Use 1 `<canvas>` with 1 WebGL context, shared by facefilter and THREE.js (or another 3D engine),
+2. Use 2 separate `<canvas>` elements, aligned using CSS, 1 canvas for AR, and the second one to display the video and to run this library.
+
+The 1. is often more efficient, but the newest versions of THREE.js are not suited to share the WebGL context and some weird bugs can occur.
+So I strongly advise to use 2 separate canvas.
+
 
 #### Canvas and video resolutions
 
@@ -490,6 +506,9 @@ faceFilter.init({
   //... other init parameters
 });
 ```
+
+You can check out the amazing work of [@jackbilestech](jackbilestech), [jackbilestech/jeelizFaceFilter](https://github.com/jackbilestech/jeelizFaceFilter) if you are interested to use this library in a NPM / ES6 / Webpack environment.
+
 
 ### With JavaScript frontend frameworks
 We don't cover here the integration with mainstream JavaScript frontend frameworks (*React*, *Vue*, *Angular*).
