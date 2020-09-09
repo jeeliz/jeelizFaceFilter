@@ -30,17 +30,17 @@ const SETTINGS = {
 };
 
 const ARTPAINTING = {
-  baseTexture: false,
+  baseTexture: null,
   potFaceCutTexture: null,
   potFaceCutTextureSizePx: 0,
   hueTexture: null,
   detectCounter: 0,
   image: new Image(),
-  canvasMask: false,
+  canvasMask: null,
   url: -1,
   positionFace: [0,0],
   scaleFace: [1,1],
-  detectedState: false
+  detectedState: null
 };
 const USERCROP = {
   faceCutDims: [0,0],
@@ -191,18 +191,18 @@ function change_artPainting(urlImage, detectState){
     return;
   }
   if (typeof(detectState)==='undefined'){
-    detectState = false;
+    detectState = null;
   }
 
   STATE = STATES.BUSY;
   toggle_carousel(false);
   if (ARTPAINTING.canvasMask){
     ARTPAINTING.canvasMask.parentElement.removeChild(ARTPAINTING.canvasMask);
-    ARTPAINTING.canvasMask=false;
+    ARTPAINTING.canvasMask = null;
   }
-  ARTPAINTING.image=new Image();
+  ARTPAINTING.image = new Image();
 
-  if (urlImage==='CUSTOM'){ //upload custom image
+  if (urlImage === 'CUSTOM'){ //upload custom image
     const domInputFile = document.getElementById('customImage');
     if (!domInputFile.files || !domInputFile.files[0]){
       alert('You should select at least one file');
@@ -559,12 +559,12 @@ function reset_toVideo(){
   position_userCropCanvas();
   window.addEventListener('resize', position_userCropCanvas, false);
 
-  FFSPECS.canvasElement.width=SETTINGS.videoDetectSizePx;
-  FFSPECS.canvasElement.height=SETTINGS.videoDetectSizePx;
+  FFSPECS.canvasElement.width = SETTINGS.videoDetectSizePx;
+  FFSPECS.canvasElement.height = SETTINGS.videoDetectSizePx;
   JEEFACEFILTERAPI.resize();
 
   JEEFACEFILTERAPI.reset_inputTexture();
-  STATE=STATES.DETECTUSERFACE;
+  STATE = STATES.DETECTUSERFACE;
 }
 
 // compile a shader:
@@ -583,8 +583,8 @@ function compile_shader(source, type, typeString) {
 // helper function to build the shader program:
 function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
   // compile both shader separately:
-  const shaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX "+id);
-  const shaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT "+id);
+  const shaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX " + id);
+  const shaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT " + id);
 
   const shaderProgram = GL.createProgram();
   GL.attachShader(shaderProgram, shaderVertex);

@@ -45,7 +45,7 @@ const GIF = {
   },
   mirroredLoop: SETTINGS.mirroredLoop,
   hideIfNotDetectedDuringNframes: SETTINGS.hideIfNotDetectedDuringNframes,
-  baseTexture: false,
+  baseTexture: null,
   info: null,
   potFaceCutTexture: null,
   potFaceCutTextureSizePx: 0,
@@ -54,8 +54,8 @@ const GIF = {
   testCounter: 0,
   image: null,
   frames: [],
-  canvasMask: false,
-  canvasMaskCtx: false,
+  canvasMask: null,
+  canvasMaskCtx: null,
   frameMasks: [],
   url: -1,
   positionsFace: [],
@@ -169,16 +169,16 @@ function update_gif(detectedStates){ //called both at start (start()) and when u
   FFSPECS.canvasElement.classList.remove('canvasNotDetected');
   FFSPECS.canvasElement.classList.add('gif');
 
-  FFSPECS.canvasElement.style.top='';
-  FFSPECS.canvasElement.style.left='';
-  FFSPECS.canvasElement.style.width='';
+  FFSPECS.canvasElement.style.top = '';
+  FFSPECS.canvasElement.style.left = '';
+  FFSPECS.canvasElement.style.width = '';
 
   toggle_carousel(true);
 
   if (detectedStates){
     // repair detectedState:
-    while (detectedStates.length<GIF.frames.length){ // complete lacking frames with false
-      detectedStates.push(false);
+    while (detectedStates.length < GIF.frames.length){ // complete lacking frames with false
+      detectedStates.push(null);
     }
 
 
@@ -245,7 +245,7 @@ function change_gif(urlImage, detectedStates, isMirroredLoop, hideIfNotDetectedD
     return;
   }
   if (typeof(detectState)==='undefined'){
-    var detectState = false;
+    var detectState = null;
   }
 
   STATE = STATES.BUSY;
@@ -257,7 +257,7 @@ function change_gif(urlImage, detectedStates, isMirroredLoop, hideIfNotDetectedD
   
   if (urlImage==='CUSTOM'){ // upload custom image:
     GIF.mirroredLoop = false;
-    GIF.hideIfNotDetectedDuringNframes=5;
+    GIF.hideIfNotDetectedDuringNframes = 5;
 
     const domInputFile = document.getElementById('customImage');
     if (!domInputFile.files || !domInputFile.files[0]){
@@ -266,7 +266,7 @@ function change_gif(urlImage, detectedStates, isMirroredLoop, hideIfNotDetectedD
     }
     load_gifBlob(domInputFile.files[0], update_gif.bind(null, false));
   } else { // upload image from the carousel:
-    GIF.mirroredLoop=(isMirroredLoop) ? true : false;
+    GIF.mirroredLoop = (isMirroredLoop) ? true : false;
     GIF.hideIfNotDetectedDuringNframes = (hideIfNotDetectedDuringNframes) ? hideIfNotDetectedDuringNframes : false;
     load_gifURL(urlImage, update_gif.bind(null, detectedStates));
   }
@@ -392,7 +392,7 @@ function interpolate_detectedStates(){
      const t = distBefore / (distBefore+distAfter);
      const nNotDetectedFrames = distAfter + distBefore - 1;
      if (GIF.hideIfNotDetectedDuringNframes && nNotDetectedFrames>GIF.hideIfNotDetectedDuringNframes){
-       return false;
+       return null;
      }
      return mix_states(get_dState(dsi-distBefore), get_dState(dsi+distAfter), t);
    });
@@ -476,7 +476,7 @@ function build_gifFrameMask(detectState, frameIndex){
   }
 
   if (!detectState){
-    GIF.frameMasks[frameIndex]=false;
+    GIF.frameMasks[frameIndex] = null;
     return;
   }
   
@@ -634,15 +634,15 @@ function build_shps(){
         vec2 uvc=(uv-vec2(0.5, LOWERHEADY))*vec2(1., 0.5/LOWERHEADY);\n\
         alpha=smoothstep(0.5-SMOOTHEDGE, 0.5, length(uvc));\n\
       } else { // middle head: straight\n\
-        vec2 uvc=vec2(uv.x-0.5, 0.);\n\
-        alpha=smoothstep(0.5-SMOOTHEDGE, 0.5,length(uvc));\n\
+        vec2 uvc = vec2(uv.x-0.5, 0.);\n\
+        alpha = smoothstep(0.5-SMOOTHEDGE, 0.5,length(uvc));\n\
       }\n\
      //alpha=0.0;\n";
 
   // set more alpha where it is dark on the side of the face:
-  alphaShaderChunk += "float grayScale=dot(color, vec3(0.33,0.33,0.33));\n\
+  alphaShaderChunk += "float grayScale = dot(color, vec3(0.33,0.33,0.33));\n\
        if (alpha>0.01){\n\
-         alpha=mix(pow(alpha, 0.5), pow(alpha, 1.5), smoothstep(0.1,0.5,grayScale));\n\
+         alpha = mix(pow(alpha, 0.5), pow(alpha, 1.5), smoothstep(0.1,0.5,grayScale));\n\
        }";
 
   const shpBuildMask = build_shaderProgram(
@@ -651,10 +651,11 @@ function build_shps(){
      varying vec2 vUV;\n\
      const float PIVOTY=0.0;\n\
      void main(void){\n\
-       float cz=cos(rz),sz=sin(rz);\n\
-       vec2 posRz=vec2(0., -PIVOTY)+mat2(cz, sz, -sz, cz)*(position+vec2(0., PIVOTY));\n\
-      gl_Position=vec4(posRz, 0., 1.);\n\
-      vUV=0.5+0.5*posRz;\n\
+       float cz = cos(rz),sz = sin(rz);\n\
+       vec2 posRz = vec2(0., -PIVOTY)+mat2(cz, sz, -sz, cz)*(position+vec2(0., PIVOTY));\n\
+       vec2 posRzOverflow = 1.5 * posRz; // avoid border effect\n\
+       gl_Position = vec4(posRzOverflow, 0., 1.);\n\
+       vUV = 0.5 + 0.5 * posRzOverflow;\n\
      }",
     
     "precision highp float;\n\
@@ -668,13 +669,13 @@ function build_shps(){
      \n\
      \n\
      void main(void){\n\
-       vec2 s2=0.5*scale;\n\
-       vec2 isFace=step(vUV, offset+s2)*step(offset-s2, vUV);\n\
-       float isNotFace=1.-isFace.x*isFace.y;\n\
+       vec2 s2 = 0.5 * scale;\n\
+       vec2 isFace = step(vUV, offset+s2) * step(offset-s2, vUV);\n\
+       float isNotFace = 1. - isFace.x*isFace.y;\n\
        if (isNotFace>0.01){\n\
-         gl_FragColor=texture2D(samplerImage, vUV); return;\n\
+         gl_FragColor = texture2D(samplerImage, vUV); return;\n\
        }\n\
-       vec3 color=texture2D(samplerImage, vUV).rgb;\n\
+       vec3 color = texture2D(samplerImage, vUV).rgb;\n\
        " + alphaShaderChunk + "\
        gl_FragColor=vec4(color, alpha);\n\
        " + ((SETTINGS.debugGifCrop) ? "gl_FragColor=vec4(1.,0.,0.,1.);" : "")+"\n\
@@ -696,16 +697,16 @@ function build_shps(){
     "precision lowp float;\n\
     uniform sampler2D samplerImage;\n\
     varying vec2 vUV;\n\
-    const float BORDER=0.2;\n\
+    const float BORDER = 0.2;\n\
     \n\
     void main(void){\n\
-      vec2 uvCentered=2.0*vUV-vec2(1.,1.);\n\
-      float ruv=length(uvCentered);\n\
-      vec2 uvn=uvCentered/ruv;\n\
-      vec2 uvBorder=uvn*(1.-BORDER);\n\
-      float isOutside=step(1.-BORDER, ruv);\n\
-      uvCentered=mix(uvCentered, uvBorder, isOutside);\n\
-      gl_FragColor=texture2D(samplerImage, uvCentered*0.5+vec2(0.5,0.5));\n\
+      vec2 uvCentered = 2.0 * vUV - vec2(1.,1.);\n\
+      float ruv = length(uvCentered);\n\
+      vec2 uvn = uvCentered/ruv;\n\
+      vec2 uvBorder = uvn * (1.-BORDER);\n\
+      float isOutside = step(1.-BORDER, ruv);\n\
+      uvCentered = mix(uvCentered, uvBorder, isOutside);\n\
+      gl_FragColor = texture2D(samplerImage, uvCentered*0.5+vec2(0.5,0.5));\n\
     }",
     'CUT GIF FACE');
   SHPS.cropUserFace = set_apShp(shpCutFace);
@@ -782,10 +783,10 @@ function build_shps(){
       float dHue = dstHSV.x-srcHSV.x;\n\
       vec3 colorHSVout = vec3(mod(1.0+colorHSV.x+dHue, 1.0), colorHSV.yz*factorSV);\n\
       colorHSVout = clamp(colorHSVout, vec3(0.,0.,0.), vec3(1.,1.,1));\n\
-      //vec3 colorHSVout2=vec3(dstHSV.xy, colorHSVout.z);\n\
-      //colorHSVout=mix(colorHSVout2, colorHSVout, smoothstep(0.2,0.4,colorHSV.y)); //0.6->0.8\n\
-      //colorHSVout=mix(colorHSVout, colorHSVout2, smoothstep(0.8,1.0,colorHSV.z)); //0.6->0.8\n\
-      //colorHSVout=mix(colorHSVout, colorHSVout2, smoothstep(0.5,1.,colorHSV.z)); //0.6->0.8\n\
+      //vec3 colorHSVout2 = vec3(dstHSV.xy, colorHSVout.z);\n\
+      //colorHSVout = mix(colorHSVout2, colorHSVout, smoothstep(0.2,0.4,colorHSV.y)); //0.6->0.8\n\
+      //colorHSVout = mix(colorHSVout, colorHSVout2, smoothstep(0.8,1.0,colorHSV.z)); //0.6->0.8\n\
+      //colorHSVout = mix(colorHSVout, colorHSVout2, smoothstep(0.5,1.,colorHSV.z)); //0.6->0.8\n\
       // reconvert to RGB and output the color:\n\
       colorRGB = hsv2rgb(colorHSVout);\n\
       gl_FragColor = vec4(colorRGB, 1.);\n\
@@ -915,13 +916,13 @@ function draw_search(detectState){
 
 
 // draw final render:
-function draw_render(detectState){ //detectState is the detectState of the USER (not the GIF)
+function draw_render(detectState){ // detectState is the detectState of the USER (not the GIF)
   // do RTT:
   GL.bindFramebuffer(GLDRAWTARGET, FBO);
 
   // crop the user's face and put the result to USERCROP.potFaceCutTexture:
   const s = detectState.s / SETTINGS.zoomFactor;
-  const xn = detectState.x*0.5 + 0.5 + s * SETTINGS.gifMaskOffset[0]*Math.sin(detectState.ry); //normalized x position
+  const xn = detectState.x*0.5 + 0.5 + s * SETTINGS.gifMaskOffset[0]*Math.sin(detectState.ry); // normalized x position
   const yn = detectState.y*0.5 + 0.5 + s * SETTINGS.gifMaskOffset[1];
   const sxn = s * SETTINGS.gifMaskScale[0];
   const syn = s * SETTINGS.gifMaskScale[1];
@@ -969,26 +970,26 @@ function callbackTrack(detectState){
       let isDraw = true;
 
       ++GIF.testCounter;
-      if (GIF.testCounter>SETTINGS.nMaxTestsGif){ // no face has been detected, go to the next frame (face position will be interpolated later)
-        GIF.detectedStates.push(false);
+      if (GIF.testCounter > SETTINGS.nMaxTestsGif){ // no face has been detected, go to the next frame (face position will be interpolated later)
+        GIF.detectedStates.push(null);
         GIF.testCounter = 0;
         GIF.detectCounter = 0;
-        if (GIF.detectedStates.length<GIF.frames.length){
+        if (GIF.detectedStates.length < GIF.frames.length){
           set_gifFrameAsInput(GIF.detectedStates.length);
           isDraw = false;
         }
       }
 
-      if(detectState.detected>SETTINGS.detectGifThreshold){ // the face has been detected
-        if (++GIF.detectCounter>SETTINGS.nDetectsGif){
+      if(detectState.detected > SETTINGS.detectGifThreshold){ // the face has been detected
+        if (++GIF.detectCounter > SETTINGS.nDetectsGif){
           GIF.detectCounter = 0;
           GIF.testCounter = 0;
 
           GIF.detectedStates.push(Object.assign({}, detectState));
 
-          if (GIF.detectedStates.length<GIF.frames.length){
+          if (GIF.detectedStates.length < GIF.frames.length){
             set_gifFrameAsInput(GIF.detectedStates.length);
-            isDraw=false;
+            isDraw = false;
           }
         } //end if enough good detections
       }

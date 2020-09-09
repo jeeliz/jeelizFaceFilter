@@ -85,34 +85,34 @@ function init_threeScene(spec) {
         map: new THREE.TextureLoader().load('./models/face/diffuse_makeup.png')
       });
       const vertexShaderSource = 'varying vec2 vUVvideo;\n\
-      varying float vY, vNormalDotZ;\n\
-      const float THETAHEAD=0.25;\n\
-      void main() {\n\
-        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0);\n\
-        vec4 projectedPosition = projectionMatrix * mvPosition;\n\
-        gl_Position = projectedPosition;\n\
-        \n\
-        // compute UV coordinates on the video texture:\n\
-        vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
-        vec4 projectedPosition0 = projectionMatrix * mvPosition0;\n\
-        vUVvideo = vec2(0.5,0.5)+0.5*projectedPosition0.xy/projectedPosition0.w;\n\
-        vY = position.y*cos(THETAHEAD)-position.z*sin(THETAHEAD);\n\
-        vec3 normalView = vec3(modelViewMatrix * vec4(normal,0.));\n\
-        vNormalDotZ = pow(abs(normalView.z), 1.5);\n\
-      }';
+        varying float vY, vNormalDotZ;\n\
+        const float THETAHEAD=0.25;\n\
+        void main() {\n\
+          vec4 mvPosition = modelViewMatrix * vec4( position, 1.0);\n\
+          vec4 projectedPosition = projectionMatrix * mvPosition;\n\
+          gl_Position = projectedPosition;\n\
+          \n\
+          // compute UV coordinates on the video texture:\n\
+          vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
+          vec4 projectedPosition0 = projectionMatrix * mvPosition0;\n\
+          vUVvideo = vec2(0.5,0.5)+0.5*projectedPosition0.xy/projectedPosition0.w;\n\
+          vY = position.y*cos(THETAHEAD)-position.z*sin(THETAHEAD);\n\
+          vec3 normalView = vec3(modelViewMatrix * vec4(normal,0.));\n\
+          vNormalDotZ = pow(abs(normalView.z), 1.5);\n\
+        }';
 
-       const fragmentShaderSource = "precision lowp float;\n\
-      uniform sampler2D samplerVideo;\n\
-      varying vec2 vUVvideo;\n\
-      varying float vY, vNormalDotZ;\n\
-      void main() {\n\
-        vec3 videoColor = texture2D(samplerVideo, vUVvideo).rgb;\n\
-        float darkenCoeff = smoothstep(-0.15, 0.05, vY);\n\
-        float borderCoeff = smoothstep(0.0, 0.55, vNormalDotZ);\n\
-        gl_FragColor = vec4(videoColor, 1 );\n\
-        // gl_FragColor=vec4(borderCoeff, 0., 0., 1.);\n\
-        // gl_FragColor=vec4(darkenCoeff, 0., 0., 1.);\n\
-      }";
+      const fragmentShaderSource = "precision lowp float;\n\
+        uniform sampler2D samplerVideo;\n\
+        varying vec2 vUVvideo;\n\
+        varying float vY, vNormalDotZ;\n\
+        void main() {\n\
+          vec3 videoColor = texture2D(samplerVideo, vUVvideo).rgb;\n\
+          float darkenCoeff = smoothstep(-0.15, 0.05, vY);\n\
+          float borderCoeff = smoothstep(0.0, 0.55, vNormalDotZ);\n\
+          gl_FragColor = vec4(videoColor, 1 );\n\
+          // gl_FragColor=vec4(borderCoeff, 0., 0., 1.);\n\
+          // gl_FragColor=vec4(darkenCoeff, 0., 0., 1.);\n\
+        }";
 
       const materialVideo = new THREE.ShaderMaterial({
         vertexShader: vertexShaderSource,
@@ -122,7 +122,6 @@ function init_threeScene(spec) {
         uniforms: {
           samplerVideo: { value: JeelizThreeHelper.get_threeVideoTexture() }
         }
-         ,transparent: true
       });
       faceMesh = new THREE.Mesh(geometry, materialVideo);
     }
