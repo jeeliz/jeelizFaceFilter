@@ -3,7 +3,10 @@
 
 This JavaScript library detects and tracks the face in real time from the webcam video feed captured with WebRTC. Then it is possible to overlay 3D content for augmented reality applications. We provide various demonstrations using main WebGL 3D engines. We have included in this repository the release versions of the 3D engines to work with a determined version (they are in `/libs/<name of the engine>/`).
 
-This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw: if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured helpers, examples and boilerplates, you can quickly deal with a higher level context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned ! Also, feel free to open an issue if you have any question or suggestion.
+This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw: if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured helpers, examples and boilerplates, you can quickly deal with a higher level context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned!
+
+If you need a custom development service using this library, you can submit the [FaceFilter development request form](https://forms.gle/kktPyojpJbwSSPED7). We will get back to you quickly.
+
 
 
 ## Table of contents
@@ -615,7 +618,7 @@ You have written a tutorial using this library? Submit a pull request or send us
 ## Jeeliz Partner Network
 If you are a freelance developer, or if you represent a software company or a web agency able to build projects with this library, you can join the Jeeliz Partner Network (JPN) by filling this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSccwO9Seyi4ZHkXc_Udn0VRWUhKZfXpO6AGMFamnWVVXOA1hA/viewform?usp=sf_link). We will redirect you development services requests involving this library. We will also provide premium support for integrating and using this library.
 
-Conversely, if you are looking for a reliable development service provider to build your face filter using this library, please [contact us here](https://jeeliz.com/contact-us/).
+Conversely, if you are looking for a reliable development service provider to build your face filter using this library, please fill the [FaceFilter development request form](https://forms.gle/kktPyojpJbwSSPED7). We will put you in touch with a qualified partner.
 
 
 ## See also
