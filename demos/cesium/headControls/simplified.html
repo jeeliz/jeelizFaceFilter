@@ -12,7 +12,7 @@
   <style>
       @import url(libs/cesium/Widgets/widgets.css);
       html, body, #cesiumContainer {
-          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+        width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
       }
 
       #startHeadControlsButton {
@@ -44,9 +44,9 @@
 
   <script>
     // initialize Cesium:
-    var CESIUMVIEWER = new Cesium.Viewer('cesiumContainer');
+    const CESIUMVIEWER = new Cesium.Viewer('cesiumContainer');
 
-    var SETTINGS = {
+    const SETTINGS = {
       zoomSensibility: 5.5,
       panSensibility: 0.00000015
     };
@@ -54,15 +54,15 @@
     function callbackMove(mv){
       const cameraHeight = CESIUMVIEWER.scene.globe.ellipsoid.cartesianToCartographic(CESIUMVIEWER.camera.position).height/1000.0 || Number.MAX_VALUE;
         
-      if (mv.dZ!==0) { //move head forward/backward
+      if (mv.dZ!==0) { // move head forward/backward
         const zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
         CESIUMVIEWER.camera.moveForward(zoomAmount);
       }
-      if (mv.dRx!==0) { //turn head up-down
+      if (mv.dRx!==0) { // turn head up-down
         const panAmountX = SETTINGS.panSensibility*mv.dRx * cameraHeight;
         CESIUMVIEWER.scene.camera.rotateUp(panAmountX);
       }
-      if (mv.dRy!==0) { //turn head left-right
+      if (mv.dRy!==0) { // turn head left-right
         const panAmountY = SETTINGS.panSensibility*mv.dRy * cameraHeight;
         CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
       }
@@ -72,7 +72,7 @@
     DOMbutton.onclick = function(){
       HeadControls.init({
         canvasId: 'headControlsCanvas',
-        callbackMove: callbackMove, //will be explained later...
+        callbackMove: callbackMove,
         callbackReady: function(errCode){
           if (errCode){
             console.log('ERROR: HEAD CONTROLS NOT READY. errCode =', errCode);
@@ -81,7 +81,7 @@
             HeadControls.toggle(true);
           }
         },
-        NNCpath: './dist/' //where to find NNC.json from the current path
+        NNCPath: './neuralNets/' // where to find NN_DEFAULT.json from the current path
       }); //end HeadControls.init params
     }; //end DOMbutton.onclick
   </script>

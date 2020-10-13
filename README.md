@@ -31,6 +31,8 @@ If you need a custom development service using this library, you can submit the 
 * [Integration](#integration)
   * [With a bundler](#with-a-bundler)
   * [With JavaScript frontend frameworks](#with-javascript-frontend-frameworks)
+    * [With REACT and THREE Fiber](#with-react-and-three-fiber)
+    * [See also](#see-also)
   * [Native](#native)
 * [Hosting](#hosting)
   * [The development server](#the-development-server)  
@@ -40,7 +42,6 @@ If you need a custom development service using this library, you can submit the 
   * [Compatibility](#compatibility)
 * [Articles and tutorials](#articles-and-tutorials)
 * [Jeeliz Partner Network](#jeeliz-partner-network)
-* [See also](#see-also)
 * [License](#license)
 * [References](#references)
 
@@ -69,14 +70,15 @@ Here are the main features of the library:
 ## Architecture
 
 * `/demos/`: source code of the demonstrations, sorted by 2D/3D engine used,
-* `/dist/`: heart of the library: 
+* `/dist/`: core scripts of the library: 
   * `jeelizFaceFilter.js`: main minified script,
   * `jeelizFaceFilter.module.js`: main minified script for use as a module (with `import` or `require`),
-  * `NNC.json`: file storing the neural network parameters, loaded by the main script,
-  * `NNC<xxx>.json`: alternative neural network models,
+* `/neuralNets`: trained neural network models:
+  * `NN_DEFAULT.json`: file storing the neural network parameters, loaded by the main script,
+  * `NN_<xxx>.json`: alternative neural network models,
 * `/helpers/`: scripts which can help you to use this library in some specific use cases,
-* `/libs/`: 3rd party libraries and 3D engines used in the demos.
-
+* `/libs/`: 3rd party libraries and 3D engines used in the demos,
+* `/reactThreeFiberDemo/`: NPM/React/Webpack/Three-Fiber boilerplate.
 
 
 ## Demonstrations and apps
@@ -91,6 +93,7 @@ These demonstration are included in this repository. So they are released under 
   * Harry Potter (say "Lumos!"): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/harry_potter/)
   * Halloween Spiders (you've got a spider in your mouth): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/halloween_spider/), [source code](/demos/threejs/halloween_spiders)
   -->
+* REACT/THREE FIBER boilerplate: [/reactThreeFiberDemo](/reactThreeFiberDemo)
 
 * BABYLON.JS based demos:
   * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/babylonjs/cube/), [source code](/demos/babylonjs/cube/)
@@ -99,8 +102,7 @@ These demonstration are included in this repository. So they are released under 
   * Boilerplates:
     * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/), [source code](/demos/threejs/cube2cv/)
     * Boilerplate with only 1 `<canvas>` element: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
-    * Same boilerplate but using `dist/NNC4Expr0.json` as neural net, and displays 4 expressions: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeExpr/), [source code](/demos/threejs/cubeExpr/)
-    * Boilerplate using JS module: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeES6/), [source code](/demos/threejs/cubeES6/)
+    * Same boilerplate but using `neuralNets/NN_4EXPR_0.json` as neural net, and displays 4 expressions: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeExpr/), [source code](/demos/threejs/cubeExpr/)
     * Multiple face tracking: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/), [source code](/demos/threejs/multiCubes/)
     * GLTF fullscreen demo with HD video: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/), [source code](/demos/threejs/gltf_fullScreen/)
     
@@ -218,7 +220,7 @@ This canvas will be used by WebGL both for the computation and the 3D rendering.
 ```javascript
 JEEFACEFILTERAPI.init({
   canvasId: 'jeeFaceFilterCanvas',
-  NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
+  NNCPath: '../../../neuralNets/', //path to JSON neural network model (NN_DEFAULT.json by default)
   callbackReady: function(errCode, spec){
     if (errCode){
       console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
@@ -404,7 +406,7 @@ It is possible to detect and track several faces at the same time. To enable thi
 
 If multiple face tracking is enabled, the `callbackTrack` function is called with an array of detection states (instead of being executed with a simple detection state). The detection state format is still the same.
 
-You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThreejsHelper.js` to get started and test [this example](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/). The [main script](demos/threejs/multiCubes/demo_multiCubes.js) has only 60 lines of code !
+You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThreeHelper.js` to get started and test [this example](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/). The [main script](demos/threejs/multiCubes/main.js) has only 60 lines of code !
 
 
 ### Multiple videos
@@ -430,25 +432,24 @@ The 3D engine should share the WebGL context with FaceFilter API. The WebGL cont
 
 
 ### Changing the neural network
-Since July 2018 it is possible to change the neural network. When calling `JEEFACEFILTERAPI.init({...})` with `NNCpath: <path of NNC.json>` you set NNCpath value to a specific neural network file:
+Since July 2018 it is possible to change the neural network. When calling `JEEFACEFILTERAPI.init({...})` with `NNCPath: <path of NN_DEFAULT.json>` you set NNCPath value to a specific neural network file:
 
 ```javascript
   JEEFACEFILTERAPI.init({
-    NNCpath: '../../dist/NNClight.json'
+    NNCPath: '../../neuralNets/NN_LIGHT_0.json'
     //...
   })
 ```
-It is also possible to give directly the neural network model JSON file content by using `NNC` property instead of `NNCpath`.
+It is also possible to give directly the neural network model JSON file content by using `NNC` property instead of `NNCPath`.
 
 We provide several neural network models:
-* `dist/NNC.json`: this is the default neural network. Good tradeoff between size and performances,
-* `dist/NNCwideAngles.json`: this neural network is better to detect wide head angles (but less accurate for small angles),
-* `dist/NNClight.json`: this is a light version of the neural network. The file is twice lighter and it runs faster but it is less accurate for large head rotation angles,
-* `dist/NNCveryLight.json`: even lighter than the previous version: 250Kbytes, and very fast. But not very accurate and robust to all lighting conditions,
-* `dist/NNCviewTop.json`: this neural net is perfect if the camera has a bird's eye view (if you use this library for a kiosk setup for example),
-* `dist/NNCdeprecated.json`: this is a deprecated version of the neural network (since 2018-07-25),
-* `dist/NNCIntel1536.json`: neural network working with Intel 1536 Iris GPUs (there is a graphic driver bug, see [#85](https://github.com/jeeliz/jeelizFaceFilter/issues/85)),
-* `dist/NNCNNC4Expr0.json`: this neural network also detects 4 facial expressions (mouth opening, smile, frown eyebrows, raised eyebrows).
+* `neuralNets/NN_DEFAULT.json`: this is the default neural network. Good tradeoff between size and performances,
+* `neuralNets/NN_WIDEANGLES_<X>.json`: this neural network is better to detect wide head angles (but less accurate for small angles),
+* `neuralNets/NN_LIGHT_<X>.json`: this is a light version of the neural network. The file is twice lighter and it runs faster but it is less accurate for large head rotation angles,
+* `neuralNets/NNC_VERYLIGHT_<X>.json`: even lighter than the previous version: 250Kbytes, and very fast. But not very accurate and robust to all lighting conditions,
+* `neuralNets/NN_VIEWTOP_<X>.json`: this neural net is perfect if the camera has a bird's eye view (if you use this library for a kiosk setup for example),
+* `neuralNets/NN_INTEL1536.json`: neural network working with Intel 1536 Iris GPUs (there is a graphic driver bug, see [#85](https://github.com/jeeliz/jeelizFaceFilter/issues/85)),
+* `neuralNets/NN_4EXPR_<X>.json`: this neural network also detects 4 facial expressions (mouth opening, smile, frown eyebrows, raised eyebrows).
 
 
 ### Using module
@@ -461,13 +462,13 @@ import 'dist/jeelizFaceFilter.module.js'
 or using `require` ([see issue #72](https://github.com/jeeliz/jeelizFaceFilter/issues/72)):
 
 ```javascript
-const faceFilter = require('./lib/jeelizFaceFilter.module.js')
+const faceFilter = require('./lib/jeelizFaceFilter.module.js').JEELIZFACEFILTERAPI;
 
 faceFilter.init({
   //you can also provide the canvas directly
   //using the canvas property instead of canvasId:
   canvasId: 'jeeFaceFilterCanvas',
-  NNCpath: '../../../dist/', //path to JSON neural network model (NNC.json by default)
+  NNCPath: '../../../neuralNets/', //path to JSON neural network model (NN_DEFAULT.json by default)
   callbackReady: function(errCode, spec){
     if (errCode){
       console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
@@ -490,18 +491,18 @@ faceFilter.init({
 ### With a bundler
 If you use this library with a bundler (typically *Webpack* or *Parcel*), first you should use the [module version](#using-module).
 
-Then, with the standard library, we load the neural network model (specified by `NNCpath` provided as initialization parameter) using AJAX for the following reasons:
+Then, with the standard library, we load the neural network model (specified by `NNCPath` provided as initialization parameter) using AJAX for the following reasons:
 * If the user does not accept to share its webcam, or if WebGL is not enabled, we don't have to load the neural network model,
 * We suppose that the library is deployed using a static HTTPS server.
 
 With a bundler, it is a bit more complicated. It is easier to load the neural network model using a classical `import` or `require` call and to provide it using the `NNC` init parameter:
 
 ```javascript
-const faceFilter = require('./lib/jeelizFaceFilter.module.js')
-const neuralNetworkModel = require('./dist/NNC.json')
+const faceFilter = require('./lib/jeelizFaceFilter.module.js').JEELIZFACEFILTERAPI
+const neuralNetworkModel = require('./neuralNets/NN_DEFAULT.json')
 
 faceFilter.init({
-  NNC:  neuralNetworkModel, //instead of NNCpath
+  NNC:  neuralNetworkModel, //instead of NNCPath
   //... other init parameters
 });
 ```
@@ -510,13 +511,17 @@ You can check out the amazing work of [@jackbilestech](jackbilestech), [jackbile
 
 
 ### With JavaScript frontend frameworks
-We don't cover here the integration with mainstream JavaScript frontend frameworks (*React*, *Vue*, *Angular*).
-If you submit Pull Request adding the boilerplate or a demo integrated with specific frameworks, you are welcome and they will be accepted of course.
-We can provide this kind of integration as a specific development service ( please contact us [here](https://jeeliz.com/contact-us/) ). But it is not so hard to do it by yourself. Here is a bunch of submitted issues dealing with *React* integration:
+
+#### With REACT and THREE Fiber
+Since October 2020, there is a React/THREE Fiber/Webpack boilerplate in [/reactThreeFiberDemo](/reactThreeFiberDemo) path.
+
+#### See also
+We don't officially cover here integration with mainstream JavaScript frontend frameworks (*React*, *Vue*, *Angular*).
+Feel free to submit a *Pull Request* to add a boilerplate or a demo for a specific framework. Here is a bunch of submitted issues dealing with *React* integration:
 
 * React integration: [#74](https://github.com/jeeliz/jeelizFaceFilter/issues/74#issuecomment-455624092) and [#122](https://github.com/jeeliz/jeelizFaceFilter/issues/122#issuecomment-533185928)
 * [is it possible to use this library in react native project](https://github.com/jeeliz/jeelizFaceFilter/issues/21)
-* [Having difficulty using JeelizThreejsHelper in ReactApp](https://github.com/jeeliz/jeelizFaceFilter/issues/137)
+* [Having difficulty using JeelizThreeHelper in ReactApp](https://github.com/jeeliz/jeelizFaceFilter/issues/137)
 
 You can also take a look at these Github code repositories:
 * [ikebastuz/jeelizTest](https://github.com/ikebastuz/jeelizTest): React demo of a CSS3D FaceFilter. It is based on [Create React App](https://github.com/facebook/create-react-app)
@@ -557,12 +562,12 @@ You can use our hosted and up to date version of the library, available here:
 ```
 https://appstatic.jeeliz.com/faceFilter/jeelizFaceFilter.js
 ```
-It uses the neuron network `NNC.json` hosted in the same path. The helpers used in these demos (all scripts in [/helpers/](helpers/)) are also hosted on `https://appstatic.jeeliz.com/faceFilter/`.
+It uses the neural network `NN_DEFAULT.json` hosted in the same path. The helpers used in these demos (all scripts in [/helpers/](helpers/)) are also hosted on `https://appstatic.jeeliz.com/faceFilter/`.
 
 It is served through a content delivery network (CDN) using gzip compression.
-If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `dist/NNC.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://www.giftofspeed.com/gzip-test/).
+If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `neuralNets/NN_DEFAULT.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://www.giftofspeed.com/gzip-test/).
 
-The neuron network file, `dist/NNC.json` is loaded using an ajax `XMLHttpRequest` after calling `JEEFACEFILTER.init()`. This loading is proceeded after the user has accepted to share its camera. So we won't load this quite heavy file if the user refuses to share it or if there is no webcam available. The loading can be faster if you systematically preload `dist/NNC.json` using a service worker or a simple raw `XMLHttpRequest` just after the HTML page loading. Then the file will be already in the browser cache when Jeeliz Facefilter API will request it.
+The neuron network file, `neuralNets/NN_DEFAULT.json` is loaded using an ajax `XMLHttpRequest` after calling `JEEFACEFILTER.init()`. This loading is proceeded after the user has accepted to share its camera. So we won't load this quite heavy file if the user refuses to share it or if there is no webcam available. The loading can be faster if you systematically preload `neuralNets/NN_DEFAULT.json` using a service worker or a simple raw `XMLHttpRequest` just after the HTML page loading. Then the file will be already in the browser cache when Jeeliz Facefilter API will request it.
 
 
 
@@ -615,14 +620,6 @@ You have written a tutorial using this library? Submit a pull request or send us
 If you are a freelance developer, or if you represent a software company or a web agency able to build projects with this library, you can join the Jeeliz Partner Network (JPN) by filling this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSccwO9Seyi4ZHkXc_Udn0VRWUhKZfXpO6AGMFamnWVVXOA1hA/viewform?usp=sf_link). We will redirect you development services requests involving this library. We will also provide premium support for integrating and using this library.
 
 Conversely, if you are looking for a reliable development service provider to build your face filter using this library, please fill the [FaceFilter development request form](https://forms.gle/kktPyojpJbwSSPED7). We will put you in touch with a qualified partner.
-
-
-## See also
-Our newest deep learning based library is called *Weboji*. It detects 11 facial expressions in real time from the webcam video feed. Then they are reproduced on an avatar, either in 3D with a THREE.JS renderer or in 2D with a SVG renderer (so you can use it even if you are not a 3D developer). You can access to the github repository [here](https://github.com/jeeliz/jeelizWeboji).
-
-If you just want to detect if the user is looking at the screen or not, [Jeeliz Glance Tracker](https://github.com/jeeliz/jeelizGlanceTracker) is what you are looking for. It can be useful to play and pause a video whether the user is watching or not. This library needs fewer resources and the neural network file is much lighter.
-
-If you want to use this library for glasses virtual try-on (sunglasses, spectacles, ski masks), you can take a look at [Jeeliz VTO widget](https://github.com/jeeliz/jeelizGlassesVTOWidget). It includes a high quality and lightweight 3D engine which implements the following features: deferred shading, PBR, raytraced shadows, normal mapping, ... It also reconstructs the lighting environment around the user (ambient and directional lighting). But the glasses comes from a database hosted in our servers. If you want to add some models, please contact us.
 
 
 ## License

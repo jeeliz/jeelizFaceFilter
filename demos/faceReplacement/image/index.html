@@ -6,13 +6,13 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
     
-    <title>JEELIZ FACE FILTER : FACE REPLACEMENT DEMO</title>
+    <title>JEELIZ FACEFILTER: FACE REPLACEMENT DEMO</title>
     
     <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
     <script src="../../../dist/jeelizFaceFilter.js"></script>
 
     <!-- INCLUDE DEMO SCRIPT -->
-    <script src="./demo_faceReplacement.js"></script>
+    <script src="./main.js"></script>
 
     <!-- INCLUDE FORK ME ON GITHUB BANNER -->
     <script src="../../appearance/widget.js"></script>
@@ -165,7 +165,7 @@
 
   </head>
   
-  <body onload="main()" style='color: white'>
+  <body onload="main()">
     <div id='artpaintingContainer'>
       <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='artPainting'></canvas>
     </div>
@@ -220,7 +220,7 @@
       ></div>
       <div class='carouselItem carouselItemCustom'>
         <div class='carouselItemCustomText'>
-          TRY WITH YOUR OWN IMAGE :
+          TRY WITH YOUR OWN IMAGE:
         </div>
         <input type='file' id='customImage' onChange="change_artPainting('CUSTOM');" />
       </div>

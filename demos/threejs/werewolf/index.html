@@ -4,9 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="content-language" content="en-EN" />
     
-    <title>JEELIZ FACE FILTER: WEREWOLF</title>
+    <title>JEELIZ FACEFILTER: WEREWOLF</title>
     <!-- INCLUDE THREE.JS -->
-    <script src="../../../libs/threejs/v90/threeMantis202.js"></script>
+    <script src="../../../libs/three/v97/three.js"></script>
     
     <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
     <script src="../../../dist/jeelizFaceFilter.js"></script>
@@ -15,19 +15,19 @@
     <script src="../../../helpers/JeelizResizer.js"></script>
 
     <!-- INCLUDE JEELIZTHREEJSHELPER -->
-    <script src="../../../helpers/JeelizThreejsHelper.js"></script>
+    <script src="../../../helpers/JeelizThreeHelper.js"></script>
 
 
     <!-- INCLUDE CUSTOM MATERIAL -->
-    <script src='../../../libs/threejs/customMaterials/GlowMaterial/threex.geometricglow.js'></script>
-    <script src='../../../libs/threejs/customMaterials/GlowMaterial/threex.dilategeometry.js'></script>
-    <script src='../../../libs/threejs/customMaterials/GlowMaterial/threex.atmospherematerial.js'></script>
-    <script src='../../../libs/threejs/customMaterials/GlowMaterial/threex.atmospherematerialdatgui.js'></script>
+    <script src='../../../libs/three/customMaterials/GlowMaterial/threex.geometricglow.js'></script>
+    <script src='../../../libs/three/customMaterials/GlowMaterial/threex.dilategeometry.js'></script>
+    <script src='../../../libs/three/customMaterials/GlowMaterial/threex.atmospherematerial.js'></script>
+    <script src='../../../libs/three/customMaterials/GlowMaterial/threex.atmospherematerialdatgui.js'></script>
 
     <!-- INCLUDE BUFFER LOADER -->
     <script src='../../../libs/bufferLoader/BufferLoader.js'></script>
 
-    <script src='../../../libs/threejs/ShaderParticleEngine/SPE.min.js'></script>
+    <script src='../../../libs/three/ShaderParticleEngine/SPE.min.js'></script>
 
     <script src='../../../libs/tween/v16_3_5/Tween.min.js'></script>
 
@@ -38,7 +38,7 @@
     <script src='../../../helpers/addDragEventListener.js'></script>
 
     <!-- INCLUDE DEMO SCRIPT -->
-    <script src="./demo.js"></script>
+    <script src="./main.js"></script>
 
     <!-- INCLUDE FORK ME ON GITHUB BANNER -->
     <script src="../../appearance/widget.js"></script>
@@ -85,7 +85,7 @@
     </style>
   </head>
   
-  <body onload="main()" style='color: white'>
+  <body onload="main()">
     <div class='canvasContainer'>
       <div id="openMouthInstruction">Open mouth once</div>
       <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>

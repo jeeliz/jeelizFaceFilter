@@ -10,7 +10,7 @@ We use 2 libraries to extract informations from the GIF :
 To improve the demonstration it may be interesting to merge these 2 libraries (which are both released under MIT license) into 1 library which extract gif metadata and reads frames.
 
 ## Face detection
-The main code of the demo is in `demo_faceReplacementGif.js`. It begins with a dictionnary, `SETTINGS`, to set custom settings. The URL of the gif can be provided. If `SETTINGS.detectedStates` is not provided we first search for the face in every GIF frame before starting the face replacement rendering. This search can be a bit long. Indeed,
+The main code of the demo is in `main.js`. It begins with a dictionnary, `SETTINGS`, to set custom settings. The URL of the gif can be provided. If `SETTINGS.detectedStates` is not provided we first search for the face in every GIF frame before starting the face replacement rendering. This search can be a bit long. Indeed,
   * If a face is detected in the frame we confirm the detection during `SETTINGS.nDetectsGif` iterations,
   * If a face is not detected we run `SETTINGS.nMaxTestsGif` iterations before admitting that the face cannot be found and process the next frame. It can be long...
 At the end of the detection, an object is loggued in the web console. This is the detection state :

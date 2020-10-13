@@ -6,13 +6,13 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
     
-    <title>JEELIZ FACE FILTER : FACE REPLACEMENT IN GIF DEMO</title>
+    <title>JEELIZ FACEFILTER: FACE REPLACEMENT IN GIF DEMO</title>
     
     <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
     <script src="../../../dist/jeelizFaceFilter.js"></script>
 
     <!-- INCLUDE DEMO SCRIPT -->
-    <script src="./demo_faceReplacementGif.js"></script>
+    <script src="./main.js"></script>
 
     <!-- INCLUDE FORK ME ON GITHUB BANNER -->
     <script src="../../appearance/widget.js"></script>
@@ -179,7 +179,7 @@
 
   </head>
   
-  <body onload="main()" style='color: white'>
+  <body onload="main()">
     <div id='gifContainer'>
       <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='gif'></canvas>
     </div>
@@ -197,7 +197,7 @@
 
       <div class='carouselItem carouselItemCustom'>
       <div class='carouselItemCustomText'>
-        TRY WITH YOUR OWN GIF :
+        TRY WITH YOUR OWN GIF:
       </div>
       <input type='file' id='customImage' accept=".gif" onChange="change_gif('CUSTOM');" />
       </div>

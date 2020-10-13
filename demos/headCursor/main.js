@@ -241,7 +241,7 @@ function main() {
       }
       HeadControls.toggle(true);
     },
-    NNCpath: '../../dist/', //where to find NNC.json from this path
+    NNCPath: '../../neuralNets/', //where to find NN_DEFAULT.json from this path
     animateDelay: 2, //avoid DOM lags
     disableRestPosition: true
   }); //end HeadControls.init params

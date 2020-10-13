@@ -28,8 +28,8 @@ function start(){
   //initialise Jeeliz Facefilter :
   JEEFACEFILTERAPI.init({
     canvasId: 'matrixCanvas',
-    //path of NNC.json :
-    NNCpath: '../../../dist/',
+    //path of NN_DEFAULT.json :
+    NNCPath: '../../../neuralNets/',
     callbackReady: function(errCode, spec){ 
       if (errCode){
         console.log('HEY, THERE IS AN ERROR =', errCode);

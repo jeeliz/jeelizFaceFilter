@@ -63,7 +63,7 @@ function headControlStart(){
         }
       }
     },
-    NNCpath: '../../dist/', // where to find NNC.json from the current path
+    NNCPath: '../../neuralNets/', // where to find NN_DEFAULT.json from the current path
     animateDelay: 2 // avoid DOM lags
   }); //end HeadControls.init params
 }

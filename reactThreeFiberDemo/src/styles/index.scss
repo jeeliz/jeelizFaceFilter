@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url(../fonts/Roboto-Regular.ttf)
+}
+
+@import 'variables';
+
+html {
+  font-size: $root-font-size;
+  font-family: $font-family;
+  max-width: $page-width;
+  margin: 0;
+  text-align: center;
+  overflow: hidden;
+  background-color: silver;
+}
+
+body {
+  margin: 0;
+}
+
+p {
+  font-size: $paragraph-font-size;
+}

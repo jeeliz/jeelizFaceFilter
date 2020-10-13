@@ -11,3 +11,5 @@ Thumbs.db
 **/.DS_Store
 **/.directory
 .directory
+node_modules
+**/node_modules

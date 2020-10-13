@@ -13,7 +13,7 @@
     - callbackReady: callback launched when the controller is ready. launched with errCode if error, false otherwise
     - callbackMove*: function to move the camera
     - disableRestPosition: do not offset the face position with a rest position. Default: false
-    - NNCpath*: path of the NN net
+    - NNCPath*: path of the NN net
 
   ==== OTHER METHODS ====
   HeadControls.toggle(<boolean>onOff): toggle on or off the HeadControls
@@ -192,7 +192,7 @@ var HeadControls = (function(){
       // init the API:
        JEEFACEFILTERAPI.init({
         canvasId: spec.canvasId,
-        NNCpath: spec.NNCpath, // root of NNC.json file
+        NNCPath: spec.NNCPath, // root of NNC.json file
         callbackReady: function(errCode, jeeFaceFilterObj){
           if (errCode){
             console.log('AN ERROR HAPPENS. SORRY BRO :( . ERR =', errCode);

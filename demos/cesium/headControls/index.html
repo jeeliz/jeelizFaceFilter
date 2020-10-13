@@ -53,13 +53,13 @@
 
   <script>
     // some settings:
-    var SETTINGS = {
+    const SETTINGS = {
       zoomSensibility: 5.5,
       panSensibility: 0.00000015
     };
 
     // initialize Cesium:
-    var CESIUMVIEWER = new Cesium.Viewer('cesiumContainer');
+    const CESIUMVIEWER = new Cesium.Viewer('cesiumContainer');
     let ISHEADCONTROLSON = false,  ISHEADCONTROLSINITIALIZED = false;
     
     function toggleHeadControls(isOn){
@@ -83,7 +83,7 @@
         const panAmountY = SETTINGS.panSensibility * mv.dRy * cameraHeight;
         CESIUMVIEWER.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
       }
-    } //end callbackMove()
+    }
 
     const DOMbutton = document.getElementById('startHeadControlsButton');
 
@@ -106,8 +106,8 @@
             toggleHeadControls(true);
           }
         },
-        NNCpath: '../../../dist/', //where to find NNC.json from this path
-        animateDelay: 2 //avoid DOM lags
+        NNCPath: '../../../neuralNets/', // where to find NN_DEFAULT.json from this path
+        animateDelay: 2 // avoid DOM lags
       }); //end HeadControls.init params
     }; //end DOMbutton.onclick
   </script>
