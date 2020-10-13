@@ -13,7 +13,9 @@ npm run start
 
 THREE.js is used through [Three Fiber](https://github.com/pmndrs/react-three-fiber). This is only a boilerplate, displaying a simple mesh. It also handles screen resizing / orientation change.
 
-If you have any questions about Webpack / React / Three-fiber, you are welcome to ask them on a Webpack / React / Three-fiber board but not in the issues section of this repository.
+Jeeliz FaceFilter is used through the [NPM facefilter package](https://www.npmjs.com/package/facefilter).
+
+If you have any questions about Webpack / React / Three-fiber, you are welcome to ask them on a Webpack / React / Three-fiber board.
 
 
 ## Webpack 4 boilerplate original doc

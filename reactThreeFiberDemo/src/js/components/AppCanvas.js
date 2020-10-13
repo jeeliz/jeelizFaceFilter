@@ -4,16 +4,9 @@ import { Canvas, useFrame, useThree } from 'react-three-fiber'
 // import main script and neural network model from Jeeliz FaceFilter NPM package
 import { JEEFACEFILTERAPI, NN_4EXPR } from 'facefilter'
 
-//import JEEFACEFILTERAPI from '../contrib/faceFilter/jeelizFaceFilter.module.js'
-
-
-
 // import THREE.js helper, useful to compute pose
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
 import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHelper.module.js'
-
-// import trained neural network model:
-//import NNC from '../contrib/faceFilter/NNC4Expr0'
 
 
 const _maxFacesDetected = 1 // max number of detected faces
