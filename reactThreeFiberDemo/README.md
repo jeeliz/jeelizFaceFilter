@@ -18,7 +18,7 @@ Jeeliz FaceFilter is used through the [NPM facefilter package](https://www.npmjs
 If you have any questions about Webpack / React / Three-fiber, you are welcome to ask them on a Webpack / React / Three-fiber board.
 
 
-## Webpack 4 boilerplate original doc
+## Webpack boilerplate original doc
 
 This demo is based on [Webpack boilerplate](https://github.com/taniarascia/webpack-boilerplate)  made by [Tania Rascia](https://github.com/taniarascia) and released under MIT software license. It is an amazing work to start quickly webpack projects!
 

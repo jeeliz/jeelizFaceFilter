@@ -1,10 +1,10 @@
 {
-  "name": "webpack-boilerplate",
+  "name": "Jeeliz FaceFilter boilerplate",
   "version": "1.0.0",
-  "description": "Sensible Webpack 4 boilerplate using Babel and PostCSS with HMR development server and optimized production build.",
+  "description": "Webpack 4 boilerplate using Babel and PostCSS with HMR development server and optimized production build for Jeeliz FaceFilter.",
   "main": "index.js",
-  "author": "Tania Rascia",
-  "license": "MIT",
+  "author": "Xavier Bourry",
+  "license": "APACHE2",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js"
