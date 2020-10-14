@@ -1,12 +1,12 @@
-import React, { Component, useRef, useState } from 'react'
-import { Canvas, useFrame, useThree } from 'react-three-fiber'
+import React, { Component, useState } from 'react'
+import { Canvas, useFrame, useThree, useUpdate } from 'react-three-fiber'
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
 import { JEEFACEFILTERAPI, NN_4EXPR } from 'facefilter'
 
 // import THREE.js helper, useful to compute pose
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
-import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHelper.module.js'
+import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHelper.js'
 
 
 const _maxFacesDetected = 1 // max number of detected faces
@@ -17,11 +17,12 @@ let _timerResize = null
 // Its position and orientation is controlled by Jeeliz THREE.js helper
 function FaceFollower(props) {
   // This reference will give us direct access to the mesh
-  const meshRef = useRef()
-  _faceFollowers[props.faceIndex] = meshRef
-
+  const objRef = useUpdate((threeObject3D) => {
+    _faceFollowers[props.faceIndex] = threeObject3D  
+  })
+  
   return (
-    <object3D ref = {meshRef}>
+    <object3D ref = {objRef}>
       <mesh name="mainCube">
         <boxBufferGeometry args={[1, 1, 1]} />
         <meshNormalMaterial />
@@ -178,7 +179,7 @@ class AppCanvas extends Component {
 
   render(){
     // generate canvases:
-    const canvases = (
+    return (
       <div>
         {/* Canvas managed by three fiber, for AR: */}
         <Canvas style={{
@@ -199,8 +200,6 @@ class AppCanvas extends Component {
         </canvas>
       </div>
     )
-
-    return canvases
   }
 } 
 

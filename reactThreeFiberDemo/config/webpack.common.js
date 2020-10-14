@@ -126,6 +126,25 @@ module.exports = {
           context: 'src', // prevent display of src/ in filename
         },
       },
+
+       /**
+       *
+       * .GLB/.GLTF 3D Models
+       * 
+       */
+      {
+        test: /\.(glb|gltf)$/,
+        use:
+        [
+          {
+            loader: 'file-loader',
+            options:
+            {
+              outputPath: 'assets/models/'
+            }
+          }
+        ]
+      },
     ],
   },
 }

@@ -34,7 +34,7 @@ const superThat = (function(){
   
   function detect(detectState){
     _threeFiberCompositeObjects.forEach(function(threeFiberCompositeObject, i){
-      const threeCompositeObject = threeFiberCompositeObject.current;
+      const threeCompositeObject = threeFiberCompositeObject;
       if (!threeCompositeObject) return;
 
       const isDetected = threeCompositeObject.visible;
@@ -58,7 +58,7 @@ const superThat = (function(){
     const halfTanFOVX = Math.tan(threeCamera.aspect * threeCamera.fov * Math.PI/360); //tan(<horizontal FoV>/2), in radians (threeCamera.fov is vertical FoV)
 
     _threeFiberCompositeObjects.forEach(function(threeFiberCompositeObject, i){
-      const threeCompositeObject = threeFiberCompositeObject.current;
+      const threeCompositeObject = threeFiberCompositeObject;
       if (!threeCompositeObject) return;
       if (!threeCompositeObject.visible) return;
       const detectState = ds[i];
