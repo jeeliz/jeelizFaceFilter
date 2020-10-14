@@ -1,5 +1,5 @@
 {
-  "name": "Jeeliz FaceFilter boilerplate",
+  "name": "jeeliz_facefilter_boilerplate",
   "version": "1.0.0",
   "description": "Webpack 4 boilerplate using Babel and PostCSS with HMR development server and optimized production build for Jeeliz FaceFilter.",
   "main": "index.js",
