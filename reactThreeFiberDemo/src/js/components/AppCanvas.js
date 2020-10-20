@@ -84,25 +84,25 @@ class AppCanvas extends Component {
     }
 
     // handle resizing / orientation change:
-    this.handleResize = this.handleResize.bind(this)
-    this.doResize = this.doResize.bind(this)
-    window.addEventListener('resize', this.handleResize)
-    window.addEventListener('orientationchange', this.handleResize)
+    this.handle_resize = this.handle_resize.bind(this)
+    this.do_resize = this.do_resize.bind(this)
+    window.addEventListener('resize', this.handle_resize)
+    window.addEventListener('orientationchange', this.handle_resize)
 
     // bind this:
     this.callbackReady = this.callbackReady.bind(this)
     this.callbackTrack = this.callbackTrack.bind(this)
   }
         
-  handleResize() {
+  handle_resize() {
     // do not resize too often:
     if (_timerResize){
       clearTimeout(_timerResize)
     }
-    _timerResize = setTimeout(this.doResize, 200)
+    _timerResize = setTimeout(this.do_resize, 200)
   }
 
-  doResize(){
+  do_resize(){
     _timerResize = null
     const newSizing = compute_sizing()
     this.setState({sizing: newSizing}, () => {
@@ -186,6 +186,9 @@ class AppCanvas extends Component {
           position: 'fixed',
           zIndex: 2,
           ...this.state.sizing
+        }}
+        gl={{
+          preserveDrawingBuffer: true // allow image capture
         }}>
           <DirtyHook sizing={this.state.sizing} />
           <FaceFollower faceIndex={0} expressions={this.state.expressions[0]} />

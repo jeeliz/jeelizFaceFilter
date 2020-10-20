@@ -130,10 +130,10 @@ module.exports = {
        /**
        *
        * .GLB/.GLTF 3D Models
-       * 
+       * .HDR envmaps
        */
       {
-        test: /\.(glb|gltf)$/,
+        test: /\.(glb|gltf|hdr)$/,
         use:
         [
           {

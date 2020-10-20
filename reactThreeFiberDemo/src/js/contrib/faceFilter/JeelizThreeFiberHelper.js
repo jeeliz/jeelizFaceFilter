@@ -16,7 +16,6 @@ const superThat = (function(){
     //tweakMoveYRotateX: 0,//0.5, // tweak value: move detection window along Y axis when rotate the face around X (look up <-> down)
     
     cameraMinVideoDimFov: 35 // Field of View for the smallest dimension of the video in degrees
-
   };
 
 
