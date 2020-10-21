@@ -22,3 +22,7 @@ body {
 p {
   font-size: $paragraph-font-size;
 }
+
+.mirrorX {
+  transform: rotateY(180deg);
+}

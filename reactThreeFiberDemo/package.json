@@ -47,7 +47,7 @@
     "facefilter": "^2.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-three-fiber": "^5.0.3",
+    "react-three-fiber": "^5.0.6",
     "three": "^0.121.1"
   },
   "babel": {

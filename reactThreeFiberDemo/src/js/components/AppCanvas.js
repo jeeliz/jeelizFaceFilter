@@ -15,7 +15,7 @@ let _timerResize = null
 
 // This mesh follows the face. put stuffs in it.
 // Its position and orientation is controlled by Jeeliz THREE.js helper
-function FaceFollower(props) {
+const FaceFollower = (props) => {
   // This reference will give us direct access to the mesh
   const objRef = useUpdate((threeObject3D) => {
     _faceFollowers[props.faceIndex] = threeObject3D  
@@ -45,7 +45,7 @@ function FaceFollower(props) {
 // fake component, display nothing
 // just used to get the Camera and the renderer used by React-fiber:
 let _threeFiber = null
-function DirtyHook(props){
+const DirtyHook = (props) => {
   _threeFiber = useThree()
   useFrame(JeelizThreeFiberHelper.update_camera.bind(null, props.sizing, _threeFiber.camera))
   return null
@@ -182,7 +182,7 @@ class AppCanvas extends Component {
     return (
       <div>
         {/* Canvas managed by three fiber, for AR: */}
-        <Canvas style={{
+        <Canvas className='mirrorX' style={{
           position: 'fixed',
           zIndex: 2,
           ...this.state.sizing
@@ -195,12 +195,11 @@ class AppCanvas extends Component {
         </Canvas>
 
       {/* Canvas managed by FaceFilter, just displaying the video (and used for WebGL computations) */}
-        <canvas ref='faceFilterCanvas' style={{
+        <canvas className='mirrorX' ref='faceFilterCanvas' style={{
           position: 'fixed',
           zIndex: 1,
           ...this.state.sizing
-        }} width = {this.state.sizing.width} height = {this.state.sizing.height}>
-        </canvas>
+        }} width = {this.state.sizing.width} height = {this.state.sizing.height} />
       </div>
     )
   }
