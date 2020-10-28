@@ -14,35 +14,38 @@ const JeelizCanvas2DHelper = function(spec){
 
   // some globalz:
   let CV = null, CANVAS2D = null, CTX = null, GL = null, CANVASTEXTURE = null, CANVASTEXTURENEEDSUPDATE = null, SHADERCOPY = null, VIDEOTEXTURE = null;
+  let VIDEOTEXTURETRANSFORMMAT2 = null, UUVTRANSFORM = null;
+
   const COORDINATES = {
     x:0, y:0, s:0
   };
 
   //BEGIN WEBGL HELPERS
   // compile a shader:
-  function compile_shader(source, type, typeString) {
-    const shader = GL.createShader(type);
-    GL.shaderSource(shader, source);
-    GL.compileShader(shader);
-    if (!GL.getShaderParameter(shader, GL.COMPILE_STATUS)) {
-      alert("ERROR IN " + typeString +  " SHADER: " + GL.getShaderInfoLog(shader));
+  function compile_shader(source, glType, typeString) {
+    const glShader = GL.createShader(glType);
+    GL.shaderSource(glShader, source);
+    GL.compileShader(glShader);
+    if (!GL.getShaderParameter(glShader, GL.COMPILE_STATUS)) {
+      alert("ERROR IN " + typeString +  " SHADER: " + GL.getShaderInfoLog(glShader));
+      return null;
     }
-    return shader;
+    return glShader;
   };
 
   // helper function to build the shader program:
   function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
     // compile both shader separately:
-    const shaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX " + id);
-    const shaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT " + id);
+    const glShaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX " + id);
+    const glShaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT " + id);
 
-    const shaderProgram = GL.createProgram();
-    GL.attachShader(shaderProgram, shaderVertex);
-    GL.attachShader(shaderProgram, shaderFragment);
+    const glShaderProgram = GL.createProgram();
+    GL.attachShader(glShaderProgram, glShaderVertex);
+    GL.attachShader(glShaderProgram, glShaderFragment);
 
     // start the linking stage:
-    GL.linkProgram(shaderProgram);
-    return shaderProgram;
+    GL.linkProgram(glShaderProgram);
+    return glShaderProgram;
   }
   //END WEBGL HELPERS
 
@@ -51,6 +54,7 @@ const JeelizCanvas2DHelper = function(spec){
   GL = spec.GL;
   CV = spec.canvasElement;
   VIDEOTEXTURE = spec.videoTexture;
+  VIDEOTEXTURETRANSFORMMAT2 = spec.videoTransformMat2;
 
   // create and size the 2D canvas and its drawing context:
   CANVAS2D = document.createElement('canvas');
@@ -69,21 +73,23 @@ const JeelizCanvas2DHelper = function(spec){
 
   // build the copy shader program:
   const copyVertexShaderSource = "attribute vec2 position;\n\
-     varying vec2 vUV;\n\
-     void main(void){\n\
+    uniform mat2 UVTransformMat2;\n\
+    varying vec2 vUV;\n\
+    void main(void){\n\
       gl_Position = vec4(position, 0., 1.);\n\
-      vUV = vec2(0.5,0.5) + 0.5*position;\n\
-     }";
+      vUV = vec2(0.5,0.5) + UVTransformMat2 * position;\n\
+    }";
 
   const copyFragmentShaderSource = "precision lowp float;\n\
-     uniform sampler2D samplerImage;\n\
-     varying vec2 vUV;\n\
-     \n\
-     void main(void){\n\
+    uniform sampler2D samplerImage;\n\
+    varying vec2 vUV;\n\
+    \n\
+    void main(void){\n\
       gl_FragColor = texture2D(samplerImage, vUV);\n\
-     }";
+    }";
   SHADERCOPY = build_shaderProgram(copyVertexShaderSource, copyFragmentShaderSource, 'VIDEO');
   const uSampler = GL.getUniformLocation(SHADERCOPY, 'samplerImage');
+  UUVTRANSFORM = GL.getUniformLocation(SHADERCOPY, 'UVTransformMat2');
   GL.useProgram(SHADERCOPY);
   GL.uniform1i(uSampler, 0);
   
@@ -96,7 +102,7 @@ const JeelizCanvas2DHelper = function(spec){
     },
 
     draw: function(){ // draw the video and the canvas above
-      GL.viewport(0,0,CV.width, CV.height);
+      GL.viewport(0, 0, CV.width, CV.height);
       GL.useProgram(SHADERCOPY);
 
       // enable blending:
@@ -105,10 +111,12 @@ const JeelizCanvas2DHelper = function(spec){
 
       // draw the video first:
       GL.bindTexture(GL.TEXTURE_2D, VIDEOTEXTURE);
+      GL.uniformMatrix2fv(UUVTRANSFORM, false, VIDEOTEXTURETRANSFORMMAT2);
       GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
 
       // then draw the canvas:
       GL.bindTexture(GL.TEXTURE_2D, CANVASTEXTURE);
+      GL.uniformMatrix2fv(UUVTRANSFORM, false, [0.5, 0, 0, 0.5]);
       if (CANVASTEXTURENEEDSUPDATE) {
         GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, CANVAS2D);
       }

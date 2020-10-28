@@ -7,7 +7,7 @@ const SETTINGS = {
   pivotOffsetYZ: [0.2, 0.6], // XYZ of the distance between the center of the cube and the pivot
   detectionThreshold: 0.75, // sensibility, between 0 and 1. Less -> more sensitive
   detectionHysteresis: 0.05,
-  scale: 1.0, // scale
+  scale: 1.1, // scale
   blurEdgeSoftness: 10
 };
 
@@ -49,19 +49,23 @@ function get_mat2DshaderSource() {
       }";
 }
 
-function build_videoMaterial(blurredAlphaTexture) {
+function build_videoMaterial(blurredAlphaTexture, videoTransformMat2) {
   const mat = new THREE.RawShaderMaterial({
     depthWrite: false,
     depthTest: false,
     vertexShader: get_mat2DshaderSource(),
     fragmentShader: "precision lowp float;\n\
       uniform sampler2D samplerVideo, samplerBlurredAlphaFace;\n\
+      uniform mat2 videoTransformMat2;\n\
       varying vec2 vUV;\n\
+      \n\
       const vec3 LUMA=vec3(0.299,0.587,0.114); //grayscale conversion - see https://en.wikipedia.org/wiki/Grayscale#Luma_coding_in_video_systems\n\
       const vec3 FACECOLOR=1.2*vec3(242.0, 236.0, 230.0)/255.0;\n\
+      \n\
       void main(void){\n\
-        vec3 videoColor=texture2D(samplerVideo, vUV).rgb;\n\
-        vec4 faceColor=texture2D(samplerBlurredAlphaFace, vUV);\n\
+        vec2 uvVideoCentered = 2.0 * videoTransformMat2 * (vUV - 0.5);\n\
+        vec3 videoColor = texture2D(samplerVideo, 0.5 + uvVideoCentered).rgb;\n\
+        vec4 faceColor = texture2D(samplerBlurredAlphaFace, vUV);\n\
         // apply some tweaks to faceColor:\n\
         vec3 faceColorTweaked = dot(LUMA, faceColor.rgb)*FACECOLOR;\n\
         vec3 mixedColor = mix(videoColor, faceColorTweaked, faceColor.a);\n\
@@ -69,32 +73,35 @@ function build_videoMaterial(blurredAlphaTexture) {
       }",
     uniforms: {
       samplerVideo: { value: THREEVIDEOTEXTURE },
-      samplerBlurredAlphaFace: { value: blurredAlphaTexture }
+      samplerBlurredAlphaFace: { value: blurredAlphaTexture },
+      videoTransformMat2: {value: videoTransformMat2}
     }
   });
   return mat;
-} // end build_videoMaterial()
+}
 
-function build_maskMaterial(fragmentShaderSource, videoDimensions) {
+function build_maskMaterial(fragmentShaderSource, videoDimensions, videoTransformMat2) {
   const vertexShaderSource = 'varying vec2 vUVvideo;\n\
-  void main() {\n\
-    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n\
-    vec4 projectedPosition = projectionMatrix * mvPosition;\n\
-    gl_Position = projectedPosition;\n\
-    // compute UV coordinates on the video texture:\n\
-    vUVvideo = vec2(0.5,0.5)+0.5*projectedPosition.xy/projectedPosition.w;\n\
-  }';
+    uniform mat2 videoTransformMat2;\n\
+    void main() {\n\
+      vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n\
+      vec4 projectedPosition = projectionMatrix * mvPosition;\n\
+      gl_Position = projectedPosition;\n\
+      // compute UV coordinates on the video texture:\n\
+      vUVvideo = vec2(0.5,0.5 ) + videoTransformMat2 * projectedPosition.xy/projectedPosition.w;\n\
+    }';
 
   const mat = new THREE.ShaderMaterial({
     vertexShader: vertexShaderSource,
     fragmentShader: fragmentShaderSource,
     uniforms: {
       samplerVideo: { value: THREEVIDEOTEXTURE },
-      videoSize: { value: new THREE.Vector2().fromArray(videoDimensions) }
+      videoSize: { value: new THREE.Vector2().fromArray(videoDimensions) },
+      videoTransformMat2: {value: videoTransformMat2}
     }
   });
   return mat;
-} // end build_maskMaterial()
+}
 
 function build_blurMaterial(dxy, threeTexture) {
   const mat = new THREE.RawShaderMaterial({
@@ -184,7 +191,7 @@ function init_threeScene(spec) {
   });
   const celFragmentShaderLoader = new THREE.FileLoader(_threeLoadingManager);
   celFragmentShaderLoader.load('./shaders/celFragmentShader.gl', function (fragmentShaderSource) {
-    _maskMaterial = build_maskMaterial(fragmentShaderSource, [spec.canvasElement.width, spec.canvasElement.height]);
+    _maskMaterial = build_maskMaterial(fragmentShaderSource, [spec.canvasElement.width, spec.canvasElement.height], spec.videoTransformMat2);
   });
   _threeLoadingManager.onLoad = function () {
     console.log('INFO in demo_celFace.js: all 3D assets have been loaded successfully :)');
@@ -200,7 +207,7 @@ function init_threeScene(spec) {
   const videoScreenCorners = new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
   _quad2DGeometry.addAttribute('position', new THREE.BufferAttribute( videoScreenCorners, 2));
   _quad2DGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
-  const _videoMaterial = build_videoMaterial(THREESCENE2RENDERTARGET.texture);
+  const _videoMaterial = build_videoMaterial(THREESCENE2RENDERTARGET.texture, spec.videoTransformMat2);
   const videoMesh = new THREE.Mesh(_quad2DGeometry, _videoMaterial);
   videoMesh.frustumCulled = false;
   videoMesh.onAfterRender = function () {

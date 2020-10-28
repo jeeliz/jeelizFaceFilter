@@ -44,7 +44,7 @@
     "url": "git@github.com:jeeliz/jeelizFaceFilter"
   },
   "dependencies": {
-    "facefilter": "^2.0.3",
+    "facefilter": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-three-fiber": "^5.0.6",

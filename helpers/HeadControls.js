@@ -57,7 +57,8 @@ var HeadControls = (function(){
   };
 
   let _lastTimestamp = 0;
-  let _gl = null, _cv = null, _videoTexture = null, _headSearchDrawShaderProgram = null, _headSearchUniformXys = null;
+  let _gl = null, _cv = null, _videoTexture = null, _videoTransformMat2 = null, _glHeadSearchDrawShaderProgram = null;
+  let _headSearchUniformXys = null, _headSearchUniformVideoTransformMat2 = null;
   let _disableRestPosition = false;
 
   // private functions:
@@ -68,36 +69,40 @@ var HeadControls = (function(){
     return (val-ref) * sensibility;
   }
 
-  function compile_shader(source, type, typeString) {
-    const shader = _gl.createShader(type);
-    _gl.shaderSource(shader, source);
-    _gl.compileShader(shader);
-    if (!_gl.getShaderParameter(shader, _gl.COMPILE_STATUS)) {
-      alert("ERROR IN "+typeString+ " SHADER: " + _gl.getShaderInfoLog(shader));
-      return false;
+  function compile_shader(source, glType, typeString) {
+    const glShader = _gl.createShader(glType);
+    _gl.shaderSource(glShader, source);
+    _gl.compileShader(glShader);
+    if (!_gl.getShaderParameter(glShader, _gl.COMPILE_STATUS)) {
+      alert("ERROR IN " + typeString +  " SHADER: " + _gl.getShaderInfoLog(glShader));
+      return null;
     }
-    return shader;
+    return glShader;
   };
 
   function init_headSearchDraw(){
-    // build _headSearchDrawShaderProgram:
-    const shaderVertexSource="\n\
+    // build _glHeadSearchDrawShaderProgram:
+    const shaderVertexSource = "\n\
       attribute vec2 aat_position;\n\
       varying vec2 vUV;\n\
       \n\
       void main(void) {\n\
         gl_Position = vec4(aat_position, 0., 1.);\n\
-        vUV = (aat_position*0.5) + vec2(0.5,0.5);\n\
+        vUV = 0.5 + 0.5 * aat_position;\n\
         vUV.x = 1.-vUV.x; // mirror diplay\n\
       }";
     const shaderFragmentSource = "\n\
       precision lowp float;\n\
       varying vec2 vUV;\n\
+      \n\
       uniform sampler2D samplerVideo;\n\
+      uniform mat2 videoTransformMat2;\n\
       uniform vec3 uxys;\n\
       \n\
       void main(void) {\n\
-        vec3 colorVideo = texture2D(samplerVideo, vUV).rgb;\n\
+        vec2 uvVideoCentered = 2.0 * videoTransformMat2 * (vUV - 0.5);\n\
+        vec2 uvVideo = uvVideoCentered + 0.5;\n\
+        vec3 colorVideo = texture2D(samplerVideo, uvVideo).rgb;\n\
         vec2 pos = vUV*2.-vec2(1.,1.);\n\
         vec2 isInside = step(uxys.xy-uxys.z*vec2(1.,1.), pos);\n\
         isInside *= step(pos, uxys.xy+uxys.z*vec2(1.,1.));\n\
@@ -107,30 +112,32 @@ var HeadControls = (function(){
         gl_FragColor = vec4(color,1.);\n\
       }";
 
-    const shaderVertex = compile_shader(shaderVertexSource, _gl.VERTEX_SHADER, 'VERTEX');
-    const shaderFragment = compile_shader(shaderFragmentSource, _gl.FRAGMENT_SHADER, 'FRAGMENT');
+    const glShaderVertex = compile_shader(shaderVertexSource, _gl.VERTEX_SHADER, 'VERTEX');
+    const glShaderFragment = compile_shader(shaderFragmentSource, _gl.FRAGMENT_SHADER, 'FRAGMENT');
 
-    _headSearchDrawShaderProgram = _gl.createProgram();
-    _gl.attachShader(_headSearchDrawShaderProgram, shaderVertex);
-    _gl.attachShader(_headSearchDrawShaderProgram, shaderFragment);
+    _glHeadSearchDrawShaderProgram = _gl.createProgram();
+    _gl.attachShader(_glHeadSearchDrawShaderProgram, glShaderVertex);
+    _gl.attachShader(_glHeadSearchDrawShaderProgram, glShaderFragment);
 
-    _gl.linkProgram(_headSearchDrawShaderProgram);
-    const samplerVideo = _gl.getUniformLocation(_headSearchDrawShaderProgram, 'samplerVideo');
-    _headSearchUniformXys = _gl.getUniformLocation(_headSearchDrawShaderProgram, 'uxys');
+    _gl.linkProgram(_glHeadSearchDrawShaderProgram);
+    const samplerVideo = _gl.getUniformLocation(_glHeadSearchDrawShaderProgram, 'samplerVideo');
+    _headSearchUniformXys = _gl.getUniformLocation(_glHeadSearchDrawShaderProgram, 'uxys');
+    _headSearchUniformVideoTransformMat2 = _gl.getUniformLocation(_glHeadSearchDrawShaderProgram, 'videoTransformMat2');
 
-    _gl.useProgram(_headSearchDrawShaderProgram);
+    _gl.useProgram(_glHeadSearchDrawShaderProgram);
     _gl.uniform1i(samplerVideo, 0);
   } //end init_headSearchDraw()
 
   function draw_headSearch(detectState){
     // unbind the current FBO and set the viewport as the whole canvas:
-    _gl.viewport(0,0,_cv.width, _cv.height);
+    _gl.viewport(0, 0, _cv.width, _cv.height);
 
     // use the head draw shader program and sync uniforms:
-    _gl.useProgram(_headSearchDrawShaderProgram);
+    _gl.useProgram(_glHeadSearchDrawShaderProgram);
     _gl.activeTexture(_gl.TEXTURE0);
     _gl.bindTexture(_gl.TEXTURE_2D, _videoTexture);
     _gl.uniform3f(_headSearchUniformXys, detectState.x, detectState.y, detectState.s);
+    _gl.uniformMatrix2fv(_headSearchUniformVideoTransformMat2, false, _videoTransformMat2);
 
     // draw the square looking for the head
     // the VBO filling the whole screen is still bound to the context
@@ -156,15 +163,15 @@ var HeadControls = (function(){
     }
 
     if (!_state.isEnabled || !_state.isDetected || !_state.isLoaded){
-      return _returnValue; //no camera move
+      return _returnValue; // no camera move
     }
 
     if (_state.restHeadPosition.needsUpdate && !_disableRestPosition){
-      _state.restHeadPosition.needsUpdate=false;
-      _state.restHeadPosition.rx=detectState.rx;
-      _state.restHeadPosition.ry=detectState.ry;
-      _state.restHeadPosition.s=detectState.s;
-      _lastTimestamp=Date.now();
+      _state.restHeadPosition.needsUpdate = false;
+      _state.restHeadPosition.rx = detectState.rx;
+      _state.restHeadPosition.ry = detectState.ry;
+      _state.restHeadPosition.s = detectState.s;
+      _lastTimestamp = Date.now();
     }
 
     // compute movement of the camera
@@ -203,6 +210,7 @@ var HeadControls = (function(){
           }
           _gl = jeeFaceFilterObj['GL'];
           _videoTexture = jeeFaceFilterObj['videoTexture'];
+          _videoTransformMat2 = jeeFaceFilterObj['videoTransformMat2'];
           _cv = jeeFaceFilterObj['canvasElement'];
 
           init_headSearchDraw();

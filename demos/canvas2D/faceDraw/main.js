@@ -27,7 +27,9 @@ const SETTINGS = {
 // some globalz:
 let CV = null, CANVAS2D = null, CTX = null, GL = null, CANVASTEXTURE = null, CANVASTEXTURENEEDSUPDATE = false;
 let PROJMATRIX = null, PROJMATRIXNEEDSUPDATE = true;
-let VBO_VERTEX = null, VBO_FACES = null, SHADERCANVAS = null, SHADERVIDEO = null, VIDEOTEXTURE = null, MOVMATRIX = create_mat4Identity(), MOVMATRIXINV = create_mat4Identity();
+let VBO_VERTEX = null, VBO_FACES = null, SHADERCANVAS = null;
+let SHADERVIDEO = null, VIDEOTEXTURE = null, VIDEOTRANSFORMMAT2 = null;
+let MOVMATRIX = create_mat4Identity(), MOVMATRIXINV = create_mat4Identity();
 
 let ZPLANE = 0, YPLANE = 0;
 let ISDETECTED = false;
@@ -118,31 +120,31 @@ function get_mat4Pos(m){
 
 //BEGIN WEBGL HELPERS
 // compile a shader:
-function compile_shader(source, type, typeString) {
-  const shader = GL.createShader(type);
-  GL.shaderSource(shader, source);
-  GL.compileShader(shader);
-  if (!GL.getShaderParameter(shader, GL.COMPILE_STATUS)) {
-    alert("ERROR IN " + typeString +  " SHADER: " + GL.getShaderInfoLog(shader));
+function compile_shader(source, glType, typeString) {
+  const glShader = GL.createShader(glType);
+  GL.shaderSource(glShader, source);
+  GL.compileShader(glShader);
+  if (!GL.getShaderParameter(glShader, GL.COMPILE_STATUS)) {
+    alert("ERROR IN " + typeString +  " SHADER: " + GL.getShaderInfoLog(glShader));
     console.log('Buggy shader source: \n', source);
-    return false;
+    return null;
   }
-  return shader;
+  return glShader;
 };
 
 // helper function to build the shader program:
 function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
   // compile both shader separately:
-  const shaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX "+id);
-  const shaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT "+id);
+  const glShaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX "+id);
+  const glShaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT "+id);
 
-  const shaderProgram = GL.createProgram();
-  GL.attachShader(shaderProgram, shaderVertex);
-  GL.attachShader(shaderProgram, shaderFragment);
+  const glShaderProgram = GL.createProgram();
+  GL.attachShader(glShaderProgram, glShaderVertex);
+  GL.attachShader(glShaderProgram, glShaderFragment);
 
   // start the linking stage:
-  GL.linkProgram(shaderProgram);
-  return shaderProgram;
+  GL.linkProgram(glShaderProgram);
+  return glShaderProgram;
 }
 
 // helper function to create the projection matrix:
@@ -150,8 +152,8 @@ function update_projMatrix() {
   const tan = Math.tan(0.5*SETTINGS.cameraFOV*Math.PI/180),
     zMax=100, zMin=0.1, a=CV.width/CV.height;
 
-  const A = -(zMax+zMin)/(zMax-zMin),
-      B = (-2*zMax*zMin)/(zMax-zMin);
+  const A = -(zMax+zMin) / (zMax-zMin),
+      B = (-2*zMax*zMin) / (zMax-zMin);
 
   PROJMATRIX = [
     1.0/tan, 0 ,   0, 0,
@@ -173,6 +175,7 @@ function init_scene(spec){
   GL = spec.GL;
   CV = spec.canvasElement;
   VIDEOTEXTURE = spec.videoTexture;
+  VIDEOTRANSFORMMAT2 = spec.videoTransformMat2;
 
   // create and size the 2D canvas and its drawing context:
   CANVAS2D = document.createElement('canvas');
@@ -220,11 +223,12 @@ function init_scene(spec){
           ]), GL.STATIC_DRAW);
   
   // create the shaders:
-  const copyVertexShaderSource = "attribute vec2 position;\n\
+  const copyCropVertexShaderSource = "attribute vec2 position;\n\
+     uniform mat2 videoTransformMat2;\n\
      varying vec2 vUV;\n\
      void main(void){\n\
       gl_Position = vec4(position, 0., 1.);\n\
-      vUV = vec2(0.5,0.5)+0.5*position;\n\
+      vUV = vec2(0.5,0.5) + videoTransformMat2 * position;\n\
      }";
 
   const copyFragmentShaderSource = "precision lowp float;\n\
@@ -234,9 +238,10 @@ function init_scene(spec){
      void main(void){\n\
       gl_FragColor = texture2D(samplerImage, vUV);\n\
      }";
-  const shpVideo = build_shaderProgram(copyVertexShaderSource, copyFragmentShaderSource, 'VIDEO');
+  const shpVideo = build_shaderProgram(copyCropVertexShaderSource, copyFragmentShaderSource, 'VIDEO');
   SHADERVIDEO = {
-    program: shpVideo
+    program: shpVideo,
+    videoTransformMat2: GL.getUniformLocation(shpVideo, 'videoTransformMat2')
   };
   let uSampler = GL.getUniformLocation(shpVideo, 'samplerImage');
   GL.useProgram(shpVideo);
@@ -391,6 +396,7 @@ function main(){
       // render the video screen:
       GL.viewport(0,0,CV.width, CV.height);
       GL.useProgram(SHADERVIDEO.program);
+      GL.uniformMatrix2fv(SHADERVIDEO.videoTransformMat2, false, VIDEOTRANSFORMMAT2);
       GL.bindTexture(GL.TEXTURE_2D, VIDEOTEXTURE);
       GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
 

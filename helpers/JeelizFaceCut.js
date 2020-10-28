@@ -24,7 +24,8 @@ const JeelizFaceCut = (function(){
   };
   
   // private variables:
-  let GL = null, __canvas = null, __glVideoTexture = null, __shps = {};
+  let GL = null, __canvas = null, __glVideoTexture = null, __videoTransformMat2 = null;
+  const __shps = {};
   let __fboDrawTarget = null, __fbo = null;
 
 
@@ -32,35 +33,35 @@ const JeelizFaceCut = (function(){
 
   // BEGIN VANILLA WEBGL HELPERS
   // compile a shader:
-  function compile_shader(source, type, typeString) {
-    const shader = GL.createShader(type);
-    GL.shaderSource(shader, source);
-    GL.compileShader(shader);
-    if (!GL.getShaderParameter(shader, GL.COMPILE_STATUS)) {
-      alert("ERROR IN " + typeString +  " SHADER: " + GL.getShaderInfoLog(shader));
+  function compile_shader(source, glType, typeString) {
+    const glShader = GL.createShader(glType);
+    GL.shaderSource(glShader, source);
+    GL.compileShader(glShader);
+    if (!GL.getShaderParameter(glShader, GL.COMPILE_STATUS)) {
+      alert("ERROR IN " + typeString +  " SHADER: " + GL.getShaderInfoLog(glShader));
       console.log('Buggy shader source: \n', source);
-      return false;
+      return null;
     }
-    return shader;
+    return glShader;
   };
 
   // build the shader program:
   function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
     // compile both shader separately:
-    const shaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX " + id);
-    const shaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT " + id);
+    const glShaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX " + id);
+    const glShaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT " + id);
 
-    const shaderProgram = GL.createProgram();
-    GL.attachShader(shaderProgram, shaderVertex);
-    GL.attachShader(shaderProgram, shaderFragment);
+    const glShaderProgram = GL.createProgram();
+    GL.attachShader(glShaderProgram, glShaderVertex);
+    GL.attachShader(glShaderProgram, glShaderFragment);
 
     // start the linking stage:
-    GL.linkProgram(shaderProgram);
-    const aPos = GL.getAttribLocation(shaderProgram, "position");
+    GL.linkProgram(glShaderProgram);
+    const aPos = GL.getAttribLocation(glShaderProgram, "position");
     GL.enableVertexAttribArray(aPos);
 
     return {
-      program: shaderProgram,
+      program: glShaderProgram,
       uniforms:{}
     };
   }
@@ -113,51 +114,56 @@ const JeelizFaceCut = (function(){
        float cz=cos(rz+0.2),sz=sin(rz);\n\
        vec2 posRz=mat2(cz, sz*aspectRatio, -sz/aspectRatio, cz)*position;\n\
       gl_Position=vec4(position, 0., 1.);\n\
-      vUV=0.5+0.5*position;\n\
-      vUVrot=0.5+0.5*posRz;\n\
+      vUV = 0.5 + 0.5 * position;\n\
+      vUVrot = 0.5 + 0.5 * posRz;\n\
      }";
+     
     const faceCutFragmentShaderSource = "precision lowp float;\n\
-     uniform vec2 offset, scale;\n\
-     uniform sampler2D samplerImage;\n\
-     varying vec2 vUV, vUVrot;\n\
-     \n\
-     const float UPPERHEADY = " + FACECUTSETTINGS.headForheadY.toFixed(2) + ";\n\
-     const float LOWERHEADY = " + FACECUTSETTINGS.headJawY.toFixed(2) + ";\n\
-     const float SMOOTHEDGE = " + FACECUTSETTINGS.smoothEdge.toFixed(2) + ";\n\
-     \n\
-     \n\
-     void main(void){\n\
-       \n\
-       float alpha = 0.;\n\
-       vec2 uv = vUVrot; // uv normalized in the face\n\
-       if (uv.y>UPPERHEADY){ // upper head: circle arc\n\
-         vec2 uvc = (uv-vec2(0.5,UPPERHEADY))*vec2(1., 0.5/(1.-UPPERHEADY));\n\
-         float alphaBorder = smoothstep(0.5-SMOOTHEDGE, 0.5, length(uvc));\n\
-         float alphaCenter = smoothstep(UPPERHEADY, 1., uv.y);\n\
-         alpha = mix(alphaCenter, alphaBorder, smoothstep(0.3, 0.45, abs(uv.x-0.5)));\n\
-       } else if (uv.y<LOWERHEADY){ // lower head: circle arc \n\
-         vec2 uvc = (uv-vec2(0.5, LOWERHEADY))*vec2(1., 0.5/LOWERHEADY);\n\
-         alpha = smoothstep(0.5-SMOOTHEDGE, 0.5, length(uvc));\n\
-       } else { // middle head: straight\n\
-         vec2 uvc = vec2(uv.x-0.5, 0.);\n\
-         alpha = smoothstep(0.5-SMOOTHEDGE, 0.5,length(uvc));\n\
-       }\n\
-       \n\
-       vec2 uvCol = offset + (vUV+vec2(-0.5,-0.5))*scale;\n\
-       vec3 color = texture2D(samplerImage, uvCol).rgb;\n\
-       \n\
-       float grayScale=dot(color, vec3(0.33,0.33,0.33));\n\
+      uniform sampler2D samplerImage;\n\
+      uniform mat2 videoTransformMat2;\n\
+      uniform vec2 offset, scale;\n\
+      varying vec2 vUV, vUVrot;\n\
+      \n\
+      const float UPPERHEADY = " + FACECUTSETTINGS.headForheadY.toFixed(2) + ";\n\
+      const float LOWERHEADY = " + FACECUTSETTINGS.headJawY.toFixed(2) + ";\n\
+      const float SMOOTHEDGE = " + FACECUTSETTINGS.smoothEdge.toFixed(2) + ";\n\
+      \n\
+      \n\
+      void main(void){\n\
+        \n\
+        float alpha = 0.;\n\
+        vec2 uv = vUVrot; // uv normalized in the face\n\
+        if (uv.y>UPPERHEADY){ // upper head: circle arc\n\
+          vec2 uvc = (uv-vec2(0.5,UPPERHEADY))*vec2(1., 0.5/(1.-UPPERHEADY));\n\
+          float alphaBorder = smoothstep(0.5-SMOOTHEDGE, 0.5, length(uvc));\n\
+          float alphaCenter = smoothstep(UPPERHEADY, 1., uv.y);\n\
+          alpha = mix(alphaCenter, alphaBorder, smoothstep(0.3, 0.45, abs(uv.x-0.5)));\n\
+        } else if (uv.y<LOWERHEADY){ // lower head: circle arc \n\
+          vec2 uvc = (uv-vec2(0.5, LOWERHEADY))*vec2(1., 0.5/LOWERHEADY);\n\
+          alpha = smoothstep(0.5-SMOOTHEDGE, 0.5, length(uvc));\n\
+        } else { // middle head: straight\n\
+          vec2 uvc = vec2(uv.x-0.5, 0.);\n\
+          alpha = smoothstep(0.5-SMOOTHEDGE, 0.5,length(uvc));\n\
+        }\n\
+        \n\
+        vec2 uvCol = offset + (vUV+vec2(-0.5,-0.5))*scale;\n\
+        // go from canvas ref to video or image ref:\n\
+        vec2 uvImageCentered = 2.0 * videoTransformMat2 * (uvCol - 0.5);\n\
+        vec3 color = texture2D(samplerImage, uvImageCentered + 0.5).rgb;\n\
+        \n\
+        float grayScale = dot(color, vec3(0.33,0.33,0.33));\n\
       if (alpha>0.01){\n\
-        alpha=mix(pow(alpha, 0.5), pow(alpha, 1.5), smoothstep(0.1,0.5,grayScale));\n\
+        alpha = mix(pow(alpha, 0.5), pow(alpha, 1.5), smoothstep(0.1,0.5,grayScale));\n\
       }\n\
-      //color=vec3(1.,0.,0.); //FOR DEBUG: DISPLAY IN RED\n\
-      gl_FragColor=vec4(color, 1.-alpha);\n\
+      //color = vec3(1.,0.,0.); //FOR DEBUG: DISPLAY IN RED\n\
+      gl_FragColor = vec4(color, 1.-alpha);\n\
        \n\
-     }"
+     }";
     __shps.faceCut = build_shaderProgram(copyRotateVertexShaderSource, faceCutFragmentShaderSource, 'FACECUT');
     __shps.faceCut.uniforms.rz = GL.getUniformLocation(__shps.faceCut.program, 'rz');
     __shps.faceCut.uniforms.offset = GL.getUniformLocation(__shps.faceCut.program, 'offset');
     __shps.faceCut.uniforms.scale = GL.getUniformLocation(__shps.faceCut.program, 'scale');
+    __shps.faceCut.uniforms.videoTransformMat2 = GL.getUniformLocation(__shps.faceCut.program, 'videoTransformMat2');
     __shps.faceCut.uniforms.aspectRatio = GL.getUniformLocation(__shps.faceCut.program, 'aspectRatio');
     __shps.faceCut.uniforms.samplerImage = GL.getUniformLocation(__shps.faceCut.program, 'samplerImage');
     GL.useProgram(__shps.faceCut.program);
@@ -260,17 +266,14 @@ const JeelizFaceCut = (function(){
       GL = spec.GL;
       __canvas = spec.canvasElement;
       __glVideoTexture = spec.videoTexture;
+      __videoTransformMat2 = spec.videoTransformMat2;
 
       build__shps();
       build__fbo();
     },
 
-    draw_video: function(){ //draw the video texture as background
-      GL.bindFramebuffer(__fboDrawTarget, null);
-      GL.useProgram(__shps.copy.program);
-      GL.bindTexture(GL.TEXTURE_2D, __glVideoTexture);
-      GL.viewport(0,0,__canvas.width, __canvas.height);
-      fill_viewport();
+    draw_video: function(){ // draw the video texture as background
+      JEEFACEFILTERAPI.render_video();
     },
 
     draw_search: function(detectStates){
@@ -345,18 +348,19 @@ const JeelizFaceCut = (function(){
           // cut the face:
           GL.useProgram(__shps.faceCut.program);
           GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, _glFaceCutTexture, 0);
-          GL.viewport(0,0,specFaceCut.sizePx,specFaceCut.sizePx);
+          GL.viewport(0, 0, specFaceCut.sizePx, specFaceCut.sizePx);
           GL.uniform1f(__shps.faceCut.uniforms.rz, -_rz);
           GL.uniform1f(__shps.faceCut.uniforms.aspectRatio, FACECUTSETTINGS.scale[0]/FACECUTSETTINGS.scale[1]);
           GL.uniform2fv(__shps.faceCut.uniforms.offset, _faceOffset);
           GL.uniform2fv(__shps.faceCut.uniforms.scale, _faceScale);
+          GL.uniformMatrix2fv(__shps.faceCut.uniforms.videoTransformMat2, false, __videoTransformMat2);
           GL.bindTexture(GL.TEXTURE_2D, __glVideoTexture);
           fill_viewport();
 
           // compute the color correction texture:
           GL.useProgram(__shps.copy.program);
           GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, _glHueTexture, 0);
-          GL.viewport(0,0,specFaceCut.hueSizePx, specFaceCut.hueSizePx);
+          GL.viewport(0, 0, specFaceCut.hueSizePx, specFaceCut.hueSizePx);
           GL.bindTexture(GL.TEXTURE_2D, _glFaceCutTexture);
           GL.generateMipmap(GL.TEXTURE_2D);
           fill_viewport();          

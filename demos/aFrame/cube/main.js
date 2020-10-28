@@ -85,19 +85,23 @@ function init_threeScene(spec){
   const videoMaterial = new THREE.RawShaderMaterial({
     depthWrite: false,
     vertexShader: "attribute vec2 position;\n\
+      uniform mat2 videoTransformMat2;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
         gl_Position = vec4(position, 1., 1.);\n\
-        vUV = 0.5 + 0.5*position;\n\
+        vUV = 0.5 + videoTransformMat2 * position;\n\
       }",
     fragmentShader: "precision lowp float;\n\
       uniform sampler2D samplerVideo;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
-        gl_FragColor=texture2D(samplerVideo, vUV);\n\
+        gl_FragColor = texture2D(samplerVideo, vUV);\n\
       }",
      uniforms:{
-      samplerVideo: {value: THREEVIDEOTEXTURE}
+      samplerVideo: {value: THREEVIDEOTEXTURE},
+      videoTransformMat2: {
+        value: spec.videoTransformMat2
+      }
      }
   });
   const videoGeometry = new THREE.BufferGeometry()
@@ -106,7 +110,7 @@ function init_threeScene(spec){
   videoGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
   
   const videoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
-  videoMesh.onAfterRender=function(){
+  videoMesh.onAfterRender = function(){
     //replace THREEVIDEOTEXTURE.__webglTexture by the real video texture
     THREERENDERER.properties.update(THREEVIDEOTEXTURE, '__webglTexture', spec.videoTexture);
     delete(videoMesh.onAfterRender);

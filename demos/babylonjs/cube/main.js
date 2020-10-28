@@ -76,20 +76,21 @@ function init_babylonScene(spec){
     'videoMat',
     BABYLONSCENE,
     {
-      vertexElement: "videoMatVertexShaderCode", //cf index.html for shader source
+      vertexElement: "videoMatVertexShaderCode", // see index.html for shader source
       fragmentElement: "videoMatFragmentShaderCode"
     },
     {
       attributes: ["position"],
-      uniforms: []
+      uniforms: ["videoTransformMat2"]
       ,needAlphaBlending: false
     }
   );
   videoMaterial.disableDepthWrite = true;
   videoMaterial.setTexture("samplerVideo", BABYLONVIDEOTEXTURE);
+  videoMaterial.setMatrix2x2("videoTransformMat2", spec.videoTransformMat2);
 
   // for custom mesh see https://babylonjsguide.github.io/advanced/Custom
-  const videoMesh=new BABYLON.Mesh("custom", BABYLONSCENE);
+  const videoMesh = new BABYLON.Mesh("custom", BABYLONSCENE);
   videoMesh.alwaysSelectAsActiveMesh = true; // disable frustum culling
   const vertexData = new BABYLON.VertexData();
   vertexData.positions = [-1,-1,1,   1,-1,1,   1,1,1,   -1,1,1]; // z is set to 1 (zfar)
@@ -117,9 +118,9 @@ function main(){
         return;
       }
 
-      console.log('INFO : JEEFACEFILTERAPI IS READY');
+      console.log('INFO  JEEFACEFILTERAPI IS READY');
       init_babylonScene(spec);
-    }, //end callbackReady()
+    },
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
@@ -144,9 +145,9 @@ function main(){
         const yv = detectState.y;
         
         // coords in 3D of the center of the cube (in the view coordinates system):
-        var z=-D-0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
-        var x=xv*D*tanFOV;
-        var y=yv*D*tanFOV/ASPECTRATIO;
+        var z = -D - 0.5;   // minus because view coordinate system Z goes backward. -0.5 because z is the coord of the center of the cube (not the front face)
+        var x = xv * D * tanFOV;
+        var y = yv * D * tanFOV / ASPECTRATIO;
 
         // move and rotate the cube:
         BABYLONFACEOBJ3D.position.set(x,y+SETTINGS.pivotOffsetYZ[0],-z-SETTINGS.pivotOffsetYZ[1]);

@@ -17,9 +17,10 @@ const SETTINGS = {
 // some globalz:
 let ISDETECTED = false, ISMOUTHOPENED = false;
 let GL = null, VIDEOSCREENSHADERPROGRAM = null, VIDEOTEXTURE = null, DIV = null, CAMERA = null, MOVEMENT = null;
+let UVIDEOTRANSFORMMAT2 = null, VIDEOTRANSFORMMAT2 = null;
 
 // some handy functions to avoid jquery
-// source : https://jaketrent.com/post/addremove-classes-raw-javascript/
+// source: https://jaketrent.com/post/addremove-classes-raw-javascript/
 function hasClass(el, className) {
   if (el.classList)
   return el.classList.contains(className)
@@ -29,21 +30,21 @@ function hasClass(el, className) {
 
 function addClass(el, className) {
   if (el.classList)
-  el.classList.add(className)
+    el.classList.add(className)
   else if (!hasClass(el, className)) el.className += " " + className
 }
 
 function removeClass(el, className) {
   if (el.classList)
-  el.classList.remove(className)
+    el.classList.remove(className)
   else if (hasClass(el, className)) {
-  const reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
-  el.className = el.className.replace(reg, ' ')
+    const reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+    el.className = el.className.replace(reg, ' ')
   }
 }
 
 
-// callback: launched if a face is detected or lost. TODO : add a cool particle effect WoW !
+// callback: launched if a face is detected or lost:
 function detect_callback(isDetected){
   if (isDetected){
     console.log('INFO in detect_callback(): DETECTED');
@@ -66,32 +67,32 @@ function apply_perspective(perspectivePx, DOMElement){
 }
 
 // compile a shader:
-function compile_shader(source, type, typeString) {
-  const shader = GL.createShader(type);
-  GL.shaderSource(shader, source);
-  GL.compileShader(shader);
-  if (!GL.getShaderParameter(shader, GL.COMPILE_STATUS)) {
-    alert("ERROR IN " + typeString + " SHADER: " + GL.getShaderInfoLog(shader));
+function compile_shader(source, glType, typeString) {
+  const glShader = GL.createShader(glType);
+  GL.shaderSource(glShader, source);
+  GL.compileShader(glShader);
+  if (!GL.getShaderParameter(glShader, GL.COMPILE_STATUS)) {
+    alert("ERROR IN " + typeString +  " SHADER: " + GL.getShaderInfoLog(glShader));
     console.log('Buggy shader source: \n', source);
-    return false;
+    return null;
   }
-  return shader;
+  return glShader;
 };
 
 // helper function to build the shader program:
 function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
   // compile both shader separately:
-  const shaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX " + id);
-  const shaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT " + id);
+  const glShaderVertex = compile_shader(shaderVertexSource, GL.VERTEX_SHADER, "VERTEX " + id);
+  const glShaderFragment = compile_shader(shaderFragmentSource, GL.FRAGMENT_SHADER, "FRAGMENT " + id);
 
-  const shaderProgram = GL.createProgram();
-  GL.attachShader(shaderProgram, shaderVertex);
-  GL.attachShader(shaderProgram, shaderFragment);
+  const glShaderProgram = GL.createProgram();
+  GL.attachShader(glShaderProgram, glShaderVertex);
+  GL.attachShader(glShaderProgram, glShaderFragment);
 
   // start the linking stage:
-  GL.linkProgram(shaderProgram);
+  GL.linkProgram(glShaderProgram);
 
-  return shaderProgram;
+  return glShaderProgram;
 }
 
 
@@ -99,23 +100,27 @@ function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
 function init_scene(spec){
   GL = spec.GL;
   VIDEOTEXTURE = spec.videoTexture;
+  VIDEOTRANSFORMMAT2 = spec.videoTransformMat2;
 
   // CREATE THE VIDEO BACKGROUND:
   VIDEOSCREENSHADERPROGRAM = build_shaderProgram(
     "attribute vec2 position;\n\
+      uniform mat2 videoTransformMat2;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
-        gl_Position=vec4(position, 0., 1.);\n\
-        vUV=0.5+0.5*position;\n\
+        gl_Position = vec4(position, 0., 1.);\n\
+        vUV = 0.5 + videoTransformMat2 * position;\n\
       }",
     "precision lowp float;\n\
       uniform sampler2D samplerVideo;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
-        gl_FragColor=texture2D(samplerVideo, vUV);\n\
+        gl_FragColor = texture2D(samplerVideo, vUV);\n\
       }",
     'VIDEOSCREEN');
+  
   const samplerVideo = GL.getUniformLocation(VIDEOSCREENSHADERPROGRAM, 'samplerVideo');
+  UVIDEOTRANSFORMMAT2 = GL.getUniformLocation(VIDEOSCREENSHADERPROGRAM, 'videoTransformMat2');
   GL.useProgram(VIDEOSCREENSHADERPROGRAM);
   GL.uniform1i(samplerVideo, 0);
 
@@ -216,7 +221,7 @@ function main(){
         MOVEMENT.position.multiplyVectors(MOVEMENT.position, CAMERA.scale);
 
         // compute the movement matrix:
-        MOVEMENT.matrix.makeRotationFromEuler(MOVEMENT.euler); //warning : reset the position
+        MOVEMENT.matrix.makeRotationFromEuler(MOVEMENT.euler); // warning: reset the position
         MOVEMENT.matrix.setPosition(MOVEMENT.position);
         MOVEMENT.matrix.scale(MOVEMENT.scale);
 
@@ -239,6 +244,7 @@ function main(){
       } //end if user detected
 
       GL.useProgram(VIDEOSCREENSHADERPROGRAM);
+      GL.uniformMatrix2fv(UVIDEOTRANSFORMMAT2, false, VIDEOTRANSFORMMAT2);
       GL.activeTexture(GL.TEXTURE0);
       GL.bindTexture(GL.TEXTURE_2D, VIDEOTEXTURE);
 
