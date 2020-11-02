@@ -70,7 +70,7 @@ Here are the main features of the library:
 ## Architecture
 
 * `/demos/`: source code of the demonstrations, sorted by 2D/3D engine used,
-* `/dist/`: core scripts of the library: 
+* `/dist/`: core scripts of the library:
   * `jeelizFaceFilter.js`: main minified script,
   * `jeelizFaceFilter.module.js`: main minified script for use as a module (with `import` or `require`),
 * `/neuralNets`: trained neural network models:
@@ -105,7 +105,7 @@ These demonstration are included in this repository. So they are released under 
     * Same boilerplate but using `neuralNets/NN_4EXPR_0.json` as neural net, and displays 4 expressions: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeExpr/), [source code](/demos/threejs/cubeExpr/)
     * Multiple face tracking: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/), [source code](/demos/threejs/multiCubes/)
     * GLTF fullscreen demo with HD video: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/), [source code](/demos/threejs/gltf_fullScreen/)
-    
+
   * AR 3D demos:
     * Werewolf (turn yourself into a werewolf): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/werewolf/), [source code](/demos/threejs/werewolf)
     * Angel/Demon (discover who of the angel or demon will win in this animated scene): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/angel_demon/), [source code](/demos/threejs/angel_demon)
@@ -119,7 +119,7 @@ These demonstration are included in this repository. So they are released under 
     * Football makeup: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/football_makeup/), [source code](/demos/threejs/football_makeup/)
     * Tiger face filter with mouth opening detection (strong WTF effect): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/tiger/), [source code](/demos/threejs/tiger/)
     * Fireworks - particules: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/fireworks/), [source code](/demos/threejs/fireworks/)
-  
+
   * face painting or deformation:
     * Face deformation: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/faceDeform/), [source code](/demos/threejs/faceDeform/)
     * Face cel shading: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/), [source code](/demos/threejs/celFace/)
@@ -136,7 +136,7 @@ These demonstration are included in this repository. So they are released under 
 
 * A-FRAME based demos:
   * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/aFrame/cube/), [source code](/demos/aFrame/cube/)
-  
+
 * CSS3D based demos:
   * Boilerplate (displays a `<DIV>` element on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/CSS3D/div/), [source code](/demos/CSS3D/div/)
   * Comedy glasses demo: [live demo](https://jeeliz.com/demos/faceFilter/demos/CSS3D/comedy-glasses/), [source code](/demos/CSS3D/comedy-glasses/)
@@ -174,7 +174,7 @@ These amazing applications rely on this library for face detection and tracking:
 * [SpiderMan Far From Home AR web application](https://spider-manfarfromhome.herokuapp.com/), made by [Ignite](http://ignitexr.com/). This library is used for the first part of the experience (Edith glasses). Then [8th Wall SLAM engine](https://www.8thwall.com/) is used to display the drones.
 
 * Applications made by [Movable Ink](https://movableink.com/):
-  * [Creative studio](https://movableink.com/product/augmented_reality?utm_source=linkedin&utm_medium=social&utm_campaign=q2_2019_arcampaign_productpage): easily create face filters without coding, only drag and drops! 
+  * [Creative studio](https://movableink.com/product/augmented_reality?utm_source=linkedin&utm_medium=social&utm_campaign=q2_2019_arcampaign_productpage): easily create face filters without coding, only drag and drops!
   * [Find your oasis](https://www.movablecamera.com/1/templates/70c57645-dca1-4a50-b312-0ea3d7c537fd/e1e7aa24-34a5-4818-b487-50ca3852754d.html),
   * [Been there, done that](https://www.movablecamera.com/1/templates/d8f2a1b6-0a73-4645-9e2b-7eb3c85ca2e0/109867fc-1ec0-4545-9bbe-6364ab1a3049.html),
   * [I <3 NY](https://www.movablecamera.com/1/templates/3e9a6b04-2663-4e2e-a8f8-0c675cd429fa/bb03f2fe-1ab0-4b4d-bc94-f146eefe8198.html),
@@ -299,7 +299,7 @@ The initialization callback function ( `callbackReady` in the code snippet ) is 
 * `<WebGLTexture> videoTexture`: a WebGL texture displaying the camera video. It has the same resolution as the camera video,
 * `[<float>, <float>, <float>, <float>]` videoTransformMat2: flatten 2x2 matrix encoding a scaling and a rotation. We should apply this matrix to viewport coordinates to render `videoTexture` in the viewport,
 * `<HTMLVideoElement> videoElement`: the video used as source for the webgl texture `videoTexture`,
-* `<int> maxFacesDetected`: the maximum number of detected faces. 
+* `<int> maxFacesDetected`: the maximum number of detected faces.
 
 
 #### The detection state
@@ -356,7 +356,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 * `JEEFACEFILTERAPI.reset_GLState()`: reset the WebGL context,
 
 * `JEEFACEFILTERAPI.render_video()`: render the video on the `<canvas>` element.
- 
+
 
 
 ### Optimization
@@ -411,11 +411,11 @@ You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThree
 
 
 ### Multiple videos
-The constructor of `JEEFACEFILTERAPI` is also exported as a global variable name, `JEEFACEFILERAPIGEN`.
+The constructor of `JEEFACEFILTERAPI` is also exported as a global variable name, `JEEFACEFILTERAPIGEN`.
 To create a new `JEEFACEFILTERAPI` instance, you need to call:
 
 ```javascript
-const JEEFACEFILTERAPI2 = JEEFACEFILERAPIGEN();
+const JEEFACEFILTERAPI2 = JEEFACEFILTERAPIGEN();
 ````
 
 Be aware that:
@@ -636,4 +636,3 @@ We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-c
 * [Cesium JS official website](https://cesiumjs.org/)
 * [A-Frame official website](https://aframe.io/)
 * [Webgl Academy: tutorials about WebGL and THREE.JS](http://www.webglacademy.com)
-
