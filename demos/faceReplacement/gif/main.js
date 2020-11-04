@@ -466,9 +466,9 @@ function build_gifFrameMask(detectState, frameIndex){
   // BUILD THE FACE MASK:
 
   // cut the face with webgl and put a fading
-  // console.log('INFO : build_gifFrameMask() from frame n°', frameIndex);
+  // console.log('INFO: build_gifFrameMask() from frame n°', frameIndex);
 
-  if (GIF.hueTextures.length<=frameIndex){
+  if (GIF.hueTextures.length <= frameIndex){
     GIF.hueTextures.push(create_hueTexture());
     GIF.positionsFace.push([0,0]);
     GIF.scalesFace.push([1,1]);
@@ -488,7 +488,7 @@ function build_gifFrameMask(detectState, frameIndex){
   const syn = s*SETTINGS.gifMaskScale[1]*GIF.image.width/GIF.image.height;
 
   // correction due to the rotation along z axis:
-  xn += SETTINGS.rzDriftDx*sxn*Math.sin(rz);
+  xn += SETTINGS.rzDriftDx * sxn * Math.sin(rz);
 
   GIF.positionsFace[frameIndex][0] = xn;
   GIF.positionsFace[frameIndex][1] = yn;
@@ -498,7 +498,7 @@ function build_gifFrameMask(detectState, frameIndex){
 
   // build the mask (the gif with the hole cut):
   GL.useProgram(SHPS.buildMask.program);
-  GL.viewport(0,0,FFSPECS.canvasElement.width, FFSPECS.canvasElement.height);
+  GL.viewport(0, 0, FFSPECS.canvasElement.width, FFSPECS.canvasElement.height);
   GL.uniform2f(SHPS.buildMask.offset, xn, yn);
   GL.uniform2f(SHPS.buildMask.scale, sxn, syn);
   GL.uniform1f(SHPS.buildMask.rz, rz);
@@ -512,7 +512,7 @@ function build_gifFrameMask(detectState, frameIndex){
   // FILL VIEWPORT:
   GL.enable(GL.BLEND);
   GL.blendFunc(GL.SRC_ALPHA, GL.ZERO);
-  GL.clearColor(0.,0.,0.,0.);
+  GL.clearColor(0, 0, 0, 0);
   GL.clear(GL.COLOR_BUFFER_BIT);
   GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
   GL.disable(GL.BLEND);
@@ -949,7 +949,7 @@ function draw_render(detectState){ // detectState is the detectState of the USER
   GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
   
 
-  //shrink the userface to a SETTINGS.hueTextureSizePx texture:
+  // shrink the userface to a SETTINGS.hueTextureSizePx texture:
   GL.useProgram(SHPS.copy.program);
   GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, USERCROP.hueTexture, 0);
   GL.viewport(0, 0, SETTINGS.hueTextureSizePx, SETTINGS.hueTextureSizePx);

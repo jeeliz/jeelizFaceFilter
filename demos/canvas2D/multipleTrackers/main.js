@@ -15,7 +15,7 @@ function startVideoFile(videoElement){
 }
 
 function startCamera(){
-  const JEEFACEFILTERAPI2 = JEEFACEFILTERAPIGEN();
+  const JEEFACEFILTERAPI2 = JEEFACEFILTERAPI.create_new();
   start(JEEFACEFILTERAPI2, 'jeeFaceFilterCanvas2', null, 'lime');
 }
 

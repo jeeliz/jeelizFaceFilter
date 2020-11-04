@@ -131,7 +131,7 @@ These demonstration are included in this repository. So they are released under 
 
   * misc:
     * Head controlled navigation: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/), [source code](/demos/threejs/headControls/)
-    * Glasses virtual try-on: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/VTO/), [source code](/demos/threejs/VTO/)
+    * Glasses virtual try-on: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/glassesVTO/), [source code](/demos/threejs/glassesVTO/)
 
 
 * A-FRAME based demos:
@@ -411,12 +411,11 @@ You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThree
 
 
 ### Multiple videos
-The constructor of `JEEFACEFILTERAPI` is also exported as a global variable name, `JEEFACEFILTERAPIGEN`.
 To create a new `JEEFACEFILTERAPI` instance, you need to call:
 
 ```javascript
-const JEEFACEFILTERAPI2 = JEEFACEFILTERAPIGEN();
-````
+const JEEFACEFILTERAPI2 = JEEFACEFILTERAPI.create_new();
+```
 
 Be aware that:
 * Each instance uses a new WebGL context. Depending on the configuration, the number of WebGL context is limited. We advise to not use more than 16 contexts simultaneously,
