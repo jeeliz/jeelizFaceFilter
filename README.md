@@ -41,6 +41,7 @@ If you need a custom development service using this library, you can submit the 
   * [Under the hood](#under-the-hood)
   * [Compatibility](#compatibility)
 * [Articles and tutorials](#articles-and-tutorials)
+* [Developer support plans](#developer-support-plans)
 * [Jeeliz Partner Network](#jeeliz-partner-network)
 * [License](#license)
 * [References](#references)
@@ -169,6 +170,7 @@ If you have not bought a webcam yet, a screenshot video of some of these example
 
 
 ### Third party
+
 These amazing applications rely on this library for face detection and tracking:
 
 * [SpiderMan Far From Home AR web application](https://spider-manfarfromhome.herokuapp.com/), made by [Ignite](http://ignitexr.com/). This library is used for the first part of the experience (Edith glasses). Then [8th Wall SLAM engine](https://www.8thwall.com/) is used to display the drones.
@@ -201,9 +203,11 @@ If you have developped an application or a fun demo using this library, we would
 
 
 ## Specifications
+
 Here we describe how to use this library. Although we planned to add new features, we will keep it backward compatible.
 
 ### Get started
+
 On your HTML page, you first need to include the main script between the tags `<head>` and `</head>`:
 
 ```html
@@ -239,6 +243,7 @@ JEEFACEFILTERAPI.init({
 ```
 
 ### Optionnal init arguments
+
 * `<boolean> followZRot`: Allow full rotation around depth axis. Default value: `false`. See [Issue 42](https://github.com/jeeliz/jeelizFaceFilter/issues/42) for more details,
 * `<integer> maxFacesDetected`: Only for multiple face detection - maximum number of faces which can be detected and tracked. Should be between `1` (no multiple detection) and `8`,
 * `<integer> animateDelay`: It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
@@ -277,6 +282,7 @@ If the user has a mobile device in portrait display mode, the width and height o
 
 
 ### Error codes
+
 The initialization function ( `callbackReady` in the code snippet ) will be called with an error code ( `errCode` ). It can have these values:
 * `false`: no error occurs,
 * `"GL_INCOMPATIBLE"`: WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
@@ -290,9 +296,11 @@ The initialization function ( `callbackReady` in the code snippet ) will be call
 
 
 ### The returned objects
+
 We detail here the arguments of the callback functions like `callbackReady` or `callbackTrack`. The reference of these objects do not change for memory optimization purpose. So you should copy their property values if you want to keep them unchanged outside the callback functions scopes.
 
 #### The initialization returned object
+
 The initialization callback function ( `callbackReady` in the code snippet ) is called with a second argument, `spec`, if there is no error. `spec` is a dictionnary having these properties:
 * `<WebGLRenderingContext> GL`: the WebGL context. The rendering 3D engine should use this WebGL context,
 * `<canvas> canvasElement`: the `<canvas>` element,
@@ -303,6 +311,7 @@ The initialization callback function ( `callbackReady` in the code snippet ) is 
 
 
 #### The detection state
+
 At each render iteration a callback function is executed ( `callbackTrack` in the code snippet ). It has one argument ( `detectState` ) which is a dictionnary with these properties:
 * `<float> detected`: the face detection probability, between `0` and `1`,
 * `<float> x`, `<float> y`: The 2D coordinates of the center of the detection frame in the viewport (each between -1 and 1, `x` from left to right and `y` from bottom to top),
@@ -315,6 +324,7 @@ In multiface detection mode, `detectState` is an array. Its size is equal to the
 
 
 ### Miscellaneous methods
+
 After the initialization (ie after that `callbackReady` is launched ) , these methods are available:
 
 * `JEEFACEFILTERAPI.resize()`: should be called after resizing the `<canvas>` element to adapt the cut of the video. It should also be called if the device orientation is changed to take account of new video dimensions,
@@ -393,6 +403,7 @@ JeelizResizer.size_canvas({
 ```
 Take a look at the source code of this helper (in [helpers/JeelizResize.js](helpers/JeelizResize.js)) to get more information.
 
+
 #### Misc
 
 A few tips:
@@ -403,6 +414,7 @@ A few tips:
 
 
 ### Multiple faces
+
 It is possible to detect and track several faces at the same time. To enable this feature, you only have to specify the optional init parameter `maxFacesDetected`. Its maximum value is `8`. Indeed, if you are tracking for example 8 faces at the same time, the detection will be slower because there is 8 times less computing power per tracked face. If you have set this value to `8` but if there is only `1` face detected, it should not slow down too much compared to the single face tracking.
 
 If multiple face tracking is enabled, the `callbackTrack` function is called with an array of detection states (instead of being executed with a simple detection state). The detection state format is still the same.
@@ -411,6 +423,7 @@ You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThree
 
 
 ### Multiple videos
+
 To create a new `JEEFACEFILTERAPI` instance, you need to call:
 
 ```javascript
@@ -426,12 +439,14 @@ Checkout this demo to have an example of how it works: [source code](/demos/canv
 
 
 ### Changing the 3D engine
+
 It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you have accomplished this work, we would be interested to add your demonstration in this repository (or link to your code). Just open a pull request.
 
 The 3D engine should share the WebGL context with FaceFilter API. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the FaceFilter WebGL context. It would be more costly in term of computating time to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts: the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context for rendering. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initialized WebGL context.
 
 
 ### Changing the neural network
+
 Since July 2018 it is possible to change the neural network. When calling `JEEFACEFILTERAPI.init({...})` with `NNCPath: <path of NN_DEFAULT.json>` you set NNCPath value to a specific neural network file:
 
 ```javascript
@@ -453,6 +468,7 @@ We provide several neural network models:
 
 
 ### Using module
+
 `/dist/jeelizFaceFilter.module.js` is exactly the same as `/dist/jeelizFaceFilter.js` except that it works as a JavaScript module, so you can import it directly using:
 
 ```javascript
@@ -489,6 +505,7 @@ faceFilter.init({
 ## Integration
 
 ### With a bundler
+
 If you use this library with a bundler (typically *Webpack* or *Parcel*), first you should use the [module version](#using-module).
 
 Then, with the standard library, we load the neural network model (specified by `NNCPath` provided as initialization parameter) using AJAX for the following reasons:
@@ -512,10 +529,14 @@ You can check out the amazing work of [@jackbilestech](jackbilestech), [jackbile
 
 ### With JavaScript frontend frameworks
 
+
 #### With REACT and THREE Fiber
+
 Since October 2020, there is a React/THREE Fiber/Webpack boilerplate in [/reactThreeFiberDemo](/reactThreeFiberDemo) path.
 
+
 #### See also
+
 We don't officially cover here integration with mainstream JavaScript frontend frameworks (*React*, *Vue*, *Angular*).
 Feel free to submit a *Pull Request* to add a boilerplate or a demo for a specific framework. Here is a bunch of submitted issues dealing with *React* integration:
 
@@ -528,7 +549,9 @@ You can also take a look at these Github code repositories:
 * [CloffWrangler/facevoice](https://github.com/CloffWrangler/facevoice): Another demo based on [Create React App]
 * [nickydev100/FFMpeg-Angular-Face-Filter](https://github.com/nickydev100/FFMpeg-Angular-Face-Filter): Angular boilerplate
 
+
 ### Native
+
 It is possible to execute a JavaScript application using this library into a *Webview* for a native app integration.
 But with IOS the camera access is disabled inside webviews. You have to implement a hack to stream the camera video into the webview using websockets.
 
@@ -544,11 +567,14 @@ But it is still a dirty hack introducing a bottleneck. It still run pretty well 
 There is also this Github issue detailing how to embed the library into a `Webview` component, for *React native*. It is for Android only:
 * [issue 21](https://github.com/jeeliz/jeelizFaceFilter/issues/21#issuecomment-644510559)
 
+
 ## Hosting
 
 This API requires the user's webcam video feed through `MediaStream API`. So your application should be hosted by a HTTPS server (even with a self-signed certificate). It won't work at all with unsecure HTTP, even locally with some web browsers.
 
+
 ### The development server
+
 For development purpose we provide a simple and minimalist HTTPS server in order to check out the demos or develop your very own filters. To launch it, execute in the bash console:
 
 ```bash
@@ -558,6 +584,7 @@ It requires Python 2.X. Then open in your web browser [https://localhost:4443](h
 
 
 ### Hosting optimization
+
 You can use our hosted and up to date version of the library, available here:
 ```
 https://appstatic.jeeliz.com/faceFilter/jeelizFaceFilter.js
@@ -572,10 +599,14 @@ The neuron network file, `neuralNets/NN_DEFAULT.json` is loaded using an ajax `X
 
 
 ## About the tech
+
 ### Under the hood
+
 This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a neural network. The accuracy is adaptative: the best is the hardware, the more detections are processed per second. All is done client-side.
 
+
 ### Compatibility
+
 * If `WebGL2` is available, it uses `WebGL2` and no specific extension is required,
 * If `WebGL2` is not available but `WebGL1`, we require either `OES_TEXTURE_FLOAT` extension or `OES_TEXTURE_HALF_FLOAT` extension,
 * If `WebGL2` is not available, and if `WebGL1` is not available or neither `OES_TEXTURE_FLOAT` or `OES_HALF_TEXTURE_FLOAT` are implemented, the user is not compatible.
@@ -592,9 +623,12 @@ If a compatibility error occurred, please post an issue on this repository. If t
 
 
 ## Articles and tutorials
+
 You have written a tutorial using this library? Submit a pull request or send us the link, we would be glad to add it.
 
+
 ### In English
+
 * Creating a Snapchat-like face filter using Jeeliz FaceFilter API and THREE.JS:
   * Part 1: [Creating your first filter](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/)
   * Part 2: [ User interactions and particles](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/)
@@ -609,26 +643,60 @@ You have written a tutorial using this library? Submit a pull request or send us
 
 * Video tutorials by [Chris Godber](http://chrisgodber.co.uk/): [Headtracking Controls with Three JS](https://youtu.be/_Fs4Sbn2LPc)
 
+
 ### In French
+
 * Tutorial: Matrix theme face filter on developpez.com: [Développer un filtre facial webcam thème Matrix](https://xavierbourry.developpez.com/filtre-facial-webcam/)
 
+
 ### In Japanese
+
 * Good overall review and explanations of the library on Qiita.com: [jeelizFaceFilterを試してみた](https://qiita.com/hirogw/items/2464fe62b13cf6816783)
 
 
+## Developer support plans
+
+Developer support plans are billed yearly. The commitment is monthly: you can cancel or change your plan for the next month.
+
+| Feature | No support plan | Basic | Advanced | Enterprise |
+| --- | :-: | :-: | :-: |
+| Access to [Github issues](/issues) | X | X | X | X |
+| Major upgrade email alert |  | X | X | X |
+| Email support |  | X | X | X |
+| Guaranteed delay |  | 4 business days | 2 business days | 1 business day |
+| Designated contacts |  | 1 | 1 | 5 |
+| Screenshare/videocall support |  |  | X | X |
+| Screenshare/videocall support delay |  |  | 3 business day | 1 business day |
+| Additional Hourly pricing |  | $110 | $90 | $80 |
+| **Price** | **Free** | **$50/mo** | **$120/mo** | **$700/mo** |
+
+Please contact us at **contact__at__jeeliz.com** and provide:
+
+1. Which plan you need,
+2. What month it starts,
+3. Your company info: name, address, city, state, zipcode,
+4. The name and the title of the signatory of the contract,
+5. The name(s) of the people who will benefit from the support (*designated contacts*).
+
+We will send back the contract proposal.
+
+
 ## Jeeliz Partner Network
+
 If you are a freelance developer, or if you represent a software company or a web agency able to build projects with this library, you can join the Jeeliz Partner Network (JPN) by filling this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSccwO9Seyi4ZHkXc_Udn0VRWUhKZfXpO6AGMFamnWVVXOA1hA/viewform?usp=sf_link). We will redirect you development services requests involving this library. We will also provide premium support for integrating and using this library.
 
 Conversely, if you are looking for a reliable development service provider to build your face filter using this library, please fill the [FaceFilter development request form](https://forms.gle/kktPyojpJbwSSPED7). We will put you in touch with a qualified partner.
 
 
 ## License
+
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
 
 We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and a link to the [Jeeliz website](https://jeeliz.com) in your application or desktop website. Of course we do not expect a large link to Jeeliz over your face filter, but if you can put the link in the credits/about/help/footer section it would be great.
 
 
 ## References
+
 * [Jeeliz official website](https://jeeliz.com)
 * [Babylon.JS official website with documentation, demos, examples...](https://www.babylonjs.com/)
 * [Three.JS official website with documentation, demos, examples...](https://threejs.org/)
