@@ -659,7 +659,7 @@ You have written a tutorial using this library? Submit a pull request or send us
 Developer support plans are billed yearly. The commitment is monthly: you can cancel or change your plan for the next month.
 
 | Feature | No support plan | Basic | Advanced | Enterprise |
-| --- | :-: | :-: | :-: |
+| --- | :-: | :-: | :-: | :-: |
 | Access to [Github issues](/issues) | X | X | X | X |
 | Major upgrade email alert |  | X | X | X |
 | Email support |  | X | X | X |
