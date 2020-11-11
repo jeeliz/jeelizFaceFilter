@@ -660,7 +660,7 @@ Developer support plans are billed yearly. The commitment is monthly: you can ca
 
 | Feature | No support plan | Basic | Advanced | Enterprise |
 | --- | :-: | :-: | :-: | :-: |
-| Access to [Github issues](/issues) | X | X | X | X |
+| Access to [Github issues](/../../issues) | X | X | X | X |
 | Major upgrade email alert |  | X | X | X |
 | Email support |  | X | X | X |
 | Guaranteed delay |  | 4 business days | 2 business days | 1 business day |
