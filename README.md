@@ -224,7 +224,7 @@ This canvas will be used by WebGL both for the computation and the 3D rendering.
 ```javascript
 JEEFACEFILTERAPI.init({
   canvasId: 'jeeFaceFilterCanvas',
-  NNCPath: '../../../neuralNets/', //path to JSON neural network model (NN_DEFAULT.json by default)
+  NNCPath: '../../../neuralNets/', // path to JSON neural network model (NN_DEFAULT.json by default)
   callbackReady: function(errCode, spec){
     if (errCode){
       console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
@@ -234,12 +234,12 @@ JEEFACEFILTERAPI.init({
     console.log('INFO: JEEFACEFILTERAPI IS READY');
   }, //end callbackReady()
 
-  //called at each render iteration (drawing loop)
+  // called at each render iteration (drawing loop)
   callbackTrack: function(detectState){
     // Render your scene here
     // [... do something with detectState]
   } //end callbackTrack()
-});//end init call
+});
 ```
 
 ### Optionnal init arguments
@@ -252,7 +252,7 @@ JEEFACEFILTERAPI.init({
 * `<dict> videoSettings`: override WebRTC specified video settings, which are by default:
 ```javascript
 {
-  'videoElement' //not set by default. <video> element used
+  'videoElement' // not set by default. <video> element used
    // WARN: If you specify this parameter,
    //       1. all other settings will be useless
    //       2. it means that you fully handle the video aspect
@@ -261,17 +261,17 @@ JEEFACEFILTERAPI.init({
    //          otherwise face detector will yield very low `detectState.detected` values
    //          (to be more sure also await first `timeupdate` event)
 
-  'deviceId'            //not set by default
-  'facingMode': 'user', //to use the rear camera, set to 'environment'
+  'deviceId'            // not set by default
+  'facingMode': 'user', // to use the rear camera, set to 'environment'
 
-  'idealWidth': 800,  //ideal video width in pixels
-  'idealHeight': 600, //ideal video height in pixels
-  'minWidth': 480,    //min video width in pixels
-  'maxWidth': 1280,   //max video width in pixels
-  'minHeight': 480,   //min video height in pixels
-  'maxHeight': 1280,  //max video height in pixels,
-  'rotate': 0,        //rotation in degrees possible values: 0,90,-90,180
-  'flipX': false      //if we should flip horizontally the video. Default: false
+  'idealWidth': 800,  // ideal video width in pixels
+  'idealHeight': 600, // ideal video height in pixels
+  'minWidth': 480,    // min video width in pixels
+  'maxWidth': 1920,   // max video width in pixels
+  'minHeight': 480,   // min video height in pixels
+  'maxHeight': 1920,  // max video height in pixels,
+  'rotate': 0,        // rotation in degrees possible values: 0,90,-90,180
+  'flipX': false      // if we should flip horizontally the video. Default: false
 },
 ```
 * `<dict> scanSettings`: override face scan settings - see `set_scanSettings(...)` method for more information.
@@ -395,8 +395,8 @@ JeelizResizer.size_canvas({
     callback: function(isError, bestVideoSettings){
       JEEFACEFILTERAPI.init({
         videoSettings: bestVideoSettings,
-        //...
-        //...
+        // ...
+        // ...
       });
     }
 });
@@ -452,7 +452,7 @@ Since July 2018 it is possible to change the neural network. When calling `JEEFA
 ```javascript
   JEEFACEFILTERAPI.init({
     NNCPath: '../../neuralNets/NN_LIGHT_0.json'
-    //...
+    // ...
   })
 ```
 It is also possible to give directly the neural network model JSON file content by using `NNC` property instead of `NNCPath`.
@@ -481,10 +481,10 @@ or using `require` ([see issue #72](https://github.com/jeeliz/jeelizFaceFilter/i
 const faceFilter = require('./lib/jeelizFaceFilter.module.js').JEELIZFACEFILTERAPI;
 
 faceFilter.init({
-  //you can also provide the canvas directly
-  //using the canvas property instead of canvasId:
+  // you can also provide the canvas directly
+  // using the canvas property instead of canvasId:
   canvasId: 'jeeFaceFilterCanvas',
-  NNCPath: '../../../neuralNets/', //path to JSON neural network model (NN_DEFAULT.json by default)
+  NNCPath: '../../../neuralNets/', // path to JSON neural network model (NN_DEFAULT.json by default)
   callbackReady: function(errCode, spec){
     if (errCode){
       console.log('AN ERROR HAPPENS. ERROR CODE =', errCode);
@@ -494,12 +494,12 @@ faceFilter.init({
     console.log('INFO: JEEFACEFILTERAPI IS READY');
   }, //end callbackReady()
 
-  //called at each render iteration (drawing loop)
+  // called at each render iteration (drawing loop)
   callbackTrack: function(detectState){
       // Render your scene here
       // [... do something with detectState]
   } //end callbackTrack()
-});//end init call
+});
 ```
 
 ## Integration
@@ -519,8 +519,8 @@ const faceFilter = require('./lib/jeelizFaceFilter.module.js').JEELIZFACEFILTERA
 const neuralNetworkModel = require('./neuralNets/NN_DEFAULT.json')
 
 faceFilter.init({
-  NNC:  neuralNetworkModel, //instead of NNCPath
-  //... other init parameters
+  NNC:  neuralNetworkModel, // instead of NNCPath
+  // ... other init parameters
 });
 ```
 
