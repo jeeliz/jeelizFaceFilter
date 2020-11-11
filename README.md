@@ -666,7 +666,7 @@ Developer support plans are billed yearly. The commitment is monthly: you can ca
 | Guaranteed delay |  | 4 business days | 2 business days | 1 business day |
 | Designated contacts |  | 1 | 1 | 5 |
 | Screenshare/videocall support |  |  | X | X |
-| Screenshare/videocall support delay |  |  | 3 business day | 1 business day |
+| Screenshare/videocall support delay |  |  | 3 business days | 1 business day |
 | Additional Hourly pricing |  | $110 | $90 | $80 |
 | **Price** | **Free** | **$50/mo** | **$120/mo** | **$700/mo** |
 
