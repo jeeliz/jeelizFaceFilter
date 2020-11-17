@@ -16,13 +16,14 @@ function detect_callback(isDetected) {
 function init_threeScene(spec) {
   const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
 
-  // CREATE OUR HELMET MESH AND ADD IT TO OUR SCENE
+  // CREATE THE HELMET MESH AND ADD IT TO THE SCENE:
   const HELMETOBJ3D = new THREE.Object3D();
   let helmetMesh = null, visorMesh = null, faceMesh = null;
 
   const loadingManager = new THREE.LoadingManager();
   const helmetLoader = new THREE.BufferGeometryLoader(loadingManager);
 
+  // deprecated THREE legacy JSON format. GLTF is better now
   helmetLoader.load(
     './models/helmet/helmet.json',
     (helmetGeometry) => {
@@ -67,18 +68,20 @@ function init_threeScene(spec) {
     using THREE.JS blender exporter with Blender v2.76
   */
   maskLoader.load('./models/face/faceLowPolyEyesEarsFill2.json', function (maskBufferGeometry) {
-    const vertexShaderSource = 'varying vec2 vUVvideo;\n\
+    const vertexShaderSource = 'uniform mat2 videoTransformMat2;\n\
+    varying vec2 vUVvideo;\n\
     varying float vY, vNormalDotZ;\n\
-    const float THETAHEAD=0.25;\n\
+    const float THETAHEAD = 0.25;\n\
+    \n\
     void main() {\n\
       vec4 mvPosition = modelViewMatrix * vec4( position, 1.0);\n\
-      vec4 projectedPosition=projectionMatrix * mvPosition;\n\
-      gl_Position=projectedPosition;\n\
+      vec4 projectedPosition = projectionMatrix * mvPosition;\n\
+      gl_Position = projectedPosition;\n\
       \n\
       // compute UV coordinates on the video texture:\n\
       vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
       vec4 projectedPosition0 = projectionMatrix * mvPosition0;\n\
-      vUVvideo = vec2(0.5,0.5)+0.5*projectedPosition0.xy/projectedPosition0.w;\n\
+      vUVvideo = vec2(0.5,0.5) + videoTransformMat2 * projectedPosition0.xy/projectedPosition0.w;\n\
       vY = position.y*cos(THETAHEAD)-position.z*sin(THETAHEAD);\n\
       vec3 normalView = vec3(modelViewMatrix * vec4(normal,0.));\n\
       vNormalDotZ = pow(abs(normalView.z), 1.5);\n\
@@ -92,7 +95,7 @@ function init_threeScene(spec) {
       vec3 videoColor = texture2D(samplerVideo, vUVvideo).rgb;\n\
       float darkenCoeff = smoothstep(-0.15, 0.05, vY);\n\
       float borderCoeff = smoothstep(0.0, 0.55, vNormalDotZ);\n\
-      gl_FragColor = vec4(videoColor*(1.-darkenCoeff), borderCoeff );\n\
+      gl_FragColor = vec4(videoColor * (1.-darkenCoeff), borderCoeff );\n\
     }";
 
     const mat = new THREE.ShaderMaterial({
@@ -101,9 +104,10 @@ function init_threeScene(spec) {
       transparent: true,
       flatShading: false,
       uniforms: {
-        samplerVideo:{ value: JeelizThreeHelper.get_threeVideoTexture() }
-      }
-       ,transparent: true
+        samplerVideo:{ value: JeelizThreeHelper.get_threeVideoTexture() },
+        videoTransformMat2: {value: spec.videoTransformMat2}
+      },
+      transparent: true
     });
     maskBufferGeometry.computeVertexNormals();
     faceMesh = new THREE.Mesh(maskBufferGeometry, mat);

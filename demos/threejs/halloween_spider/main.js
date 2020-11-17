@@ -26,6 +26,8 @@ function init_threeScene(spec) {
   const loadingManager = new THREE.LoadingManager();
 
   // LOAD SMALL SPIDER
+  // We use deprecated THREE.js legacy JSON format
+  // Use GLTF for your own stuff, it is better bro!
   let smallSpiderMesh;
   const smallSpiderLoader = new THREE.JSONLoader(loadingManager);
   smallSpiderLoader.load(
@@ -84,9 +86,11 @@ function init_threeScene(spec) {
       const material = new THREE.MeshBasicMaterial({
         map: new THREE.TextureLoader().load('./models/face/diffuse_makeup.png')
       });
-      const vertexShaderSource = 'varying vec2 vUVvideo;\n\
+      const vertexShaderSource = 'uniform mat2 videoTransformMat2;\n\
+        varying vec2 vUVvideo;\n\
         varying float vY, vNormalDotZ;\n\
-        const float THETAHEAD=0.25;\n\
+        const float THETAHEAD = 0.25;\n\
+        \n\
         void main() {\n\
           vec4 mvPosition = modelViewMatrix * vec4( position, 1.0);\n\
           vec4 projectedPosition = projectionMatrix * mvPosition;\n\
@@ -95,7 +99,7 @@ function init_threeScene(spec) {
           // compute UV coordinates on the video texture:\n\
           vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
           vec4 projectedPosition0 = projectionMatrix * mvPosition0;\n\
-          vUVvideo = vec2(0.5,0.5)+0.5*projectedPosition0.xy/projectedPosition0.w;\n\
+          vUVvideo = vec2(0.5,0.5) + videoTransformMat2 * projectedPosition0.xy / projectedPosition0.w;\n\
           vY = position.y*cos(THETAHEAD)-position.z*sin(THETAHEAD);\n\
           vec3 normalView = vec3(modelViewMatrix * vec4(normal,0.));\n\
           vNormalDotZ = pow(abs(normalView.z), 1.5);\n\
@@ -120,7 +124,8 @@ function init_threeScene(spec) {
         transparent: true,
         flatShading: false,
         uniforms: {
-          samplerVideo: { value: JeelizThreeHelper.get_threeVideoTexture() }
+          samplerVideo: { value: JeelizThreeHelper.get_threeVideoTexture() },
+          videoTransformMat2: {value: spec.videoTransformMat2}
         }
       });
       faceMesh = new THREE.Mesh(geometry, materialVideo);

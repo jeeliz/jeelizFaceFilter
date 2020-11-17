@@ -12,7 +12,7 @@ function detect_callback(isDetected){
   }
 }
 
-function build_maskMaterial(){
+function build_maskMaterial(videoTransformMat2){
   /*
     THIS IS WHERE THE DEFORMATIONS ARE BUILT:
     1) create a tearpoint where the deformation will be located
@@ -20,7 +20,8 @@ function build_maskMaterial(){
     3) select a radius: the bigger the radius the bigger the size of the deformed zone
     around your tearpoint will be
   */
-  const vertexShaderSource = 'varying vec2 vUVvideo;\n\
+  const vertexShaderSource = 'uniform mat2 videoTransformMat2;\n\
+  varying vec2 vUVvideo;\n\
   // deformation 0 parameters:\n\
   const vec2 TEARPOINT0 = vec2(0.,-0.5);\n\
   const vec2 DISPLACEMENT0 = vec2(0.,0.15);\n\
@@ -51,7 +52,7 @@ function build_maskMaterial(){
     // compute UV coordinates on the video texture:\n\
     vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
     vec4 projectedPosition0 = projectionMatrix * mvPosition0;\n\
-    vUVvideo = vec2(0.5,0.5) + 0.5*projectedPosition0.xy/projectedPosition0.w;\n\
+    vUVvideo = vec2(0.5,0.5) + videoTransformMat2 * projectedPosition0.xy / projectedPosition0.w;\n\
   }';
 
   const fragmentShaderSource = "precision mediump float;\n\
@@ -65,7 +66,8 @@ function build_maskMaterial(){
     vertexShader: vertexShaderSource,
     fragmentShader: fragmentShaderSource,
     uniforms: {
-      samplerVideo:{value: JeelizThreeHelper.get_threeVideoTexture()}
+      samplerVideo:{value: JeelizThreeHelper.get_threeVideoTexture()},
+      videoTransformMat2: {value: videoTransformMat2}
     }
   });
   return mat;
@@ -82,7 +84,7 @@ function init_threeScene(spec){
   */
   maskLoader.load('./models/faceLowPoly.json', function(maskBufferGeometry){
     maskBufferGeometry.computeVertexNormals();
-    const threeMask = new THREE.Mesh(maskBufferGeometry, build_maskMaterial());
+    const threeMask = new THREE.Mesh(maskBufferGeometry, build_maskMaterial(spec.videoTransformMat2));
     threeMask.frustumCulled=false;
     threeMask.scale.multiplyScalar(1.2);
     threeMask.position.set(0,0.2,-0.5);
