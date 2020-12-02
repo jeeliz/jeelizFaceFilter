@@ -15,7 +15,7 @@ let MOONSPRITE = null, MOONHALO = null;
 let isTransformed = false;
 let ROTATIONX = 0;
 
-let MIXER = false;
+let MIXER = null;
 
 let PARTICLEGROUP = null, GROUP = null;
 
@@ -164,11 +164,12 @@ function init_threeScene(spec) {
   const videoMaterial = new THREE.RawShaderMaterial({
     depthWrite: false,
     depthTest: false,
-    vertexShader: "attribute vec2 position;\n\
+    vertexShader: "uniform mat2 videoTransformMat2;\n\
+      attribute vec2 position;\n\
       varying vec2 vUV;\n\
       void main(void){\n\
         gl_Position=vec4(position, 0., 1.);\n\
-        vUV = 0.5 + 0.5*position;\n\
+        vUV = 0.5 + videoTransformMat2*position;\n\
       }",
     fragmentShader: "precision lowp float;\n\
       uniform sampler2D samplerVideo;\n\
@@ -183,7 +184,8 @@ function init_threeScene(spec) {
      uniforms: {
       samplerVideo: { value: THREEVIDEOTEXTURE },
       colorFilter: { value: videoColorFilter },
-      colorFilterCoef: { value: COLORFILTERCOEF }
+      colorFilterCoef: { value: COLORFILTERCOEF },
+      videoTransformMat2: {value: spec.videoTransformMat2}
      }
   });
 
@@ -247,7 +249,7 @@ function init_faceFilter(videoSettings){
 
     // called at each render iteration (drawing loop)
     callbackTrack: function (detectState) {
-      ISDETECTED = JeelizThreeHelper.get_isDetected;
+      ISDETECTED = JeelizThreeHelper.get_isDetected();
 
       if (ISDETECTED && detectState.expressions[0] >= 0.9 && !isTransformed && isLoaded) {
 
