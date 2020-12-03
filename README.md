@@ -18,7 +18,7 @@ If you need a custom development service using this library, you can submit the 
   * [Third party](#third-party)
 * [Specifications](#specifications)
   * [Get started](#get-started)
-  * [Optionnal init arguments](#optionnal-init-arguments)
+  * [Optional init arguments](#optional-init-arguments)
   * [Error codes](#error-codes)
   * [The returned objects](#the-returned-objects)
   * [Miscellaneous methods](#miscellaneous-methods)
@@ -242,7 +242,7 @@ JEEFACEFILTERAPI.init({
 });
 ```
 
-### Optionnal init arguments
+### Optional init arguments
 
 * `<boolean> followZRot`: Allow full rotation around depth axis. Default value: `false`. See [Issue 42](https://github.com/jeeliz/jeelizFaceFilter/issues/42) for more details,
 * `<integer> maxFacesDetected`: Only for multiple face detection - maximum number of faces which can be detected and tracked. Should be between `1` (no multiple detection) and `8`,
@@ -357,7 +357,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEEFACEFILTERAPI.update_videoElement(<video> vid, <function|False> callback)`: change the video element used for the face detection (which can be provided via `VIDEOSETTINGS.videoElement`) by another video element. A callback function can be called when it is done.
 
-* `JEEFACEFILTERAPI.update_videoSettings(<object> videoSettings)`: dynamically change the video settings (see [Optionnal init arguments](optionnal-init-arguments) for the properties of `videoSettings`). It is useful to change the camera from the selfie camera (user) to the back (environment) camera. A `Promise` is returned.
+* `JEEFACEFILTERAPI.update_videoSettings(<object> videoSettings)`: dynamically change the video settings (see [Optional init arguments](optional-init-arguments) for the properties of `videoSettings`). It is useful to change the camera from the selfie camera (user) to the back (environment) camera. A `Promise` is returned.
 
 * `JEEFACEFILTERAPI.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`,
 
