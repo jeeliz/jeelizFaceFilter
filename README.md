@@ -553,7 +553,7 @@ You can also take a look at these Github code repositories:
 ### Native
 
 It is possible to execute a JavaScript application using this library into a *Webview* for a native app integration.
-But with IOS the camera access is disabled inside webviews. You have to implement a hack to stream the camera video into the webview using websockets.
+For IOS the camera access is disabled inside `WKWebview` component for IOS before IOS14.3. If you want to make your application run on devices running IOS <= 14.2, you have to implement a hack to stream the camera video into the webview using websockets.
 
 His hack has not been implemented into this repository but in a similar Jeeliz Library, [Jeeliz Weboji](https://github.com/jeeliz/jeelizWeboji). Here are the links:
 
