@@ -656,7 +656,7 @@ You have written a tutorial using this library? Submit a pull request or send us
 
 ## Developer support plans
 
-Developer support plans are billed yearly. The commitment is monthly: you can cancel or change your plan for the next month.
+Developer support plans are billed each calendar year. There is a 6 months commitment period: you can cancel or change your plan every 6 months from the beginning of your subscription.
 
 | Feature | No support plan | Basic | Advanced | Enterprise |
 | --- | :-: | :-: | :-: | :-: |
