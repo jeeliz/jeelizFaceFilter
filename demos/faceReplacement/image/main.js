@@ -29,6 +29,7 @@ const SETTINGS = {
   debugArtpaintingCrop: false,
   debugArtPaintingPotFaceCutTexture: false
 };
+//SETTINGS.debugArtpaintingCrop = true;
 
 const ARTPAINTING = {
   baseTexture: null,
@@ -57,7 +58,7 @@ const SHPS = { // shaderprograms
 let DOMARTPAINTINGCONTAINER = null;
 let GL = null, GLDRAWTARGET = null, FBO = null; // WebGL global stuffs
 
-let NLOADEDS=0, FFSPECS = null;
+let NLOADEDS = 0, FFSPECS = null;
 const STATES = { // possible states of the app. ENUM equivalent
   ERROR: -1,
   IDLE: 0,
@@ -136,8 +137,9 @@ function update_artPainting(detectState){ // called both at start (start()) and 
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
-
+  
   JEEFACEFILTERAPI.set_inputTexture(ARTPAINTING.baseTexture, ARTPAINTING.image.width, ARTPAINTING.image.height);
+
   
   ARTPAINTING.detectCounter = 0;
   FFSPECS.canvasElement.classList.remove('canvasDetected');
@@ -203,7 +205,7 @@ function change_artPainting(urlImage, detectState){
   }
   ARTPAINTING.image = new Image();
 
-  if (urlImage === 'CUSTOM'){ //upload custom image
+  if (urlImage === 'CUSTOM'){ // upload custom image
     const domInputFile = document.getElementById('customImage');
     if (!domInputFile.files || !domInputFile.files[0]){
       alert('You should select at least one file');
@@ -663,8 +665,8 @@ function draw_render(detectState){
   const s = detectState.s / SETTINGS.zoomFactor;
   const xn = detectState.x*0.5 + 0.5+s*SETTINGS.artPaintingMaskOffset[0]*Math.sin(detectState.ry); // normalized x position
   const yn = detectState.y*0.5 + 0.5+s*SETTINGS.artPaintingMaskOffset[1];
-  const sxn = s*SETTINGS.artPaintingMaskScale[0];
-  const syn = s*SETTINGS.artPaintingMaskScale[1];
+  const sxn = s * SETTINGS.artPaintingMaskScale[0];
+  const syn = s * SETTINGS.artPaintingMaskScale[1];
 
   GL.useProgram(SHPS.cropUserFace.program);
   GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, USERCROP.potFaceCutTexture, 0);
@@ -721,7 +723,7 @@ function callbackTrack(detectState){
             s:  round(detectState.s),
             ry: round(detectState.ry)
           }).replace(/"/g, ''));
-          STATE=STATES.BUSY;
+          STATE = STATES.BUSY;
           build_artPaintingMask(detectState, reset_toVideo);
           return;
         }
