@@ -6,7 +6,7 @@ const SETTINGS = {
   detectState: {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926}, // detect state in the initial art painting to avoid search step
 
   nDetectsArtPainting: 25, // number of positive detections to perfectly locate the face in the art painting
-  detectArtPaintingThreshold: 0.6,
+  detectArtPaintingThreshold: 0.7,
 
   // hold shape parameters:
   artPaintingMaskScale: [1.3, 1.5],
@@ -19,7 +19,7 @@ const SETTINGS = {
   videoDetectSizePx: 1024,
   faceRenderSizePx: 256,
   zoomFactor: 1.03, // 1-> exactly the same zoom than for the art painting
-  detectionThreshold: 0.65, // sensibility, between 0 and 1. Less -> more sensitive
+  detectionThreshold: 0.8, // sensibility, between 0 and 1. Less -> more sensitive
   detectionHysteresis: 0.03,
     
   // mixed settings:
@@ -617,10 +617,10 @@ function position_userCropCanvas(){
   FFSPECS.canvasElement.style.position = 'absolute';
 
   // compute topPx an leftPx in the artpainting canvas image ref:
-  let topPx = ARTPAINTING.image.height*ARTPAINTING.positionFace[1];
-  let leftPx = ARTPAINTING.image.width*ARTPAINTING.positionFace[0];
-  let widthFacePx = ARTPAINTING.image.width*ARTPAINTING.scaleFace[0];
-  let heightFacePx = ARTPAINTING.image.height*ARTPAINTING.scaleFace[1];
+  let topPx = ARTPAINTING.image.height * ARTPAINTING.positionFace[1];
+  let leftPx = ARTPAINTING.image.width * ARTPAINTING.positionFace[0];
+  let widthFacePx = ARTPAINTING.image.width * ARTPAINTING.scaleFace[0];
+  let heightFacePx = ARTPAINTING.image.height * ARTPAINTING.scaleFace[1];
   let widthPx = widthFacePx*SETTINGS.videoDetectSizePx/SETTINGS.faceRenderSizePx; //the whole canvas is bigger than the user face rendering
   topPx = ARTPAINTING.image.height-topPx; //Y axis is inverted between WebGL viewport and CSS
 
