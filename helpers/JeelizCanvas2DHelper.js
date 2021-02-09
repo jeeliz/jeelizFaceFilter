@@ -110,6 +110,7 @@ const JeelizCanvas2DHelper = function(spec){
       GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 
       // draw the video first:
+      GL.activeTexture(GL.TEXTURE0);
       GL.bindTexture(GL.TEXTURE_2D, VIDEOTEXTURE);
       GL.uniformMatrix2fv(UUVTRANSFORM, false, VIDEOTEXTURETRANSFORMMAT2);
       GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);

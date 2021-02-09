@@ -17,10 +17,10 @@ function main(){
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
-      if (detectState.detected>0.6){
+      if (detectState.detected > 0.8){
         // draw a border around the face:
         const faceCoo = CVD.getCoordinates(detectState);
-        CVD.ctx.clearRect(0,0,CVD.canvas.width, CVD.canvas.height);
+        CVD.ctx.clearRect(0, 0, CVD.canvas.width, CVD.canvas.height);
         CVD.ctx.strokeRect(faceCoo.x, faceCoo.y, faceCoo.w, faceCoo.h);
         CVD.update_canvasTexture();
       }
