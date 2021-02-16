@@ -669,7 +669,7 @@ Developer support plans are billed each calendar year. There is a 6 months commi
 | Designated contacts |  | 1 | 1 | 5 |
 | Screenshare/videocall support |  |  | X | X |
 | Screenshare/videocall support delay |  |  | 3 business days | 1 business day |
-| Additional Hourly pricing |  | $110 | $90 | $80 |
+| Additional Hourly pricing | $150 | $120 | $100 | $100 |
 | **Price** | **Free** | **$50/mo** | **$120/mo** | **$700/mo** |
 
 Please contact us at **contact__at__jeeliz.com** and provide:
