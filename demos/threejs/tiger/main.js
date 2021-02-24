@@ -1,13 +1,12 @@
 "use strict";
 
-//some globalz :
-var THREECAMERA;
-var MOUTHOPENINGMATERIALS = [];
-var TIGERMOUTHHIDEMESH = null;
-var PARTICLESOBJ3D, PARTICLES = [], PARTICLESHOTINDEX = 0, PARTICLEDIR;
-var ISDETECTED = false;
+// some globalz:
+let THREECAMERA = null, TIGERMOUTHHIDEMESH = null;
+let MOUTHOPENINGMATERIALS = [];
+let PARTICLESOBJ3D = null, PARTICLES = [], PARTICLESHOTINDEX = 0, PARTICLEDIR = null;
+let ISDETECTED = false;
 
-//callback : launched if a face is detected or lost
+// callback: launched if a face is detected or lost
 function detect_callback(isDetected){
   if (isDetected){
     console.log('INFO in detect_callback(): DETECTED');
@@ -53,7 +52,7 @@ function initParticle( particle, delay, direction) { // init 1 particle position
     .start();
 }
 
-function build_customMaskMaterial(textureURL){
+function build_customMaskMaterial(textureURL, videoTransformMat2){
   let vertexShaderSource = THREE.ShaderLib.lambert.vertexShader;
   vertexShaderSource = vertexShaderSource.replace('void main() {', 'varying vec3 vPos; uniform float mouthOpening; void main(){ vPos=position;');
   let glslSource = [
@@ -75,15 +74,19 @@ function build_customMaskMaterial(textureURL){
     'alphaMask = max(alphaMask, smoothstep(0.65, 0.75, vPos.z));', // force the nose opaque
     'float isDark = step(dot(texelColor.rgb, vec3(1.,1.,1.)), 1.0);',
     'alphaMask = mix(alphaMask, 1., isDark);',// only make transparent light parts'
+    // compute get video color:
     'vec2 uvVp = gl_FragCoord.xy/resolution;', // 2D position in the viewport (between 0 and 1)
     'float scale = 0.03 / vPos.z;', // scale of the distorsion in 2D
-    'vec2 uvMove = vec2(-sign(vPos.x), -1.5)*scale;', // video distorsion. the sign() distinguish between left and right face side
-    'vec4 videoColor = texture2D(samplerVideo, uvVp+uvMove);',
-    'float videoColorGS = dot(vec3(0.299, 0.587, 0.114),videoColor.rgb);', // grayscale value of the video pixel
-    'videoColor.rgb = videoColorGS*vec3(1.5,0.6,0.0);', // color video with orange
+    'vec2 uvMove = vec2(-sign(vPos.x), -1.5) * scale;', // video distorsion. the sign() distinguish between left and right face side
+    'uvVp += uvMove;', // apply uvMove
+    'vec2 uvVideo = 0.5 + 2.0 * videoTransformMat2 * (uvVp - 0.5);', // UV coordinate in camera video texture. videoTransformMat2 should be applied to centered UVs
+    'vec4 videoColor = texture2D(samplerVideo, uvVideo);',
+    // process and mix video color with rendering color:
+    'float videoColorGS = dot(vec3(0.299, 0.587, 0.114), videoColor.rgb);', // grayscale value of the video pixel
+    'videoColor.rgb = videoColorGS * vec3(1.5,0.6,0.0);', // color video with orange
     'gl_FragColor = mix(videoColor, gl_FragColor, alphaMask);' // mix video background with mask color
   ].join('\n');
-  fragmentShaderSource = fragmentShaderSource.replace('void main() {', 'varying vec3 vPos; uniform sampler2D samplerVideo; uniform vec2 resolution; void main(){');
+  fragmentShaderSource = fragmentShaderSource.replace('void main() {', 'varying vec3 vPos; uniform sampler2D samplerVideo; uniform vec2 resolution; uniform mat2 videoTransformMat2; void main(){');
   fragmentShaderSource = fragmentShaderSource.replace('#include <dithering_fragment>', '#include <dithering_fragment>\n'+glslSource);
     
   const mat = new THREE.ShaderMaterial({
@@ -92,7 +95,8 @@ function build_customMaskMaterial(textureURL){
     uniforms: Object.assign({
       samplerVideo: {value: JeelizThreeHelper.get_threeVideoTexture()},
       resolution: {value: new THREE.Vector2(THREESTUFF.renderer.getSize().width, THREESTUFF.renderer.getSize().height)},
-      mouthOpening: {value: 0}
+      mouthOpening: {value: 0},
+      videoTransformMat2: {value: videoTransformMat2}
     }, THREE.ShaderLib.lambert.uniforms),
     lights: true,
     transparent: true
@@ -108,15 +112,17 @@ function build_customMaskMaterial(textureURL){
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec){
+
   // INIT THE THREE.JS context
   const threeStuffs = JeelizThreeHelper.init(spec, detect_callback);
   window.THREESTUFF = threeStuffs; // to debug in the console
+  const videoTransformMat2 = spec.videoTransformMat2;
 
   // LOAD THE TIGGER MESH
   const tigerMaskLoader = new THREE.BufferGeometryLoader();
   tigerMaskLoader.load('TigerHead.json', function(tigerMaskGeom){
-    const tigerFaceSkinMat = build_customMaskMaterial('headTexture2.png');
-    const tigerEyesMat = build_customMaskMaterial('white.png');
+    const tigerFaceSkinMat = build_customMaskMaterial('headTexture2.png', videoTransformMat2);
+    const tigerEyesMat = build_customMaskMaterial('white.png', videoTransformMat2);
 
     const whiskersMat = new THREE.MeshLambertMaterial({
       color: 0xffffff
@@ -180,7 +186,7 @@ function main(){
 
       console.log('INFO: JEEFACEFILTERAPI IS READY');
       init_threeScene(spec);
-    }, //end callbackReady()
+    },
 
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
