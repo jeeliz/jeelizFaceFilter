@@ -278,7 +278,7 @@ JEEFACEFILTERAPI.init({
 ```
 * `<dict> scanSettings`: override face scan settings - see `set_scanSettings(...)` method for more information.
 * `<dict> stabilizationSettings`: override tracking stabilization settings - see `set_stabilizationSettings(...)` method for more information.
-* `<boolean> isKeepRunningOnWinFocusLost`: Whether we should keep the detection loop running even if the user switch the browser tab or minimize the browser window. Default value is `false`. This option is useful for videoconferencing app, where a face mask should be still computed if the *FaceFilter* window is not the active window. Even with this option toggled on, the face tracking is still slowed down when the FaceFilter window is not active.
+* `<boolean> isKeepRunningOnWinFocusLost`: Whether we should keep the detection loop running even if the user switches the browser tab or minimizes the browser window. Default value is `false`. This option is useful for a videoconferencing app, where a face mask should be still computed if the *FaceFilter* window is not the active window. Even with this option toggled on, the face tracking is still slowed down when the FaceFilter window is not active.
 
 
 If the user has a mobile device in portrait display mode, the width and height of these parameters are automatically inverted for the first camera request. If it does not succeed, we invert the width and height.
