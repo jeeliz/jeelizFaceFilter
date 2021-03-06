@@ -580,10 +580,22 @@ This API requires the user's webcam video feed through `MediaStream API`. So you
 
 For development purpose we provide a simple and minimalist HTTPS server in order to check out the demos or develop your very own filters. To launch it, execute in the bash console:
 
+#### with phython2
 ```bash
   python2 httpsServer.py
 ```
 It requires Python 2.X. Then open in your web browser [https://localhost:4443](https://localhost:4443).
+
+#### with node
+```bash
+  npm install
+  npm run dev
+```
+
+go to [https://127.0.0.1:8000/demos/threejs/cube/index.html](https://127.0.0.1:8000/demos/threejs/cube/index.html)
+
+when you open the browser it will show not secure. Go to advance. Click proceed. 
+
 
 
 ### Hosting optimization
