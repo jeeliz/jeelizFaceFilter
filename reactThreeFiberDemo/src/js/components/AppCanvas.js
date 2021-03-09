@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react'
 import { Canvas, useFrame, useThree, useUpdate } from 'react-three-fiber'
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
-import { JEEFACEFILTERAPI, NN_4EXPR } from 'facefilter'
+import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter'
 
 // import THREE.js helper, useful to compute pose
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
@@ -107,7 +107,7 @@ class AppCanvas extends Component {
     const newSizing = compute_sizing()
     this.setState({sizing: newSizing}, () => {
       if (_timerResize) return
-      JEEFACEFILTERAPI.resize()      
+      JEELIZFACEFILTER.resize()      
     })
   }
 
@@ -117,7 +117,7 @@ class AppCanvas extends Component {
       return
     }
 
-    console.log('INFO: JEEFACEFILTERAPI IS READY')
+    console.log('INFO: JEELIZFACEFILTER IS READY')
     // there is only 1 face to track, so 1 face follower:
     JeelizThreeFiberHelper.init(spec, _faceFollowers, this.callbackDetect)    
   }
@@ -130,7 +130,7 @@ class AppCanvas extends Component {
     JeelizThreeFiberHelper.update(detectStates, _threeFiber.camera)
 
     // render the video texture on the faceFilter canvas:
-    JEEFACEFILTERAPI.render_video();
+    JEELIZFACEFILTER.render_video();
 
     // get expressions factors:
     detectStates.forEach((detectState, faceIndex) => {
@@ -153,7 +153,7 @@ class AppCanvas extends Component {
   }
 
   componentWillUnmount() {
-    JEEFACEFILTERAPI.destroy()
+    JEELIZFACEFILTER.destroy()
   }
 
   callbackDetect(faceIndex, isDetected) {
@@ -167,7 +167,7 @@ class AppCanvas extends Component {
   componentDidMount(){
     // init FACEFILTER:
     const canvas = this.refs.faceFilterCanvas    
-    JEEFACEFILTERAPI.init({
+    JEELIZFACEFILTER.init({
       canvas,
       NNC: NN_4EXPR,
       maxFacesDetected: 1,
@@ -189,7 +189,9 @@ class AppCanvas extends Component {
         }}
         gl={{
           preserveDrawingBuffer: true // allow image capture
-        }}>
+        }}
+        updateDefaultCamera = {false}
+        >
           <DirtyHook sizing={this.state.sizing} />
           <FaceFollower faceIndex={0} expressions={this.state.expressions[0]} />
         </Canvas>

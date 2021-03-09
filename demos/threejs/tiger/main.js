@@ -175,7 +175,7 @@ function init_threeScene(spec){
 
 // Entry point, launched by body.onload():
 function main(){
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // path of NN_DEFAULT.json file
     callbackReady: function(errCode, spec){
@@ -184,7 +184,7 @@ function main(){
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       init_threeScene(spec);
     },
 
@@ -215,7 +215,7 @@ function main(){
 
       JeelizThreeHelper.render(detectState, THREECAMERA);
     } //end callbackTrack()
-  }); //end JEEFACEFILTERAPI.init call
+  }); //end JEELIZFACEFILTER.init call
 } //end main()
 
  

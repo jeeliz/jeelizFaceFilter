@@ -99,7 +99,7 @@ function main(){
 
   load_gifURL(SETTINGS.gif, check_isLoaded.bind(null, 'GIF.image'));
 
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // root of NN_DEFAULT.json file
     callbackReady: function(errCode, spec){
@@ -113,13 +113,13 @@ function main(){
       FBO = GL.createFramebuffer();
       GLDRAWTARGET = (GL.DRAW_FRAMEBUFFER) ? GL.DRAW_FRAMEBUFFER : GL.FRAMEBUFFER;
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
-      check_isLoaded('JEEFACEFILTERAPI');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
+      check_isLoaded('JEELIZFACEFILTER');
     }, //end callbackReady()
 
     // called at each render iteration (drawing loop):
     callbackTrack: callbackTrack
-  }); //end JEEFACEFILTERAPI.init
+  }); //end JEELIZFACEFILTER.init
 }
 
 function check_isLoaded(label){
@@ -148,14 +148,14 @@ function set_gifFrameAsInput(frameIndex){
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
-  JEEFACEFILTERAPI.set_inputTexture(GIF.baseTexture, GIF.image.width, GIF.image.height);  
+  JEELIZFACEFILTER.set_inputTexture(GIF.baseTexture, GIF.image.width, GIF.image.height);  
 }
 
 
 function update_gif(detectedStates){ //called both at start (start()) and when user change the art painting
   FFSPECS.canvasElement.width = GIF.image.width;
   FFSPECS.canvasElement.height = GIF.image.height;
-  JEEFACEFILTERAPI.resize();
+  JEELIZFACEFILTER.resize();
 
   if (!GIF.baseTexture){
     GIF.baseTexture = GL.createTexture();
@@ -825,9 +825,9 @@ function reset_toVideo(){
 
   FFSPECS.canvasElement.width = SETTINGS.videoDetectSizePx;
   FFSPECS.canvasElement.height = SETTINGS.videoDetectSizePx;
-  JEEFACEFILTERAPI.resize();
+  JEELIZFACEFILTER.resize();
 
-  JEEFACEFILTERAPI.reset_inputTexture();
+  JEELIZFACEFILTER.reset_inputTexture();
   GIF.animation.currentFrameIndex = -1;
   GIF.animation.way = 1; // play forward
   GIF.animation.startTimestamp = Date.now();

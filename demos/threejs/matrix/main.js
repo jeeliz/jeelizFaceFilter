@@ -26,7 +26,7 @@ function main(){
 // called when the canvas is resized:
 function start(){
   // initialise Jeeliz Facefilter:
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'matrixCanvas',
     // path of NN_DEFAULT.json:
     NNCPath: '../../../neuralNets/',
@@ -35,7 +35,7 @@ function start(){
         console.log('HEY, THERE IS AN ERROR =', errCode);
         return;
       }
-      console.log('JEEFACEFILTERAPI WORKS YEAH!');
+      console.log('JEELIZFACEFILTER WORKS YEAH!');
       init_scene(spec);
     }, //end callbackReady()
 

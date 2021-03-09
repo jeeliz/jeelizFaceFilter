@@ -273,7 +273,7 @@ const JeelizFaceCut = (function(){
     },
 
     draw_video: function(){ // draw the video texture as background
-      JEEFACEFILTERAPI.render_video();
+      JEELIZFACEFILTER.render_video();
     },
 
     draw_search: function(detectStates){

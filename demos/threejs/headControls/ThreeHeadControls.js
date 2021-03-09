@@ -1,5 +1,5 @@
-if (typeof(JEEFACEFILTERAPI)==='undefined'){
-  throw new Error('Cannot found JEEFACEFILTERAPI. Was jeelizFaceFilter.js included before this script ?');
+if (typeof(JEELIZFACEFILTER)==='undefined'){
+  throw new Error('Cannot found JEELIZFACEFILTER. Was jeelizFaceFilter.js included before this script ?');
 } 
 
 if (typeof(HeadControls)==='undefined'){

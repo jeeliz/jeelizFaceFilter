@@ -114,7 +114,7 @@ const JeelizResizer = (function(){
 
   function resize_fullScreen(){
     resize_canvasToFullScreen();
-    JEEFACEFILTERAPI.resize();
+    JEELIZFACEFILTER.resize();
     _timerFullScreen = null;
     if (_callbackResize) {
       _callbackResize();

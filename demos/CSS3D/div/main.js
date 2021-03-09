@@ -168,7 +168,7 @@ function main(){
     return;
   }
 
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // root of NN_DEFAULT.json file
     animateDelay: 2, // let small delay to avoid DOM freeze
@@ -178,7 +178,7 @@ function main(){
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       init_scene(spec);
     }, //end callbackReady()
 
@@ -252,6 +252,6 @@ function main(){
       GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
 
     } //end callbackTrack()
-  }); //end JEEFACEFILTERAPI.init call
+  }); //end JEELIZFACEFILTER.init call
 } //end main()
 

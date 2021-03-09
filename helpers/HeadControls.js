@@ -9,7 +9,7 @@
   HeadControls.init(spec) with spec =
   spec (*-> mandatory): 
     - settings: object. override default settings if specified
-    - canvasId*: id of the canvas where the JEEFITAPI will be initialized. We will draw the face tracking on it
+    - canvasId*: id of the canvas where the JEELIZVTO will be initialized. We will draw the face tracking on it
     - callbackReady: callback launched when the controller is ready. launched with errCode if error, false otherwise
     - callbackMove*: function to move the camera
     - disableRestPosition: do not offset the face position with a rest position. Default: false
@@ -197,7 +197,7 @@ var HeadControls = (function(){
       _settings.tol.s /= 100;
 
       // init the API:
-       JEEFACEFILTERAPI.init({
+       JEELIZFACEFILTER.init({
         canvasId: spec.canvasId,
         NNCPath: spec.NNCPath, // root of NNC.json file
         callbackReady: function(errCode, jeeFaceFilterObj){
@@ -232,7 +232,7 @@ var HeadControls = (function(){
             spec.callbackMove(mv);
           }
         }
-      }); //end JEEFACEFILTERAPI.init call
+      }); //end JEELIZFACEFILTER.init call
     }, //end init()
 
     toggle: function(isEnabled){

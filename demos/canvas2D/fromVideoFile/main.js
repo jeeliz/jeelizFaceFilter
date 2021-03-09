@@ -14,7 +14,7 @@ function main(){ // entry point
 function start(){ // launched when the video is loaded
   let CVD = null; // return of Canvas2DDisplay
 
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     videoSettings: {
       videoElement: VIDEOELEMENT
@@ -26,7 +26,7 @@ function start(){ // launched when the video is loaded
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       CVD = JeelizCanvas2DHelper(spec);
       CVD.ctx.strokeStyle = 'yellow';
     },
@@ -42,5 +42,5 @@ function start(){ // launched when the video is loaded
       }
       CVD.draw();
     }
-  }); //end JEEFACEFILTERAPI.init call
+  }); //end JEELIZFACEFILTER.init call
 }

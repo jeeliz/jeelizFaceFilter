@@ -1,7 +1,7 @@
 function main(){
   let CVD = null; // return of Canvas2DDisplay
 
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // root of NN_DEFAULT.json file
     callbackReady: function(errCode, spec){
@@ -10,7 +10,7 @@ function main(){
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       CVD = JeelizCanvas2DHelper(spec);
       CVD.ctx.strokeStyle = 'yellow';
     },
@@ -26,5 +26,5 @@ function main(){
       }
       CVD.draw();
     }
-  }); //end JEEFACEFILTERAPI.init call
+  }); //end JEELIZFACEFILTER.init call
 } //end main()

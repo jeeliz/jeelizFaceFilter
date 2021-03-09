@@ -22,7 +22,7 @@ function start(errCode, bestVideoSettings){
     alert(errCode);
     return;
   }
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     videoSettings: bestVideoSettings,
     maxFacesDetected: 2,
     canvasId: 'jeeFaceFilterCanvas',
@@ -33,7 +33,7 @@ function start(errCode, bestVideoSettings){
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       init_view(spec);
     },
     callbackTrack: callbackTrack

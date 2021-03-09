@@ -68,7 +68,7 @@ function main(){
 }
 
 function start(){
-  JEEFACEFILTERAPI.init({ 
+  JEELIZFACEFILTER.init({ 
     videoSettings:{ // increase the default video resolution since we are in full screen
       'idealWidth': 1280,  // ideal video width in pixels
       'idealHeight': 800,  // ideal video height in pixels
@@ -84,7 +84,7 @@ function start(){
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       init_threeScene(spec);
     }, //end callbackReady()
 
@@ -92,6 +92,6 @@ function start(){
     callbackTrack: function(detectState){
       JeelizThreeHelper.render(detectState, THREECAMERA);
     }
-  }); //end JEEFACEFILTERAPI.init call
+  }); //end JEELIZFACEFILTER.init call
 } //end start()
 

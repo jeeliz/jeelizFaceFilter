@@ -161,7 +161,7 @@ function init_faceFilter(videoSettings){
   // Here we set a different pivotOffset value so that the mask fits better
   JeelizThreeHelper.set_pivotOffsetYZ(SETTINGS.pivotOffsetYZ);
 
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // path of NN_DEFAULT.json file
     videoSettings: videoSettings,
@@ -171,7 +171,7 @@ function init_faceFilter(videoSettings){
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       init_threeScene(spec);
     },
 
@@ -179,6 +179,6 @@ function init_faceFilter(videoSettings){
     callbackTrack: function (detectState) {
       JeelizThreeHelper.render(detectState, THREECAMERA);
     }
-  }); // end JEEFACEFILTERAPI.init call
+  }); // end JEELIZFACEFILTER.init call
 }
 

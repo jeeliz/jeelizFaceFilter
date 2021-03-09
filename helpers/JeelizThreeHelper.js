@@ -241,7 +241,7 @@ const JeelizThreeHelper = (function(){
 
       // handle device orientation change:
       window.addEventListener('orientationchange', function(){
-        setTimeout(JEEFACEFILTERAPI.resize, 1000);
+        setTimeout(JEELIZFACEFILTER.resize, 1000);
       }, false);
       
       const returnedDict = {
@@ -426,7 +426,7 @@ const JeelizThreeHelper = (function(){
     resize: function(w, h, threeCamera){
       _threeRenderer.domElement.width = w;
       _threeRenderer.domElement.height = h;
-      JEEFACEFILTERAPI.resize();
+      JEELIZFACEFILTER.resize();
       if (threeCamera){
         that.update_camera(threeCamera);
       }

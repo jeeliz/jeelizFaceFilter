@@ -11,12 +11,12 @@ function main(){ // entry point
 }
 
 function startVideoFile(videoElement){
-  start(JEEFACEFILTERAPI, 'jeeFaceFilterCanvas', videoElement, 'yellow');
+  start(JEELIZFACEFILTER, 'jeeFaceFilterCanvas', videoElement, 'yellow');
 }
 
 function startCamera(){
-  const JEEFACEFILTERAPI2 = JEEFACEFILTERAPI.create_new();
-  start(JEEFACEFILTERAPI2, 'jeeFaceFilterCanvas2', null, 'lime');
+  const JEELIZFACEFILTER2 = JEELIZFACEFILTER.create_new();
+  start(JEELIZFACEFILTER2, 'jeeFaceFilterCanvas2', null, 'lime');
 }
 
 function start(jeeFaceFilterAPIInstance, canvasId, videoElement, borderColor){
@@ -34,7 +34,7 @@ function start(jeeFaceFilterAPIInstance, canvasId, videoElement, borderColor){
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       cvd = JeelizCanvas2DHelper(spec);
       cvd.ctx.strokeStyle = borderColor;
     },

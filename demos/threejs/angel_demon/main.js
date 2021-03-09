@@ -509,7 +509,7 @@ function main() {
 }
 
 function init_faceFilter(videoSettings) {
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // path of NN_DEFAULT.json file
     videoSettings: videoSettings,
@@ -519,7 +519,7 @@ function init_faceFilter(videoSettings) {
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       init_threeScene(spec);
     },
 
@@ -557,6 +557,6 @@ function init_faceFilter(videoSettings) {
       // trigger the render of the THREE.JS SCENE
       JeelizThreeHelper.render(detectState, THREECAMERA);
     } // end callbackTrack()
-  }); // end JEEFACEFILTERAPI.init call
+  }); // end JEELIZFACEFILTER.init call
 }
 

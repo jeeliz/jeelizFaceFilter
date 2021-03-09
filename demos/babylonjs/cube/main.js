@@ -109,7 +109,7 @@ function init_babylonScene(spec){
 
 // entry point:
 function main(){
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // root of NN_DEFAULT.json file
     callbackReady: function(errCode, spec){
@@ -118,7 +118,7 @@ function main(){
         return;
       }
 
-      console.log('INFO  JEEFACEFILTERAPI IS READY');
+      console.log('INFO  JEELIZFACEFILTER IS READY');
       init_babylonScene(spec);
     },
 
@@ -167,6 +167,6 @@ function main(){
       
       BABYLONENGINE.wipeCaches();
     } //end callbackTrack()
-  }); //end JEEFACEFILTERAPI.init call
+  }); //end JEELIZFACEFILTER.init call
 } //end main()
 

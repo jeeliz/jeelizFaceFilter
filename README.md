@@ -216,7 +216,7 @@ On your HTML page, you first need to include the main script between the tags `<
  <script src="dist/jeelizFaceFilter.js"></script>
 ```
 
-Then you should include a `<canvas>` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the `<canvas>` element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEEFACEFILTERAPI.resize()` if you resize the canvas after the initialization step. We strongly encourage you to use our helper `/helpers/JeelizResizer.js` to set the width and height of the canvas (see [Optimization/Canvas and video resolutions](#optimization) section).
+Then you should include a `<canvas>` HTML element in the DOM, between the tags `<body>` and `</body>`. The `width` and `height` properties of the `<canvas>` element should be set. They define the resolution of the canvas and the final rendering will be computed using this resolution. Be careful to not enlarge too much the canvas size using its CSS properties without increasing its resolution, otherwise it may look blurry or pixelated. We advise to fix the resolution to the actual canvas size. Do not forget to call `JEELIZFACEFILTER.resize()` if you resize the canvas after the initialization step. We strongly encourage you to use our helper `/helpers/JeelizResizer.js` to set the width and height of the canvas (see [Optimization/Canvas and video resolutions](#optimization) section).
 
 ```html
 <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
@@ -224,7 +224,7 @@ Then you should include a `<canvas>` HTML element in the DOM, between the tags `
 
 This canvas will be used by WebGL both for the computation and the 3D rendering. When your page is loaded you should launch this function:
 ```javascript
-JEEFACEFILTERAPI.init({
+JEELIZFACEFILTER.init({
   canvasId: 'jeeFaceFilterCanvas',
   NNCPath: '../../../neuralNets/', // path to JSON neural network model (NN_DEFAULT.json by default)
   callbackReady: function(errCode, spec){
@@ -233,7 +233,7 @@ JEEFACEFILTERAPI.init({
       return;
     }
     // [init scene with spec...]
-    console.log('INFO: JEEFACEFILTERAPI IS READY');
+    console.log('INFO: JEELIZFACEFILTER IS READY');
   }, //end callbackReady()
 
   // called at each render iteration (drawing loop)
@@ -330,45 +330,45 @@ In multiface detection mode, `detectState` is an array. Its size is equal to the
 
 After the initialization (ie after that `callbackReady` is launched ) , these methods are available:
 
-* `JEEFACEFILTERAPI.resize()`: should be called after resizing the `<canvas>` element to adapt the cut of the video. It should also be called if the device orientation is changed to take account of new video dimensions,
+* `JEELIZFACEFILTER.resize()`: should be called after resizing the `<canvas>` element to adapt the cut of the video. It should also be called if the device orientation is changed to take account of new video dimensions,
 
-* `JEEFACEFILTERAPI.toggle_pause(<boolean> isPause, <boolean> isShutOffVideo)`: pause/resume. This method will completely stop the rendering/detection loop. If `isShutOffVideo` is set to `true`, the media stream track will be stopped and the camera light will turn off. It returns a `Promise` object,
+* `JEELIZFACEFILTER.toggle_pause(<boolean> isPause, <boolean> isShutOffVideo)`: pause/resume. This method will completely stop the rendering/detection loop. If `isShutOffVideo` is set to `true`, the media stream track will be stopped and the camera light will turn off. It returns a `Promise` object,
 
-* `JEEFACEFILTERAPI.toggle_slow(<boolean> isSlow)`: toggle the slow rendering mode: because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relieve the GPU. Unfortunately the tracking and the 3D rendering will also be slower but this is not a problem is the user is focusing on other elements of the application. We encourage to enable the slow mode as soon as a the user's attention is focused on a different part of the canvas,
+* `JEELIZFACEFILTER.toggle_slow(<boolean> isSlow)`: toggle the slow rendering mode: because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relieve the GPU. Unfortunately the tracking and the 3D rendering will also be slower but this is not a problem is the user is focusing on other elements of the application. We encourage to enable the slow mode as soon as a the user's attention is focused on a different part of the canvas,
 
-* `JEEFACEFILTERAPI.set_animateDelay(<integer> delay)`: Change the `animateDelay` (see `init()` arguments),
+* `JEELIZFACEFILTER.set_animateDelay(<integer> delay)`: Change the `animateDelay` (see `init()` arguments),
 
-* `JEEFACEFILTERAPI.set_inputTexture(<WebGLTexture> tex, <integer> width, <integer> height)`: Change the video input by a WebGL Texture instance. The dimensions of the texture, in pixels, should be provided,
+* `JEELIZFACEFILTER.set_inputTexture(<WebGLTexture> tex, <integer> width, <integer> height)`: Change the video input by a WebGL Texture instance. The dimensions of the texture, in pixels, should be provided,
 
-* `JEEFACEFILTERAPI.reset_inputTexture()`: Come back to the user's video as input texture,
+* `JEELIZFACEFILTER.reset_inputTexture()`: Come back to the user's video as input texture,
 
-* `JEEFACEFILTERAPI.get_videoDevices(<function> callback)`: Should be called before the `init` method. 2 arguments are provided to the callback function:
+* `JEELIZFACEFILTER.get_videoDevices(<function> callback)`: Should be called before the `init` method. 2 arguments are provided to the callback function:
   * `<array> mediaDevices`: an array with all the devices founds. Each device is a javascript object having a `deviceId` string attribute. This value can be provided to the `init` method to use a specific webcam. If an error happens, this value is set to `false`,
   * `<string> errorLabel`: if an error happens, the label of the error. It can be: `NOTSUPPORTED`, `NODEVICESFOUND` or `PROMISEREJECTED`.
 
-* `JEEFACEFILTERAPI.set_scanSettings(<object> scanSettings)`: Override scan settings. `scanSettings` is a dictionnary with the following properties:
+* `JEELIZFACEFILTER.set_scanSettings(<object> scanSettings)`: Override scan settings. `scanSettings` is a dictionnary with the following properties:
   * `<float> scale0Factor`: Relative width (`1` -> full width) of the searching window at the largest scale level. Default value is `0.8`,
   * `<int> nScaleLevels`: Number of scale levels. Default is `3`,
   * `[<float>, <float>, <float>] overlapFactors`: relative overlap according to X,Y and scale axis between 2 searching window positions. Higher values make scan faster but it may miss some positions. Set to `[1, 1, 1]` for no overlap. Default value is `[2, 2, 3]`,
   * `<int> nDetectsPerLoop`: specify the number of detection per drawing loop. `-1` for adaptative value. Default: `-1`
 
-* `JEEFACEFILTERAPI.set_stabilizationSettings(<object> stabilizationSettings)`: Override detection stabilization settings. The output of the neural network is always noisy, so we need to stabilize it using a floatting average to avoid shaking artifacts. The internal algorithm computes first a stabilization factor `k` between `0` and `1`. If `k==0.0`, the detection is bad and we favor responsivity against stabilization. It happens when the user is moving quickly, rotating the head or when the detection is bad. On the contrary, if `k` is close to `1`, the detection is nice and the user does not move a lot so we can stabilize a lot. `stabilizationSettings` is a dictionnary with the following properties:
+* `JEELIZFACEFILTER.set_stabilizationSettings(<object> stabilizationSettings)`: Override detection stabilization settings. The output of the neural network is always noisy, so we need to stabilize it using a floatting average to avoid shaking artifacts. The internal algorithm computes first a stabilization factor `k` between `0` and `1`. If `k==0.0`, the detection is bad and we favor responsivity against stabilization. It happens when the user is moving quickly, rotating the head or when the detection is bad. On the contrary, if `k` is close to `1`, the detection is nice and the user does not move a lot so we can stabilize a lot. `stabilizationSettings` is a dictionnary with the following properties:
   * `[<float> minValue, <float> maxValue] translationFactorRange`: multiply `k` by a factor `kTranslation` depending on the translation speed of the head (relative to the viewport). `kTranslation=0` if `translationSpeed<minValue` and `kTranslation=1` if `translationSpeed>maxValue`. The regression is linear. Default value: `[0.0015, 0.005]`,
   * `[<float> minValue, <float> maxValue] rotationFactorRange`: analogous to `translationFactorRange` but for rotation speed. Default value: `[0.003, 0.02]`,
   * `[<float> minValue, <float> maxValue] qualityFactorRange`: analogous to `translationFactorRange` but for the head detection coefficient. Default value: `[0.9, 0.98]`,
   * `[<float> minValue, <float> maxValue] alphaRange`: it specify how to apply `k`. Between 2 successive detections, we blend the previous `detectState` values with the current detection values using a mixing factor `alpha`. `alpha=<minValue>` if `k<0.0` and `alpha=<maxValue>` if `k>1.0`. Between the 2 values, the variation is quadratic. Default value: `[0.05, 1]`.
 
-* `JEEFACEFILTERAPI.update_videoElement(<video> vid, <function|False> callback)`: change the video element used for the face detection (which can be provided via `VIDEOSETTINGS.videoElement`) by another video element. A callback function can be called when it is done.
+* `JEELIZFACEFILTER.update_videoElement(<video> vid, <function|False> callback)`: change the video element used for the face detection (which can be provided via `VIDEOSETTINGS.videoElement`) by another video element. A callback function can be called when it is done.
 
-* `JEEFACEFILTERAPI.update_videoSettings(<object> videoSettings)`: dynamically change the video settings (see [Optional init arguments](optional-init-arguments) for the properties of `videoSettings`). It is useful to change the camera from the selfie camera (user) to the back (environment) camera. A `Promise` is returned.
+* `JEELIZFACEFILTER.update_videoSettings(<object> videoSettings)`: dynamically change the video settings (see [Optional init arguments](optional-init-arguments) for the properties of `videoSettings`). It is useful to change the camera from the selfie camera (user) to the back (environment) camera. A `Promise` is returned.
 
-* `JEEFACEFILTERAPI.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`,
+* `JEELIZFACEFILTER.set_videoOrientation(<integer> angle, <boolean> flipX)`: Dynamically change `videoSettings.rotate` and `videoSettings.flipX`. This method should be called after initialization. The default values are `0` and `false`. The angle should be chosen among these values: `0, 90, 180, -90`,
 
-* `JEEFACEFILTERAPI.destroy()`: Clean both graphic memory and JavaScript memory, uninit the library. After that you need to init the library again. A `Promise` is returned,
+* `JEELIZFACEFILTER.destroy()`: Clean both graphic memory and JavaScript memory, uninit the library. After that you need to init the library again. A `Promise` is returned,
 
-* `JEEFACEFILTERAPI.reset_GLState()`: reset the WebGL context,
+* `JEELIZFACEFILTER.reset_GLState()`: reset the WebGL context,
 
-* `JEEFACEFILTERAPI.render_video()`: render the video on the `<canvas>` element.
+* `JEELIZFACEFILTER.render_video()`: render the video on the `<canvas>` element.
 
 
 
@@ -396,7 +396,7 @@ Then in your main script, before initializing Jeeliz FaceFilter, you should call
 JeelizResizer.size_canvas({
   canvasId: 'jeeFaceFilterCanvas',
     callback: function(isError, bestVideoSettings){
-      JEEFACEFILTERAPI.init({
+      JEELIZFACEFILTER.init({
         videoSettings: bestVideoSettings,
         // ...
         // ...
@@ -427,10 +427,10 @@ You can use our `Three.js` multiple faces detection helper, `helpers/JeelizThree
 
 ### Multiple videos
 
-To create a new `JEEFACEFILTERAPI` instance, you need to call:
+To create a new `JEELIZFACEFILTER` instance, you need to call:
 
 ```javascript
-const JEEFACEFILTERAPI2 = JEEFACEFILTERAPI.create_new();
+const JEELIZFACEFILTER2 = JEELIZFACEFILTER.create_new();
 ```
 
 Be aware that:
@@ -450,10 +450,10 @@ The 3D engine should share the WebGL context with FaceFilter API. The WebGL cont
 
 ### Changing the neural network
 
-Since July 2018 it is possible to change the neural network. When calling `JEEFACEFILTERAPI.init({...})` with `NNCPath: <path of NN_DEFAULT.json>` you set NNCPath value to a specific neural network file:
+Since July 2018 it is possible to change the neural network. When calling `JEELIZFACEFILTER.init({...})` with `NNCPath: <path of NN_DEFAULT.json>` you set NNCPath value to a specific neural network file:
 
 ```javascript
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     NNCPath: '../../neuralNets/NN_LIGHT_0.json'
     // ...
   })
@@ -494,7 +494,7 @@ faceFilter.init({
       return;
     }
     // [init scene with spec...]
-    console.log('INFO: JEEFACEFILTERAPI IS READY');
+    console.log('INFO: JEELIZFACEFILTER IS READY');
   }, //end callbackReady()
 
   // called at each render iteration (drawing loop)

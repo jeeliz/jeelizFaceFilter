@@ -367,7 +367,7 @@ function update_canvasTexture(){
 
 // entry point - launched by body.onload():
 function main(){
-  JEEFACEFILTERAPI.init({
+  JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // root of NN_DEFAULT.json file
     callbackReady: function(errCode, spec){
@@ -376,7 +376,7 @@ function main(){
         return;
       }
 
-      console.log('INFO: JEEFACEFILTERAPI IS READY');
+      console.log('INFO: JEELIZFACEFILTER IS READY');
       init_scene(spec);
       init_eventListeners();
     }, //end callbackReady()
@@ -447,6 +447,6 @@ function main(){
         GL.disable(GL.BLEND);
       } //end if face detected
     } //end callbackTrack()
-  }); //end JEEFACEFILTERAPI.init call
+  }); //end JEELIZFACEFILTER.init call
 }
 
