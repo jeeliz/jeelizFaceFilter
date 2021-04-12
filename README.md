@@ -165,7 +165,7 @@ These demonstration are included in this repository. So they are released under 
 
 [comment]:![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
 
-If you have not bought a webcam yet, a screenshot video of some of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ). You can also subscribe to the [Jeeliz Youtube channel](https://www.youtube.com/channel/UC3XmXH1T3d1XFyOhrRiiUeA) or to the [@StartupJeeliz Twitter account](https://twitter.com/Jeeliz_AR) to be kept informed of our cutting edge developments.
+If you have not bought a webcam yet, a screenshot video of some of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ). You can also subscribe to the [Jeeliz Youtube channel](https://www.youtube.com/channel/UC3XmXH1T3d1XFyOhrRiiUeA) or to the [@Jeeliz_AR Twitter account](https://twitter.com/Jeeliz_AR) to be kept informed of our cutting edge developments.
 
 
 
@@ -201,7 +201,7 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [Facepaint](https://facepaint.patriciaarnedo.com/): Draw your own face filters with this creative web application developed by [Patricia Arnedo](https://www.linkedin.com/in/patriciaarnedo/) - [Medium article on the demo](https://patriciaarnedo.medium.com/building-an-ar-drawing-app-using-react-5f47740a747c)
 
-If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
+If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @Jeeliz_AR](https://twitter.com/Jeeliz_AR) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
 
 
 ## Specifications
