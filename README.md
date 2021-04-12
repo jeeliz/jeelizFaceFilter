@@ -5,7 +5,7 @@ This JavaScript library detects and tracks the face in real time from the webcam
 
 This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw: if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured helpers, examples and boilerplates, you can quickly deal with a higher level context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned!
 
-If you need a custom development service using this library, you can submit the [FaceFilter development request form](https://forms.gle/kktPyojpJbwSSPED7). We will get back to you quickly.
+<!-- If you need a custom development service using this library, you can submit the [FaceFilter development request form](https://forms.gle/kktPyojpJbwSSPED7). We will get back to you quickly. -->
 
 
 
@@ -41,8 +41,8 @@ If you need a custom development service using this library, you can submit the 
   * [Under the hood](#under-the-hood)
   * [Compatibility](#compatibility)
 * [Articles and tutorials](#articles-and-tutorials)
-* [Developer support plans](#developer-support-plans)
-* [Jeeliz Partner Network](#jeeliz-partner-network)
+<!-- * [Developer support plans](#developer-support-plans) -->
+<!-- * [Jeeliz Partner Network](#jeeliz-partner-network) -->
 * [License](#license)
 * [References](#references)
 
@@ -199,7 +199,7 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [SnapChat Clone](https://towhidkashem.github.io/snapchat-clone/): Great work from [Towhid Kashem](https://www.linkedin.com/in/towhid-kashem/). This library has been wrapped up to build a Snapchat clone. Check out the [Github source code repository](https://github.com/TowhidKashem/snapchat-clone), try the [live demo](https://towhidkashem.github.io/snapchat-clone/) or read the [Reddit thread](https://www.reddit.com/r/Frontend/comments/hqfu91/i_made_a_snapchat_clone_in_the_browser/).
 
-* [Facepaint](https://facepaint.patriciaarnedo.com/): Draw your own face filters with this creative web application developed by [Patricia Arnedo](https://patriciaarnedo.com)
+* [Facepaint](https://facepaint.patriciaarnedo.com/): Draw your own face filters with this creative web application developed by [Patricia Arnedo](https://patriciaarnedo.com) - [Medium article on the demo](https://patriciaarnedo.medium.com/building-an-ar-drawing-app-using-react-5f47740a747c)
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @StartupJeeliz](https://twitter.com/StartupJeeliz) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
 
@@ -658,6 +658,8 @@ You have written a tutorial using this library? Submit a pull request or send us
 
 * Video tutorials by [Chris Godber](http://chrisgodber.co.uk/): [Headtracking Controls with Three JS](https://youtu.be/_Fs4Sbn2LPc)
 
+* Tutorial on Medium by [Patricia Arnedo](https://patriciaarnedo.medium.com/): [Building an AR Drawing App Using React](https://patriciaarnedo.medium.com/building-an-ar-drawing-app-using-react-5f47740a747c)
+
 
 ### In French
 
@@ -669,6 +671,7 @@ You have written a tutorial using this library? Submit a pull request or send us
 * Good overall review and explanations of the library on Qiita.com: [jeelizFaceFilterを試してみた](https://qiita.com/hirogw/items/2464fe62b13cf6816783)
 
 
+<!--
 ## Developer support plans
 
 Developer support plans are billed each calendar year. There is a 6 months commitment period: you can cancel or change your plan every 6 months from the beginning of your subscription.
@@ -694,14 +697,15 @@ Please contact us at **contact__at__jeeliz.com** and provide:
 5. The name(s) of the people who will benefit from the support (*designated contacts*).
 
 We will send back the contract proposal.
+-->
 
-
+<!-- 
 ## Jeeliz Partner Network
 
 If you are a freelance developer, or if you represent a software company or a web agency able to build projects with this library, you can join the Jeeliz Partner Network (JPN) by filling this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSccwO9Seyi4ZHkXc_Udn0VRWUhKZfXpO6AGMFamnWVVXOA1hA/viewform?usp=sf_link). We will redirect you development services requests involving this library. We will also provide premium support for integrating and using this library.
 
 Conversely, if you are looking for a reliable development service provider to build your face filter using this library, please fill the [FaceFilter development request form](https://forms.gle/kktPyojpJbwSSPED7). We will put you in touch with a qualified partner.
-
+-->
 
 ## License
 
