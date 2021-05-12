@@ -27,6 +27,7 @@ function start(errCode, bestVideoSettings){
     maxFacesDetected: 2,
     canvasId: 'jeeFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // root of NN_DEFAULT.json file
+    //NNCPath: '../../../../../../../',
     callbackReady: function(errCode, spec){
       if (errCode){
         alert('AN ERROR HAPPENS. SORRY BRO :( . ERR =' + errCode);
@@ -54,6 +55,7 @@ function init_view(spec){
 function callbackTrack(detectedStates){
   // for debug:
   // FACECUT0.cut(detectedStates[0]); JeelizFaceCut.draw_video(); FACECUT0.render(FACECUT0); return;
+  //console.log(detectedStates[0].detected, detectedStates[1].detected);
 
   if (detectedStates[0].detected<SETTINGS.detectionThreshold || detectedStates[1].detected<SETTINGS.detectionThreshold){
     // less than 2 faces are detected
