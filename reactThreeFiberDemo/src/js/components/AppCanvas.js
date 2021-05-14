@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Canvas, useFrame, useThree, useUpdate } from 'react-three-fiber'
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
@@ -64,54 +64,47 @@ const compute_sizing = () => {
   return {width, height, top, left}
 }
 
-class AppCanvas extends Component {
-  constructor(props) {
-    super(props)
+const AppCanvas = () => {
 
-    // init state:
-    const expressions = []
-    for (let i = 0; i<_maxFacesDetected; ++i){
-      expressions.push({
-        mouthOpen: 0,
-        mouthSmile: 0,
-        eyebrowFrown: 0,
-        eyebrowRaised: 0
-      })
-    }
-    this.state = {
-      sizing: compute_sizing(),
-      expressions
-    }
+  // init state:
+  const expressions0 = []
+  for (let i = 0; i<_maxFacesDetected; ++i){
+    expressions0.push({
+      mouthOpen: 0,
+      mouthSmile: 0,
+      eyebrowFrown: 0,
+      eyebrowRaised: 0
+    })
+  }  
+  const [sizing, setSizing] = useState(compute_sizing())
+  const [expressions, setExpressions] = useState(expressions0)
+  const [isInitialized] = useState(true)
 
-    // handle resizing / orientation change:
-    this.handle_resize = this.handle_resize.bind(this)
-    this.do_resize = this.do_resize.bind(this)
-    window.addEventListener('resize', this.handle_resize)
-    window.addEventListener('orientationchange', this.handle_resize)
-
-    // bind this:
-    this.callbackReady = this.callbackReady.bind(this)
-    this.callbackTrack = this.callbackTrack.bind(this)
-  }
         
-  handle_resize() {
+  const handle_resize = () => {
     // do not resize too often:
     if (_timerResize){
       clearTimeout(_timerResize)
     }
-    _timerResize = setTimeout(this.do_resize, 200)
+    _timerResize = setTimeout(do_resize, 200)
   }
 
-  do_resize(){
+
+  const do_resize = () => {
     _timerResize = null
     const newSizing = compute_sizing()
-    this.setState({sizing: newSizing}, () => {
-      if (_timerResize) return
-      JEELIZFACEFILTER.resize()      
-    })
+    setSizing(newSizing)
   }
 
-  callbackReady(errCode, spec) {
+
+  useEffect(() => {
+    if (!_timerResize) {
+      JEELIZFACEFILTER.resize()
+    }    
+  }, [sizing])
+
+
+  const callbackReady = (errCode, spec) => {
     if (errCode){
       console.log('AN ERROR HAPPENS. ERR =', errCode)
       return
@@ -119,44 +112,36 @@ class AppCanvas extends Component {
 
     console.log('INFO: JEELIZFACEFILTER IS READY')
     // there is only 1 face to track, so 1 face follower:
-    JeelizThreeFiberHelper.init(spec, _faceFollowers, this.callbackDetect)    
+    JeelizThreeFiberHelper.init(spec, _faceFollowers, callbackDetect)    
   }
 
-  callbackTrack(detectStatesArg) {
+
+  const callbackTrack = (detectStatesArg) => {
     // if 1 face detection, wrap in an array:
-    const detectStates = (detectStatesArg.length) ? detectStatesArg : [detectStatesArg];
+    const detectStates = (detectStatesArg.length) ? detectStatesArg : [detectStatesArg]
 
     // update video and THREE faceFollowers poses:
     JeelizThreeFiberHelper.update(detectStates, _threeFiber.camera)
 
     // render the video texture on the faceFilter canvas:
-    JEELIZFACEFILTER.render_video();
+    JEELIZFACEFILTER.render_video()
 
     // get expressions factors:
-    detectStates.forEach((detectState, faceIndex) => {
+    const newExpressions = detectStates.map((detectState, faceIndex) => {
       const expr = detectState.expressions
-
-      const newState = { ...this.state }
-      const newExpressions = this.state.expressions.slice(0)
-      newState.expressions = newExpressions
-
-      newExpressions[faceIndex] = { // expressions depends on the neural net model
+      return { // expressions depends on the neural net model
         mouthOpen: expr[0], 
         mouthSmile: expr[1],
 
         eyebrowFrown: expr[2], // not used here
         eyebrowRaised: expr[3] // not used here
       }
-
-      this.setState(newState)
     })
+    setExpressions(newExpressions)
   }
 
-  componentWillUnmount() {
-    JEELIZFACEFILTER.destroy()
-  }
 
-  callbackDetect(faceIndex, isDetected) {
+  const callbackDetect = (faceIndex, isDetected) => {
     if (isDetected) {
       console.log('DETECTED')
     } else {
@@ -164,47 +149,48 @@ class AppCanvas extends Component {
     }
   }
 
-  componentDidMount(){
-    // init FACEFILTER:
-    const canvas = this.refs.faceFilterCanvas    
+  const faceFilterCanvasRef = useRef(null)
+  useEffect(() => {
+    window.addEventListener('resize', handle_resize)
+    window.addEventListener('orientationchange', handle_resize)
+
     JEELIZFACEFILTER.init({
-      canvas,
+      canvas: faceFilterCanvasRef.current,
       NNC: NN_4EXPR,
       maxFacesDetected: 1,
       followZRot: true,
-      callbackReady: this.callbackReady,
-      callbackTrack: this.callbackTrack
+      callbackReady,
+      callbackTrack
     })
-  }
+    return JEELIZFACEFILTER.destroy
+  }, [isInitialized])
 
-  render(){
-    // generate canvases:
-    return (
-      <div>
-        {/* Canvas managed by three fiber, for AR: */}
-        <Canvas className='mirrorX' style={{
-          position: 'fixed',
-          zIndex: 2,
-          ...this.state.sizing
-        }}
-        gl={{
-          preserveDrawingBuffer: true // allow image capture
-        }}
-        updateDefaultCamera = {false}
-        >
-          <DirtyHook sizing={this.state.sizing} />
-          <FaceFollower faceIndex={0} expressions={this.state.expressions[0]} />
-        </Canvas>
+  
+  return (
+    <div>
+      {/* Canvas managed by three fiber, for AR: */}
+      <Canvas className='mirrorX' style={{
+        position: 'fixed',
+        zIndex: 2,
+        ...sizing
+      }}
+      gl={{
+        preserveDrawingBuffer: true // allow image capture
+      }}
+      updateDefaultCamera = {false}
+      >
+        <DirtyHook sizing={sizing} />
+        <FaceFollower faceIndex={0} expressions={expressions[0]} />
+      </Canvas>
 
-      {/* Canvas managed by FaceFilter, just displaying the video (and used for WebGL computations) */}
-        <canvas className='mirrorX' ref='faceFilterCanvas' style={{
-          position: 'fixed',
-          zIndex: 1,
-          ...this.state.sizing
-        }} width = {this.state.sizing.width} height = {this.state.sizing.height} />
-      </div>
-    )
-  }
+    {/* Canvas managed by FaceFilter, just displaying the video (and used for WebGL computations) */}
+      <canvas className='mirrorX' ref={faceFilterCanvasRef} style={{
+        position: 'fixed',
+        zIndex: 1,
+        ...sizing
+      }} width = {sizing.width} height = {sizing.height} />
+    </div>
+  )  
 } 
 
 export default AppCanvas
