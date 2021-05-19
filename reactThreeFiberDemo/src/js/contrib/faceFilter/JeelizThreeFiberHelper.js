@@ -139,7 +139,7 @@ const superThat = (function(){
       // reset camera position:
       if (threeCamera.matrixAutoUpdate){
         threeCamera.matrixAutoUpdate = false;
-        threeCamera.position.set(0,0,0);
+        threeCamera.position.set(0, 0, 0);
         threeCamera.updateMatrix();
       }
 

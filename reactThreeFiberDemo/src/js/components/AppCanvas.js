@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Canvas, useFrame, useThree, useUpdate } from 'react-three-fiber'
+import { Canvas, useFrame, useThree } from 'react-three-fiber'
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
 import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter'
@@ -11,29 +11,46 @@ import { JeelizThreeFiberHelper } from '../contrib/faceFilter/JeelizThreeFiberHe
 
 const _maxFacesDetected = 1 // max number of detected faces
 const _faceFollowers = new Array(_maxFacesDetected)
-let _timerResize = null
+let _expressions = null
+
 
 // This mesh follows the face. put stuffs in it.
 // Its position and orientation is controlled by Jeeliz THREE.js helper
 const FaceFollower = (props) => {
   // This reference will give us direct access to the mesh
-  const objRef = useUpdate((threeObject3D) => {
+  const objRef = useRef()
+  useEffect(() => {
+    const threeObject3D = objRef.current
     _faceFollowers[props.faceIndex] = threeObject3D  
   })
   
+  const mouthOpenRef = useRef()
+  const mouthSmileRef = useRef()
+  useFrame(() => {
+    if (mouthOpenRef.current){
+      const s0 = props.expression.mouthOpen
+      mouthOpenRef.current.scale.set(s0, 1, s0)
+    }
+
+    if (mouthSmileRef.current){
+      const s1 = props.expression.mouthSmile
+      mouthSmileRef.current.scale.set(s1, 1, s1)
+    }
+  })
+
   return (
-    <object3D ref = {objRef}>
+    <object3D ref={objRef}>
       <mesh name="mainCube">
         <boxBufferGeometry args={[1, 1, 1]} />
         <meshNormalMaterial />
       </mesh>
 
-      <mesh name="mouthOpen" scale={[props.expressions.mouthOpen, 1, props.expressions.mouthOpen]} rotation={[Math.PI/2,0,0]} position={[0, -0.2, 0.2]}>
+      <mesh ref={mouthOpenRef} rotation={[Math.PI/2,0,0]} position={[0, -0.2, 0.2]}>
         <cylinderGeometry args={[0.3,0.3, 1, 32]} />
         <meshBasicMaterial color={0xff0000} />
       </mesh>
 
-      <mesh name="mouthSmile" scale={[props.expressions.mouthSmile, 1, props.expressions.mouthSmile]} rotation={[Math.PI/2,0,0]} position={[0, -0.2, 0.2]}>
+      <mesh ref={mouthSmileRef} rotation={[Math.PI/2,0,0]} position={[0, -0.2, 0.2]}>
         <cylinderGeometry args={[0.5,0.5, 1, 32, 1, false, -Math.PI/2, Math.PI]} />
         <meshBasicMaterial color={0xff0000} />
       </mesh>
@@ -64,12 +81,13 @@ const compute_sizing = () => {
   return {width, height, top, left}
 }
 
+
 const AppCanvas = () => {
 
   // init state:
-  const expressions0 = []
+  _expressions = []
   for (let i = 0; i<_maxFacesDetected; ++i){
-    expressions0.push({
+    _expressions.push({
       mouthOpen: 0,
       mouthSmile: 0,
       eyebrowFrown: 0,
@@ -77,10 +95,9 @@ const AppCanvas = () => {
     })
   }  
   const [sizing, setSizing] = useState(compute_sizing())
-  const [expressions, setExpressions] = useState(expressions0)
   const [isInitialized] = useState(true)
 
-        
+  let _timerResize = null
   const handle_resize = () => {
     // do not resize too often:
     if (_timerResize){
@@ -127,17 +144,14 @@ const AppCanvas = () => {
     JEELIZFACEFILTER.render_video()
 
     // get expressions factors:
-    const newExpressions = detectStates.map((detectState, faceIndex) => {
-      const expr = detectState.expressions
-      return { // expressions depends on the neural net model
-        mouthOpen: expr[0], 
-        mouthSmile: expr[1],
-
-        eyebrowFrown: expr[2], // not used here
-        eyebrowRaised: expr[3] // not used here
-      }
-    })
-    setExpressions(newExpressions)
+    detectStates.forEach((detectState, faceIndex) => {
+      const exprIn = detectState.expressions
+      const expression = _expressions[faceIndex]
+      expression.mouthOpen = exprIn[0]
+      expression.mouthSmile = exprIn[1]
+      expression.eyebrowFrown = exprIn[2] // not used here
+      expression.eyebrowRaised = exprIn[3] // not used here
+    })    
   }
 
 
@@ -165,7 +179,7 @@ const AppCanvas = () => {
     return JEELIZFACEFILTER.destroy
   }, [isInitialized])
 
-  
+  console.log('RENDER')
   return (
     <div>
       {/* Canvas managed by three fiber, for AR: */}
@@ -180,7 +194,7 @@ const AppCanvas = () => {
       updateDefaultCamera = {false}
       >
         <DirtyHook sizing={sizing} />
-        <FaceFollower faceIndex={0} expressions={expressions[0]} />
+        <FaceFollower faceIndex={0} expression={_expressions[0]} />
       </Canvas>
 
     {/* Canvas managed by FaceFilter, just displaying the video (and used for WebGL computations) */}
