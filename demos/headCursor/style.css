@@ -4,12 +4,13 @@
 }*/
 
 body {
-    background-color: #251711; color: white; margin: 0px;
-    /*cursor: url("images/cursors/pointer.png"), default;*/
+    /* background-color: #251711; color: white; margin: 0px; */
     cursor: none;
-    overflow: hidden;
+    /* overflow: hidden; */
     user-select: none;
     -webkit-user-select: none;
+    /* align-content: center; */
+    justify-content: center;
 } 
 
 .gallery {
@@ -19,7 +20,7 @@ body {
 .cursor {
     position: fixed; z-index: 10000; border: 0px; pointer-events: none;
 }
-
+/* 
 .vignette{
     position: absolute; padding: 0px;
 }
@@ -96,4 +97,94 @@ body {
     transform-origin: bottom right;
     max-height: 25%;
     max-width: 25%;
+  } */
+  #App {
+    font-family: sans-serif;
+    text-align: center;
   }
+  
+  p{
+    padding-right: 16%;
+    padding-left: 16%;
+    width: 67%;
+    text-align: center;
+  }
+  h3 {
+    padding-top: 5%;
+    padding-bottom: 7%;
+    padding-right: 16%;
+    padding-left: 16%;
+    width: 67%;
+    text-align: center;
+  }
+  img{
+    padding-bottom: 10%;
+  }
+ h2,h4 {
+     text-align: center;
+    }
+
+  h1 {
+    position: fixed;
+    width: 100vw;
+    top: 0%;
+  }
+  .SaladName{
+    padding-top: 16%;
+  }
+  * {
+    cursor: crosshair;
+  }
+  
+  #scrollTopX {
+    position: fixed;
+    top: 10vh;
+    left: 0;
+    width: 100vw;
+    height: 10vh;
+    /* padding-top: 10vh; */
+    background-color: green;
+    opacity: 0.5;
+  }
+  #scrollTopOne{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 10vh;
+    background-color: red;
+    opacity: 0.5;
+  }
+  
+  #scrollBottomX {
+    position: fixed;
+    bottom: 10vh;
+    left: 0;
+    width: 100vw;
+    height: 10vh;
+    background-color: green;
+    opacity: 0.5;
+  }
+  #scrollBottomOne{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 10vh;
+    background-color: red;
+    opacity: 0.5;
+  }
+  
+  /* button:focus {
+    background-color: yellow;
+  } */
+  /* button:hover {
+    background-color: blue;
+  } */
+  button {
+    width: 100vw;
+    height: 10vh;
+    background-color: gray;
+    opacity: 0.5;
+  }
+  
