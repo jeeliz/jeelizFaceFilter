@@ -160,6 +160,7 @@ function callbackHeadMove(mv){
 
   if (mv.expressions[0]>0.5 && STABI.mouseClickEnabled){ //mouth open
     emulateMouseClick(STABI.xy[0],STABI.xy[1]);
+    // console.log(STABI.xy[0], "  ", STABI.xy[1]);
     STABI.mouseClickEnabled = false;
     setTimeout(function(){
       STABI.mouseClickEnabled = true;
@@ -173,12 +174,12 @@ function callbackHeadMove(mv){
 function getPickableAtPosition(x,y){
   const jqPicks = JQCLICKABLES.filter(function(jqClickable){
     const rect = jqClickable.get(0).getBoundingClientRect();
-    if (x<rect.left || x>rect.right){
-      return false;
-    }
-    if (y<rect.top || y>rect.bottom){
-      return false;
-    }
+    // if (x<rect.left || x>rect.right){
+    //   return false;
+    // }
+    // if (y<rect.top || y>rect.bottom){
+    //   return false;
+    // }
     return true;
   });
   return (jqPicks.length===0) ? false : jqPicks.pop();
@@ -188,7 +189,9 @@ function emulateMouseClick(x,y){
   const jqClicked = getPickableAtPosition(x,y);
   if (jqClicked){
     jqClicked.click();
+    // console.log("Mouse Clicked");
   }
+
 }
 
 function emulateMouseMove(x,y){
