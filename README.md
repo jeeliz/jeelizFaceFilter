@@ -183,11 +183,7 @@ These amazing applications rely on this library for face detection and tracking:
   * [Find your inner creative](https://www.movablecamera.com/1/templates/442bcb7c-3793-49e4-bea2-d56e68e73ec3/df7484bc-211d-4f43-adc1-41b13ca39f32.html),
   * [Ski mask demo, with snow](https://www.movablecamera.com/6454/templates/7ed27eff-5978-4e0e-8345-0d53c7e894a2/d0115266-6d57-4d59-8775-1ac22f90eed6.html?mi_app_key=70ebf69e95809bf0&name=&mi_u=%7B%7Blead.SFDC%20Id%7D%7D),
 
-* [Battle Santa for beard superiority](https://xmas.humanfoundry.com/), made by [Sansho](https://sansho.studio/)
-
 * [VRMjidori](https://vrmjidori.netlify.com/): Replace your head by a manga style character provided in .VRM file format. This demo has been developed by [けしごむ/Nono](https://twitter.com/ke4563)
-
-* [Bose headphones virtual try-on](https://www.bose.com/en_us/products/headphones/over_ear_headphones/quietcomfort-35-ii-wireless-custom.html?EarCap=sps-gloss&EarCup=jet-gloss&InnerBand=com-metallic&OuterBand=com-metallic&Spacer=com-metallic) (click on the TRY-ON button at the bottom right of the screen)
 
 * [FaceVoice](https://github.com/CloffWrangler/facevoice): Control the mouse pointer with your head and by saying *Click*. [Discussion on Reddit](https://www.reddit.com/r/badUIbattles/comments/e1npf6/an_app_where_you_control_the_cursor_by_turning/)
 
@@ -200,6 +196,8 @@ These amazing applications rely on this library for face detection and tracking:
 * [SnapChat Clone](https://towhidkashem.github.io/snapchat-clone/): Great work from [Towhid Kashem](https://www.linkedin.com/in/towhid-kashem/). This library has been wrapped up to build a Snapchat clone. Check out the [Github source code repository](https://github.com/TowhidKashem/snapchat-clone), try the [live demo](https://towhidkashem.github.io/snapchat-clone/) or read the [Reddit thread](https://www.reddit.com/r/Frontend/comments/hqfu91/i_made_a_snapchat_clone_in_the_browser/).
 
 * [Facepaint](https://facepaint.patriciaarnedo.com/): Draw your own face filters with this creative web application developed by [Patricia Arnedo](https://www.linkedin.com/in/patriciaarnedo/) - [Medium article on the demo](https://patriciaarnedo.medium.com/building-an-ar-drawing-app-using-react-5f47740a747c)
+
+* [Virtual Fighter](https://virtuafighter.arounz.jp): Find the *Virtual Fighter* (*SEGA* Video game) who looks like you. The first part of this experiment relies on *face-api.js* to detect your face and landmarks. Then click on *PUSH* and a 3D face filter of a virtual fighter will be applied to your face using this library and *Three.js*
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @Jeeliz_AR](https://twitter.com/Jeeliz_AR) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
 
