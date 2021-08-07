@@ -32,11 +32,11 @@
       /*background-color: red;*/
        z-index: 10;
       position: absolute;
-      max-height: calc(100vh - 160px);
+      max-height: 100vh;
       max-width: 100vw;
       left: 50%;
       top: 50%;
-      margin-top: -76px;
+      /*margin-top: -76px;*/
       transform: translate(-50%, -50%);
     }
     #jeeFaceFilterCanvas {
@@ -46,7 +46,7 @@
       top: 4px;
       left: 0px;
       max-width: 100vw;
-      max-height:  calc(100vh - 160px);
+      max-height:  100vh;
     }
     .canvasDetected { /*style of the canvas when user face is detected*/
       position: absolute;
@@ -159,9 +159,9 @@
       (and display the found face detected State in the JS console)
       Otherwise we build the image mask directly using the detected State.
     -->
-    <div id="carousel">
+    <!-- <div id="carousel">
       <div
-        onclick="change_artPainting('images/regina.jpg', {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926})"
+        onclick="change_artPainting('images/regina.jpg', {x:-0.09803,y:0.59216,s:0.12157,ry:-0.02587})"
         class='carouselItem carouselItem0'
       ></div>
       <div
@@ -199,14 +199,14 @@
       <div
         onclick="change_artPainting('images/regina.jpg', {x:0.07451,y:-0.08849,s:0.12549,ry:-0.02005})"
         class='carouselItem carouselItem9'
-      ></div>
+      ></div> -->
       <!--<div class='carouselItem carouselItemCustom'>
         <div class='carouselItemCustomText'>
           TRY WITH YOUR OWN IMAGE:
         </div>
         <input type='file' id='customImage' onChange="change_artPainting('CUSTOM');" />
       </div> -->
-    </div>
+    <!--</div>-->
 
     <!-- SLICK CAROUSEL SCRIPT -->
     <script src="../../../libs/slickCarousel/v1_9/slick.min.js"></script>
