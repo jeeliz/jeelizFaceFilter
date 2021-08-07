@@ -2,8 +2,8 @@
 
 const SETTINGS = {
   // art painting settings:
-  artPainting: 'images/Joconde.jpg', // initial art painting
-  detectState: {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926}, // detect state in the initial art painting to avoid search step
+  artPainting: 'images/regina.jpg', // initial art painting
+  detectState: {x:0.05098,y:0.59216,s:0.12157,ry:-0.02587}, // detect state in the initial art painting to avoid search step
 
   nDetectsArtPainting: 25, // number of positive detections to perfectly locate the face in the art painting
   detectArtPaintingThreshold: 0.7,
@@ -21,7 +21,7 @@ const SETTINGS = {
   zoomFactor: 1.03, // 1-> exactly the same zoom than for the art painting
   detectionThreshold: 0.8, // sensibility, between 0 and 1. Less -> more sensitive
   detectionHysteresis: 0.03,
-    
+
   // mixed settings:
   hueTextureSizePx: 4,  // should be PoT
 
@@ -79,7 +79,7 @@ function main(){
   DOMARTPAINTINGCONTAINER = document.getElementById('artpaintingContainer');
 
   ARTPAINTING.image.src = SETTINGS.artPainting;
-  ARTPAINTING.image.onload = check_isLoaded.bind(null, 'ARTPAINTING.image');    
+  ARTPAINTING.image.onload = check_isLoaded.bind(null, 'ARTPAINTING.image');
 
   JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
@@ -113,10 +113,10 @@ function check_isLoaded(label){
 
 function start(){
   console.log('INFO: start()');
-  
+
   create_textures();
   build_shps();
-  
+
   // set the canvas to the artpainting size:
   update_artPainting(SETTINGS.detectState);
 } //end start()
@@ -137,10 +137,10 @@ function update_artPainting(detectState){ // called both at start (start()) and 
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
-  
+
   JEELIZFACEFILTER.set_inputTexture(ARTPAINTING.baseTexture, ARTPAINTING.image.width, ARTPAINTING.image.height);
 
-  
+
   ARTPAINTING.detectCounter = 0;
   FFSPECS.canvasElement.classList.remove('canvasDetected');
   FFSPECS.canvasElement.classList.remove('canvasNotDetected');
@@ -251,7 +251,7 @@ function create_textures(){
   const faceAspectRatio = SETTINGS.artPaintingMaskScale[1] / SETTINGS.artPaintingMaskScale[0];
   USERCROP.faceCutDims[0] = SETTINGS.faceRenderSizePx;
   USERCROP.faceCutDims[1] = Math.round(SETTINGS.faceRenderSizePx * faceAspectRatio);
-  
+
   USERCROP.potFaceCutTexture = create_emptyTexture(SETTINGS.faceRenderSizePx, SETTINGS.faceRenderSizePx);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_NEAREST);
@@ -281,7 +281,7 @@ function build_artPaintingMask(detectState, callback){
 
   GL.activeTexture(GL.TEXTURE0);
   GL.bindTexture(GL.TEXTURE_2D, ARTPAINTING.baseTexture);
-  
+
   // FILL VIEWPORT
   GL.enable(GL.BLEND);
   GL.blendFunc(GL.SRC_ALPHA, GL.ZERO);
@@ -298,7 +298,7 @@ function build_artPaintingMask(detectState, callback){
   const ctx = artPaintingMask.getContext('2d');
   ctx.drawImage(FFSPECS.canvasElement, 0, 0);
 
-  
+
   artPaintingMask.classList.add('artPainting');
   FFSPECS.canvasElement.classList.remove('artPainting');
   FFSPECS.canvasElement.classList.add('canvasNotDetected');
@@ -308,7 +308,7 @@ function build_artPaintingMask(detectState, callback){
   if  (SETTINGS.debugArtPaintingPotFaceCutTexture){
     artPaintingMask.style.opacity = '0.5';
   }
-  
+
 
   // initialize the face cut pot texture:
   const faceWidthPx = Math.round(ARTPAINTING.image.width*sxn);
@@ -341,7 +341,7 @@ function build_artPaintingMask(detectState, callback){
   GL.generateMipmap(GL.TEXTURE_2D);
   GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0); //FILL VIEWPORT
 
-  GL.bindFramebuffer(GLDRAWTARGET, null);  
+  GL.bindFramebuffer(GLDRAWTARGET, null);
   callback();
 } //end build_artPaintingMask()
 
@@ -362,7 +362,7 @@ function build_shps(){
     }";
 
   // build the search SHP:
-  const shpSearch = build_shaderProgram(copyVertexShaderSource, 
+  const shpSearch = build_shaderProgram(copyVertexShaderSource,
     "precision lowp float;\n\
       varying vec2 vUV;\n\
       uniform mat2 videoTransformMat2;\n\
@@ -400,7 +400,7 @@ function build_shps(){
 
     GL.useProgram(shp);
     GL.uniform1i(uSamplerImage, 0);
-    
+
     return {
       scale: uScale,
       offset: uOffset,
@@ -504,7 +504,7 @@ function build_shps(){
   GL.uniform1i(uSamplerImage, 0);
 
   // final render shp:
-  const shpRender = build_shaderProgram(copyVertexShaderSource, 
+  const shpRender = build_shaderProgram(copyVertexShaderSource,
     "precision highp float;\n\
      uniform sampler2D samplerImage, samplerHueSrc, samplerHueDst;\n\
      uniform mat2 videoTransformMat2;\n\
@@ -636,7 +636,7 @@ function position_userCropCanvas(){
   // position corner of the userFace instead of center:
   topPx -= heightFacePx / 2;
   leftPx -= widthFacePx / 2;
-  
+
   FFSPECS.canvasElement.style.top = Math.round(topPx).toString() + 'px';
   FFSPECS.canvasElement.style.left = Math.round(leftPx).toString() + 'px';
   FFSPECS.canvasElement.style.width = Math.round(widthPx).toString() + 'px';
@@ -676,7 +676,7 @@ function draw_render(detectState){
   GL.viewport(0, 0, SETTINGS.faceRenderSizePx, SETTINGS.faceRenderSizePx);
   GL.bindTexture(GL.TEXTURE_2D, FFSPECS.videoTexture);
   GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
-  
+
 
   // shrink the userface to a SETTINGS.hueTextureSizePx texture:
   GL.useProgram(SHPS.copy.program);
@@ -685,7 +685,7 @@ function draw_render(detectState){
   GL.bindTexture(GL.TEXTURE_2D, USERCROP.potFaceCutTexture);
   GL.generateMipmap(GL.TEXTURE_2D);
   GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
-  
+
 
   // final rendering including light correction:
   GL.bindFramebuffer(GLDRAWTARGET, null);
@@ -697,7 +697,7 @@ function draw_render(detectState){
   GL.activeTexture(GL.TEXTURE1);
   GL.bindTexture(GL.TEXTURE_2D, ARTPAINTING.hueTexture);
   //GL.bindTexture(GL.TEXTURE_2D, ARTPAINTING.potFaceCutTexture); //KILL
-  
+
   GL.activeTexture(GL.TEXTURE2);
   GL.bindTexture(GL.TEXTURE_2D, USERCROP.hueTexture);
   GL.activeTexture(GL.TEXTURE0);

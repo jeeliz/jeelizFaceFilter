@@ -5,12 +5,12 @@
     <meta http-equiv="content-language" content="en-EN" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
-    
+
     <title>JEELIZ FACEFILTER: FACE REPLACEMENT DEMO</title>
-    
+
     <!-- INCLUDE JEELIZ FACEFILTER SCRIPT -->
     <script src="../../../dist/jeelizFaceFilter.js"></script>
-  
+
     <!-- INCLUDE DEMO SCRIPT -->
     <script src="./main.js"></script>
 
@@ -31,13 +31,13 @@
     #artpaintingContainer {
       /*background-color: red;*/
        z-index: 10;
-      position: absolute; 
+      position: absolute;
       max-height: calc(100vh - 160px);
       max-width: 100vw;
       left: 50%;
       top: 50%;
       margin-top: -76px;
-      transform: translate(-50%, -50%); 
+      transform: translate(-50%, -50%);
     }
     #jeeFaceFilterCanvas {
     }
@@ -86,72 +86,54 @@
     }
     .slick-center .carouselItem{
       border: none !important;
-      
+
     }
     .slick-track{
       height: 144px;
       margin-top: 20px;
     }
     .carouselItem0{
-      background-image: url('thumbnails/Joconde.jpg');
+      background-image: url('thumbnails/regina.jpg');
       width: 86px !important;
     }
     .carouselItem1 {
-      background-image: url('thumbnails/pirates_of_the_caribbean_thumbnail.jpg');
-      width: 86px !important;      
+      background-image: url('thumbnails/regina.jpg');
+      width: 86px !important;
     }
     .carouselItem2 {
-      background-image: url('thumbnails/will_smith_thumbnail.jpg');
-      width: 86px !important;      
+      background-image: url('thumbnails/regina.jpg');
+      width: 86px !important;
     }
     .carouselItem3 {
-      background-image: url('thumbnails/cosmopolitan_thumbnail.jpg');
-      width: 128px !important;      
+      background-image: url('thumbnails/regina.jpg');
+      width: 128px !important;
     }
     .carouselItem4 {
-      background-image: url('thumbnails/doors.jpg');
+      background-image: url('thumbnails/regina.jpg');
       width: 128px !important;
     }
     .carouselItem5 {
-      background-image: url('thumbnails/louis14.jpg');
+      background-image: url('thumbnails/regina.jpg');
       width: 128px !important;
     }
     .carouselItem6 {
-      background-image: url('thumbnails/terminator.jpg');
+      background-image: url('thumbnails/regina.jpg');
       width: 86px !important;
     }
     .carouselItem7 {
-      background-image: url('thumbnails/starTrek.jpg');
+      background-image: url('thumbnails/regina.jpg');
       width: 87px !important;
     }
     .carouselItem8 {
-      background-image: url('thumbnails/captainAmerica.jpg');
+      background-image: url('thumbnails/regina.jpg');
       width: 227px !important;
     }
     .carouselItem9 {
-      background-image: url('thumbnails/liberty.jpg');
+      background-image: url('thumbnails/regina.jpg');
       width: 184px !important;
     }
-    .carouselItemCustom{
-      background-image: url('thumbnails/own.png');
-      color: black;
-      font-size: 10pt;
-      line-height: 1.5em;
-      font-variant: small-caps;
-      text-align: center;
-      width: 128px !important;
-      overflow: hidden;
-    }
-    .carouselItemCustomText{
-      margin-top: 8px;
-      margin-left: 16px;
-      margin-right: 16px;
-      text-shadow: 0px 0px 4px white;
-    }
-    #customImage{
-      cursor: pointer;
-      width: 118px;
-    }
+
+
 
     </style>
 
@@ -164,7 +146,7 @@
     <script src='../../../libs/jquery/jquery-3.3.1.min.js'></script>
 
   </head>
-  
+
   <body onload="main()">
     <div id='artpaintingContainer'>
       <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='artPainting'></canvas>
@@ -179,56 +161,54 @@
     -->
     <div id="carousel">
       <div
-        onclick="change_artPainting('images/Joconde.jpg', {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926})"
+        onclick="change_artPainting('images/regina.jpg', {x:-0.09803,y:0.44314,s:0.18782,ry:-0.04926})"
         class='carouselItem carouselItem0'
       ></div>
       <div
-        onclick="change_artPainting('images/pirates_of_the_caribbean.jpg', {x:0.04351,y:0.27059,s:0.3098,ry:0.06192})"
+        onclick="change_artPainting('images/regina.jpg', {x:0.04351,y:0.27059,s:0.3098,ry:0.06192})"
         class='carouselItem carouselItem1'
       ></div>
       <div
-        onclick="change_artPainting('images/will_smith.jpg', {x:0.0202,y:0.36471,s:0.50589,ry:-0.03227})"
+        onclick="change_artPainting('images/regina.jpg', {x:0.0202,y:0.36471,s:0.50589,ry:-0.03227})"
         class='carouselItem carouselItem2'
       ></div>
       <div
-        onclick="change_artPainting('images/cosmopolitan.jpg', {x:0.05098,y:0.59216,s:0.12157,ry:-0.02587})"
+        onclick="change_artPainting('images/regina.jpg', {x:0.05098,y:0.59216,s:0.12157,ry:-0.02587})"
         class='carouselItem carouselItem3'
       ></div>
       <div
-        onclick="change_artPainting('images/doors.jpg', {x:0.15008,y:0.2676,s:0.27433,ry:0.15356})"
+        onclick="change_artPainting('images/regina.jpg', {x:0.15008,y:0.2676,s:0.27433,ry:0.15356})"
         class='carouselItem carouselItem4'
       ></div>
       <div
-        onclick="change_artPainting('images/louis14.jpg', {x:0.09804,y:0.26254,s:0.1098,ry:-0.26134})"
+        onclick="change_artPainting('images/regina.jpg', {x:0.09804,y:0.26254,s:0.1098,ry:-0.26134})"
         class='carouselItem carouselItem5'
       ></div>
       <div
-        onclick="change_artPainting('images/terminator.jpg', {x:-0.05805,y:0.41531,s:0.2408,ry:0.12903})"
+        onclick="change_artPainting('images/regina.jpg', {x:-0.05805,y:0.41531,s:0.2408,ry:0.12903})"
         class='carouselItem carouselItem6'
       ></div>
       <div
-        onclick="change_artPainting('images/starTrek.jpg', {x:-0.00433,y:0.34902,s:0.37124,ry:0.02544})"
+        onclick="change_artPainting('images/regina.jpg', {x:-0.00433,y:0.34902,s:0.37124,ry:0.02544})"
         class='carouselItem carouselItem7'
       ></div>
       <div
-        onclick="change_artPainting('images/captainAmerica.jpg', {x:-0.02745,y:0.45216,s:0.08627,ry:-0.16854})"
+        onclick="change_artPainting('images/regina.jpg', {x:-0.02745,y:0.45216,s:0.08627,ry:-0.16854})"
         class='carouselItem carouselItem8'
       ></div>
       <div
-        onclick="change_artPainting('images/liberty.jpg', {x:0.07451,y:-0.08849,s:0.12549,ry:-0.02005})"
+        onclick="change_artPainting('images/regina.jpg', {x:0.07451,y:-0.08849,s:0.12549,ry:-0.02005})"
         class='carouselItem carouselItem9'
       ></div>
-      <div class='carouselItem carouselItemCustom'>
+      <!--<div class='carouselItem carouselItemCustom'>
         <div class='carouselItemCustomText'>
           TRY WITH YOUR OWN IMAGE:
         </div>
         <input type='file' id='customImage' onChange="change_artPainting('CUSTOM');" />
-      </div>
+      </div> -->
     </div>
 
     <!-- SLICK CAROUSEL SCRIPT -->
     <script src="../../../libs/slickCarousel/v1_9/slick.min.js"></script>
   </body>
 </html>
- 
- 
