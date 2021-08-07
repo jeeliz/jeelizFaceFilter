@@ -3,22 +3,22 @@
 const SETTINGS = {
   // art painting settings:
   artPainting: 'images/regina.jpg', // initial art painting
-  detectState: {x:-0.09803,y:0.59216,s:0.12157,ry:-0.02587}, // detect state in the initial art painting to avoid search step
+  detectState: {x:-0.09,y:0.59216,s:0.12157,ry:-0.02587}, // detect state in the initial art painting to avoid search step
 
   nDetectsArtPainting: 25, // number of positive detections to perfectly locate the face in the art painting
   detectArtPaintingThreshold: 0.7,
 
   // hold shape parameters:
-  artPaintingMaskScale: [1.3, 1.5],
-  artPaintingMaskOffset: [-0.2, 0.1], //[0.01,0.10], // relative. 1-> 100% scale mask width of the image (or height)
-  artPaintingCropSmoothEdge: 0.25, // crop smooth edge
+  artPaintingMaskScale: [1.1, 1.4],
+  artPaintingMaskOffset: [0.05, 0.05], //[0.01,0.10], // relative. 1-> 100% scale mask width of the image (or height)
+  artPaintingCropSmoothEdge: 0.30, // crop smooth edge
   artPaintingHeadForheadY: 0.7, // forhead start when Y>this value. Max: 1
-  artPaintingHeadJawY: 0.5, // lower jaw start when Y<this value. Max: 1
+  artPaintingHeadJawY: 0.4, // lower jaw start when Y<this value. Max: 1
 
   // user crop face and detection settings:
   videoDetectSizePx: 1024,
   faceRenderSizePx: 256,
-  zoomFactor: 1.03, // 1-> exactly the same zoom than for the art painting
+  zoomFactor: 1.00, // 1-> exactly the same zoom than for the art painting
   detectionThreshold: 0.8, // sensibility, between 0 and 1. Less -> more sensitive
   detectionHysteresis: 0.03,
 
