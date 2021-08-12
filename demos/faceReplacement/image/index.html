@@ -14,19 +14,62 @@
     <!-- INCLUDE DEMO SCRIPT -->
     <script src="./main.js"></script>
 
-
+    <!-- include parallax_background stuff
+    <script src="TweenLite.min.js"></script>
+    <script src="CSSPlugin.min.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="parallax_background.js"></script>-->
 
     <style type='text/css'>
+
     body {
       margin: 0px;
       box-sizing: border-box;
       overflow: hidden;
       font-family: Helvetica, Arial, Sans-Serif;
-      background-image: url('https://i.pinimg.com/originals/9d/de/12/9dde1250364ce0be284b0c19c4e01c08.jpg');
+      /*background-image: url('images/back3-1.png');
       background-attachment: fixed;
       background-position: center;
       background-size: contain;
+      background-repeat: no-repeat;*/
+
+      height: 600px;
+      /* max-height: 600px; */
+      width: 1000px;
+      background-color: hsla(0,100%,0%,1);
+      background-image:
+        url('images/back4.png'),
+        url('images/back4.png'),
+        url('images/back4.png'),
+        url('images/back4.png'),
+        url('images/back4.png');
+      background-repeat: repeat-x;
+      background-position:
+        0 20%,
+        0 0,
+        0 50%,
+        0 100%,
+        center;
+      background-size:
+        2500px,
+        800px,
+        500px 200px,
+        400px 260px,
+        1000px;
+      animation: 50s para infinite linear;
     }
+
+      @keyframes para {
+        100% {
+          background-position:
+            -5000px 20%,
+            -800px 95%,
+            500px 50%,
+            400px 0,
+            400px 0;
+          }
+        }
+
     #artpaintingContainer {
       /*background-color: red;*/
       z-index: 10;

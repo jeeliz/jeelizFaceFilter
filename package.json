@@ -31,5 +31,8 @@
   },
   "devDependencies": {
     "local-web-server": "^4.2.1"
+  },
+  "dependencies": {
+    "parallax_background": "^1.0.9"
   }
 }
