@@ -2,18 +2,18 @@
 
 const SETTINGS = {
   // art painting settings:
-  artPainting: 'images/regina.jpg', // initial art painting
-  detectState: {x:-0.07,y:0.61,s:0.12157,ry:-0.02587}, // detect state in the initial art painting to avoid search step
+  artPainting: 'images/regina4.png', // initial art painting
+  detectState: {x:-0.13,y:0.635,s:0.12157,ry:-0.02587}, // detect state in the initial art painting to avoid search step
 
   nDetectsArtPainting: 25, // number of positive detections to perfectly locate the face in the art painting
   detectArtPaintingThreshold: 0.7,
 
   // hold shape parameters:
-  artPaintingMaskScale: [1.1, 1.4],
+  artPaintingMaskScale: [1, 1],
   artPaintingMaskOffset: [0.05, 0.05], //[0.01,0.10], // relative. 1-> 100% scale mask width of the image (or height)
   artPaintingCropSmoothEdge: 0.30, // crop smooth edge
-  artPaintingHeadForheadY: 0.7, // forhead start when Y>this value. Max: 1
-  artPaintingHeadJawY: 0.4, // lower jaw start when Y<this value. Max: 1
+  artPaintingHeadForheadY: 0.9, // forhead start when Y>this value. Max: 1
+  artPaintingHeadJawY: 0.6, // lower jaw start when Y<this value. Max: 1
 
   // user crop face and detection settings:
   videoDetectSizePx: 1024,
@@ -74,7 +74,7 @@ let STATE = STATES.IDLE, ISUSERFACEDETECTED = false;
 function main(){
   STATE = STATES.LOADING;
 
-  build_carousel();
+//  build_carousel();
 
   DOMARTPAINTINGCONTAINER = document.getElementById('artpaintingContainer');
 
