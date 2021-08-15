@@ -41,33 +41,34 @@
         url('images/back1.png'),
         url('images/back2.png'),
         url('images/back3.png'),
-        url('images/back3.png'),
+        url('images/back1.png'),
         url('images/back5.png');
       background-repeat: repeat-x;
       background-position:
-        0 20%,
-        50% 0,
-        0 top,
-        0 100%,
-        0 60%;
+        10% 40%,
+        50% 30%,
+        0 50%,
+        0 70%,
+        0 100%;
       background-size:
-        1000px,
+        200vh,
         150vw,
         100vh,
-        100vw,
-        1000px;
+        200vh,
+        100vw;
       animation:
-       50s para infinite cubic-bezier(0.66, -0.46, 0.43, 1.21);
+       10s para infinite ease-in-out;
+      animation-direction: alternate;
     }
 
       @keyframes para {
         100% {
           background-position:
-            -5000px 20%,
-            -800px 95%,
-            500px 50%,
-            400px 0,
-            800px 0;
+            10px 45%,
+            -800px 40%,
+            500px 70%,
+            400px 90%,
+            400px 80%;
           }
         }
 
