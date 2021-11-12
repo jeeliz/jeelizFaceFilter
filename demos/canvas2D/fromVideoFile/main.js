@@ -1,5 +1,6 @@
 let VIDEOELEMENT = null;
 
+
 function main(){ // entry point
   VIDEOELEMENT = document.getElementById('myVideo');
 
@@ -10,6 +11,7 @@ function main(){ // entry point
     VIDEOELEMENT['play']();
   }
 }
+
 
 function start(){ // launched when the video is loaded
   let CVD = null; // return of Canvas2DDisplay

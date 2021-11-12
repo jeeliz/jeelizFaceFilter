@@ -22,13 +22,13 @@
     "copy-webpack-plugin": "^6.0.3",
     "cross-env": "^7.0.2",
     "css-loader": "^4.3.0",
-    "cssnano": "^4.1.10",
+    "cssnano": "^5.0.10",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.0.4",
     "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "^0.11.1",
-    "node-sass": "^4.14.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "node-sass": "^4.14.0",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss-loader": "^4.0.1",
     "postcss-preset-env": "^6.7.0",
     "react-hot-loader": "^4.13.0",
@@ -37,8 +37,8 @@
     "terser-webpack-plugin": "^4.1.0",
     "url-loader": "^4.0.0",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.4.0",
     "webpack-merge": "^5.1.4"
   },
   "repository": {
@@ -46,7 +46,7 @@
     "url": "git@github.com:jeeliz/jeelizFaceFilter"
   },
   "dependencies": {
-    "facefilter": "^2.1.8",
+    "facefilter": "^3.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-three-fiber": "^6.0.13",

@@ -1,7 +1,7 @@
 # JavaScript/WebGL lightweight and robust face tracking library designed for augmented reality face filters
 
 
-This JavaScript library detects and tracks the face in real time from the webcam video feed captured with WebRTC. Then it is possible to overlay 3D content for augmented reality applications. We provide various demonstrations using main WebGL 3D engines. We have included in this repository the release versions of the 3D engines to work with a determined version (they are in `/libs/<name of the engine>/`).
+This JavaScript library detects and tracks the face in real time from the camera video feed captured with WebRTC. Then it is possible to overlay 3D content for augmented reality applications. We provide various demonstrations using main WebGL 3D engines. We have included in this repository the release versions of the 3D engines to work with a determined version (they are in `/libs/<name of the engine>/`).
 
 This library is lightweight and it does not include any 3D engine or third party library. We want to keep it framework agnostic so the outputs of the library are raw: if the a face is detected or not, the position and the scale of the detected face and the rotation Euler angles. But thanks to the featured helpers, examples and boilerplates, you can quickly deal with a higher level context (for motion head tracking, for face filter or face replacement...). We continuously add new demontrations, so stay tuned!
 
@@ -103,7 +103,7 @@ These demonstration are included in this repository. So they are released under 
   * Boilerplates:
     * Boilerplate (displays a cube on the user's head): [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube2cv/), [source code](/demos/threejs/cube2cv/)
     * Boilerplate with only 1 `<canvas>` element: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cube/), [source code](/demos/threejs/cube/)
-    * Same boilerplate but using `neuralNets/NN_4EXPR_0.json` as neural net, and displays 4 expressions: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeExpr/), [source code](/demos/threejs/cubeExpr/)
+    * Same boilerplate but using `neuralNets/NN_4EXPR_1.json` as neural net, and displays 4 expressions: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/cubeExpr/), [source code](/demos/threejs/cubeExpr/)
     * Multiple face tracking: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiCubes/), [source code](/demos/threejs/multiCubes/)
     * GLTF fullscreen demo with HD video: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/gltf_fullScreen/), [source code](/demos/threejs/gltf_fullScreen/)
 
@@ -145,7 +145,7 @@ These demonstration are included in this repository. So they are released under 
 * Canvas2D based demos:
   * Draw on the face with the mouse: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceDraw/), [source code](/demos/canvas2D/faceDraw/)
   * 2D face detection and tracking - 30 lines of code only !: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/faceTrack/), [source code](/demos/canvas2D/faceTrack/), [JSfiddle](https://jsfiddle.net/jeeliz/2p34hbeh/)
-  * 2D face detection and tracking from a video file instead of webcam video: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/fromVideoFile/), [source code](/demos/canvas2D/fromVideoFile/)
+  * 2D face detection and tracking from a video file instead of camera video: [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/fromVideoFile/), [source code](/demos/canvas2D/fromVideoFile/)
   * 2D face detection and tracking simultaneously from a video file and from the camera (multiple trackers example): [live demo](https://jeeliz.com/demos/faceFilter/demos/canvas2D/multipleTrackers/), [source code](/demos/canvas2D/multipleTrackers/)
 
 
@@ -165,7 +165,7 @@ These demonstration are included in this repository. So they are released under 
 
 [comment]:![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
 
-If you have not bought a webcam yet, a screenshot video of some of these examples is available [on Youtube](https://youtu.be/jQkaJoMGinQ). You can also subscribe to the [Jeeliz Youtube channel](https://www.youtube.com/channel/UC3XmXH1T3d1XFyOhrRiiUeA) or to the [@Jeeliz_AR Twitter account](https://twitter.com/Jeeliz_AR) to be kept informed of our cutting edge developments.
+Some screenshot videos are available [on Youtube](https://youtu.be/jQkaJoMGinQ). You can also subscribe to the [Jeeliz Youtube channel](https://www.youtube.com/channel/UC3XmXH1T3d1XFyOhrRiiUeA) or to the [@Jeeliz_AR Twitter account](https://twitter.com/Jeeliz_AR) to be kept informed of our cutting edge developments.
 
 
 
@@ -176,7 +176,7 @@ These amazing applications rely on this library for face detection and tracking:
 * [SpiderMan Far From Home AR web application](https://spider-manfarfromhome.herokuapp.com/), made by [Ignite](http://ignitexr.com/). This library is used for the first part of the experience (Edith glasses). Then [8th Wall SLAM engine](https://www.8thwall.com/) is used to display the drones.
 
 * Applications made by [Movable Ink](https://movableink.com/):
-  * [Creative studio](https://movableink.com/product/augmented_reality?utm_source=linkedin&utm_medium=social&utm_campaign=q2_2019_arcampaign_productpage): easily create face filters without coding, only drag and drops!
+  <!-- * [Creative studio](https://movableink.com/product/augmented_reality?utm_source=linkedin&utm_medium=social&utm_campaign=q2_2019_arcampaign_productpage): easily create face filters without coding, only drag and drops! -->
   * [Find your oasis](https://www.movablecamera.com/1/templates/70c57645-dca1-4a50-b312-0ea3d7c537fd/e1e7aa24-34a5-4818-b487-50ca3852754d.html),
   * [Been there, done that](https://www.movablecamera.com/1/templates/d8f2a1b6-0a73-4645-9e2b-7eb3c85ca2e0/109867fc-1ec0-4545-9bbe-6364ab1a3049.html),
   * [I <3 NY](https://www.movablecamera.com/1/templates/3e9a6b04-2663-4e2e-a8f8-0c675cd429fa/bb03f2fe-1ab0-4b4d-bc94-f146eefe8198.html),
@@ -199,7 +199,15 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [Virtual Fighter](https://virtuafighter.arounz.jp): Find the *Virtual Fighter* (*SEGA* Video game) who looks like you. The first part of this experiment relies on *face-api.js* to detect your face and landmarks. Then click on *PUSH* and a 3D face filter of a virtual fighter will be applied to your face using this library and *Three.js*
 
-If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @Jeeliz_AR](https://twitter.com/Jeeliz_AR) or [LinkedIn](https://www.linkedin.com/company/jeeliz).
+* [Are you a true wizard?](https://facefilter-experiment.vercel.app/) Try-on an amazing wizard hat in this demo made by [Level 30 Wizards](https://level30wizards.com/)
+
+* [AR Bee NFT](https://www.hicetnunc.xyz/objkt/219200) NFT based on WebAR created by [Fivos Doganis (@fdoganis)](https://twitter.com/fdoganis) with a 3D model designed by [Michelle Brown](https://twitter.com/Thebadlament) and traded on [Hic et Nunc](https://www.hicetnunc.xyz) NFT platform.
+
+* [Bollé virtual try-on](https://www.bolle.com/us/sunglasses/technologies/volt--lenses/chronoshield-46228.html) Bollé relies on Jeeliz Facefilter for its Sunglasses and ski mask virtual try-on module, developed by [Emersya](https://emersya.com/) and using Emersya amazing custom 3D engine for 3D rendering.
+
+* [Custom Halloween pumpkin mask](https://emersya.com/app/UBYF7QDAK4): Customize and try your own Halloween pumpkin using this funny webapp, made by [Emersya](https://emersya.com/) and relying on Emersya custom 3D engine for rendering.
+
+If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @Jeeliz_AR](https://twitter.com/Jeeliz_AR) or [LinkedIn](https://www.linkedin.com/company/jeeliz)
 
 
 ## Specifications
@@ -246,8 +254,8 @@ JEELIZFACEFILTER.init({
 
 * `<boolean> followZRot`: Allow full rotation around depth axis. Default value: `false`. See [Issue 42](https://github.com/jeeliz/jeelizFaceFilter/issues/42) for more details,
 * `<integer> maxFacesDetected`: Only for multiple face detection - maximum number of faces which can be detected and tracked. Should be between `1` (no multiple detection) and `8`,
-* `<integer> animateDelay`: It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this API as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
-* `<function> onWebcamAsk`: Function launched just before asking for the user to allow its webcam sharing,
+* `<integer> animateDelay`: It is used only in normal rendering mode (not in slow rendering mode). With this statement you can set accurately the number of milliseconds during which the browser wait at the end of the rendering loop before starting another detection. If you use the canvas of this library as a secondary element (for example in *PACMAN* or *EARTH NAVIGATION* demos) you should set a small `animateDelay` value (for example 2 milliseconds) in order to avoid rendering lags.
+* `<function> onWebcamAsk`: Function launched just before asking for the user to allow access to its camera,
 * `<function> onWebcamGet`: Function launched just after the user has accepted to share its video. It is called with the video element as argument,
 * `<dict> videoSettings`: override WebRTC specified video settings, which are by default:
 ```javascript
@@ -287,11 +295,11 @@ If the user has a mobile device in portrait display mode, the width and height o
 The initialization function ( `callbackReady` in the code snippet ) will be called with an error code ( `errCode` ). It can have these values:
 * `false`: no error occurs,
 * `"GL_INCOMPATIBLE"`: WebGL is not available, or this WebGL configuration is not enough (there is no WebGL2, or there is WebGL1 without OES_TEXTURE_FLOAT or OES_TEXTURE_HALF_FLOAT extension),
-* `"ALREADY_INITIALIZED"`: the API has been already initialized,
+* `"ALREADY_INITIALIZED"`: the library has been already initialized,
 * `"NO_CANVASID"`: no canvas or canvas ID was specified,
 * `"INVALID_CANVASID"`: cannot found the `<canvas>` element in the DOM,
 * `"INVALID_CANVASDIMENSIONS"`: the dimensions `width` and `height` of the canvas are not specified,
-* `"WEBCAM_UNAVAILABLE"`: cannot get access to the webcam (the user has no webcam, or it has not accepted to share the device, or the webcam is already busy),
+* `"WEBCAM_UNAVAILABLE"`: cannot get access to the camera (the user has no camera, or it has not accepted to share the device, or the camera is already busy),
 * `"GLCONTEXT_LOST"`: The WebGL context was lost. If the context is lost after the initialization, the `callbackReady` function will be launched a second time with this value as error code,
 * `"MAXFACES_TOOHIGH"`: The maximum number of detected and tracked faces, specified by the optional init argument `maxFacesDetected`, is too high.
 
@@ -332,7 +340,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 
 * `JEELIZFACEFILTER.toggle_pause(<boolean> isPause, <boolean> isShutOffVideo)`: pause/resume. This method will completely stop the rendering/detection loop. If `isShutOffVideo` is set to `true`, the media stream track will be stopped and the camera light will turn off. It returns a `Promise` object,
 
-* `JEELIZFACEFILTER.toggle_slow(<boolean> isSlow)`: toggle the slow rendering mode: because this API consumes a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relieve the GPU. Unfortunately the tracking and the 3D rendering will also be slower but this is not a problem is the user is focusing on other elements of the application. We encourage to enable the slow mode as soon as a the user's attention is focused on a different part of the canvas,
+* `JEELIZFACEFILTER.toggle_slow(<boolean> isSlow)`: toggle the slow rendering mode: because this library can consume a lot of GPU resources, it may slow down other elements of the application. If the user opens a CSS menu for example, the CSS transitions and the DOM update can be slow. With this function you can slow down the rendering in order to relieve the GPU. Unfortunately the tracking and the 3D rendering will also be slower but this is not a problem is the user is focusing on other elements of the application. We encourage to enable the slow mode as soon as a the user's attention is focused on a different part of the canvas,
 
 * `JEELIZFACEFILTER.set_animateDelay(<integer> delay)`: Change the `animateDelay` (see `init()` arguments),
 
@@ -341,7 +349,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
 * `JEELIZFACEFILTER.reset_inputTexture()`: Come back to the user's video as input texture,
 
 * `JEELIZFACEFILTER.get_videoDevices(<function> callback)`: Should be called before the `init` method. 2 arguments are provided to the callback function:
-  * `<array> mediaDevices`: an array with all the devices founds. Each device is a javascript object having a `deviceId` string attribute. This value can be provided to the `init` method to use a specific webcam. If an error happens, this value is set to `false`,
+  * `<array> mediaDevices`: an array with all the devices founds. Each device is a javascript object having a `deviceId` string attribute. This value can be provided to the `init` method to use a specific camera. If an error happens, this value is set to `false`,
   * `<string> errorLabel`: if an error happens, the label of the error. It can be: `NOTSUPPORTED`, `NODEVICESFOUND` or `PROMISEREJECTED`.
 
 * `JEELIZFACEFILTER.set_scanSettings(<object> scanSettings)`: Override scan settings. `scanSettings` is a dictionnary with the following properties:
@@ -443,7 +451,9 @@ Checkout this demo to have an example of how it works: [source code](/demos/canv
 
 It is possible to use another 3D engine than BABYLON.JS or THREE.JS. If you have accomplished this work, we would be interested to add your demonstration in this repository (or link to your code). Just open a pull request.
 
-The 3D engine should share the WebGL context with FaceFilter API. The WebGL context is created by Jeeliz Face Filter. The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the FaceFilter WebGL context. It would be more costly in term of computating time to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts: the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context for rendering. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initialized WebGL context.
+The 3D engine can either share the WebGL context and the canvas with FaceFilter, or use a second canvas overlaid on the FaceFilter canvas (the FaceFilter canvas is just used to render the video). In the first case, the WebGL context is created by Jeeliz Face Filter. We strongly encourage the second approach, even if the first one may be a bit more optimized.
+
+<!--The background video texture is given directly as a `WebGLTexture` object, so it is usable only on the FaceFilter WebGL context. It would be more costly in term of computating time to have a second WebGL context for the 3D rendering, because at each new video frame we should transfert the video data from the `<video>` element to the 2 webgl contexts: the Jeeliz Face Filter WebGL context for processing, and the 3D engine WebGL Context for rendering. Fortunately, with BABYLON.JS or THREE.JS, it is easy to specify an already initialized WebGL context. -->
 
 
 ### Changing the neural network
@@ -452,7 +462,7 @@ Since July 2018 it is possible to change the neural network. When calling `JEELI
 
 ```javascript
   JEELIZFACEFILTER.init({
-    NNCPath: '../../neuralNets/NN_LIGHT_0.json'
+    NNCPath: '../../neuralNets/NN_LIGHT_1.json'
     // ...
   })
 ```
@@ -479,7 +489,7 @@ import 'dist/jeelizFaceFilter.module.js'
 or using `require` ([see issue #72](https://github.com/jeeliz/jeelizFaceFilter/issues/72)):
 
 ```javascript
-const faceFilter = require('./lib/jeelizFaceFilter.module.js').JEELIZFACEFILTERAPI;
+const faceFilter = require('./lib/jeelizFaceFilter.module.js').JEELIZFACEFILTER;
 
 faceFilter.init({
   // you can also provide the canvas directly
@@ -510,13 +520,13 @@ faceFilter.init({
 If you use this library with a bundler (typically *Webpack* or *Parcel*), first you should use the [module version](#using-module).
 
 Then, with the standard library, we load the neural network model (specified by `NNCPath` provided as initialization parameter) using AJAX for the following reasons:
-* If the user does not accept to share its webcam, or if WebGL is not enabled, we don't have to load the neural network model,
+* If the user does not accept to share its camera, or if WebGL is not enabled, we don't have to load the neural network model,
 * We suppose that the library is deployed using a static HTTPS server.
 
 With a bundler, it is a bit more complicated. It is easier to load the neural network model using a classical `import` or `require` call and to provide it using the `NNC` init parameter:
 
 ```javascript
-const faceFilter = require('./lib/jeelizFaceFilter.module.js').JEELIZFACEFILTERAPI
+const faceFilter = require('./lib/jeelizFaceFilter.module.js').JEELIZFACEFILTER
 const neuralNetworkModel = require('./neuralNets/NN_DEFAULT.json')
 
 faceFilter.init({
@@ -571,7 +581,7 @@ There is also this Github issue detailing how to embed the library into a `Webvi
 
 ## Hosting
 
-This API requires the user's webcam video feed through `MediaStream API`. So your application should be hosted by a HTTPS server (even with a self-signed certificate). It won't work at all with unsecure HTTP, even locally with some web browsers.
+This library requires the user's camera video feed through `MediaStream API`. So your application should be hosted by a HTTPS server (even with a self-signed certificate). It won't work at all with unsecure HTTP, even locally with some web browsers.
 
 
 ### The development server
@@ -607,7 +617,7 @@ It uses the neural network `NN_DEFAULT.json` hosted in the same path. The helper
 It is served through a content delivery network (CDN) using gzip compression.
 If you host the scripts by yourself, be careful to enable gzip HTTP/HTTPS compression for JSON and JS files. Indeed, the neuron network JSON file, `neuralNets/NN_DEFAULT.json` is quite heavy, but very well compressed with GZIP. You can check the gzip compression of your server [here](https://www.giftofspeed.com/gzip-test/).
 
-The neuron network file, `neuralNets/NN_DEFAULT.json` is loaded using an ajax `XMLHttpRequest` after calling `JEEFACEFILTER.init()`. This loading is proceeded after the user has accepted to share its camera. So we won't load this quite heavy file if the user refuses to share it or if there is no webcam available. The loading can be faster if you systematically preload `neuralNets/NN_DEFAULT.json` using a service worker or a simple raw `XMLHttpRequest` just after the HTML page loading. Then the file will be already in the browser cache when Jeeliz Facefilter API will request it.
+The neuron network file, `neuralNets/NN_DEFAULT.json` is loaded using an ajax `XMLHttpRequest` after calling `JEEFACEFILTER.init()`. This loading is proceeded after the user has accepted to share its camera. So we won't load this quite heavy file if the user refuses to share it or if there is no camera available. The loading can be faster if you systematically preload `neuralNets/NN_DEFAULT.json` using a service worker or a simple raw `XMLHttpRequest` just after the HTML page loading. Then the file will be already in the browser cache when Jeeliz Facefilter will request it.
 
 
 
@@ -615,7 +625,7 @@ The neuron network file, `neuralNets/NN_DEFAULT.json` is loaded using an ajax `X
 
 ### Under the hood
 
-This API uses Jeeliz WebGL Deep Learning technology to detect and track the user's face using a neural network. The accuracy is adaptative: the best is the hardware, the more detections are processed per second. All is done client-side.
+This library relies on Jeeliz WebGL Deep Learning technology to detect and track the user's face using a neural network. The accuracy is adaptative: the best is the hardware, the more detections are processed per second. All is done client-side.
 
 
 ### Compatibility
@@ -624,9 +634,7 @@ This API uses Jeeliz WebGL Deep Learning technology to detect and track the user
 * If `WebGL2` is not available but `WebGL1`, we require either `OES_TEXTURE_FLOAT` extension or `OES_TEXTURE_HALF_FLOAT` extension,
 * If `WebGL2` is not available, and if `WebGL1` is not available or neither `OES_TEXTURE_FLOAT` or `OES_HALF_TEXTURE_FLOAT` are implemented, the user is not compatible.
 
-In all cases, WebRTC should be implemented in the web browser, otherwise FaceFilter API will not be able to get the webcam video feed. Here are the compatibility tables from [caniuse.com](https://caniuse.com/) here: [WebGL1](https://caniuse.com/#feat=webgl), [WebGL2](https://caniuse.com/#feat=webgl2), [WebRTC](https://caniuse.com/#feat=stream).
-
-If a compatibility error occurred, please post an issue on this repository. If this is a problem with the webcam access, please first retry after closing all applications which could use the camera (Skype, Messenger, other browser tabs and windows, ...). Please include:
+If a compatibility error occurred, please post an issue on this repository. If this is a problem with the camera access, please first retry after closing all applications which could use the camera (Skype, Messenger, other browser tabs and windows, ...). Please include:
 * the browser, the version of the browser, the operating system, the version of the operating system, the device model and the GPU if it is a desktop computer,
 * a screenshot of [webglreport.com - WebGL1](https://webglreport.com/?v=1) (about your `WebGL1` implementation),
 * a screenshot of [webglreport.com - WebGL2](https://webglreport.com/?v=2) (about your `WebGL2` implementation),
@@ -642,7 +650,7 @@ You have written a tutorial using this library? Submit a pull request or send us
 
 ### In English
 
-* Creating a Snapchat-like face filter using Jeeliz FaceFilter API and THREE.JS:
+* Creating a Snapchat-like face filter using Jeeliz FaceFilter and THREE.JS:
   * Part 1: [Creating your first filter](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/)
   * Part 2: [ User interactions and particles](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/)
 
@@ -657,6 +665,8 @@ You have written a tutorial using this library? Submit a pull request or send us
 * Video tutorials by [Chris Godber](http://chrisgodber.co.uk/): [Headtracking Controls with Three JS](https://youtu.be/_Fs4Sbn2LPc)
 
 * Tutorial on Medium by [Patricia Arnedo](https://patriciaarnedo.medium.com/): [Building an AR Drawing App Using React](https://patriciaarnedo.medium.com/building-an-ar-drawing-app-using-react-5f47740a747c)
+
+* [How to develop a Web AR Facefilter with React and ThreeJS / React Three Fiber in 2021](https://webanimation.blog/blog/how-to-develop-web-ar-facefilter-react-threejs) Great tutorial by [Level 30 Wizards](https://level30wizards.com/) Creative Digital Studio to learn how to create a wizard hat face filter. [Live demo here](https://facefilter-experiment.vercel.app/)
 
 
 ### In French
@@ -719,4 +729,4 @@ We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-c
 * [Three.JS official website with documentation, demos, examples...](https://threejs.org/)
 * [Cesium JS official website](https://cesiumjs.org/)
 * [A-Frame official website](https://aframe.io/)
-* [Webgl Academy: tutorials about WebGL and THREE.JS](http://www.webglacademy.com)
+* [Webgl Academy: tutorials on WebGL and THREE.JS](http://www.webglacademy.com)

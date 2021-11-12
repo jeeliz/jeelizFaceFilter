@@ -25,7 +25,7 @@ module.exports = merge(common, {
    */
   devServer: {
     historyApiFallback: true,
-    contentBase: paths.build,
+    static: paths.build,
     open: true,
     compress: true,
     hot: true,

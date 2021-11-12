@@ -37,7 +37,9 @@
   
   <body onload="main()">
     <canvas width="600" height="600" id='jeeFaceFilterCanvas'></canvas>
-    <video id='myVideo' style='display: none' src='video.mp4' playsinline preload autoplay loop></video>
+    <video id='myVideo' style='display: none' playsinline preload autoplay loop>
+      <source src='video.mp4' type='video/mp4'/>
+    </video>
     <div id='notice'>Click or Touch <br/> to start!</div>
   </body>
 </html>

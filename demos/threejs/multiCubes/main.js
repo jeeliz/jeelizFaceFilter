@@ -5,8 +5,10 @@ const SETTINGS = {
   maxFaces: 4, // max number of detected faces
 };
 
+
 // some globalz:
 let THREECAMERA = null;
+
 
 // callback: launched if a face is detected or lost
 function detect_callback(faceIndex, isDetected){
@@ -16,6 +18,7 @@ function detect_callback(faceIndex, isDetected){
     console.log('INFO in detect_callback(): face n°', faceIndex, 'LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec){
@@ -33,6 +36,7 @@ function init_threeScene(spec){
   // CREATE THE CAMERA:
   THREECAMERA = JeelizThreeHelper.create_camera();
 }
+
 
 // Entry point, launched by body.onload():
 function main(){

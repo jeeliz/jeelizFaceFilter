@@ -11,6 +11,7 @@ function detect_callback(faceIndex, isDetected) {
   }
 }
 
+
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
   spec.threeCanvasId = 'threeCanvas'; // enable 2 canvas mode
@@ -25,7 +26,8 @@ function init_threeScene(spec) {
 
   // CREATE THE CAMERA:
   THREECAMERA = JeelizThreeHelper.create_camera();
-} // end init_threeScene()
+}
+
 
 // entry point:
 function main(){
@@ -36,6 +38,7 @@ function main(){
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
