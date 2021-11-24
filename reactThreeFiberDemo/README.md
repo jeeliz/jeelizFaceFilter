@@ -6,7 +6,7 @@
 This demo is fully standalone, that's why it is not in the [/demos](/demos) path like other demonstrations.
 To make it work, run from this path:
 
-```
+```bash
 npm install
 npm run start
 ```
