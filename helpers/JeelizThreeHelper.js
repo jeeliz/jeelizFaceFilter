@@ -230,7 +230,8 @@ const JeelizThreeHelper = (function(){
       _threeRenderer = new THREE.WebGLRenderer({
         context: (_isSeparateThreeCanvas) ? null : _gl,
         canvas: threeCanvas,
-        alpha: (_isSeparateThreeCanvas || spec.alpha) ? true : false
+        alpha: (_isSeparateThreeCanvas || spec.alpha) ? true : false,
+        preserveDrawingBuffer: true // to make image capture possible
       });
 
       _threeScene = new THREE.Scene();
