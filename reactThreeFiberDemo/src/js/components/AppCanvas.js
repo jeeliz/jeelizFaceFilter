@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Canvas, useFrame, useThree } from 'react-three-fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 
 // import main script and neural network model from Jeeliz FaceFilter NPM package
 import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter'
