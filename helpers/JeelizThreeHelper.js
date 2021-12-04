@@ -126,7 +126,9 @@ const JeelizThreeHelper = (function(){
 
     const videoGeometry = new THREE.BufferGeometry()
     const videoScreenCorners = new Float32Array([-1,-1,   1,-1,   1,1,   -1,1]);
-    videoGeometry.addAttribute( 'position', new THREE.BufferAttribute( videoScreenCorners, 2 ) );
+    // handle both new and old THREE.js versions:
+    const setVideoGeomAttribute = (videoGeometry.setAttribute || videoGeometry.addAttribute).bind(videoGeometry);
+    setVideoGeomAttribute( 'position', new THREE.BufferAttribute( videoScreenCorners, 2 ) );
     videoGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0,1,2, 0,2,3]), 1));
     _threeVideoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
     that.apply_videoTexture(_threeVideoMesh);
