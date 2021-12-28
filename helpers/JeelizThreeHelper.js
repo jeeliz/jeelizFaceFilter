@@ -43,6 +43,7 @@ const JeelizThreeHelper = (function(){
 
   let _videoTransformMat2 = null;
 
+
   // private funcs:
   function destroy(){
     _isVideoTextureReady = false;
@@ -52,6 +53,7 @@ const JeelizThreeHelper = (function(){
       _threeVideoTexture = null;
     }
   }
+
 
   function create_threeCompositeObjects(){
     for (let i=0; i<_maxFaces; ++i){
@@ -64,6 +66,7 @@ const JeelizThreeHelper = (function(){
       _threeScene.add(threeCompositeObject);
     }
   }
+
 
   function create_videoScreen(){
     const videoScreenVertexShaderSource = "attribute vec2 position;\n\
@@ -137,6 +140,7 @@ const JeelizThreeHelper = (function(){
     _threeScene.add(_threeVideoMesh);
   } //end create_videoScreen()
 
+
   function detect(detectState){
     _threeCompositeObjects.forEach(function(threeCompositeObject, i){
       _isDetected = threeCompositeObject.visible;
@@ -154,6 +158,7 @@ const JeelizThreeHelper = (function(){
       }
     }); //end loop on all detection slots
   }
+
 
   function update_poses(ds, threeCamera){
     // tan( <horizontal FoV> / 2 ):
@@ -197,6 +202,7 @@ const JeelizThreeHelper = (function(){
       threeCompositeObject.position.add(_threeTranslation);
     }); //end loop on composite objects
   }
+
 
   //public methods:
   const that = {
@@ -260,6 +266,7 @@ const JeelizThreeHelper = (function(){
       return returnedDict;
     }, //end that.init()
 
+
     detect: function(detectState){
       const ds = (_isMultiFaces) ? detectState : [detectState];
 
@@ -267,9 +274,11 @@ const JeelizThreeHelper = (function(){
       detect(ds);
     },
 
+
     get_isDetected: function() {
       return _isDetected;
     },
+
 
     render: function(detectState, threeCamera){
       const ds = (_isMultiFaces) ? detectState : [detectState];
@@ -295,6 +304,7 @@ const JeelizThreeHelper = (function(){
       // trigger the render of the THREE.JS SCENE:
       _threeRenderer.render(_threeScene, threeCamera);
     },
+
 
     sortFaces: function(bufferGeometry, axis, isInv){ // sort faces long an axis
       // Useful when a bufferGeometry has alpha: we should render the last faces first
@@ -333,9 +343,11 @@ const JeelizThreeHelper = (function(){
       });
     }, //end sortFaces
 
+
     get_threeVideoTexture: function(){
       return _threeVideoTexture;
     },
+
 
     apply_videoTexture: function(threeMesh){
       if (_isVideoTextureReady){
@@ -354,6 +366,7 @@ const JeelizThreeHelper = (function(){
         delete(threeMesh.onAfterRender);
       };
     },
+
 
     // create an occluder, IE a transparent object which writes on the depth buffer:
     create_threejsOccluder: function(occluderURL, callback){
@@ -374,9 +387,11 @@ const JeelizThreeHelper = (function(){
       return occluderMesh;
     },
     
+
     set_pivotOffsetYZ: function(pivotOffset) {
       _settings.pivotOffsetYZ = pivotOffset;
     },
+
 
     create_camera: function(zNear, zFar){
       const threeCamera = new THREE.PerspectiveCamera(1, 1, (zNear) ? zNear : 0.1, (zFar) ? zFar : 100);
@@ -384,6 +399,7 @@ const JeelizThreeHelper = (function(){
 
       return threeCamera;
     },
+
 
     update_camera: function(threeCamera){
       // compute aspectRatio:
@@ -425,6 +441,7 @@ const JeelizThreeHelper = (function(){
       _threeRenderer.setSize(cvw, cvh, false);
       _threeRenderer.setViewport(0, 0, cvw, cvh);
     }, //end update_camera()
+
 
     resize: function(w, h, threeCamera){
       _threeRenderer.domElement.width = w;
