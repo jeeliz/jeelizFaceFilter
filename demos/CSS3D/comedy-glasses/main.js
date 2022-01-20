@@ -1,5 +1,3 @@
-"use strict";
-
 
 // SETTINGS of this demo:
 const SETTINGS = {
