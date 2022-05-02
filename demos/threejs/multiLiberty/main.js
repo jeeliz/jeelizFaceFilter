@@ -1,6 +1,4 @@
-"use strict";
-
-// SETTINGS of this demo :
+// SETTINGS of this demo:
 const SETTINGS = {
   maxFaces: 4, //max number of detected faces
 };

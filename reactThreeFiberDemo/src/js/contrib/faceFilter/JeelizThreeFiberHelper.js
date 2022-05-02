@@ -1,5 +1,11 @@
 /* eslint-disable */
-import * as THREE from 'three'
+import {
+  Matrix4,
+  Mesh,
+  ShaderLib,
+  ShaderMaterial,
+  Vector3
+} from 'three'
 
 /*
   Helper for THREE Fiber. You can customize it
@@ -110,8 +116,8 @@ const superThat = (function(){
         _detectCallback = detectCallback;
       }
 
-      _threeTranslation = new THREE.Vector3();
-      _threeProjMatrix = new THREE.Matrix4();
+      _threeTranslation = new Vector3();
+      _threeProjMatrix = new Matrix4();
     },
 
     update: function(detectStates, threeCamera){
@@ -122,13 +128,13 @@ const superThat = (function(){
 
     // create an occluder, IE a transparent object which writes on the depth buffer:
     create_occluder: function(occluderGeometry){
-      const occluderMaterial = new THREE.ShaderMaterial({
-          vertexShader: THREE.ShaderLib.basic.vertexShader,
+      const occluderMaterial = new ShaderMaterial({
+          vertexShader: ShaderLib.basic.vertexShader,
           fragmentShader: "precision lowp float;\n void main(void){\n gl_FragColor=vec4(1.,0.,0.,1.);\n }",
-          uniforms: THREE.ShaderLib.basic.uniforms,
+          uniforms: ShaderLib.basic.uniforms,
           colorWrite: false
         });
-      const occluderMesh = new THREE.Mesh(occluderGeometry, occluderMaterial);        
+      const occluderMesh = new Mesh(occluderGeometry, occluderMaterial);        
       occluderMesh.renderOrder = -1; // render first
       return occluderMesh;
     },

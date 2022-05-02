@@ -37,6 +37,7 @@ const FaceFollower = (props) => {
       mouthSmileRef.current.scale.set(s1, 1, s1)
     }
   })
+  
 
   return (
     <object3D ref={objRef}>
@@ -62,7 +63,7 @@ const FaceFollower = (props) => {
 // fake component, display nothing
 // just used to get the Camera and the renderer used by React-fiber:
 let _threeFiber = null
-const DirtyHook = (props) => {
+const ThreeGrabber = (props) => {
   _threeFiber = useThree()
   useFrame(JeelizThreeFiberHelper.update_camera.bind(null, props.sizing, _threeFiber.camera))
   return null
@@ -193,7 +194,7 @@ const AppCanvas = () => {
       }}
       updateDefaultCamera = {false}
       >
-        <DirtyHook sizing={sizing} />
+        <ThreeGrabber sizing={sizing} />
         <FaceFollower faceIndex={0} expression={_expressions[0]} />
       </Canvas>
 
