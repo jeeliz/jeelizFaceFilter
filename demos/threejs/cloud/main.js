@@ -1,10 +1,9 @@
-"use strict";
-
 // some globalz:
 let THREECAMERA = null;
 let ISDETECTED = false;
 let PARTICLES = null, PARTICLES2 = null, PARTICLES3 = null;
 let CLOUDMESH2 = null, CLOUDMESH3 = null, CLOUDOBJ3D = null;
+
 
 // callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
@@ -14,6 +13,7 @@ function detect_callback(isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
@@ -67,7 +67,7 @@ function init_threeScene(spec) {
       // to mimic a storm
       const pointLight = new THREE.PointLight(0xffffff, 0, 100);
       pointLight.position.set(0, 0.15, -1);
-      animatePointLight(pointLight);
+      animate_pointLight(pointLight);
 
       // CREATE OUR PARTICLE MATERIAL
       let PARTICLESOBJ3D = new THREE.Object3D();
@@ -118,14 +118,14 @@ function init_threeScene(spec) {
       }
 
       PARTICLES.forEach((part, index) => {
-        animateParticleCloud(part, index);
+        animate_particleCloud(part, index);
       });
       PARTICLES2.forEach((part, index) => {
-        animateParticleCloud(part, index);
+        animate_particleCloud(part, index);
       });
 
       PARTICLES3.forEach((part, index) => {
-        animateParticleCloud(part, index);
+        animate_particleCloud(part, index);
       });
 
       threeStuffs.faceObject.add(CLOUDOBJ3D)
@@ -175,19 +175,21 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(dirLight);
 } // end init_threeScene()
 
-function animateParticleCloud(particle, index) {
+
+function animate_particleCloud(particle, index) {
   particle.visible = true;
   new TWEEN.Tween(particle.position)
     .to( { y: - 20 }, 3000)
     .delay(index*15)
     .repeat(Infinity)
     .onComplete(() => {
-      animateParticleCloud(particle, index);
+      animate_particleCloud(particle, index);
     })
     .start();
 }
 
-function animatePointLight (light) {
+
+function animate_pointLight (light) {
   const opacityUp1 = new TWEEN.Tween(light)
   .to({ intensity: 3 }, 100)
 
@@ -215,6 +217,7 @@ function animatePointLight (light) {
   opacityUp1.start();
 }
 
+
 // entry point:
 function main() {
   JeelizResizer.size_canvas({
@@ -224,6 +227,7 @@ function main() {
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -247,4 +251,7 @@ function init_faceFilter(videoSettings){
     }
   }); // end JEELIZFACEFILTER.init call
 }
+
+
+window.addEventListener('load', main);
 

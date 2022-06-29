@@ -2,22 +2,25 @@ function main(){ // entry point
   const videoElement = document.getElementById('myVideo');
 
   if (videoElement['currentTime'] && videoElement['videoWidth'] && videoElement['videoHeight']){
-    startVideoFile(videoElement);
-    startCamera();
+    start_videoFile(videoElement);
+    start_camera();
   } else {
     setTimeout(main, 100);
     videoElement['play']();
   }
 }
 
-function startVideoFile(videoElement){
+
+function start_videoFile(videoElement){
   start(JEELIZFACEFILTER, 'jeeFaceFilterCanvas', videoElement, 'yellow');
 }
 
-function startCamera(){
+
+function start_camera(){
   const JEELIZFACEFILTER2 = JEELIZFACEFILTER.create_new();
   start(JEELIZFACEFILTER2, 'jeeFaceFilterCanvas2', null, 'lime');
 }
+
 
 function start(jeeFaceFilterAPIInstance, canvasId, videoElement, borderColor){
   let cvd = null; // return of Canvas2DDisplay
@@ -52,3 +55,6 @@ function start(jeeFaceFilterAPIInstance, canvasId, videoElement, borderColor){
     }
   });
 }
+
+
+window.addEventListener('load', main);

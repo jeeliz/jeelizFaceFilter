@@ -1,5 +1,3 @@
-"use strict";
-
 // SETTINGS of this demo:
 const SETTINGS = {
   maskScale: 0.065,
@@ -22,6 +20,7 @@ function detect_callback(isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
@@ -96,6 +95,7 @@ function animateAppear (object3D) {
     .start();
 } 
 
+
 // entry point:
 function main(){
   JeelizResizer.size_canvas({
@@ -105,6 +105,7 @@ function main(){
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -140,3 +141,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

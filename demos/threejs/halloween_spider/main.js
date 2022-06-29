@@ -1,5 +1,3 @@
-"use strict";
-
 // some globalz:
 let THREECAMERA = null;
 let ISDETECTED = false;
@@ -9,6 +7,7 @@ const ACTIONS = [];
 let MASKOBJ3D = null;
 let isAnimating = false;
 
+
 // callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
@@ -17,6 +16,7 @@ function detect_callback(isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
@@ -144,6 +144,7 @@ function init_threeScene(spec) {
     threeStuffs.faceObject.add(MASKOBJ3D);
   }
 
+
   // CREATE THE VIDEO BACKGROUND
   function create_mat2d(threeTexture, isTransparent){
     return new THREE.RawShaderMaterial({
@@ -188,7 +189,8 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(spotLight);
 } // end init_threeScene()
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main(){
   MASKOBJ3D = new THREE.Object3D();
   JeelizResizer.size_canvas({
@@ -198,6 +200,7 @@ function main(){
     }
   })
 }
+
 
 function animateSpiders() {
   // Hide "open mouth" instruction:
@@ -217,6 +220,7 @@ function animateSpiders() {
     action.play();
   });
 } 
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -256,3 +260,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

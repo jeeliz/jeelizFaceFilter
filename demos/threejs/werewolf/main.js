@@ -1,5 +1,3 @@
-"use strict";
-
 // some globalz:
 let THREEVIDEOTEXTURE = null;
 let THREECAMERA = null;
@@ -31,9 +29,10 @@ function detect_callback(isDetected) {
   }
 }
 
+
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
-  addFrame();
+  add_frame();
 
   const openMouthInstruction = $('#openMouthInstruction');
   openMouthInstruction.hide();
@@ -196,7 +195,8 @@ function init_threeScene(spec) {
   THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
-function animateWolf (object3D) {
+
+function animate_wolf (object3D) {
   object3D.visible = true
   new TWEEN.Tween(object3D.material[1])
     .to({ opacity: 1 }, 1000)
@@ -209,7 +209,8 @@ function animateWolf (object3D) {
     .start();
 }
 
-function addFrame() {
+
+function add_frame() {
   const frame = document.getElementById('frame');
   const ctx = frame.getContext('2d');
   const img = new Image(600, 600);
@@ -219,7 +220,8 @@ function addFrame() {
   img.src = './images/frame.png'
 }
 
-// entry point - launched by body.onload():
+
+// entry point:
 function main(){
   WOLFOBJ3D = new THREE.Object3D();
   MASKOBJ3D = new THREE.Object3D();
@@ -231,6 +233,7 @@ function main(){
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -254,7 +257,7 @@ function init_faceFilter(videoSettings){
       if (ISDETECTED && detectState.expressions[0] >= 0.9 && !isTransformed && isLoaded) {
 
         isTransformed = true;
-        animateWolf(WOLFMESH);
+        animate_wolf(WOLFMESH);
 
         const openMouthInstruction = $('#openMouthInstruction');
         openMouthInstruction.hide();
@@ -270,3 +273,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

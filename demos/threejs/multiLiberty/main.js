@@ -6,6 +6,7 @@ const SETTINGS = {
 // some globalz:
 let THREECAMERA = null;
 
+
 // callback: launched if a face is detected or lost
 function detect_callback(faceIndex, isDetected){
   if (isDetected){
@@ -15,6 +16,7 @@ function detect_callback(faceIndex, isDetected){
   }
 }
 
+
 function create_libertyMaterial(){
   return new THREE.MeshLambertMaterial({
     color: 0xadd7bf, // cyan oxidized bronze
@@ -23,6 +25,7 @@ function create_libertyMaterial(){
     premultipliedAlpha: true
   });
 }
+
 
 function create_faceMaterial(){
   return new THREE.MeshBasicMaterial({
@@ -36,6 +39,7 @@ function create_faceMaterial(){
     blendEquation: THREE.AddEquation
   });
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec){
@@ -77,7 +81,8 @@ function init_threeScene(spec){
   threeStuffs.scene.add(ambientLight, dirLight);
 } //end init_threeScene()
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main(){
   JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
@@ -98,4 +103,7 @@ function main(){
       JeelizThreeHelper.render(detectState, THREECAMERA);
     } //end callbackTrack()
   }); //end JEELIZFACEFILTER.init call
-} //end main()
+}
+
+
+window.addEventListener('load', main);

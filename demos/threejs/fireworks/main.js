@@ -1,5 +1,3 @@
-"use strict";
-
 // SETTINGS of this demo:
 const SETTINGS = {
   numberRockets: 9,
@@ -14,6 +12,7 @@ let PARTICLES = [];
 
 let ROCKETSOBJ3D = null, FIREWORKOBJ3D = null;
 
+
 // callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
@@ -22,6 +21,7 @@ function detect_callback(isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
@@ -33,7 +33,7 @@ function init_threeScene(spec) {
   threeStuffs.faceObject.add(FIREWORKOBJ3D);
 
   let particleMaterial = new THREE.SpriteMaterial({
-    map: new THREE.CanvasTexture(generateSprite()),
+    map: new THREE.CanvasTexture(generate_sprite()),
     blending: THREE.AdditiveBlending
   });
 
@@ -59,7 +59,7 @@ function init_threeScene(spec) {
       const positive = Math.random()*2 - 1 > 0 ? 1 : -1;
       r.position.x = ((Math.random()*0.5) + 0.5) *  positive;
 
-      animateRocket(r, index);
+      animate_rocket(r, index);
     }, 1200*index);
   });
 
@@ -76,7 +76,7 @@ function init_threeScene(spec) {
     const PARTICLESOBJ3D = new THREE.Object3D();
 
     particleMaterial = new THREE.SpriteMaterial({
-      map: new THREE.CanvasTexture(generateSprite(color)),
+      map: new THREE.CanvasTexture(generate_sprite(color)),
       blending: THREE.AdditiveBlending
     });
 
@@ -129,8 +129,9 @@ function init_threeScene(spec) {
   THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
+
 // Generates a canvas which we'll use as particles
-function generateSprite(color) {
+function generate_sprite(color) {
   const canvas = document.createElement('canvas');
 
   canvas.width = 32;
@@ -150,15 +151,16 @@ function generateSprite(color) {
   return canvas;
 }
 
+
 // Animates our rockets
-function animateRocket(rocket, index) {
+function animate_rocket(rocket, index) {
   rocket.visible = true;
   new TWEEN.Tween(rocket.position)
     .to({ y: 1 }, 2000)
     .onComplete(() => {
       PARTICLES[index].forEach((part, ind) => {
         part.position.set(rocket.position.x, rocket.position.y, rocket.position.z);
-        animateParticle(part, rocket, ind);
+        animate_particle(part, rocket, ind);
       });
 
       rocket.visible = false;
@@ -166,14 +168,14 @@ function animateRocket(rocket, index) {
         const positive = Math.random()*2 - 1 > 0 ? 1 : -1;
         rocket.position.x = ((Math.random()*0.5) + 0.5) *  positive;
         rocket.position.y = -4;
-        animateRocket(rocket, index);
+        animate_rocket(rocket, index);
       }, 3000);
     })
     .start();
 }
 
 
-function animateParticle( particle, rocket, index ) {
+function animate_particle( particle, rocket, index ) {
   particle.visible = true;
   
   const theta = Math.log10(Math.random()*2*Math.PI); // angle in the plane XY
@@ -194,7 +196,8 @@ function animateParticle( particle, rocket, index ) {
     .start();
 }
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -202,7 +205,8 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -227,3 +231,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

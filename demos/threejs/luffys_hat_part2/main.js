@@ -1,6 +1,3 @@
-"use strict";
-
-
 // SETTINGS of this demo:
 const SETTINGS = {
   pivotOffsetYZ: [0.2, 0.6 - 0.1], // XYZ of the distance between the center of the cube and the pivot
@@ -109,6 +106,7 @@ function init_threeScene(spec) {
     }
   );
 
+
   // CREATE THE VIDEO BACKGROUND
   function create_mat2d(threeTexture, isTransparent){ //MT216: we put the creation of the video material in a func because we will also use it for the frame
     return new THREE.RawShaderMaterial({
@@ -147,7 +145,8 @@ function init_threeScene(spec) {
   THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -156,6 +155,7 @@ function main(){
     }
   });
 }
+
 
 function init_faceFilter(videoSettings){
   // Here we set a different pivotOffset value so that the mask fits better
@@ -181,4 +181,7 @@ function init_faceFilter(videoSettings){
     }
   }); // end JEELIZFACEFILTER.init call
 }
+
+
+window.addEventListener('load', main);
 

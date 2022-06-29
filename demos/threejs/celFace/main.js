@@ -1,5 +1,3 @@
-"use strict";
-
 // SETTINGS of this demo:
 const SETTINGS = {
   rotationOffsetX: 0, // negative -> look upper. in radians
@@ -231,6 +229,7 @@ function init_threeScene(spec) {
   THREECAMERA = new THREE.PerspectiveCamera(SETTINGS.cameraFOV, aspecRatio, 0.1, 100);
 } // end init_threeScene()
 
+
 // entry point:
 function main(){
   JeelizResizer.size_canvas({
@@ -239,7 +238,8 @@ function main(){
       init_faceFilter(bestVideoSettings);
     }
   })
-} //end main()
+}
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -304,3 +304,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 } // end main()
 
+
+window.addEventListener('load', main);

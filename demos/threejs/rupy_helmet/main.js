@@ -1,7 +1,6 @@
-"use strict";
-
 // some globalz:
 let THREECAMERA = null;
+
 
 // callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
@@ -127,6 +126,7 @@ function init_threeScene(spec) {
     threeStuffs.faceObject.add(HELMETOBJ3D);
   }
 
+
   // CREATE THE VIDEO BACKGROUND
   function create_mat2d(threeTexture, isTransparent){
     return new THREE.RawShaderMaterial({
@@ -169,7 +169,8 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(dirLight);
 } // end init_threeScene()
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -178,6 +179,7 @@ function main(){
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -201,3 +203,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

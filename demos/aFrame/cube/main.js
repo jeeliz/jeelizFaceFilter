@@ -1,5 +1,3 @@
-"use strict";
-
 // SETTINGS of this demo:
 const SETTINGS = {
   rotationOffsetX: 0, // negative -> look upper. in radians
@@ -14,6 +12,7 @@ const SETTINGS = {
 let THREEVIDEOTEXTURE = null, THREERENDERER = null, THREEFACEOBJ3D = null, THREEFACEOBJ3DPIVOTED = null, THREESCENE = null, THREECAMERA = null, AFRAMEINSTANCE = null;
 let ISDETECTED = false, ISLOADED = false;
 
+
 // callback launched if a face is detected or lost:
 function detect_callback(isDetected){
   if (isDetected){
@@ -22,6 +21,7 @@ function detect_callback(isDetected){
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // recursive function to find a specific element in the AFRAME sceneGraph:
 function extract_threeChildrenWithId(id, threeElt){
@@ -51,6 +51,7 @@ function init_aFrame(spec){
   THREERENDERER = AFRAMEINSTANCE.renderer;
   init_threeScene(spec);
 }
+
 
 // build the 3D:
 function init_threeScene(spec){
@@ -128,7 +129,8 @@ function init_threeScene(spec){
   ISLOADED = true;
 } //end init_threeScene()
 
-//launched by body.onload() :
+
+// entry point:
 function main(){
   JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
@@ -188,3 +190,5 @@ function main(){
   }); //end JEELIZFACEFILTER.init call
 } //end main()
 
+
+window.addEventListener('load', main);

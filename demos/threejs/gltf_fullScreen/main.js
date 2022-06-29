@@ -1,5 +1,3 @@
-"use strict";
-
 // SETTINGS of this demo:
 const SETTINGS = {
   gltfModelURL: 'DamagedHelmet/glTF/DamagedHelmet.gltf',
@@ -55,7 +53,8 @@ function init_threeScene(spec){
   THREECAMERA = JeelizThreeHelper.create_camera();
 } //end init_threeScene()
 
-//entry point, launched by body.onload():
+
+//entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -66,6 +65,7 @@ function main(){
     }
   })
 }
+
 
 function start(){
   JEELIZFACEFILTER.init({ 
@@ -95,3 +95,5 @@ function start(){
   }); //end JEELIZFACEFILTER.init call
 } //end start()
 
+
+window.addEventListener('load', main);

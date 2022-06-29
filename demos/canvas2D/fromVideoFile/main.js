@@ -46,3 +46,6 @@ function start(){ // launched when the video is loaded
     }
   }); //end JEELIZFACEFILTER.init call
 }
+
+
+window.addEventListener('load', main);

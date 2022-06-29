@@ -1,10 +1,9 @@
-"use strict";
-
 // some globalz:
 let THREECAMERA = null, TIGERMOUTHHIDEMESH = null;
 let MOUTHOPENINGMATERIALS = [];
 let PARTICLESOBJ3D = null, PARTICLES = [], PARTICLESHOTINDEX = 0, PARTICLEDIR = null;
 let ISDETECTED = false;
+
 
 // callback: launched if a face is detected or lost
 function detect_callback(isDetected){
@@ -15,7 +14,8 @@ function detect_callback(isDetected){
   }
 }
 
-function generateSprite() { // generate a canvas2D used as texture for particle sprite material:
+
+function generate_sprite() { // generate a canvas2D used as texture for particle sprite material:
   const canvas = document.createElement('canvas');
   canvas.width = 16;
   canvas.height = 16;
@@ -30,7 +30,8 @@ function generateSprite() { // generate a canvas2D used as texture for particle 
   return canvas;
 }
 
-function initParticle( particle, delay, direction) { // init 1 particle position and movement
+
+function init_particle( particle, delay, direction) { // init 1 particle position and movement
   if (particle.visible) return; // particle is already in move
 
   // tween position:
@@ -51,6 +52,7 @@ function initParticle( particle, delay, direction) { // init 1 particle position
     .to( {x: 0.8, y: 0.8}, delay)
     .start();
 }
+
 
 function build_customMaskMaterial(textureURL, videoTransformMat2){
   let vertexShaderSource = THREE.ShaderLib.lambert.vertexShader;
@@ -149,7 +151,7 @@ function init_threeScene(spec){
   //BUILD PARTICLES :
   PARTICLESOBJ3D = new THREE.Object3D();
   const particleMaterial = new THREE.SpriteMaterial({
-    map: new THREE.CanvasTexture(generateSprite()),
+    map: new THREE.CanvasTexture(generate_sprite()),
     blending: THREE.AdditiveBlending
   });
   for ( let i = 0; i <= 200; ++i ) { // we work with a fixed number of particle to avoir memory dynamic allowation
@@ -173,7 +175,8 @@ function init_threeScene(spec){
   THREECAMERA = JeelizThreeHelper.create_camera();
 } //end init_threeScene()
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main(){
   JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
@@ -199,7 +202,7 @@ function main(){
         if (mouthOpening > 0.5){
           const theta = Math.random() * 6.28;
           PARTICLEDIR.set(0.5*Math.cos(theta),0.5*Math.sin(theta),1).applyEuler(THREESTUFF.faceObject.rotation);
-          initParticle(PARTICLES[PARTICLESHOTINDEX], 2000+40*Math.random(), PARTICLEDIR);
+          init_particle(PARTICLES[PARTICLESHOTINDEX], 2000+40*Math.random(), PARTICLEDIR);
           PARTICLESHOTINDEX = (PARTICLESHOTINDEX+1) % PARTICLES.length;
         }
 
@@ -219,3 +222,4 @@ function main(){
 } //end main()
 
  
+window.addEventListener('load', main);

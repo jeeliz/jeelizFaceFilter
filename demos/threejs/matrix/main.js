@@ -1,5 +1,3 @@
-"use strict";
-
 // Globals:
 let THREECAMERA = null, MASKMATERIAL = null, CANVAS = null, THREERENDERER = null;
 
@@ -23,6 +21,7 @@ function main(){
   }); //end size_canvas call
 }
 
+
 // called when the canvas is resized:
 function start(){
   // initialise Jeeliz Facefilter:
@@ -42,6 +41,7 @@ function start(){
     callbackTrack: callbackTrack
   });
 } 
+
 
 function init_scene(spec){
   CANVAS = spec.canvasElement;
@@ -109,13 +109,13 @@ function init_scene(spec){
         vec2 uv = gl_FragCoord.xy / resolution;\n\
         vec2 uvCameraCentered = 2.0 * videoTransformMat2 * (uv - 0.5);\n\
         vec3 colorCamera = texture2D(samplerCamera, uvCameraCentered + 0.5).rgb;\n\
-        float colorCameraVal = dot(colorCamera, vec3(0.299,0.587,0.114));\n\
-        colorCamera = colorCameraVal*vec3(0.0,1.5,0.0);\n\
+        float colorCameraVal = dot(colorCamera, vec3(0.299, 0.587, 0.114));\n\
+        colorCamera = colorCameraVal*vec3(0.0, 1.5, 0.0);\n\
         vec3 refracted = refract(vec3(0.,0.,-1.), vNormalView, 0.3);\n\
         vec2 uvRefracted = uv + 0.1*refracted.xy;\n\
         uvRefracted = mix(uv, uvRefracted, smoothstep(0.,1.,isInsideFace));\n\
         vec3 colorLineCode = texture2D(samplerVideo, uvRefracted).rgb;\n\
-        colorCamera += vec3(1.,1.,1.) * smoothstep(0.3,0.6,colorCameraVal);\n\
+        colorCamera += vec3(1.) * smoothstep(0.3,0.6,colorCameraVal);\n\
         vec3 finalColor = colorCamera * isInsideFace + colorLineCode;\n\
         gl_FragColor = vec4(finalColor, 1.);\n\
       }",
@@ -138,6 +138,10 @@ function init_scene(spec){
   });
 }
 
+
 function callbackTrack(detectState){
   JeelizThreeHelper.render(detectState, THREECAMERA);
 }
+
+
+window.addEventListener('load', main);

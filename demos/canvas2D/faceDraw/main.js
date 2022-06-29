@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 The code of this demonstration may seems complicated but it is not
 If you want to play only with the 2D canvas displayed above the head,
@@ -44,6 +42,7 @@ function detect_callback(isDetected){
   }
 }
 
+
 //BEGIN MATRIX ALGEBRA FUNCTIONS
 function create_mat4Identity(){
   return [
@@ -54,12 +53,14 @@ function create_mat4Identity(){
   ];
 }
 
+
 // set the position part of a flattened transposed mat4:
 function set_mat4Position(m, x,y,z){
   m[12] = x;
   m[13] = y;
   m[14] = z;
 } 
+
 
 // set the rotation part of a flattened transposed mat4 - see https://en.wikipedia.org/wiki/Euler_angles
 function set_mat4RotationXYZ(m, rx,ry,rz){
@@ -82,6 +83,7 @@ function set_mat4RotationXYZ(m, rx,ry,rz){
   m[10] = c1*c2;
 }
 
+
 // inverse a mat4 move matrix m and put result to mat4 matrix r
 function inverse_mat4MoveMatrix(m, r){
   // rotation part: the inverse = the transpose
@@ -103,6 +105,7 @@ function inverse_mat4MoveMatrix(m, r){
   r[14] = -(m[8]*m[12]+m[9]*m[13]+m[10]*m[14]);
 }
 
+
 function multiply_matVec4(m,v){
   return [
     m[0]*v[0]+m[4]*v[1]+ m[8]*v[2]+m[12]*v[3],
@@ -111,6 +114,7 @@ function multiply_matVec4(m,v){
     m[3]*v[0]+m[7]*v[1]+m[11]*v[2]+m[15]*v[3]  
   ];
 }
+
 
 function get_mat4Pos(m){
   return [m[12], m[13], m[14]]
@@ -132,6 +136,7 @@ function compile_shader(source, glType, typeString) {
   return glShader;
 };
 
+
 // helper function to build the shader program:
 function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
   // compile both shader separately:
@@ -146,6 +151,7 @@ function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
   GL.linkProgram(glShaderProgram);
   return glShaderProgram;
 }
+
 
 // helper function to create the projection matrix:
 function update_projMatrix() {
@@ -281,6 +287,7 @@ const MOUSESTATES = {
 };
 let MOUSESTATE = MOUSESTATES.idle, OLDXY;
 
+
 function init_eventListeners(){
   // add touch and mouse event listeners:
   CV.addEventListener('mousedown', onMouseDown, false);
@@ -293,6 +300,7 @@ function init_eventListeners(){
   CV.addEventListener('mousemove', onMouseMove, false);
   CV.addEventListener('touchmove', onMouseMove, false);
 }
+
 
 function get_eventLoc(event){ // return the position of the picked point in pixels in the canvas2D
   // get cursor position in pixel in the HTML page ref:
@@ -450,3 +458,5 @@ function main(){
   }); //end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

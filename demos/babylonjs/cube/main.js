@@ -1,6 +1,3 @@
-"use strict";
-
-
 // SETTINGS of this demo:
 const SETTINGS = {
   rotationOffsetX: 0, // negative -> look upper. in radians
@@ -22,6 +19,7 @@ function smoothStep(edge0, edge1, x){
   return t * t * (3.0 - 2.0 * t);
 }
 
+
 // callback launched if a face is detected or lost:
 function detect_callback(isDetected){
   if (isDetected){
@@ -30,6 +28,7 @@ function detect_callback(isDetected){
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_babylonScene(spec){
@@ -107,6 +106,7 @@ function init_babylonScene(spec){
   ASPECTRATIO = BABYLONENGINE.getAspectRatio(BABYLONCAMERA);
 } //end init_babylonScene()
 
+
 // entry point:
 function main(){
   JEELIZFACEFILTER.init({
@@ -170,3 +170,5 @@ function main(){
   }); //end JEELIZFACEFILTER.init call
 } //end main()
 
+
+window.addEventListener('load', main);

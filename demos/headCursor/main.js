@@ -1,6 +1,4 @@
- "use strict";
-
- // GLOBALs DECLARATIONS:
+// GLOBALs DECLARATIONS:
 
 let EXPLANATION = 'This demonstration is designed for a 16:9 desktop screen, running full size (press F11 key).<br/>';
 EXPLANATION += 'We study accessibility issues for disabled people.<br/>';
@@ -38,7 +36,8 @@ function  openContent(title, content){
     "-webkit-transition" : 'all 0.5s ease-in-out',
     "-webkit-filter":"blur(6px)"
    });
-}   
+}
+
 
 function closeContent(){
   if (!ISWINOPEN) return;
@@ -50,7 +49,8 @@ function closeContent(){
     "-webkit-filter":"blur(0px)"
    });
 }
-  
+
+
 function addPicture(spec) {
   const width = (spec.w*SCALE) - MARGIN_X,
     height = (spec.h*SCALE) - MARGIN_Y;
@@ -100,6 +100,7 @@ function addPicture(spec) {
   }
 }
 
+
 function updatePointerPosition(x,y){
   POINTERPOSITION[0] = x;
   POINTERPOSITION[1] = y;
@@ -120,6 +121,7 @@ const STABI = { //stabilizer
   xy: [window.innerWidth/2, window.innerHeight/2],
   mouseClickEnabled: true
 };
+
 
 function callbackHeadMove(mv){
   const x = window.innerWidth/2, y=window.innerHeight/2;
@@ -184,12 +186,14 @@ function getPickableAtPosition(x,y){
   return (jqPicks.length===0) ? false : jqPicks.pop();
 }
 
+
 function emulateMouseClick(x,y){
   const jqClicked = getPickableAtPosition(x,y);
   if (jqClicked){
     jqClicked.click();
   }
 }
+
 
 function emulateMouseMove(x,y){
   if (ISWINOPEN) return;
@@ -246,5 +250,6 @@ function main() {
     disableRestPosition: true
   }); //end HeadControls.init params
 } //end main()
+
 
 $('document').ready(main); 

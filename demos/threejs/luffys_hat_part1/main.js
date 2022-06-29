@@ -1,5 +1,3 @@
-"use strict";
-
 // SETTINGS of this demo :
 // We don't use fixed FoV anymore
 /*let SETTINGS = {
@@ -60,7 +58,8 @@ function init_threeScene(spec) {
   THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main() {
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -69,6 +68,7 @@ function main() {
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -91,4 +91,7 @@ function init_faceFilter(videoSettings){
     }
   }); // end JEELIZFACEFILTER.init call
 }
+
+
+window.addEventListener('load', main);
 

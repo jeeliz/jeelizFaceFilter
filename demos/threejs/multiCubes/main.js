@@ -1,5 +1,3 @@
-"use strict";
-
 // SETTINGS of this demo:
 const SETTINGS = {
   maxFaces: 4, // max number of detected faces
@@ -38,7 +36,7 @@ function init_threeScene(spec){
 }
 
 
-// Entry point, launched by body.onload():
+// Entry point:
 function main(){
   JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
@@ -60,3 +58,6 @@ function main(){
     }
   }); //end JEELIZFACEFILTER.init call
 }
+
+
+window.addEventListener('load', main);

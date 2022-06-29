@@ -1,6 +1,3 @@
-"use strict";
-
-
 // SETTINGS of this demo:
 const SETTINGS = {
   rotationOffsetX: 0, // negative -> look upper. in radians
@@ -160,7 +157,8 @@ function init_scene(spec){
   };
 } //end init_scene()
 
-// launched by body.onload():
+
+// entry point:
 function main(){
   DIV = document.getElementById('jeelizFaceFilterFollow');
   if (!DIV){
@@ -255,3 +253,5 @@ function main(){
   }); //end JEELIZFACEFILTER.init call
 } //end main()
 
+
+window.addEventListener('load', main);

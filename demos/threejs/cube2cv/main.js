@@ -1,5 +1,3 @@
-"use strict";
-
 let THREECAMERA = null;
 
 // callback: launched if a face is detected or lost
@@ -63,3 +61,5 @@ function init_faceFilter(videoSettings){
   }); //end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

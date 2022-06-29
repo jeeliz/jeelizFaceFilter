@@ -1,5 +1,3 @@
-"use strict";
-
 // some globalz :
 let THREECAMERA = null;
 let BUTTERFLYOBJ3D = null;
@@ -17,6 +15,7 @@ function detect_callback(isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec) {
@@ -128,6 +127,7 @@ function init_threeScene(spec) {
   THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
+
 // Create the animation for the wings
 function animateFly(mesh, theta, index) {
   let count = 0
@@ -165,6 +165,7 @@ function animatePointLightButterfly (light) {
   opacityUp.start();
 }
 
+
 // entry point:
 function main(){
   JeelizResizer.size_canvas({
@@ -174,6 +175,7 @@ function main(){
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -205,3 +207,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 } // end main()
 
+
+window.addEventListener('load', main);

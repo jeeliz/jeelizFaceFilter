@@ -1,5 +1,3 @@
-"use strict";
-
 const SETTINGS = {
   // detect state in the initial gif to avoid search step (it is logged in the console after a first search)
   
@@ -89,6 +87,7 @@ const STATES = { // possible states of the app. ENUM equivalent
 }
 let STATE = STATES.IDLE, ISUSERFACEDETECTED = false;
 
+
 // entry point:
 function main(){
   STATE = STATES.LOADING;
@@ -122,12 +121,14 @@ function main(){
   }); //end JEELIZFACEFILTER.init
 }
 
+
 function check_isLoaded(label){
   console.log('INFO in check_isLoaded(): ', label, 'is loaded');
   if (++NLOADEDS === 2){
     start();
   }
 }
+
 
 function start(){
   console.log('INFO: start()');
@@ -194,6 +195,7 @@ function update_gif(detectedStates){ //called both at start (start()) and when u
   }
 } //end update_gif()
 
+
 function size_CSSgif(){
   // compare the aspect ratios of the gif and of the screen:
   const aspectRatioGif = GIF.info.width / GIF.info.height;
@@ -211,6 +213,7 @@ function size_CSSgif(){
   }
 }
 
+
 function build_carousel(){
    $('#carousel').slick({ // see http://kenwheeler.github.io/slick/
     speed: 300,
@@ -225,6 +228,7 @@ function build_carousel(){
    toggle_carousel(false);
 }
 
+
 function toggle_carousel(isEnabled){
   if (isEnabled){
     $('#carousel').css({
@@ -238,6 +242,7 @@ function toggle_carousel(isEnabled){
     });
   }
 }
+
 
 // called directly from the DOM controls to change the base image::
 function change_gif(urlImage, detectedStates, isMirroredLoop, hideIfNotDetectedDuringNframes){
@@ -287,11 +292,13 @@ function request_ajaxObjectBlob(url, callback){
   xhr.send();
 }
 
+
 function load_gifURL(urlImage, callback){
   request_ajaxObjectBlob(urlImage, function(blob){
     load_gifBlob(blob, callback);
   });
 }
+
 
 function load_gifBlob(blob, callback){ // called both at first loading and by change_gif()
   // GIF reading - from https://github.com/rfrench/gify/blob/master/example.html
@@ -321,6 +328,7 @@ function load_gifBlob(blob, callback){ // called both at first loading and by ch
   } //end GIF.image callback
 } //end load_gifBlob()
 
+
 // use GIF-FRAMES library to extract the frames - https://github.com/benwiley4000/gif-frames
 function extract_gifFrames(callback){
   gifFrames({ url: GIF.image.src, frames: 'all', outputType: 'canvas', cumulative: true }).then(function (framesData) {
@@ -330,6 +338,7 @@ function extract_gifFrames(callback){
     callback();
   });
 }
+
 
 function create_emptyTexture(w, h){
   const tex = GL.createTexture();
@@ -347,6 +356,7 @@ function create_hueTexture(){
   return create_emptyLinearTexture(SETTINGS.hueTextureSizePx, SETTINGS.hueTextureSizePx);
 };
 
+
 function create_textures(){
   USERCROP.hueTexture = create_hueTexture();
 
@@ -358,7 +368,7 @@ function create_textures(){
   USERCROP.potFaceCutTexture = create_emptyTexture(SETTINGS.faceRenderSizePx, SETTINGS.faceRenderSizePx);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_NEAREST);
-} //end create_textures()
+}
 
 
 // interpolate face position for frames where head has not been detected:
@@ -562,6 +572,7 @@ function build_gifFrameMask(detectState, frameIndex){
   GL.bindFramebuffer(GLDRAWTARGET, null);  
   
 } //end build_gifFrameMask()
+
 
 function build_shps(){
   const copyVertexShaderSource = "attribute vec2 position;\n\
@@ -819,6 +830,7 @@ function build_shps(){
   GL.uniform1i(uSamplerHueDst, 1);
 } //end build_shps()
 
+
 function reset_toVideo(){
   position_userCropCanvas();
   window.addEventListener('resize', position_userCropCanvas, false);
@@ -834,6 +846,7 @@ function reset_toVideo(){
   STATE = STATES.DETECTUSERFACE;
 }
 
+
 // compile a shader:
 function compile_shader(source, glType, typeString) {
   const glShader = GL.createShader(glType);
@@ -846,6 +859,7 @@ function compile_shader(source, glType, typeString) {
   }
   return glShader;
 }
+
 
 // helper function to build the shader program:
 function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
@@ -865,6 +879,7 @@ function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
   return glShaderProgram;
 }
 
+
 function position_userCropCanvas(){
   size_CSSgif();
 
@@ -876,6 +891,7 @@ function position_userCropCanvas(){
 
   FFSPECS.canvasElement.style.position = restoredPosition;
 }
+
 
 function update_positionUserCropCanvas(frameIndex){ // called when the GIF frame changes when played
   // compute topPx an leftPx in the gif canvas image ref:
@@ -913,6 +929,7 @@ function update_positionUserCropCanvas(frameIndex){ // called when the GIF frame
   }
 
 } //end update_positionUserCropCanvas()
+
 
 // draw in search mode:
 function draw_search(detectState){
@@ -977,6 +994,7 @@ function draw_render(detectState){ // detectState is the detectState of the USER
   GL.viewport(0,SETTINGS.videoDetectSizePx-USERCROP.faceCutDims[1],USERCROP.faceCutDims[0], USERCROP.faceCutDims[1]);
   GL.drawElements(GL.TRIANGLES, 3, GL.UNSIGNED_SHORT, 0);
 }//end draw_render()
+
 
 function callbackTrack(detectState){
   switch(STATE) {
@@ -1115,6 +1133,7 @@ function debug_gifFrames(){
   });
 }
 
+
 function debug_gifMasks(){
   GIF.frameMasks.forEach(function(frame){
     frame.style.width = '64px';
@@ -1123,3 +1142,5 @@ function debug_gifMasks(){
 }
 
 //END DEBUG FUNCTIONS
+
+window.addEventListener('load', main);

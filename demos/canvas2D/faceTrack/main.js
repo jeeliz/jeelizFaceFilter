@@ -28,3 +28,6 @@ function main(){
     }
   }); //end JEELIZFACEFILTER.init call
 } //end main()
+
+
+window.addEventListener('load', main);

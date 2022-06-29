@@ -1,11 +1,10 @@
-"use strict";
-
 const SETTINGS = {
   detectionThreshold: 0.75 // sensibility, between 0 and 1. Less -> more sensitive
 }
 
 // some globals:
 let FACECUT0 = null, FACECUT1 = null;
+
 
 function main(){ // entry point
   JeelizResizer.size_canvas({
@@ -15,7 +14,8 @@ function main(){ // entry point
     onResize: onResize,
     callback: start
   });
-} 
+}
+
 
 function start(errCode, bestVideoSettings){
   if (errCode){
@@ -41,9 +41,11 @@ function start(errCode, bestVideoSettings){
   });
 } //end start
 
+
 function onResize(){
   console.log('INFO in demo_faceSwap: resized!');
 }
+
 
 function init_view(spec){
   JeelizFaceCut.init(spec);
@@ -51,6 +53,7 @@ function init_view(spec){
   FACECUT0 = JeelizFaceCut.instance(faceCutSettings);
   FACECUT1 = JeelizFaceCut.instance(faceCutSettings);
 }
+
 
 function callbackTrack(detectedStates){
   // for debug:
@@ -70,3 +73,6 @@ function callbackTrack(detectedStates){
     FACECUT1.render(FACECUT0);
   }
 }
+
+
+window.addEventListener('load', main);

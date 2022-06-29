@@ -1,5 +1,3 @@
-"use strict";
-
 /*
   Build 3D glasses.
   spec properties: 

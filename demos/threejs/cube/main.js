@@ -1,6 +1,5 @@
-"use strict";
-
 let THREECAMERA = null;
+
 
 // callback: launched if a face is detected or lost.
 function detect_callback(faceIndex, isDetected) {
@@ -10,6 +9,7 @@ function detect_callback(faceIndex, isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
@@ -24,9 +24,10 @@ function init_threeScene(spec) {
 
   //CREATE THE CAMERA
   THREECAMERA = JeelizThreeHelper.create_camera();
-} // end init_threeScene()
+}
 
-// launched by body.onload():
+
+// entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -35,6 +36,7 @@ function main(){
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -59,3 +61,5 @@ function init_faceFilter(videoSettings){
   }); //end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

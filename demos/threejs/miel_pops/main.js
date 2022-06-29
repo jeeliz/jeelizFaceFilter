@@ -1,5 +1,3 @@
-"use strict";
-
 // SETTINGS of this demo :
 const SETTINGS = {
   numberBees: 8
@@ -24,6 +22,7 @@ function detect_callback(isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
@@ -181,6 +180,7 @@ function init_threeScene(spec) {
     }
   );
 
+
   // CREATE THE VIDEO BACKGROUND:
   function create_mat2d(threeTexture, isTransparent){ //MT216 : we put the creation of the video material in a func because we will also use it for the frame
     return new THREE.RawShaderMaterial({
@@ -223,6 +223,7 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(dirLight)
 } // end init_threeScene()
 
+
 function animateFlyBees(mesh, theta, sign) {
   let count = 0;
   setInterval(() => {
@@ -241,7 +242,8 @@ function animateFlyBees(mesh, theta, sign) {
   }, 16)
 }
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main() {
   GLASSESOBJ3D = new THREE.Object3D();
 
@@ -252,6 +254,7 @@ function main() {
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -281,3 +284,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

@@ -1,5 +1,3 @@
-"use strict";
-
 // some globalz:
 let THREECAMERA = null;
 let ISDETECTED = false;
@@ -54,6 +52,7 @@ const states = {
 }
 let state = states.notLoaded;
 let isLoaded = false;
+
 
 // callback : launched if a face is detected or lost
 function detect_callback(isDetected) {
@@ -406,14 +405,15 @@ function init_threeScene(spec) {
     addDragEventListener(GROUPOBJ3D);
     threeStuffs.faceObject.add(GROUPOBJ3D);
 
-    animateIntro();
+    animate_intro();
   } 
 
   // CREATE THE CAMERA
   THREECAMERA = JeelizThreeHelper.create_camera();
 } // end init_threeScene()
 
-function animateIntro () {
+
+function animate_intro () {
   state = states.intro;
 
   ACTIONANGEL1.clampWhenFinished = true;
@@ -423,7 +423,7 @@ function animateIntro () {
 
 
   MIXERANGEL1.addEventListener('loop', () => {
-    animateIdle();
+    animate_idle();
   });
 
   ACTIONANGEL1.play();
@@ -432,7 +432,8 @@ function animateIntro () {
   ACTIONFORK1.play();
 }
 
-function animateIdle() {
+
+function animate_idle() {
   $('#openMouthInstructions').show();
 
   state = states.idle;
@@ -468,7 +469,8 @@ function animateIdle() {
   ACTIONFORK2.play();
 }
 
-function animateFight() {
+
+function animate_fight() {
   state = states.fight;
 
   // Stop animation + hide meshes
@@ -482,7 +484,7 @@ function animateFight() {
   FORKMESH2.visible = false;
 
   MIXERFORK3.addEventListener('loop', () => {
-    animateIdle();
+    animate_idle();
   });
 
   // Show meshes + start animation
@@ -496,7 +498,8 @@ function animateFight() {
   ACTIONFORK3.play();
 }
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main() {
   GROUPOBJ3D = new THREE.Object3D();
 
@@ -507,6 +510,7 @@ function main() {
     }
   })
 }
+
 
 function init_faceFilter(videoSettings) {
   JEELIZFACEFILTER.init({
@@ -528,7 +532,7 @@ function init_faceFilter(videoSettings) {
       ISDETECTED = JeelizThreeHelper.get_isDetected();
       
       if (detectState.expressions[0] >= 0.8 && isLoaded && state !== 0 && state !== 2) {
-        animateFight();
+        animate_fight();
       }
 
 
@@ -560,3 +564,5 @@ function init_faceFilter(videoSettings) {
   }); // end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

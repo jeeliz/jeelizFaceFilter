@@ -1,5 +1,3 @@
-"use strict";
-
 THREE.FlexMaterial = function(spec){
   const _worldMatrixDelayed = new THREE['Matrix4']();
 

@@ -1,8 +1,7 @@
-"use strict";
-
 // some globalz:
 let THREECAMERA = null;
 const ARRAY_BILLS = [];
+
 
 // callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
@@ -12,6 +11,7 @@ function detect_callback(isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 function create_mat2d(threeTexture, isTransparent){ // MT216: we put the creation of the video material in a func because we will also use it for the frame
   return new THREE.RawShaderMaterial({
@@ -35,6 +35,7 @@ function create_mat2d(threeTexture, isTransparent){ // MT216: we put the creatio
      }
   });
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
@@ -119,8 +120,9 @@ function init_threeScene(spec) {
 } // end init_threeScene()
 
 
+
 // Animate the falling bills:
-function animateBill(mesh, index) {
+function animate_bill(mesh, index) {
   mesh.visible = true;
   
   let count = 0;
@@ -140,13 +142,14 @@ function animateBill(mesh, index) {
   }, 16)
 }
 
+
 let contextAudio = null;
 
 // Plays the theme song and starts animation for the bills:
-function playAudio() {
+function play_audio() {
   ARRAY_BILLS.forEach((bill, i) => {
     setTimeout(() => {
-      animateBill(bill, i);
+      animate_bill(bill, i);
 
       THREESTUFF.scene.add(bill);      
     }, 230*i)
@@ -182,7 +185,7 @@ function playAudio() {
 }
 
 
-// entry point, launched by body.onload() :
+// entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -191,6 +194,7 @@ function main(){
     }
   })
 }
+
 
 function init_faceFilter(videoSettings) {
   JEELIZFACEFILTER.init({
@@ -212,5 +216,7 @@ function init_faceFilter(videoSettings) {
       JeelizThreeHelper.render(detectState, THREECAMERA);
     } // end callbackTrack()
   }); // end JEELIZFACEFILTER.init call
-} // end main()
+}
 
+
+window.addEventListener('load', main);

@@ -1,5 +1,3 @@
-"use strict";
-
 const SETTINGS = {
   // art painting settings:
   artPainting: 'images/Joconde.jpg', // initial art painting
@@ -70,6 +68,7 @@ const STATES = { // possible states of the app. ENUM equivalent
 }
 let STATE = STATES.IDLE, ISUSERFACEDETECTED = false;
 
+
 // entry point:
 function main(){
   STATE = STATES.LOADING;
@@ -104,12 +103,14 @@ function main(){
   }); //end JEELIZFACEFILTER.init
 }
 
+
 function check_isLoaded(label){
   console.log('INFO in check_isLoaded(): ', label, 'is loaded');
   if (++NLOADEDS === 2){
     start();
   }
 }
+
 
 function start(){
   console.log('INFO: start()');
@@ -119,7 +120,8 @@ function start(){
   
   // set the canvas to the artpainting size:
   update_artPainting(SETTINGS.detectState);
-} //end start()
+}
+
 
 function update_artPainting(detectState){ // called both at start (start()) and when user change the art painting
   FFSPECS.canvasElement.width = ARTPAINTING.image.width;
@@ -160,6 +162,7 @@ function update_artPainting(detectState){ // called both at start (start()) and 
   }
 } //end update_artPainting()
 
+
 function build_carousel(){
    $('#carousel').slick({ // see http://kenwheeler.github.io/slick/
     speed: 300,
@@ -174,6 +177,7 @@ function build_carousel(){
    toggle_carousel(false);
 }
 
+
 function toggle_carousel(isEnabled){
   if (isEnabled){
     $('#carousel').css({
@@ -187,6 +191,7 @@ function toggle_carousel(isEnabled){
     });
   }
 }
+
 
 // called directly from the DOM controls to change the base image:
 function change_artPainting(urlImage, detectState){
@@ -225,6 +230,7 @@ function change_artPainting(urlImage, detectState){
   }
 } //end change_artPainting()
 
+
 function create_textures(){
   const create_emptyTexture = function(w, h){
     const tex = GL.createTexture();
@@ -256,6 +262,7 @@ function create_textures(){
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
   GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_NEAREST);
 } //end create_textures()
+
 
 function build_artPaintingMask(detectState, callback){
   // cut the face with webgl and put a fading:
@@ -344,6 +351,7 @@ function build_artPaintingMask(detectState, callback){
   GL.bindFramebuffer(GLDRAWTARGET, null);  
   callback();
 } //end build_artPaintingMask()
+
 
 function build_shps(){
   const copyVertexShaderSource = "attribute vec2 position;\n\
@@ -568,6 +576,7 @@ function build_shps(){
   GL.uniform1i(uSamplerHueDst, 1);
 } //end build_shps()
 
+
 function reset_toVideo(){
   position_userCropCanvas();
   window.addEventListener('resize', position_userCropCanvas, false);
@@ -579,6 +588,7 @@ function reset_toVideo(){
   JEELIZFACEFILTER.reset_inputTexture();
   STATE = STATES.DETECTUSERFACE;
 }
+
 
 // compile a shader:
 function compile_shader(source, glType, typeString) {
@@ -592,6 +602,7 @@ function compile_shader(source, glType, typeString) {
   }
   return glShader;
 }
+
 
 // helper function to build the shader program:
 function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
@@ -610,6 +621,7 @@ function build_shaderProgram(shaderVertexSource, shaderFragmentSource, id) {
 
   return glShaderProgram;
 }
+
 
 function position_userCropCanvas(){
   console.log('INFO: position_userCropCanvas()');
@@ -643,6 +655,7 @@ function position_userCropCanvas(){
 
   FFSPECS.canvasElement.style.position = restoredPosition;
 } //end position_userCropCanvas()
+
 
 // draw in search mode:
 function draw_search(detectState){
@@ -711,6 +724,7 @@ function draw_render(detectState){
   }
 }//end draw_render()
 
+
 function callbackTrack(detectState){
   switch(STATE) {
     case STATES.DETECTARTPAINTINGFACE:
@@ -758,3 +772,6 @@ function callbackTrack(detectState){
       break;
   } //end switch(STATE)
 } //end callbackTrack
+
+
+window.addEventListener('load', main);

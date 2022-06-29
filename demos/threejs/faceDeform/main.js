@@ -1,7 +1,6 @@
-"use strict";
-
 // some globalz:
 let THREECAMERA = null;
+
 
 // callback: launched if a face is detected or lost
 function detect_callback(isDetected){
@@ -11,6 +10,7 @@ function detect_callback(isDetected){
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 function build_maskMaterial(videoTransformMat2){
   /*
@@ -38,13 +38,13 @@ function build_maskMaterial(videoTransformMat2){
     vec3 positionDeformed=position;\n\
     // apply deformation 0\n\
     float deformFactor0 = 1.-smoothstep(0.0, RADIUS0, distance(TEARPOINT0, position.xy));\n\
-    positionDeformed.xy += deformFactor0*DISPLACEMENT0;\n\
+    positionDeformed.xy += deformFactor0 * DISPLACEMENT0;\n\
     // apply deformation 1\n\
     float deformFactor1 = 1.-smoothstep(0.0, RADIUS1, distance(TEARPOINT1, position.xy));\n\
-    positionDeformed.xy += deformFactor1*DISPLACEMENT1;\n\
+    positionDeformed.xy += deformFactor1 * DISPLACEMENT1;\n\
     // apply deformation 2\n\
     float deformFactor2 = 1. - smoothstep(0.0, RADIUS2, distance(TEARPOINT2, position.xy));\n\
-    positionDeformed.xy += deformFactor2*DISPLACEMENT2;\n\
+    positionDeformed.xy += deformFactor2 * DISPLACEMENT2;\n\
     // project deformed point:\n\
     vec4 mvPosition = modelViewMatrix * vec4( positionDeformed, 1.0 );\n\
     vec4 projectedPosition=projectionMatrix * mvPosition;\n\
@@ -52,7 +52,7 @@ function build_maskMaterial(videoTransformMat2){
     // compute UV coordinates on the video texture:\n\
     vec4 mvPosition0 = modelViewMatrix * vec4( position, 1.0 );\n\
     vec4 projectedPosition0 = projectionMatrix * mvPosition0;\n\
-    vUVvideo = vec2(0.5,0.5) + videoTransformMat2 * projectedPosition0.xy / projectedPosition0.w;\n\
+    vUVvideo = vec2(0.5) + videoTransformMat2 * projectedPosition0.xy / projectedPosition0.w;\n\
   }';
 
   const fragmentShaderSource = "precision mediump float;\n\
@@ -72,6 +72,7 @@ function build_maskMaterial(videoTransformMat2){
   });
   return mat;
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK:
 function init_threeScene(spec){
@@ -95,7 +96,8 @@ function init_threeScene(spec){
   THREECAMERA = JeelizThreeHelper.create_camera();
 } //end init_threeScene()
 
-// Entry point, launched by body.onload():
+
+// Entry point:
 function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
@@ -104,6 +106,7 @@ function main(){
     }
   })
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -127,3 +130,5 @@ function init_faceFilter(videoSettings){
   }); //end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

@@ -1,5 +1,3 @@
-"use strict";
-
 // some globalz:
 let THREECAMERA = null;
 let ISDETECTED = false;
@@ -22,6 +20,7 @@ let ISANIMATIONOVER = false;
 let _flexParts = [];
 let _videoGeometry = null;
 
+
 // callback: launched if a face is detected or lost
 function detect_callback(isDetected) {
   if (isDetected) {
@@ -30,6 +29,7 @@ function detect_callback(isDetected) {
     console.log('INFO in detect_callback(): LOST');
   }
 }
+
 
 function create_mat2d(threeTexture, isTransparent){ // MT216: we put the creation of the video material in a func because we will also use it for the frame
   return new THREE.RawShaderMaterial({
@@ -54,12 +54,13 @@ function create_mat2d(threeTexture, isTransparent){ // MT216: we put the creatio
   });
 }
 
-function applyFilter() {
+
+function apply_filter() {
   let canvas;
   try {
     canvas = fx.canvas();
   } catch (e) {
-    alert('Ow no! WebGL isn\'t supported...')
+    alert('WebGL is not supported...')
     return
   }
 
@@ -89,6 +90,7 @@ function applyFilter() {
     FRAMEOBJ3D.add(calqueMesh);
   }
 }
+
 
 // build the 3D. called once when Jeeliz Face Filter is OK
 function init_threeScene(spec) {
@@ -217,10 +219,11 @@ function init_threeScene(spec) {
   threeStuffs.scene.add(FRAMEOBJ3D);
 
   // Add filter
-  applyFilter();
+  apply_filter();
 } // end init_threeScene()
 
-function animateTongue (mesh, isReverse) {
+
+function animate_tongue (mesh, isReverse) {
   mesh.visible = true;
 
   if (isReverse) {
@@ -260,7 +263,8 @@ function animateTongue (mesh, isReverse) {
   }
 }
 
-// Entry point: launched by body.onload()
+
+// Entry point:
 function main(){
   DOGOBJ3D = new THREE.Object3D();
   FRAMEOBJ3D = new THREE.Object3D();
@@ -272,6 +276,7 @@ function main(){
     }
   });
 }
+
 
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
@@ -332,10 +337,10 @@ function init_faceFilter(videoSettings){
         if (ISLOADED && ISOVERTHRESHOLD && !ISANIMATING && !ISANIMATIONOVER) {
           if (!ISTONGUEOUT) {
             ISANIMATING = true;
-            animateTongue(TONGUEMESH);
+            animate_tongue(TONGUEMESH);
           } else {
             ISANIMATING = true;
-            animateTongue(TONGUEMESH, true);
+            animate_tongue(TONGUEMESH, true);
           }
         }
       }
@@ -352,3 +357,5 @@ function init_faceFilter(videoSettings){
   }); // end JEELIZFACEFILTER.init call
 }
 
+
+window.addEventListener('load', main);

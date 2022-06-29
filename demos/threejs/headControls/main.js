@@ -1,5 +1,6 @@
 let camera = null, controls = null, scene = null, renderer = null;
 
+
 function main() {
 
   scene = new THREE.Scene();
@@ -59,6 +60,7 @@ function main() {
   animate(0);
 }
 
+
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -66,7 +68,11 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
+
 function animate() {
   requestAnimationFrame( animate );
   renderer.render( scene, camera );
 }
+
+
+window.addEventListener('load', main);
