@@ -1,13 +1,13 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a report - Please read before you post any issue.
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-This is NOT a help board. Do not ask help questions here.
+This is NOT a help board. Please do not ask help questions here:
 
 * If you have troubles with THREE.js or another 3D framework (importing a 3D model, displaying a texture, etc...) please submit your bug on [THREE.js issue section](https://github.com/mrdoob/three.js/issues) or [THREE.js forum](https://discourse.threejs.org/) or [stackoverflow](http://stackoverflow.com/questions/tagged/three.js).
 
@@ -23,3 +23,5 @@ If you are submitting a bug report, please provide:
 * How to reproduce it (a code chunk or a link would be great),
 * Some screenshots if applicable,
 * Detailed information about your configuration, especially if you are facing a compatibility error with a specific device. Please read [this section of the README](https://github.com/jeeliz/jeelizFaceFilter#compatibility).
+
+Make an effort to write correctly. Any issue where everything is written in the title, with sentences without any punctuation or meaning, will be deleted.
