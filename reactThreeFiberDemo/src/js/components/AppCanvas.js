@@ -38,7 +38,8 @@ const FaceFollower = (props) => {
     }
   })
   
-
+  console.log('RENDER FaceFollower component')
+  
   return (
     <object3D ref={objRef}>
       <mesh name="mainCube">
@@ -180,7 +181,7 @@ const AppCanvas = () => {
     return JEELIZFACEFILTER.destroy
   }, [isInitialized])
 
-  console.log('RENDER')
+  console.log('RENDER AppCanvas component')
   return (
     <div>
       {/* Canvas managed by three fiber, for AR: */}
