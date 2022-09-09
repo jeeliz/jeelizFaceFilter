@@ -357,6 +357,7 @@ After the initialization (ie after that `callbackReady` is launched ) , these me
   * `<int> nScaleLevels`: Number of scale levels. Default is `3`,
   * `[<float>, <float>, <float>] overlapFactors`: relative overlap according to X,Y and scale axis between 2 searching window positions. Higher values make scan faster but it may miss some positions. Set to `[1, 1, 1]` for no overlap. Default value is `[2, 2, 3]`,
   * `<int> nDetectsPerLoop`: specify the number of detection per drawing loop. `-1` for adaptative value. Default: `-1`
+  * `<boolean> enableAsyncReadPixels` : enable asynchronous GPU reading. Default is `false`. It will free a lot of CPU resource but it may add latency on some devices
 
 * `JEELIZFACEFILTER.set_stabilizationSettings(<object> stabilizationSettings)`: Override detection stabilization settings. The output of the neural network is always noisy, so we need to stabilize it using a floatting average to avoid shaking artifacts. The internal algorithm computes first a stabilization factor `k` between `0` and `1`. If `k==0.0`, the detection is bad and we favor responsivity against stabilization. It happens when the user is moving quickly, rotating the head or when the detection is bad. On the contrary, if `k` is close to `1`, the detection is nice and the user does not move a lot so we can stabilize a lot. `stabilizationSettings` is a dictionnary with the following properties:
 
