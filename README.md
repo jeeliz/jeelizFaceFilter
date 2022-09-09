@@ -195,7 +195,7 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [SnapChat Clone](https://towhidkashem.github.io/snapchat-clone/): Great work from [Towhid Kashem](https://www.linkedin.com/in/towhid-kashem/). This library has been wrapped up to build a Snapchat clone. Check out the [Github source code repository](https://github.com/TowhidKashem/snapchat-clone), try the [live demo](https://towhidkashem.github.io/snapchat-clone/) or read the [Reddit thread](https://www.reddit.com/r/Frontend/comments/hqfu91/i_made_a_snapchat_clone_in_the_browser/).
 
-* [Facepaint](https://facepaint.patriciaarnedo.com/): Draw your own face filters with this creative web application developed by [Patricia Arnedo](https://www.linkedin.com/in/patriciaarnedo/) - [Medium article on the demo](https://patriciaarnedo.medium.com/building-an-ar-drawing-app-using-react-5f47740a747c)
+* [Facepaint](https://github.com/PatriciaArnedo/facepaint-frontend): Draw your own face filters with this creative web application developed by [Patricia Arnedo](https://www.linkedin.com/in/patriciaarnedo/) - [Medium article on the demo](https://patriciaarnedo.medium.com/building-an-ar-drawing-app-using-react-5f47740a747c)
 
 * [Virtual Fighter](https://virtuafighter.arounz.jp): Find the *Virtual Fighter* (*SEGA* Video game) who looks like you. The first part of this experiment relies on *face-api.js* to detect your face and landmarks. Then click on *PUSH* and a 3D face filter of a virtual fighter will be applied to your face using this library and *Three.js*
 
@@ -206,6 +206,8 @@ These amazing applications rely on this library for face detection and tracking:
 * [Bollé virtual try-on](https://www.bolle.com/us/sunglasses/technologies/volt--lenses/chronoshield-46228.html) Bollé relies on Jeeliz Facefilter for its Sunglasses and ski mask virtual try-on module, developed by [Emersya](https://emersya.com/) and using Emersya amazing custom 3D engine for 3D rendering.
 
 * [Custom Halloween pumpkin mask](https://emersya.com/app/UBYF7QDAK4): Customize and try your own Halloween pumpkin using this funny webapp, made by [Emersya](https://emersya.com/) and relying on Emersya custom 3D engine for rendering.
+
+* [Glasses configurator](https://3zvx5.csb.app/): Glasses virtual try-on webapp developped with R3F and Create-React-App. [Click here to view the source code on Codesandbox](https://codesandbox.io/s/3zvx5).
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @Jeeliz_AR](https://twitter.com/Jeeliz_AR) or [LinkedIn](https://www.linkedin.com/company/jeeliz)
 
