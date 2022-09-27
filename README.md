@@ -1,4 +1,4 @@
-# JavaScript/WebGL lightweight and robust face tracking library designed for augmented reality face filters
+# JavaScript/WebGL lightweight and robust face tracking library designed for augmented reality face filters [![kandi X-Ray](https://kandi.openweaver.com/badges/xray.svg)](https://kandi.openweaver.com/javascript/jeeliz/jeelizFaceFilter) [![kandi Featured](https://kandi.openweaver.com/badges/featured.svg)](https://kandi.openweaver.com/collections/starterkits/face-filters-using-threejs)
 
 
 This JavaScript library detects and tracks the face in real time from the camera video feed captured with WebRTC. Then it is possible to overlay 3D content for augmented reality applications. We provide various demonstrations using the main WebGL 3D engines. We have included in this repository the release versions of the 3D engines to work with a determined version (they are in `/libs/<name of the engine>/`).
