@@ -672,6 +672,9 @@ You have written a tutorial using this library? Submit a pull request or send us
 
 * [How to develop a Web AR Facefilter with React and ThreeJS / React Three Fiber in 2021](https://webanimation.blog/blog/how-to-develop-web-ar-facefilter-react-threejs) Great tutorial by [Level 30 Wizards](https://level30wizards.com/) Creative Digital Studio to learn how to create a wizard hat face filter. [Live demo here](https://facefilter-experiment.vercel.app/)
 
+* [Build a Snapchat/Insta-like face filter using jeelizFaceFilter and threejs Project.](https://kandi.openweaver.com/collections/starterkits/face-filters-using-threejs) [![kandi X-Ray](https://kandi.openweaver.com/badges/xray.svg)](https://kandi.openweaver.com/javascript/jeeliz/jeelizFaceFilter) 
+[![kandi Featured](https://kandi.openweaver.com/badges/featured.svg)](https://kandi.openweaver.com/collections/starterkits/face-filters-using-threejs)
+
 
 ### In French
 
