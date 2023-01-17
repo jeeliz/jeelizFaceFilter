@@ -1,10 +1,16 @@
- a {color: #eee; text-decoration: none}
+a {color: #eee; text-decoration: none}
 a:hover {color: blue;}
-body {overflow: auto; overflow-y: auto;
-    margin: 0px;}
+body {
+  overflow: auto;
+  overflow-y: auto;
+  margin: 0;
+}
+
 #jeeFaceFilterCanvas {
-    z-index: 10;
-    position: absolute; 
-    width: 100%; height: 100%;
-    top: 0px; left: 0px;
+  z-index: 10;
+  position: fixed; 
+  width: 100vw;
+  height: 100%;
+  top: 0;
+  left: 0;
 } 

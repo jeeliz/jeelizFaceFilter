@@ -10,7 +10,6 @@ need it flipped (mirror effect), while if the rear camera is used we need it not
 * to get the best camera resolution (either above the canvas resolution or closer)
 to balance between performance and quality
 */ 
-"use strict";
 
 const JeelizResizer = (function(){
   // private vars:
@@ -35,12 +34,14 @@ const JeelizResizer = (function(){
     [1920, 1080]
   ];
   
+
   //private functions
   function add_CSStransform(domElement, CSS){
     const CSStransform = domElement.style.transform;
     if (CSStransform.indexOf(CSS) !== -1) return;
     domElement.style.transform = CSS + ' ' + CSStransform;
   }
+
 
   // Compute overlap between 2 rectangles A and B
   // characterized by their width and their height in pixels
@@ -71,12 +72,14 @@ const JeelizResizer = (function(){
     }
 
     return areaOverlap / areaTotal;
-  } //end compute_overlap()
+  }
+
 
   function update_sizeCanvas(){
     const domRect = _domCanvas.getBoundingClientRect();
     apply_sizeCanvas(domRect.width, domRect.height);
   }
+
 
   function apply_sizeCanvas(width, height){
     _whCanvasPx = [
@@ -95,6 +98,7 @@ const JeelizResizer = (function(){
     }
   }
 
+
   function on_windowResize(){
     // avoid to resize too often using a timer
     // (it can create weird bug with some browsers)
@@ -104,6 +108,7 @@ const JeelizResizer = (function(){
     _timerFullScreen = setTimeout(resize_fullScreen, 50);
   }
 
+
   function resize_canvasToFullScreen(){
     const wh = [window['innerWidth'], window['innerHeight']];
     if (_isInvFullscreenWH){
@@ -111,6 +116,7 @@ const JeelizResizer = (function(){
     }
     apply_sizeCanvas(wh[0], wh[1]);
   }
+
 
   function resize_fullScreen(){
     resize_canvasToFullScreen();
@@ -120,6 +126,7 @@ const JeelizResizer = (function(){
       _callbackResize();
     }
   }
+
 
   // public methods:
   const that = {

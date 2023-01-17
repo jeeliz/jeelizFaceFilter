@@ -59,6 +59,7 @@ function main(){
   JeelizResizer.size_canvas({
     canvasId: 'jeeFaceFilterCanvas',
     isFullScreen: true,
+    isApplyCSS: true,
     callback: start,
     onResize: function(){
       JeelizThreeHelper.update_camera(THREECAMERA);
