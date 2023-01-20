@@ -91,6 +91,8 @@ const JeelizResizer = (function(){
     _domCanvas.setAttribute('width',  _whCanvasPx[0]);
     _domCanvas.setAttribute('height', _whCanvasPx[1]);
 
+    console.log('INFO in JeelizResizer - set canvas resolution to', _whCanvasPx[0], 'X', _whCanvasPx[1]);
+
     // canvas display size:
     if (_isApplyCSS){
       _domCanvas.style.width = width.toString() + 'px';
@@ -254,6 +256,10 @@ const JeelizResizer = (function(){
         resize_canvasToFullScreen();
         window.addEventListener('resize', on_windowResize, false);
         window.addEventListener('orientationchange', on_windowResize, false);
+
+        // DIRTY FIX: Handle issue if URL bar hides and no resize event is triggered
+        // See https://github.com/jeeliz/jeelizFaceFilter/issues/292
+        window.setTimeout(on_windowResize, 500);
         
       } else { // not fullscreen mode
 

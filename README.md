@@ -165,7 +165,7 @@ These demonstration are included in this repository. So they are released under 
 
 [comment]:![giphy-downsized-large](https://user-images.githubusercontent.com/11960872/37475622-6a602cf6-2873-11e8-83f0-134b6c1ba666.gif)
 
-Some screenshot videos are available [on Youtube](https://youtu.be/jQkaJoMGinQ). You can also subscribe to the [Jeeliz Youtube channel](https://www.youtube.com/channel/UC3XmXH1T3d1XFyOhrRiiUeA) or to the [@Jeeliz_AR Twitter account](https://twitter.com/Jeeliz_AR) to be kept informed of our cutting edge developments.
+Some screenshot videos are available [on Youtube](https://youtu.be/jQkaJoMGinQ). You can also subscribe to the [Jeeliz Youtube channel](https://www.youtube.com/channel/UC3XmXH1T3d1XFyOhrRiiUeA) or to the [@WebARRocks Twitter account](https://twitter.com/WebARRocks) to be kept informed of our cutting edge developments.
 
 
 
@@ -173,7 +173,8 @@ Some screenshot videos are available [on Youtube](https://youtu.be/jQkaJoMGinQ).
 
 These amazing applications rely on this library for face detection and tracking:
 
-* [SpiderMan Far From Home AR web application](https://spider-manfarfromhome.herokuapp.com/), made by [Ignite](http://ignitexr.com/). This library is used for the first part of the experience (Edith glasses). Then [8th Wall SLAM engine](https://www.8thwall.com/) is used to display the drones.
+<!--* [SpiderMan Far From Home AR web application](https://spider-manfarfromhome.herokuapp.com/), made by [Ignite](http://ignitexr.com/). This library is used for the first part of the experience (Edith glasses). Then [8th Wall SLAM engine](https://www.8thwall.com/) is used to display the drones.
+-->
 
 * Applications made by [Movable Ink](https://movableink.com/):
   <!-- * [Creative studio](https://movableink.com/product/augmented_reality?utm_source=linkedin&utm_medium=social&utm_campaign=q2_2019_arcampaign_productpage): easily create face filters without coding, only drag and drops! -->
@@ -189,7 +190,7 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [Halloween masks](https://halloween.tripod-digital.co.nz/): Amazing halloween masks experience made by [Thorsten Bux](https://twitter.com/thor_bux). The code is published on Github here: [ThorstenBux/halloween-masks](https://github.com/ThorstenBux/halloween-masks).
 
-* [Masks with WebM recording](https://etc.pen-nei.jp/jeeliz/): Mask demo made by [@iong](https://twitter.com/iong). You can change the mask using the lower left buttons, and record the video in WebM file format.
+<!-- * [Masks with WebM recording](https://etc.pen-nei.jp/jeeliz/): Mask demo made by [@iong](https://twitter.com/iong). You can change the mask using the lower left buttons, and record the video in WebM file format. -->
 
 * [GazeFilter](https://beehiveor.gitlab.io/gazefilter/): library to track accurately the pupils positions. There is a nice eye-tracking demo, including a debug view of the output of *FaceFilter* [here](https://beehiveor.gitlab.io/gazefilter/demo.html).
 
@@ -207,9 +208,16 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [Custom Halloween pumpkin mask](https://emersya.com/app/UBYF7QDAK4): Customize and try your own Halloween pumpkin using this funny webapp, made by [Emersya](https://emersya.com/) and relying on Emersya custom 3D engine for rendering.
 
-* [Glasses configurator](https://3zvx5.csb.app/): Glasses virtual try-on webapp developped with R3F and Create-React-App. [Click here to view the source code on Codesandbox](https://codesandbox.io/s/3zvx5).
+<!-- * [Glasses configurator](https://3zvx5.csb.app/): Glasses virtual try-on webapp developped with R3F and Create-React-App. [Click here to view the source code on Codesandbox](https://codesandbox.io/s/3zvx5). -->
 
-If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @Jeeliz_AR](https://twitter.com/Jeeliz_AR) or [LinkedIn](https://www.linkedin.com/company/jeeliz)
+* [Vertebrae VTO](https://www.vertebrae.com/): Vertebrae relies on this library for face detection and tracking for some of its virtual try-on products. You can check it out on:
+
+  * [Moscot](https://moscot.com/products/lemtosh?variant=8187774664808): Click on the *VIRTUAL TRY-ON* button on the top-left of the product picture,
+  * [Goodr](https://goodr.com/products/freshly-baked-man-buns): Click on the *VIRTUAL TRY-ON* button on the top-left of the product picture,
+  * [Tenth Street][https://tenthstreethats.com/collections/best-sellers-hats/products/scala-panama-outback-albuquerque?variant=5488870522911]: click on the *Try it on* button.
+
+
+If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @WebARRocks](https://twitter.com/WebARRocks) or [LinkedIn](https://www.linkedin.com/company/jeeliz)
 
 
 ## Specifications

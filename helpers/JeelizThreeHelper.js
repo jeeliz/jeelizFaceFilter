@@ -402,6 +402,10 @@ const JeelizThreeHelper = (function(){
 
 
     update_camera: function(threeCamera){
+      if (!_threeRenderer) {
+        return;
+      }
+      
       // compute aspectRatio:
       const canvasElement = _threeRenderer.domElement;
       const cvw = canvasElement.width;
