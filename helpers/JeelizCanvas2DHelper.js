@@ -93,13 +93,16 @@ const JeelizCanvas2DHelper = function(spec){
   GL.useProgram(SHADERCOPY);
   GL.uniform1i(uSampler, 0);
   
+  
   return {
     canvas: CANVAS2D,
     ctx: CTX,
 
+
     update_canvasTexture: function(){
       CANVASTEXTURENEEDSUPDATE = true;
     },
+
 
     draw: function(){ // draw the video and the canvas above
       GL.viewport(0, 0, CV.width, CV.height);
@@ -125,6 +128,7 @@ const JeelizCanvas2DHelper = function(spec){
       GL.disable(GL.BLEND);      
     },
 
+
     getCoordinates: function(detectedState){
       COORDINATES.x = Math.round((0.5+0.5*detectedState.x-0.5*detectedState.s)*CV.width);
       COORDINATES.y = Math.round((0.5+0.5*detectedState.y-0.5*detectedState.s)*CV.height);
@@ -132,6 +136,7 @@ const JeelizCanvas2DHelper = function(spec){
       COORDINATES.h = COORDINATES.w;
       return COORDINATES;   
     },
+
 
     resize: function(){
       CANVAS2D.width = CV.width;

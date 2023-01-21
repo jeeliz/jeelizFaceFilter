@@ -1,16 +1,15 @@
-"use strict";
-
 const _states = {
   idle     : 0,
   loading  : 1,
   dragging : 2
 }
-let _state = _states.idle; // MT217 : initialize your state always (even with a loading value)
+let _state = _states.idle;
 
 let _dP = new window.THREE.Vector3();
 let _x0 = -1; let _y0 = -1;
 let _scenes = null;
 let _boundFunction = null;
+
 
 function updateMeshPosition(canvas, event) {
   const MOUSEVECTOR = new window.THREE.Vector3();
@@ -87,6 +86,7 @@ function updateMeshPosition(canvas, event) {
   mesh.position.add(_dP);
 }
 
+
 function setMousePosition0(event) { // save initial position of the mouse
   const isTouch = !!((event.touches && event.touches.length));// MT217 is touch or mouse event ?
 
@@ -96,14 +96,17 @@ function setMousePosition0(event) { // save initial position of the mouse
   _y0 = (isTouch) ? event.touches[0].clientY : event.clientY;
 }
 
+
 function mouseDown(event) {
   setMousePosition0(event); // MANTIS201
   _state = _states.dragging;
 }
 
+
 function mouseUp() {
   _state = _states.idle;
 }
+
 
 function addDragEventListener(scenes, canvasId, remove) {
   _scenes = Array.isArray(scenes) ? scenes : [scenes];

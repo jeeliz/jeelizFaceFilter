@@ -20,7 +20,7 @@
 
 */
 
-var HeadControls = (function(){
+const HeadControls = (function(){
   const _defaultSettings = {
     detectionThreshold: 0.85, // sensibility, between 0 and 1. Less -> more sensitive
     detectionHysteresis: 0.05,
@@ -69,6 +69,7 @@ var HeadControls = (function(){
     return (val-ref) * sensibility;
   }
 
+
   function compile_shader(source, glType, typeString) {
     const glShader = _gl.createShader(glType);
     _gl.shaderSource(glShader, source);
@@ -79,6 +80,7 @@ var HeadControls = (function(){
     }
     return glShader;
   };
+
 
   function init_headSearchDraw(){
     // build _glHeadSearchDrawShaderProgram:
@@ -128,6 +130,7 @@ var HeadControls = (function(){
     _gl.uniform1i(samplerVideo, 0);
   } //end init_headSearchDraw()
 
+
   function draw_headSearch(detectState){
     // unbind the current FBO and set the viewport as the whole canvas:
     _gl.viewport(0, 0, _cv.width, _cv.height);
@@ -144,6 +147,7 @@ var HeadControls = (function(){
     // fill the viewPort:
     _gl.drawElements(_gl.TRIANGLES, 3, _gl.UNSIGNED_SHORT, 0);
   }
+
 
   function compute_cameraMove(detectState){
     if (_state.isDetected && detectState.detected<_settings.detectionThreshold-_settings.detectionHysteresis){
@@ -184,6 +188,7 @@ var HeadControls = (function(){
     _lastTimestamp = ts;
     return _returnValue;
   } //end compute_cameraMove()
+
 
   // public methods:
   const that = {
@@ -233,7 +238,8 @@ var HeadControls = (function(){
           }
         }
       }); //end JEELIZFACEFILTER.init call
-    }, //end init()
+    },
+
 
     toggle: function(isEnabled){
       if (_state.isEnabled===isEnabled){
@@ -248,12 +254,14 @@ var HeadControls = (function(){
       }
     },
 
+
     reset_restHeadPosition: function(){
       _state.restHeadPosition.needsUpdate = true;
     }
   }; //end that
   return that;
 })();
+
 
 // Export ES6 module:
 try {
