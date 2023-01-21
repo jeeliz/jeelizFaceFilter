@@ -256,10 +256,6 @@ const JeelizResizer = (function(){
         resize_canvasToFullScreen();
         window.addEventListener('resize', on_windowResize, false);
         window.addEventListener('orientationchange', on_windowResize, false);
-
-        // DIRTY FIX: Handle issue if URL bar hides and no resize event is triggered
-        // See https://github.com/jeeliz/jeelizFaceFilter/issues/292
-        window.setTimeout(on_windowResize, 500);
         
       } else { // not fullscreen mode
 
