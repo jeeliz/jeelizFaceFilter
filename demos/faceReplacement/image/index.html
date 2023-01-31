@@ -39,7 +39,8 @@
       margin-top: -76px;
       transform: translate(-50%, -50%); 
     }
-    #jeeFaceFilterCanvas {
+    #jeelizFaceFilterCanvas {
+      transform: scale(1, -1);
     }
     .artPainting  {
       z-index: 8;
@@ -50,10 +51,12 @@
     }
     .canvasDetected { /*style of the canvas when user face is detected*/
       position: absolute;
+      transform: scale(1, 1)!important;
       z-index: -1;
     }
     .canvasNotDetected { /*style of the canvas when user face is lost */
       z-index: 11;
+      transform: scale(1, 1)!important;
       position: absolute;
       top: auto !important;
       bottom: 0px !important;
@@ -167,7 +170,7 @@
   
   <body>
     <div id='artpaintingContainer'>
-      <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='artPainting'></canvas>
+      <canvas width="1024" height="1024" id='jeelizFaceFilterCanvas' class='artPainting'></canvas>
     </div>
 
     <!-- SLICK CAROUSEL CONTENT -->

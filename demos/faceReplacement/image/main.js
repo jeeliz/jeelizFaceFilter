@@ -5,6 +5,7 @@ const SETTINGS = {
 
   nDetectsArtPainting: 25, // number of positive detections to perfectly locate the face in the art painting
   detectArtPaintingThreshold: 0.7,
+  maxDetectsArtPainting: 300, // consider face not found after this number of detections
 
   // hold shape parameters:
   artPaintingMaskScale: [1.3, 1.5],
@@ -35,6 +36,7 @@ const ARTPAINTING = {
   potFaceCutTextureSizePx: 0,
   hueTexture: null,
   detectCounter: 0,
+  counter: 0,
   image: new Image(),
   canvasMask: null,
   url: -1,
@@ -65,7 +67,7 @@ const STATES = { // possible states of the app. ENUM equivalent
   DETECTUSERFACE: 3,
   BUSY: 4,
   ARTPAINTINGFACEDETECTPROVIDED: 5
-}
+};
 let STATE = STATES.IDLE, ISUSERFACEDETECTED = false;
 
 
@@ -81,7 +83,7 @@ function main(){
   ARTPAINTING.image.onload = check_isLoaded.bind(null, 'ARTPAINTING.image');    
 
   JEELIZFACEFILTER.init({
-    canvasId: 'jeeFaceFilterCanvas',
+    canvasId: 'jeelizFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // root of NN_DEFAULT.json file
     callbackReady: function(errCode, spec){
       if (errCode){
@@ -144,6 +146,10 @@ function update_artPainting(detectState){ // called both at start (start()) and 
 
   
   ARTPAINTING.detectCounter = 0;
+  ARTPAINTING.counter = 0;
+
+  JEELIZFACEFILTER.toggle_pause(false);
+  
   FFSPECS.canvasElement.classList.remove('canvasDetected');
   FFSPECS.canvasElement.classList.remove('canvasNotDetected');
   FFSPECS.canvasElement.classList.add('artPainting');
@@ -726,10 +732,17 @@ function draw_render(detectState){
 
 
 function callbackTrack(detectState){
+  if (++ARTPAINTING.counter > SETTINGS.maxDetectsArtPainting){
+    JEELIZFACEFILTER.toggle_pause(true);
+    alert('FACE NOT FOUND');
+    return;
+  }
+
   switch(STATE) {
     case STATES.DETECTARTPAINTINGFACE:
       if(detectState.detected > SETTINGS.detectArtPaintingThreshold){
-        if (++ARTPAINTING.detectCounter>SETTINGS.nDetectsArtPainting){
+        ARTPAINTING.counter = 0;
+        if (++ARTPAINTING.detectCounter > SETTINGS.nDetectsArtPainting){
           const round = function(n) { return Math.round(n*1e5)/1e5; }
           console.log('FACE DETECTED IN THE BASE PICTURE. detectState = '+JSON.stringify({
             x:  round(detectState.x),
@@ -746,11 +759,13 @@ function callbackTrack(detectState){
       break;
 
     case STATES.ARTPAINTINGFACEDETECTPROVIDED:
+      ARTPAINTING.counter = 0;
       STATE = STATES.BUSY;
       build_artPaintingMask(ARTPAINTING.detectedState, reset_toVideo);
       break;
 
     case STATES.DETECTUSERFACE:
+      ARTPAINTING.counter = 0;
       if (ISUSERFACEDETECTED && detectState.detected<SETTINGS.detectionThreshold-SETTINGS.detectionHysteresis){
         // DETECTION LOST
         ISUSERFACEDETECTED = false;

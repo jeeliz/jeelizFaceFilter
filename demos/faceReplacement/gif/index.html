@@ -47,7 +47,8 @@
       margin-top: -76px;
       transform: translate(-50%, -50%); 
     }
-    #jeeFaceFilterCanvas {
+    #jeelizFaceFilterCanvas {
+      transform: scale(1, -1);
     }
     .gif  {
       z-index: 8;
@@ -59,11 +60,13 @@
     }
     .canvasDetected { /*style of the canvas when user face is detected*/
       position: absolute;
+      transform: scale(1, 1)!important;
       z-index: -1;
     }
     .canvasNotDetected { /*style of the canvas when user face is lost */
       z-index: 11;
       position: absolute;
+      transform: scale(1, 1)!important;
       top: auto !important;
       bottom: 0px !important;
       left: 0px !important;
@@ -181,7 +184,7 @@
   
   <body>
     <div id='gifContainer'>
-      <canvas width="1024" height="1024" id='jeeFaceFilterCanvas' class='gif'></canvas>
+      <canvas width="1024" height="1024" id='jeelizFaceFilterCanvas' class='gif'></canvas>
     </div>
 
     <!-- SLICK CAROUSEL CONTENT -->

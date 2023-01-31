@@ -99,7 +99,7 @@ function main(){
   load_gifURL(SETTINGS.gif, check_isLoaded.bind(null, 'GIF.image'));
 
   JEELIZFACEFILTER.init({
-    canvasId: 'jeeFaceFilterCanvas',
+    canvasId: 'jeelizFaceFilterCanvas',
     NNCPath: '../../../neuralNets/', // root of NN_DEFAULT.json file
     callbackReady: function(errCode, spec){
       if (errCode){
