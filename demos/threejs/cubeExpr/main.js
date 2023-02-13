@@ -78,7 +78,7 @@ function main(){
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCPath: '../../../neuralNets/NN_4EXPR_1.json', // This neural network model has learnt 4 expressions
+    NNCPath: '../../../neuralNets/NN_4EXPR_2.json', // This neural network model has learnt 4 expressions
     
     maxFacesDetected: 1,
     callbackReady: function(errCode, spec){
