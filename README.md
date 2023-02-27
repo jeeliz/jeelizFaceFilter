@@ -214,7 +214,7 @@ These amazing applications rely on this library for face detection and tracking:
 
   * [Moscot](https://moscot.com/products/lemtosh?variant=8187774664808): Click on the *VIRTUAL TRY-ON* button on the top-left of the product picture,
   * [Goodr](https://goodr.com/products/freshly-baked-man-buns): Click on the *VIRTUAL TRY-ON* button on the top-left of the product picture,
-  * [Tenth Street][https://tenthstreethats.com/collections/best-sellers-hats/products/scala-panama-outback-albuquerque?variant=5488870522911]: click on the *Try it on* button.
+  * [Tenth Street](https://tenthstreethats.com/collections/best-sellers-hats/products/scala-panama-outback-albuquerque?variant=5488870522911): click on the *Try it on* button.
 
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @WebARRocks](https://twitter.com/WebARRocks) or [LinkedIn](https://www.linkedin.com/company/jeeliz)
