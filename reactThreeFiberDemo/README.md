@@ -29,7 +29,7 @@ This demo is based on [Webpack boilerplate](https://github.com/taniarascia/webpa
 npm start
 ```
 
-You can view the development server at `localhost:8080`.
+You can view the development server at `https://localhost:8443`.
 
 ### Production build
 
