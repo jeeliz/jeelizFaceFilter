@@ -202,11 +202,11 @@ These amazing applications rely on this library for face detection and tracking:
 
 * [Are you a true wizard?](https://facefilter-experiment.vercel.app/) Try-on an amazing wizard hat in this demo made by [Level 30 Wizards](https://level30wizards.com/)
 
-* [AR Bee NFT](https://www.hicetnunc.xyz/objkt/219200) NFT based on WebAR created by [Fivos Doganis (@fdoganis)](https://twitter.com/fdoganis) with a 3D model designed by [Michelle Brown](https://twitter.com/Thebadlament) and traded on [Hic et Nunc](https://www.hicetnunc.xyz) NFT platform.
+<!-- * [AR Bee NFT](https://www.hicetnunc.xyz/objkt/219200) NFT based on WebAR created by [Fivos Doganis (@fdoganis)](https://twitter.com/fdoganis) with a 3D model designed by [Michelle Brown](https://twitter.com/Thebadlament) and traded on [Hic et Nunc](https://www.hicetnunc.xyz) NFT platform. -->
 
-* [Bollé virtual try-on](https://www.bolle.com/us/sunglasses/technologies/volt--lenses/chronoshield-46228.html) Bollé relies on Jeeliz Facefilter for its Sunglasses and ski mask virtual try-on module, developed by [Emersya](https://emersya.com/) and using Emersya amazing custom 3D engine for 3D rendering.
+<!-- * * [Bollé virtual try-on](https://www.bolle.com/us/sunglasses/technologies/volt--lenses/chronoshield-46228.html) Bollé relies on Jeeliz Facefilter for its Sunglasses and ski mask virtual try-on module, developed by [Emersya](https://emersya.com/) and using Emersya amazing custom 3D engine for 3D rendering. -->
 
-* [Custom Halloween pumpkin mask](https://emersya.com/app/UBYF7QDAK4): Customize and try your own Halloween pumpkin using this funny webapp, made by [Emersya](https://emersya.com/) and relying on Emersya custom 3D engine for rendering.
+<!-- * [Custom Halloween pumpkin mask](https://emersya.com/app/UBYF7QDAK4): Customize and try your own Halloween pumpkin using this funny webapp, made by [Emersya](https://emersya.com/) and relying on Emersya custom 3D engine for rendering. -->
 
 <!-- * [Glasses configurator](https://3zvx5.csb.app/): Glasses virtual try-on webapp developped with R3F and Create-React-App. [Click here to view the source code on Codesandbox](https://codesandbox.io/s/3zvx5). -->
 
