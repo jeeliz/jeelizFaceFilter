@@ -1,5 +1,5 @@
 // ref : https://github.com/blog/273-github-ribbons
-document.addEventListener("DOMContentLoaded", function(event) { 
+/*document.addEventListener("DOMContentLoaded", function(event) { 
   const githubRibbon = document.createElement('a');
   githubRibbon.setAttribute('href', 'https://github.com/jeeliz/jeelizFaceFilter');
   githubRibbon.setAttribute('target', '_blank');
@@ -12,4 +12,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
   githubRibbon.appendChild(githubRibbonImage);
 
   document.body.appendChild(githubRibbon);
-});
+});*/
