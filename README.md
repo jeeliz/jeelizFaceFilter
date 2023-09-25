@@ -591,6 +591,12 @@ There is also this Github issue detailing how to embed the library into a `Webvi
 * [issue 21](https://github.com/jeeliz/jeelizFaceFilter/issues/21#issuecomment-644510559)
 
 
+### Unity
+
+Since September 2023, [Marks](https://github.com/marcusx2) has developed a Unity plugin to create Face filters using Unity and export them for the web. You can buy it on the Unity asset store here:
+[Augmented Reality WebGL - Face Tracking Virtual Try On](https://assetstore.unity.com/packages/tools/integration/augmented-reality-webgl-face-tracking-virtual-try-on-261452)
+
+
 ## Hosting
 
 This library requires the user's camera video feed through `MediaStream API`. So your application should be hosted by a HTTPS server (even with a self-signed certificate). It won't work at all with unsecure HTTP, even locally with some web browsers.
