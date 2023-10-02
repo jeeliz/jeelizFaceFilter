@@ -28,12 +28,12 @@ const FaceFollower = (props) => {
   const mouthSmileRef = useRef()
   useFrame(() => {
     if (mouthOpenRef.current){
-      const s0 = props.expression.mouthOpen
+      const s0 = Math.max(0.001, props.expression.mouthOpen) // should not be 0
       mouthOpenRef.current.scale.set(s0, 1, s0)
     }
 
     if (mouthSmileRef.current){
-      const s1 = props.expression.mouthSmile
+      const s1 = Math.max(0.001, props.expression.mouthSmile) // should not be 0
       mouthSmileRef.current.scale.set(s1, 1, s1)
     }
   })

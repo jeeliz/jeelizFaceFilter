@@ -78,7 +78,7 @@ function main(){
 function init_faceFilter(videoSettings){
   JEELIZFACEFILTER.init({
     canvasId: 'jeeFaceFilterCanvas',
-    NNCPath: '../../../neuralNets/NN_4EXPR_2.json', // This neural network model has learnt 4 expressions
+    NNCPath: '../../../neuralNets/NN_4EXPR_3.json', // This neural network model has learnt 4 expressions
     
     maxFacesDetected: 1,
     callbackReady: function(errCode, spec){
@@ -94,8 +94,8 @@ function init_faceFilter(videoSettings){
     // called at each render iteration (drawing loop):
     callbackTrack: function(detectState){
       const expr = detectState.expressions;
-      const mouthOpen = expr[0];
-      const mouthSmile = expr[1];
+      const mouthOpen = Math.max(0.001, expr[0]); // should not be 0
+      const mouthSmile = Math.max(0.001, expr[1]);
       const eyebrowFrown = expr[2];
       const eyebrowRaised = expr[3];
 
