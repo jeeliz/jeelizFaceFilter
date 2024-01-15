@@ -126,9 +126,9 @@ These demonstration are included in this repository. So they are released under 
     * Face cel shading: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/celFace/), [source code](/demos/threejs/celFace/)
 
   * demos linked with tutorials:
-    * Luffy's Hat: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/), [source code part 1](/demos/threejs/luffys_hat_part1/), [tutorial part 1](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/), [source code part 2](/demos/threejs/luffys_hat_part2/), [tutorial part 2](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/)
+   <!-- * Luffy's Hat: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/luffys_hat_part2/), [source code part 1](/demos/threejs/luffys_hat_part1/), [tutorial part 1](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/), [source code part 2](/demos/threejs/luffys_hat_part2/), [tutorial part 2](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/) -->
     * Statue Of Liberty: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/multiLiberty/), [source code](/demos/threejs/multiLiberty/), [interactive tutorial](https://webglacademy.jeeliz.com/courses.php?courses=19_25_27_33_34#34)
-    * Matrix: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/matrix/), [source code](/demos/threejs/matrix/), [tutorial in French](https://xavierbourry.developpez.com/filtre-facial-webcam/), [tutorial in English](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/)
+    * Matrix: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/matrix/), [source code](/demos/threejs/matrix/), [tutorial in French](https://xavierbourry.developpez.com/filtre-facial-webcam/)<!--, [tutorial in English](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/) -->
 
   * misc:
     * Head controlled navigation: [live demo](https://jeeliz.com/demos/faceFilter/demos/threejs/headControls/), [source code](/demos/threejs/headControls/)
@@ -668,9 +668,9 @@ You have written a tutorial using this library? Submit a pull request or send us
 
 ### In English
 
-* Creating a Snapchat-like face filter using Jeeliz FaceFilter and THREE.JS:
+<!-- * Creating a Snapchat-like face filter using Jeeliz FaceFilter and THREE.JS:
   * Part 1: [Creating your first filter](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-1-creating-your-first-filter/)
-  * Part 2: [ User interactions and particles](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/)
+  * Part 2: [ User interactions and particles](https://jeeliz.com/blog/creating-a-snapchat-like-filter-with-jeelizs-facefilter-api-part-2-user-interactions-and-particles/) -->
 
 * [Flying around the Globe with Cesium and Your Head](https://cesium.com/blog/2018/03/22/jeeliz-and-cesium/)
 
@@ -678,7 +678,7 @@ You have written a tutorial using this library? Submit a pull request or send us
 
 * [JSFiddle: Face detection and tracking in 25 lines](https://jsfiddle.net/jeeliz/2p34hbeh/)
 
-* Tutorial: [Matrix theme face filter](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/)
+<!-- * Tutorial: [Matrix theme face filter](https://jeeliz.com/blog/tutorial-javascript-webgl-webcam-facial-filter-on-the-theme-of-matrix/) -->
 
 * Video tutorials by [Chris Godber](http://chrisgodber.co.uk/): [Headtracking Controls with Three JS](https://youtu.be/_Fs4Sbn2LPc)
 
@@ -740,7 +740,7 @@ Conversely, if you are looking for a reliable development service provider to bu
 
 [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html). This application is free for both commercial and non-commercial use.
 
-We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and a link to the [Jeeliz website](https://jeeliz.com) in your application or desktop website. Of course we do not expect a large link to Jeeliz over your face filter, but if you can put the link in the credits/about/help/footer section it would be great.
+<!-- We appreciate attribution by including the [Jeeliz logo](https://jeeliz.com/wp-content/uploads/2018/01/LOGO_JEELIZ_BLUE.png) and a link to the [Jeeliz website](https://jeeliz.com) in your application or desktop website. Of course we do not expect a large link to Jeeliz over your face filter, but if you can put the link in the credits/about/help/footer section it would be great. -->
 
 
 ## References
