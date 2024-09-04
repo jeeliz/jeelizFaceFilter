@@ -29,11 +29,3 @@ body {overflow: auto; overflow-y: auto;
   width: 100vmin;
   transform: translate(-50%, -50%) rotateY(180deg);
 }
-
-@media (max-width: 787px) {
-  #jeeFaceFilterCanvas {
-    right: 0px;
-    top: 60px;
-    transform: rotateY(180deg);
-  }
-}
