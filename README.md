@@ -184,11 +184,11 @@ These amazing applications rely on this library for face detection and tracking:
   * [Find your inner creative](https://www.movablecamera.com/1/templates/442bcb7c-3793-49e4-bea2-d56e68e73ec3/df7484bc-211d-4f43-adc1-41b13ca39f32.html),
   * [Ski mask demo, with snow](https://www.movablecamera.com/6454/templates/7ed27eff-5978-4e0e-8345-0d53c7e894a2/d0115266-6d57-4d59-8775-1ac22f90eed6.html?mi_app_key=70ebf69e95809bf0&name=&mi_u=%7B%7Blead.SFDC%20Id%7D%7D),
 
-* [VRMjidori](https://vrmjidori.netlify.com/): Replace your head by a manga style character provided in .VRM file format. This demo has been developed by [けしごむ/Nono](https://twitter.com/ke4563)
+<!-- * [VRMjidori](https://vrmjidori.netlify.com/): Replace your head by a manga style character provided in .VRM file format. This demo has been developed by [けしごむ/Nono](https://twitter.com/ke4563) -->
 
 * [FaceVoice](https://github.com/CloffWrangler/facevoice): Control the mouse pointer with your head and by saying *Click*. [Discussion on Reddit](https://www.reddit.com/r/badUIbattles/comments/e1npf6/an_app_where_you_control_the_cursor_by_turning/)
 
-* [Halloween masks](https://halloween.tripod-digital.co.nz/): Amazing halloween masks experience made by [Thorsten Bux](https://twitter.com/thor_bux). The code is published on Github here: [ThorstenBux/halloween-masks](https://github.com/ThorstenBux/halloween-masks).
+<!-- * [Halloween masks](https://halloween.tripod-digital.co.nz/): Amazing halloween masks experience made by [Thorsten Bux](https://twitter.com/thor_bux). The code is published on Github here: [ThorstenBux/halloween-masks](https://github.com/ThorstenBux/halloween-masks). -->
 
 <!-- * [Masks with WebM recording](https://etc.pen-nei.jp/jeeliz/): Mask demo made by [@iong](https://twitter.com/iong). You can change the mask using the lower left buttons, and record the video in WebM file format. -->
 
@@ -210,12 +210,13 @@ These amazing applications rely on this library for face detection and tracking:
 
 <!-- * [Glasses configurator](https://3zvx5.csb.app/): Glasses virtual try-on webapp developped with R3F and Create-React-App. [Click here to view the source code on Codesandbox](https://codesandbox.io/s/3zvx5). -->
 
-* [Vertebrae VTO](https://www.vertebrae.com/): Vertebrae relies on this library for face detection and tracking for some of its virtual try-on products. You can check it out on:
+<!-- * [Vertebrae VTO](https://www.vertebrae.com/): Vertebrae relies on this library for face detection and tracking for some of its virtual try-on products. You can check it out on:
 
   * [Moscot](https://moscot.com/products/lemtosh?variant=8187774664808): Click on the *VIRTUAL TRY-ON* button on the top-left of the product picture,
   * [Goodr](https://goodr.com/products/freshly-baked-man-buns): Click on the *VIRTUAL TRY-ON* button on the top-left of the product picture,
-  * [Tenth Street](https://tenthstreethats.com/collections/best-sellers-hats/products/scala-panama-outback-albuquerque?variant=5488870522911): click on the *Try it on* button.
+  * [Tenth Street](https://tenthstreethats.com/collections/best-sellers-hats/products/scala-panama-outback-albuquerque?variant=5488870522911): click on the *Try it on* button. -->
 
+* [Forte Series Face Shape Guide](https://forteseries.com/pages/face-shape-guide): Find the best hairstyle for your face shape. [Github repository](https://github.com/ForteSeries/Forte-Series-Face-Shape-Guide-AR) [Youtube Video here](https://www.tiktok.com/@forteseries/video/7418661605812014367)
 
 If you have developped an application or a fun demo using this library, we would love to see it and insert a link here! Just contact us on [Twitter @WebARRocks](https://twitter.com/WebARRocks) or [LinkedIn](https://www.linkedin.com/company/jeeliz)
 
